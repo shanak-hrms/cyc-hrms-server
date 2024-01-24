@@ -42,7 +42,7 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleDownload, h
                         <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Close Date</TableCell>
                         <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Status</TableCell>
                         <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Description</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Add/View Business</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>View Business</TableCell>
                         <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Action</TableCell>
                     </TableRow>
                 </TableHead>
@@ -57,7 +57,7 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleDownload, h
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadStatus}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formatedDes(item.leadDes)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }} className={styles.action}>
-                                    <CommonButton name={"Add"} onClick={(() => handleaddBusiness(item._id))} />
+                                    <CommonButton name={"View"} onClick={(() => handleaddBusiness(item._id))} />
                                 </TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>
                                     <MdEdit fontSize={28} style={{ color: "#3EC8D5" }} onClick={(() => handleEdit(item._id))} />

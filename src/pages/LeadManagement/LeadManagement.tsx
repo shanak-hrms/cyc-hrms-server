@@ -7,38 +7,27 @@ import LeadManagementModal from '../../components/modal/LeadManagementModal/Lead
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import BusinessModal from '../../components/modal/BusinessModal/BusinessModal'
 
 const LeadManagement = () => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [editModal, setEditModal] = useState(false)
-    const [businessModal, setBusinessModal] = useState(false)
     const handleModal = () => setOpen(!open);
-    const handleClose = () => { setOpen(false); setEditModal(false); setBusinessModal(false) };
-    const [inputData, setInputData] = useState({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDes: "" });
-    const [businessValue, setBusinessValue] = useState({ leadId: "", leadType: "", leadFrom: "", businessVal: "", businessCost: "", profitAmount: "" })
-    const [leadDesValue, setLeadDesValue] = useState<any>();
+    const handleClose = () => { setOpen(false); setEditModal(false); };
+    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDes: "", businessType: "", businessFrom: "", businessVal: "", businessCost: "", profitAmount: "" });
     const [leadData, setLeadData] = useState()
     const [selectedItem, setSelectedLead] = useState();
-    const [businessId, setBusinessId] = useState();
-    const [BusinessData, setBusinessData]=useState()
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
     };
     const handleChangeDes = (des: any) => {
-        setLeadDesValue(des)
+
+        setInputData((preState: any) => ({ ...preState, leadDes: des }))
     };
+    console.log(inputData, "inputData...")
     const handleBusinessModal = async (id: any) => {
-        setBusinessModal((preState: any) => ({ ...preState, [id]: !preState[id] }));
-        await setBusinessId(id);
-        setBusinessValue((preState: any) => ({ ...preState, leadId: id }))
+        console.log(id, "id")
     };
-    const handleChangeBusiness = (e: any) => {
-        const { name, value } = e.target;
-        setBusinessValue({ ...businessValue, [name]: value })
-    };
-    console.log(businessValue, "businessValue...")
 
     const getLeadData = async () => {
         try {
@@ -51,7 +40,6 @@ const LeadManagement = () => {
         }
     };
     const handleCreate = async () => {
-        setInputData((prevalue: any) => ({ ...prevalue, leadDes: leadDesValue }));
 
         try {
             const response = await axios.post(`https://hrms-server-ygpa.onrender.com/lead/create`, inputData);
@@ -80,6 +68,11 @@ const LeadManagement = () => {
                 openDate: filteredData[0].openDate,
                 closeDate: filteredData[0].closeDate,
                 leadDes: filteredData[0].leadDes,
+                businessType: filteredData[0].businessType,
+                businessFrom: filteredData[0].businessFrom,
+                businessVal: filteredData[0].businessVal,
+                businessCost: filteredData[0].businessCost,
+                profitAmount: filteredData[0].profitAmount,
             });
         } else {
             console.error('Failed to fetch employee data');
@@ -103,39 +96,9 @@ const LeadManagement = () => {
             console.log(err)
         } finally { }
     };
-    const handleCreateBusiness = async () => {
-        if (businessValue.leadType === "") {
-            toast.error("Please select lead type")
-        } else if (businessValue.leadFrom === "") {
-            toast.error("Please select lead from")
-        }
-        try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/lead-business/create`, businessValue);
-            console.log(response, "response")
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-    };
-    const getBusinessData = async () => {
-        try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead-business`);
-            const data = response.data.LeadBusinessData;
-            await setBusinessData(data)
-            const filteredData = data.filter((item:any)=>item.leadId===businessId)
-            console.log(response.data.LeadBusinessData, "response...")
-            console.log(filteredData, "filteredData...")
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
 
     useEffect(() => {
         getLeadData();
-        getBusinessData();
     }, [])
     return (
         <Grid className={styles.leadManagement}>
@@ -171,13 +134,6 @@ const LeadManagement = () => {
                 handleChange={handleChange}
                 handleChangeText={handleChangeDes}
                 handleClick={handleEdit}
-            />
-            <BusinessModal
-                open={businessModal}
-                handleClose={handleClose}
-                businessValue={businessValue}
-                handleChange={handleChangeBusiness}
-                handleClick={handleCreateBusiness}
             />
             <ToastContainer />
         </Grid>

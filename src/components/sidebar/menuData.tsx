@@ -54,12 +54,6 @@ export const menuData = [
     },
     {
         "id": 6,
-        "icon": <PiNoteBold />,
-        "title": "Invoice",
-        "link": "/invoice",
-    },
-    {
-        "id": 6,
         "icon": <CgNotes />,
         "title": "Company Policy",
         "link": "/company-policy",

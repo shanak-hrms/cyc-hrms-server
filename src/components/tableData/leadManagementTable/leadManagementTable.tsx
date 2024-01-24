@@ -25,11 +25,15 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleDownload, h
         return formattedDateString;
     };
     const formatedDes = (idx: any) => {
-        const formattedDes = idx.replace(/<\/?p>/g, '');
-
-        return formattedDes;
-
+        if (idx) {
+            const formattedDes = idx.replace(/<\/?p>/g, '');
+            return formattedDes;
+        } else {
+            // Handle the case where idx is undefined or null
+            return 'Default value or handle accordingly';
+        }
     };
+
 
     return (
         <TableContainer className={styles.leadManagementTable}>
@@ -55,14 +59,13 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleDownload, h
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.closeDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadStatus}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{formatedDes(item.leadDes)}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{formatedDes(item.leadDesc)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }} className={styles.action}>
                                     <CommonButton name={"View"} onClick={(() => handleaddBusiness(item._id))} />
                                 </TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>
                                     <MdEdit fontSize={28} style={{ color: "#3EC8D5" }} onClick={(() => handleEdit(item._id))} />
                                     <MdDelete fontSize={28} style={{ color: "#FF3A6E" }} onClick={(() => handleDelete(item._id))} />
-                                    {/* <MdCloudDownload fontSize={28} style={{ color: "#58024B" }} onClick={(() => handleDownload(item._id))} /> */}
                                 </TableCell>
                             </TableRow>
                         )

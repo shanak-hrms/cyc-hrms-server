@@ -7,29 +7,42 @@ import LeadManagementModal from '../../components/modal/LeadManagementModal/Lead
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReadLeadModal from '../../components/modal/ReadLeadModal/ReadLeadModal'
 
 const LeadManagement = () => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false)
+    const [readModal, setReadModal] = useState(false)
     const handleModal = () => setOpen(!open);
-    const handleClose = () => { setOpen(false); setEditModal(false); };
-    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDes: "", businessType: "", businessFrom: "", businessVal: "", businessCost: "", profitAmount: "" });
+    const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false) };
+    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", businessType: "", businessFrom: "", businessVal: "", businessCost: "", profitAmount: "" });
     const [leadData, setLeadData] = useState()
     const [selectedItem, setSelectedLead] = useState();
+    const [readLead, setReadLeadId] = useState<any>()
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
     };
     const handleChangeDes = (des: any) => {
-
-        setInputData((preState: any) => ({ ...preState, leadDes: des }))
+        setInputData((preState: any) => ({ ...preState, leadDesc: des }))
     };
-    console.log(inputData, "inputData...")
-    const handleBusinessModal = async (id: any) => {
-        console.log(id, "id")
-    };
+    console.log(leadData, "leadData...")
+    const handleReadModal = async (id: any) => {
 
+        try {
+            await setReadModal((preState: any) => ({ ...preState, [id]: !preState[id] }))
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
+            const leadData = response.data.leadData;
+            const filteredLead = leadData.filter((item: any) => item._id === id)
+            setReadLeadId(filteredLead)
+            console.log(filteredLead, 'filteredLead')
+        }
+        catch (err) {
+            console.error(err)
+        }
+    };
     const getLeadData = async () => {
+
         try {
             const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
             const leadData = response.data.leadData;
@@ -40,12 +53,34 @@ const LeadManagement = () => {
         }
     };
     const handleCreate = async () => {
+        if (inputData.leadName === "") {
+            toast.error("Lead name require!")
+            return;
+        } else if (inputData.leadType === "") {
+            toast.error("lead type require!")
+            return;
+        } else if (inputData.openDate === "") {
+            toast.error("Open date require!")
+            return;
+        } else if (inputData.leadDesc === "") {
+            toast.error("lead description require!")
+            return;
+        } else if (inputData.businessType === "") {
+            toast.error("business type require!")
+            return;
+        } else if (inputData.businessFrom === "") {
+            toast.error("business from require!")
+            return;
+        }
 
         try {
             const response = await axios.post(`https://hrms-server-ygpa.onrender.com/lead/create`, inputData);
+            console.log(response, "response..")
             await getLeadData();
-            toast.success("lead Created successfully!")
-            setOpen(false)
+            if (response.status === 200) {
+                toast.success("lead Created successfully!")
+                setOpen(false)
+            }
         } catch (err) {
             console.log(err)
         }
@@ -115,7 +150,7 @@ const LeadManagement = () => {
                 handleEdit={handleEditModal}
                 handleDelete={handleDelete}
                 handleDownload={undefined}
-                handleaddBusiness={handleBusinessModal}
+                handleaddBusiness={handleReadModal}
             />
             <LeadManagementModal
                 open={open}
@@ -134,6 +169,11 @@ const LeadManagement = () => {
                 handleChange={handleChange}
                 handleChangeText={handleChangeDes}
                 handleClick={handleEdit}
+            />
+            <ReadLeadModal
+                open={readModal}
+                leadData={readLead}
+                handleClose={handleClose}
             />
             <ToastContainer />
         </Grid>

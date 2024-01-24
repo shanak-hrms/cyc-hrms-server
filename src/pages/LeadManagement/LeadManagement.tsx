@@ -7,40 +7,42 @@ import LeadManagementModal from '../../components/modal/LeadManagementModal/Lead
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import BusinessModal from '../../components/modal/BusinessModal/BusinessModal'
+import ReadLeadModal from '../../components/modal/ReadLeadModal/ReadLeadModal'
 
 const LeadManagement = () => {
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false)
-    const [businessModal, setBusinessModal] = useState(false)
+    const [readModal, setReadModal] = useState(false)
     const handleModal = () => setOpen(!open);
-    const handleClose = () => { setOpen(false); setEditModal(false); setBusinessModal(false) };
-    const [inputData, setInputData] = useState({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDes: "" });
-    const [businessValue, setBusinessValue] = useState({ leadId: "", leadType: "", leadFrom: "", businessVal: "", businessCost: "", profitAmount: "" })
-    const [leadDesValue, setLeadDesValue] = useState<any>();
+    const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false) };
+    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", businessType: "", businessFrom: "", businessVal: "", businessCost: "", profitAmount: "" });
     const [leadData, setLeadData] = useState()
     const [selectedItem, setSelectedLead] = useState();
-    const [businessId, setBusinessId] = useState();
-    const [BusinessData, setBusinessData]=useState()
+    const [readLead, setReadLeadId] = useState<any>()
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
     };
     const handleChangeDes = (des: any) => {
-        setLeadDesValue(des)
+        setInputData((preState: any) => ({ ...preState, leadDesc: des }))
     };
-    const handleBusinessModal = async (id: any) => {
-        setBusinessModal((preState: any) => ({ ...preState, [id]: !preState[id] }));
-        await setBusinessId(id);
-        setBusinessValue((preState: any) => ({ ...preState, leadId: id }))
-    };
-    const handleChangeBusiness = (e: any) => {
-        const { name, value } = e.target;
-        setBusinessValue({ ...businessValue, [name]: value })
-    };
-    console.log(businessValue, "businessValue...")
+    console.log(leadData, "leadData...")
+    const handleReadModal = async (id: any) => {
 
+        try {
+            await setReadModal((preState: any) => ({ ...preState, [id]: !preState[id] }))
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
+            const leadData = response.data.leadData;
+            const filteredLead = leadData.filter((item: any) => item._id === id)
+            setReadLeadId(filteredLead)
+            console.log(filteredLead, 'filteredLead')
+        }
+        catch (err) {
+            console.error(err)
+        }
+    };
     const getLeadData = async () => {
+
         try {
             const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
             const leadData = response.data.leadData;
@@ -51,13 +53,34 @@ const LeadManagement = () => {
         }
     };
     const handleCreate = async () => {
-        setInputData((prevalue: any) => ({ ...prevalue, leadDes: leadDesValue }));
+        if (inputData.leadName === "") {
+            toast.error("Lead name require!")
+            return;
+        } else if (inputData.leadType === "") {
+            toast.error("lead type require!")
+            return;
+        } else if (inputData.openDate === "") {
+            toast.error("Open date require!")
+            return;
+        } else if (inputData.leadDesc === "") {
+            toast.error("lead description require!")
+            return;
+        } else if (inputData.businessType === "") {
+            toast.error("business type require!")
+            return;
+        } else if (inputData.businessFrom === "") {
+            toast.error("business from require!")
+            return;
+        }
 
         try {
             const response = await axios.post(`https://hrms-server-ygpa.onrender.com/lead/create`, inputData);
+            console.log(response, "response..")
             await getLeadData();
-            toast.success("lead Created successfully!")
-            setOpen(false)
+            if (response.status === 200) {
+                toast.success("lead Created successfully!")
+                setOpen(false)
+            }
         } catch (err) {
             console.log(err)
         }
@@ -80,6 +103,11 @@ const LeadManagement = () => {
                 openDate: filteredData[0].openDate,
                 closeDate: filteredData[0].closeDate,
                 leadDes: filteredData[0].leadDes,
+                businessType: filteredData[0].businessType,
+                businessFrom: filteredData[0].businessFrom,
+                businessVal: filteredData[0].businessVal,
+                businessCost: filteredData[0].businessCost,
+                profitAmount: filteredData[0].profitAmount,
             });
         } else {
             console.error('Failed to fetch employee data');
@@ -103,39 +131,9 @@ const LeadManagement = () => {
             console.log(err)
         } finally { }
     };
-    const handleCreateBusiness = async () => {
-        if (businessValue.leadType === "") {
-            toast.error("Please select lead type")
-        } else if (businessValue.leadFrom === "") {
-            toast.error("Please select lead from")
-        }
-        try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/lead-business/create`, businessValue);
-            console.log(response, "response")
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-    };
-    const getBusinessData = async () => {
-        try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead-business`);
-            const data = response.data.LeadBusinessData;
-            await setBusinessData(data)
-            const filteredData = data.filter((item:any)=>item.leadId===businessId)
-            console.log(response.data.LeadBusinessData, "response...")
-            console.log(filteredData, "filteredData...")
-
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
 
     useEffect(() => {
         getLeadData();
-        getBusinessData();
     }, [])
     return (
         <Grid className={styles.leadManagement}>
@@ -152,7 +150,7 @@ const LeadManagement = () => {
                 handleEdit={handleEditModal}
                 handleDelete={handleDelete}
                 handleDownload={undefined}
-                handleaddBusiness={handleBusinessModal}
+                handleaddBusiness={handleReadModal}
             />
             <LeadManagementModal
                 open={open}
@@ -172,12 +170,10 @@ const LeadManagement = () => {
                 handleChangeText={handleChangeDes}
                 handleClick={handleEdit}
             />
-            <BusinessModal
-                open={businessModal}
+            <ReadLeadModal
+                open={readModal}
+                leadData={readLead}
                 handleClose={handleClose}
-                businessValue={businessValue}
-                handleChange={handleChangeBusiness}
-                handleClick={handleCreateBusiness}
             />
             <ToastContainer />
         </Grid>

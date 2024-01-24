@@ -45,8 +45,29 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                 "id": 4,
                 "label": "Cold"
             }
+        ],
+        "businessleadType": [
+            {
+                "id": 1,
+                "label": "Event"
+            },
+            {
+                "id": 2,
+                "label": "Room"
+            }
+        ],
+        "leadFrom": [
+            {
+                "id": 1,
+                "label": "Direct"
+            },
+            {
+                "id": 2,
+                "label": "Vendor"
+            }
         ]
     }
+
     return (
         <Modal
             open={open}
@@ -104,12 +125,63 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                 </Grid>
                 <Grid>
                     <TextEditer
+                        heading='Lead Description'
+                        placeholder="Write lead description..."
                         onChange={handleChangeText}
+                        width={490}
+                        height={125}
                     />
                 </Grid>
+                <Grid className={styles.leadBusiness}>
+                    <Box>
+                        <SelectField
+                            title={'Business Type'}
+                            data={data.businessleadType}
+                            option={inputData.businessType}
+                            name={'businessType'}
+                            handleChange={handleChange}
+                        />
+                        <SelectField
+                            title={'Business From'}
+                            data={data.leadFrom}
+                            option={inputData.businessFrom}
+                            name={'businessFrom'}
+                            handleChange={handleChange}
+                        />
+                    </Box>
+                    {inputData.businessFrom === "Direct" ? "" :
+                        <>
+                            <Box>
+                                <InputField
+                                    label={'Business Value'}
+                                    name={'businessVal'}
+                                    placeholder={''}
+                                    value={inputData.businessVal}
+                                    handleChange={handleChange}
+                                    type={undefined}
+                                />
+                                <InputField
+                                    label={'Business Cost'}
+                                    name={'businessCost'}
+                                    placeholder={''}
+                                    value={inputData.businessCost}
+                                    handleChange={handleChange}
+                                    type={undefined}
+                                />
+                            </Box>
+                            <InputField
+                                label={'Profit Amount'}
+                                name={'profitAmount'}
+                                placeholder={''}
+                                value={inputData.profitAmount}
+                                handleChange={handleChange}
+                                type={undefined}
+                            />
+                        </>}
+                </Grid>
                 <Grid className={styles.action}>
-                    <CommonButton name={"Close"} onClick={handleClose} />
-                    <CommonButton name={"Create"} onClick={handleClick} />
+                    <CommonButton name={"Cancel"} onClick={handleClose} />
+                    <CommonButton name={"Submite"} onClick={handleClick} />
                 </Grid>
             </Grid>
         </Modal >

@@ -30,8 +30,10 @@ export interface Iinputdata {
     onChange: any;
     heading?: string;
     placeholder?: string;
+    width?: number;
+    height?: number;
 }
-const TextEditer = ({ heading, placeholder, onChange }: Iinputdata) => {
+const TextEditer = ({ heading, placeholder, onChange, width, height }: Iinputdata) => {
 
     return (
         <div style={{ display: "grid", justifyContent: "center" }}>
@@ -42,7 +44,7 @@ const TextEditer = ({ heading, placeholder, onChange }: Iinputdata) => {
                 formats={formats}
                 onChange={onChange}
                 placeholder={placeholder}
-                style={{ width: 528, height: 110 }}
+                style={{ width: width, height: height }}
             />
         </div>
     )

@@ -1,0 +1,138 @@
+{
+    "Attendance": [
+        {
+            "id": 1,
+            "label": "Daily attendance must be marked individually"
+        },
+        {
+            "id": 2,
+            "label": "Last login time is 10:15 AM failing by which will be marked absent"
+        },
+        {
+            "id": 3,
+            "label": "For remote candidates a morning VC will be kept in the morning between 10:30 to 11 AM."
+        },
+        {
+            "id": 4,
+            "label": "By 11 AM all RM must be in the field visits without any delay (performance evaluation)"
+        },
+        {
+            "id": 5,
+            "label": "Consecutive 3 days of delay will lead to 1-day Loss of pay & a warning mail be sent to the candidate at the end of the month."
+        },
+        {
+            "id": 6,
+            "label": "Tracker- i) everyday revenue ii) Query & iii) daily status review must be updated every day without fail. If missed even by a single day then a warning mail would be issued against that employee"
+        },
+        {
+            "id": 7,
+            "label": "If tracker update is missed for more than a day it will counted as absent."
+        }
+    ],
+    "ProbationPeriod": [
+        {
+            "id": 1,
+            "label": "All new joiner will have 6 months of probation."
+        },
+        {
+            "id": 2,
+            "label": "During 6 months tenure no leaves other than national holidays would be taken to consideration."
+        },
+        {
+            "id": 3,
+            "label": "Any extra leave taken would be counted in NO- pay policy"
+        },
+        {
+            "id": 4,
+            "label": "New joiner joining at or after 25th of a month- no salary would be credited for that month. Pay roll for them would be initiated post that month.            "
+        }
+    ],
+    "Performance": [
+        {
+            "id": 1,
+            "label": "Regular Attendance & punctuality"
+        },
+        {
+            "id": 2,
+            "label": "30 days of observation & detail analysis for the entire month."
+        },
+        {
+            "id": 3,
+            "label": "Min 75% of the target must be achieved for productivity."
+        },
+        {
+            "id": 4,
+            "label": "Lagging in performance or unable to reach the target- will lead to the issuing of warning mail,followed by 7 to 10 days ofGrace period to upliftment& retainment. Failing by which will lead to termination from the company. "
+        }
+    ],
+    "Officetiming": [
+        {
+            "id": 1,
+            "label": "Monday to Friday – 10 AM to 7 PM"
+        },
+        {
+            "id": 2,
+            "label": "Saturday- 10 AM to 3 PM"
+        },
+        {
+            "id": 3,
+            "label": "Daily work chart or plan must be shared to the authority by 10:30 AM every day without fail."
+        }
+    ],
+    "DressCode": [
+        {
+            "id": 1,
+            "label": "Every employee must be well groomed & in their formal attire."
+        },
+        {
+            "id": 2,
+            "label": "Specifically, for salesteam Blazer &CYC badge is mandatory."
+        },
+        {
+            "id": 3,
+            "label": "Security guards must be in their uniform."
+        }
+    ],
+    "Zerotolerancepolicy": [
+        {
+            "id": 1,
+            "label": "Any kind of bully, harassment irrespective of gender, cast & creed won’t be tolerated."
+        },
+        {
+            "id": 2,
+            "label": "Strict actions will be taken on bully or any kind of harassment & once proven the offence it will lead to direct termination."
+        },
+        {
+            "id": 3,
+            "label": "Any discrepancy found in sale figures, management or finance sector will also lead to direct termination."
+        },
+        {
+            "id": 4,
+            "label": "Smoking inside the office premises or even in the washroom is highly restricted, any violation of it will lead to strict actions"
+        },
+        {
+            "id": 5,
+            "label": "Washrooms, desks & office utilities must be kept clean"
+        },
+        {
+            "id": 6,
+            "label": "chewing of Pan masala or such things are prohibited inside office premises."
+        }
+    ],
+    "Holidays": [
+        {
+            "id": 1,
+            "label": "National holidays followed by few regional ones."
+        },
+        {
+            "id": 2,
+            "label": "18 leaves per year including CL & PL."
+        }
+    ],
+    "Grievance": [
+        {
+            "id": 1,
+            "label": "To maintain& promote healthy work culture of the companyOPRM tool has been introduced.This enables an employee to report any bully, harassment or any such activity  online that diverge from company policies could be brought upfront withoutthe fear of getting disclosed"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+.leadManagementTable {
+    .action {
+        >div>button {
+            padding-block: 0.15rem;
+            padding-inline: 1.5rem;
+        }
+    }
+
+    .action+td {
+        svg {
+            border: 1px solid #58024B;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        svg:hover {
+            background-color: #58024B;
+            color: #ffffff;
+        }
+
+        svg:nth-child(2) {
+            margin-inline: 0.5rem;
+        }
+    }
+}

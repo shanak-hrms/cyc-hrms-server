@@ -1,0 +1,20 @@
+.leavePolicyModal {
+    background-color: #ffffff;
+    width: 80%;
+    margin: auto;
+
+    .policyDetails {
+        padding: 5%;
+        background-color: #F5F5F5;
+        margin-block: 8%;
+        border-radius: 0.5rem;
+
+        h5 {
+            margin-block: 1rem;
+        }
+
+        p {
+            margin-block: 0.5rem;
+        }
+    }
+}

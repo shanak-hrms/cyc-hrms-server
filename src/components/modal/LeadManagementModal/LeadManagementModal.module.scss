@@ -1,0 +1,40 @@
+.leadManagementModal {
+    background-color: #ffffff;
+    padding: 6%;
+    border-radius: 0.5rem;
+
+    .leadManagement {
+        >div {
+            margin-block: 1rem;
+        }
+
+        >div:nth-child(2),
+        >div:nth-child(3) {
+            margin-block: 1rem;
+            display: flex;
+            justify-content: space-between;
+
+            >div:nth-child(1),
+            >div:nth-child(2) {
+                width: 48%;
+
+                >div {
+                    margin: auto;
+                }
+            }
+        }
+    }
+
+    .leadManagement+div {
+        height: 13rem;
+    }
+
+    .action {
+        display: flex;
+        justify-content: right;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+}

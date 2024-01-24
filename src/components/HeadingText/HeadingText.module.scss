@@ -1,0 +1,20 @@
+.headingTextContainer {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 2%;
+    margin-block: 1rem;
+
+    >div {
+        svg {
+            color: #58024B;
+        }
+    }
+
+    .button {
+        display: flex;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+}

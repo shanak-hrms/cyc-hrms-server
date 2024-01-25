@@ -13,7 +13,8 @@
     .button {
         display: flex;
 
-        >div:nth-child(1) {
+        >div:nth-child(1),
+        >div:nth-child(2) {
             margin-inline-end: 0.5rem;
         }
     }

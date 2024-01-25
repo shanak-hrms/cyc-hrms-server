@@ -8,6 +8,8 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReadLeadModal from '../../components/modal/ReadLeadModal/ReadLeadModal'
+import * as XLSX from 'xlsx';
+
 
 const LeadManagement = () => {
     const [open, setOpen] = useState(false);
@@ -15,8 +17,9 @@ const LeadManagement = () => {
     const [readModal, setReadModal] = useState(false)
     const handleModal = () => setOpen(!open);
     const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false) };
+    const [query, setQuery] = useState('')
     const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", businessType: "", businessFrom: "", businessVal: "", businessCost: "", profitAmount: "" });
-    const [leadData, setLeadData] = useState()
+    const [leadData, setLeadData] = useState<any>()
     const [selectedItem, setSelectedLead] = useState();
     const [readLead, setReadLeadId] = useState<any>()
     const handleChange = (e: any) => {
@@ -132,6 +135,44 @@ const LeadManagement = () => {
         } finally { }
     };
 
+    const handleDownload = () => {
+        const userData: any[] = [];
+        leadData?.forEach((lead: any) => {
+            const { leadName, leadType, openDate, closeDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc } = lead;
+
+            const formateOpenDate = new Date(openDate).toLocaleString()
+            const formateCloseDate = new Date(closeDate).toLocaleString();
+            const strippedDesc = leadDesc.replace(/<[^>]*>?/gm, '');
+
+            userData.push({ leadName, leadType, openDate: formateOpenDate, closeDate: formateCloseDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc: strippedDesc });
+        });
+
+        const ws = XLSX.utils.json_to_sheet(userData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'table_data.xlsx');
+    }
+    const handledownloadItem = (id: any) => {
+        const userData: any[] = [];
+        const data = leadData.filter((item: any) => item._id === id)
+        data?.forEach((lead: any) => {
+            const { leadName, leadType, openDate, closeDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc } = lead;
+
+            const formateOpenDate = new Date(openDate).toLocaleString()
+            const formateCloseDate = new Date(closeDate).toLocaleString();
+            const strippedDesc = leadDesc.replace(/<[^>]*>?/gm, '');
+
+            userData.push({ leadName, leadType, openDate: formateOpenDate, closeDate: formateCloseDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc: strippedDesc });
+        });
+
+        const ws = XLSX.utils.json_to_sheet(userData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, 'table_data.xlsx');
+
+    }
+
+
     useEffect(() => {
         getLeadData();
     }, [])
@@ -143,14 +184,17 @@ const LeadManagement = () => {
                 name2='Download'
                 IsName2={true}
                 handleClick={handleModal}
-                handleClick2={undefined}
+                handleClick2={handleDownload}
+                setQuery={setQuery}
+                IsSearchBox={true}
             />
             <LeadManagementTable
                 data={leadData}
                 handleEdit={handleEditModal}
                 handleDelete={handleDelete}
-                handleDownload={undefined}
                 handleaddBusiness={handleReadModal}
+                query={query}
+                handledownload={handledownloadItem}
             />
             <LeadManagementModal
                 open={open}

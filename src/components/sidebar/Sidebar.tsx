@@ -28,19 +28,9 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
             {menuData.map((item: any) => {
                 return (
                     <Grid key={item.id} className={styles.sidebarMenu}>
-                        {role === "HR" ? <>
-                            {item.title === "Staff" ? "" :
-                                <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
-                                    <MenuItem>  {item.icon}{item.title}</MenuItem>
-                                </MenuList>
-                            }
-
-                        </> :
-                            <>
-                                <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
-                                    <MenuItem>  {item.icon}{item.title}</MenuItem>
-                                </MenuList>
-                            </>}
+                        <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                            <MenuItem>  {item.icon}{item.title}</MenuItem>
+                        </MenuList>
                     </Grid>
                 )
             })}

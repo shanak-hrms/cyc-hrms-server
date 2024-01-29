@@ -28,30 +28,30 @@ const App = () => {
       await localStorage.setItem("userName", ("Admin"));
       setIsLogin('admin@token');
       setUser("ADMIN");
+    } else {
+      try {
+        const response = await axios.post('https://hrms-server-ygpa.onrender.com/user/login', inputData);
+        const loginedUser = response.data;
+        const newToken = response.data.token;
+        const newRole = response.data.role;
+        const newEmail = response.data.email;
+        const newName = response.data.username;
+
+        setIsLogin(newToken);
+        setUser(newRole);
+        localStorage.setItem('loginedUser', JSON.stringify(loginedUser));
+        localStorage.setItem('userToken', newToken);
+        localStorage.setItem('userToken', newToken);
+        localStorage.setItem('userRole', newRole);
+        localStorage.setItem('email', newEmail);
+        localStorage.setItem('userName', newName);
+        console.log(response, 'response..');
+      }
+      catch (error) {
+        console.error("An error occurred:", error);
+      }
     }
 
-    try {
-      console.log("Found Employee");
-      const response = await axios.post('https://hrms-server-ygpa.onrender.com/user/login', inputData);
-      const loginedUser = response.data;
-      const newToken = response.data.token;
-      const newRole = response.data.role;
-      const newEmail = response.data.email;
-      const newName = response.data.username;
-
-      setIsLogin(newToken);
-      setUser(newRole);
-      localStorage.setItem('loginedUser', JSON.stringify(loginedUser));
-      localStorage.setItem('userToken', newToken);
-      localStorage.setItem('userToken', newToken);
-      localStorage.setItem('userRole', newRole);
-      localStorage.setItem('email', newEmail);
-      localStorage.setItem('userName', newName);
-      console.log(response, 'response..');
-
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
   };
   // window.addEventListener('beforeunload', () => {
   //   localStorage.removeItem('userToken');

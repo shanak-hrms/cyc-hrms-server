@@ -6,18 +6,19 @@ import UserModal from '../../components/userModal/UserModal'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import StaffModal from '../../components/modal/StaffModal/StaffModal'
 
 
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
-    const [inputData, setInputData] = useState({ username: "", email: "", password: '', role: "" })
+    const [inputData, setInputData] = useState({ emp_id: '', name: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoin: "", role: "" })
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
 
 
     const handleClick = () => setOpen(!open);
     const handleClose = () => setOpen(false);
-
+    console.log("inputData", inputData)
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value });
@@ -40,10 +41,6 @@ const StaffPage = () => {
     }, []);
 
     const handleCreate = async () => {
-        if (inputData.username === "" || inputData.email === "" || inputData.password === "" || inputData.role === "") {
-            toast.error("Please fill all the input fields.");
-            return;
-        }
 
         setLoading(true);
         try {
@@ -96,11 +93,18 @@ const StaffPage = () => {
                 handleAction={handleDelete}
                 loading={loading}
             />
-            <UserModal
+            {/* <UserModal
                 open={open}
                 inputData={inputData}
                 handleChange={handleChange}
                 handleClose={handleClose}
+                handleCreate={handleCreate}
+            /> */}
+            <StaffModal
+                open={open}
+                handleClose={handleClose}
+                inputValue={inputData}
+                handleChange={handleChange}
                 handleCreate={handleCreate}
             />
             <ToastContainer />

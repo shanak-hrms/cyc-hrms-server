@@ -207,7 +207,7 @@ const LeadManagement = () => {
             />
             <LeadManagementModal
                 open={editModal}
-                heading='Create New Lead'
+                heading='Update Lead'
                 handleClose={handleClose}
                 inputData={inputData}
                 handleChange={handleChange}

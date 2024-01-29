@@ -39,6 +39,19 @@ const ManageLeaveTable = ({
   handleAction,
   loading
 }: IManageLeaveTable) => {
+  const formattedDate = (idx: any) => {
+    const dateObj = new Date(idx);
+    const year = dateObj.getUTCFullYear();
+    const month = dateObj.getUTCMonth() + 1;
+    const day = dateObj.getUTCDate();
+
+    const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    if (formattedDateString === "1970-01-01") {
+      return formattedDateString;
+    }
+    return formattedDateString;
+  };
+
   return (
     <Grid className={styles.commonTableContainer}>
       <TableHead className={styles.tableHead}>
@@ -53,7 +66,7 @@ const ManageLeaveTable = ({
             <TableRow>
               {tableTitle.map((item: any) => {
                 return (
-                  <TableCell style={{ color: "#68C5AE", textAlign:"center" }}>{item.title}</TableCell>
+                  <TableCell style={{ color: "#68C5AE", textAlign: "center" }}>{item.title}</TableCell>
                 );
               })}
             </TableRow>
@@ -75,17 +88,17 @@ const ManageLeaveTable = ({
               return (
                 <>
                   <TableRow key={idx}>
-                    <TableCell sx={{textAlign:"center"}}>
+                    <TableCell sx={{ textAlign: "center" }}>
                       <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
                     </TableCell>
-                    <TableCell sx={{textAlign:"center"}}>{item.name}</TableCell>
-                    <TableCell sx={{textAlign:"center"}}>{item.leave_type}</TableCell>
-                    <TableCell sx={{textAlign:"center"}}>{item.start_date}</TableCell>
-                    <TableCell sx={{textAlign:"center"}}>{item.end_date}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.leave_type}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.start_date)}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.end_date)}</TableCell>
                     {/* <TableCell>{item.total_day}</TableCell> */}
-                    <TableCell sx={{textAlign:"center"}}>{item.leave_reason}</TableCell>
-                    <TableCell sx={{textAlign:"center"}}>{item.status}</TableCell>
-                    <TableCell sx={{textAlign:"center"}} className={styles.tableAction}>
+                    <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
                       <BiRightArrow
                         onClick={(() => handleAction(item._id))}
                         fontSize={30}

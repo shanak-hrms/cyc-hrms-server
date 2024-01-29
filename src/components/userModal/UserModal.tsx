@@ -14,7 +14,7 @@ export interface IUserModal {
     inputData: any;
 }
 const UserModal = ({ open, inputData, handleChange, handleClose, handleCreate }: IUserModal) => {
-    const role = [{ "id": 1, "label": "HR" }, { "id": 2, "label": "EMPLOYEE" }]
+    const role = [{ "id": 1, "label": "HR" }, { "id": 2, "label": "EMPLOYEE" }, { "id": 3, "label": "MANAGER" }]
     return (
         <Modal
             open={open}

@@ -1,3 +1,15 @@
 .leadManagement {
    margin-block: 4rem;
+
+   >div {
+      >div {
+         >div:nth-child(1) {
+            >div {
+               >div {
+                  height: 2.5rem;
+               }
+            }
+         }
+      }
+   }
 }

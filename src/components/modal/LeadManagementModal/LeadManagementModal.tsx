@@ -181,7 +181,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                 </Grid>
                 <Grid className={styles.action}>
                     <CommonButton name={"Cancel"} onClick={handleClose} />
-                    <CommonButton name={"Submite"} onClick={handleClick} />
+                    <CommonButton name={"Submit"} onClick={handleClick} />
                 </Grid>
             </Grid>
         </Modal >

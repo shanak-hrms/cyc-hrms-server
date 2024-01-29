@@ -21,6 +21,18 @@ export interface ILeaveActionModal {
 
 }
 const LeaveActionModal = ({ open, name, empId, leaveType, startDate, endDate, totalLeave, leaveReason, handleClose, handleApproved, handleReject }: ILeaveActionModal) => {
+  const formattedDate = (idx: any) => {
+    const dateObj = new Date(idx);
+    const year = dateObj.getUTCFullYear();
+    const month = dateObj.getUTCMonth() + 1;
+    const day = dateObj.getUTCDate();
+
+    const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    if (formattedDateString === "1970-01-01") {
+      return formattedDateString;
+    }
+    return formattedDateString;
+  };
   return (
     <Modal
       open={open}
@@ -35,23 +47,23 @@ const LeaveActionModal = ({ open, name, empId, leaveType, startDate, endDate, to
         <Grid container className={styles.leaveDetails} >
           <Grid item sm={6}>
             <LeaveText name={"Name"} lebel={name} />
-            <LeaveText name={"Start Date"} lebel={startDate} />
+            <LeaveText name={"Start Date"} lebel={formattedDate(startDate)} />
             <LeaveText name={"Leave Type"} lebel={leaveType} />
             <LeaveText name={"Leave Reason"} lebel={leaveReason} />
           </Grid>
           <Grid item sm={6}>
             <LeaveText name={"EMP ID"} lebel={empId} />
-            <LeaveText name={"End Date"} lebel={endDate} />
+            <LeaveText name={"End Date"} lebel={formattedDate(endDate)} />
             <LeaveText name={"Total Days"} lebel={totalLeave} />
           </Grid>
         </Grid>
         <Grid className={styles.actionButton}>
           <CommonButton
-            name={"Approved"}
+            name={"Approve"}
             onClick={handleApproved}
           />
           <CommonButton
-            name={"ReJect"}
+            name={"Reject"}
             onClick={handleReject}
           />
         </Grid>

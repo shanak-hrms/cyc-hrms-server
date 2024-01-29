@@ -33,21 +33,33 @@ const ManageLeave = () => {
   const [endDate, setEndDate] = useState<any>()
   const [totalLeave, setTotaleLeave] = useState<any>()
   const [leaveReason, setLeaveReason] = useState<any>()
+  const [user, setUser] = useState("")
 
   const getData = async () => {
+    const newUser = localStorage.getItem("userRole")
     try {
       setLoading(true)
       const response = await axios.get('https://hrms-server-ygpa.onrender.com/empLeave')
-      setLeaveData(response.data.leaveData)
+      const data = response.data.leaveData;
+      if (newUser === "HR") {
+        setLeaveData(data)
+      } else if (newUser === "MANAGER") {
+        const filteredData = data.filter((item: any) => item.status === "hr_Approved" || item.status === "manager_Approved")
+        setLeaveData(filteredData)
+      } else if (newUser === "ADMIN") {
+        const filteredData = data.filter((item: any) => item.status === "manager_Approved" || item.status === "Approved")
+        setLeaveData(filteredData)
+      } else {
+        console.log("err")
+      }
+
     } catch (error) {
       console.log(error)
     } finally {
       setLoading(false)
     }
   }
-  useEffect(() => {
-    getData();
-  }, [])
+
 
   const handleAction = (idx: any) => {
     setOpen((preState: any) => ({
@@ -74,16 +86,25 @@ const ManageLeave = () => {
     setLeaveReason(leaveReason)
   }
   const handleApproved = async () => {
-    try {
-      axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${selectedLeave}`, { status: "Approved" })
-      await getData();
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setOpen(false)
+    let newStatus = "";
+    if (user === "ADMIN") {
+      newStatus = "Approved";
+    } else if (user === "MANAGER") {
+      newStatus = "manager_Approved";
+    } else if (user === "HR") {
+      newStatus = "hr_Approved";
     }
-
+    try {
+      await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${selectedLeave}`, { status: newStatus });
+      await getData();
+      console.log(user, "user..");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setOpen(false);
+    }
   }
+
   const handleReject = async () => {
     try {
       axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${selectedLeave}`, { status: "Rejected" })
@@ -93,8 +114,15 @@ const ManageLeave = () => {
     } finally {
       setOpen(false)
     }
+  };
 
-  }
+  useEffect(() => {
+    const userRole: any = localStorage.getItem("userRole");
+    setUser(userRole)
+
+    getData();
+  }, []);
+
   return (
     <Grid className={styles.manageLeaveContainer}>
       <CommonHeading heading={""} />

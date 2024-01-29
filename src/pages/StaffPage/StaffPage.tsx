@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styles from './StaffPage.module.scss'
 import { Grid, Typography } from '@mui/material'
 import User from '../../components/staff/user/User'
-import UserModal from '../../components/userModal/UserModal'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -93,13 +92,6 @@ const StaffPage = () => {
                 handleAction={handleDelete}
                 loading={loading}
             />
-            {/* <UserModal
-                open={open}
-                inputData={inputData}
-                handleChange={handleChange}
-                handleClose={handleClose}
-                handleCreate={handleCreate}
-            /> */}
             <StaffModal
                 open={open}
                 handleClose={handleClose}

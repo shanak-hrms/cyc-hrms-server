@@ -13,7 +13,7 @@ export interface IUser {
     _id: string,
     role: string,
     image?: string,
-    username: string,
+    name: string,
     email: string,
 }
 export interface IUserDataType {
@@ -23,6 +23,7 @@ export interface IUserDataType {
     loading: boolean;
 }
 const User = ({ handleClick, data, handleAction, loading }: IUserDataType) => {
+    
     return (
         <Grid className={styles.userContainer}>
             <Grid>
@@ -40,7 +41,7 @@ const User = ({ handleClick, data, handleAction, loading }: IUserDataType) => {
                                 <UserCard
                                     label={item.role}
                                     image={item.image}
-                                    name={item.username}
+                                    name={item.name}
                                     email={item.email}
                                     IsButton={false}
                                     IsLabel={true}

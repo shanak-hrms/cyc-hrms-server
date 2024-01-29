@@ -40,7 +40,7 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
                         />
                         <InputField
                             label={'Date of join'}
-                            name={''}
+                            name={'dateOfJoin'}
                             placeholder={'dateOfJoin'}
                             value={inputValue.dateOfJoin}
                             handleChange={handleChange}
@@ -55,7 +55,7 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
                         />
                         <SelectField
                             title={'Designation'}
-                            data={data.department}
+                            data={data.designation}
                             option={inputValue.designation}
                             name={'designation'}
                             handleChange={handleChange}
@@ -80,9 +80,9 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
                         />
                         <SelectField
                             title={'Department'}
-                            data={data.designation}
-                            option={inputValue.designation}
-                            name={'designation'}
+                            data={data.department}
+                            option={inputValue.department}
+                            name={'department'}
                             handleChange={handleChange}
                         />
                         <SelectField
@@ -96,7 +96,7 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
 
                 </Grid>
                 <Grid className={styles.action}>
-                    <CommonButton name={"Cancel"} />
+                    <CommonButton name={"Cancel"} onClick={handleClose} />
                     <CommonButton name={"Submit"} onClick={handleCreate} />
                 </Grid>
             </Grid>

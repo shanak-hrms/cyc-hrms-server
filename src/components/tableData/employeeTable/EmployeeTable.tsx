@@ -36,6 +36,18 @@ const EmployeeTable = ({
   handleDelete,
   loading
 }: IEmployeeTable) => {
+  const formattedDate = (idx: any) => {
+    const dateObj = new Date(idx);
+    const year = dateObj.getUTCFullYear();
+    const month = dateObj.getUTCMonth() + 1;
+    const day = dateObj.getUTCDate();
+
+    const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    if (formattedDateString === "1970-01-01") {
+      return formattedDateString;
+    }
+    return formattedDateString;
+  };
   return (
     <Grid className={styles.commonTableContainer}>
       <TableHead className={styles.tableHead}>
@@ -50,7 +62,7 @@ const EmployeeTable = ({
             <TableRow>
               {tableTitle.map((item: any) => {
                 return (
-                  <TableCell style={{ color: "#68C5AE", textAlign:"center" }}>{item.title}</TableCell>
+                  <TableCell style={{ color: "#68C5AE", textAlign: "center" }}>{item.title}</TableCell>
                 );
               })}
             </TableRow>
@@ -61,38 +73,38 @@ const EmployeeTable = ({
         {loading ? <CustomLoader /> : <Table>
           <TableBody>
             {tableData && tableData.filter((employee: { name: string }) => {
-                  return (
-                    query === "" ||
-                    (employee.name
-                      ?.toLowerCase()
-                      ?.includes(query.toLowerCase()) ??
-                      false)
-                  );
-                })
+              return (
+                query === "" ||
+                (employee.name
+                  ?.toLowerCase()
+                  ?.includes(query.toLowerCase()) ??
+                  false)
+              );
+            })
               .map((item: any, idx: any) => {
-                  return (
-                    <TableRow key={idx}>
-                      <TableCell sx={{textAlign:"center"}}>
-                        <CommonButton
-                          name={item.emp_id}
-                        />
-                      </TableCell>
-                      <TableCell sx={{textAlign:"center"}}>{item.name}</TableCell>
-                      <TableCell sx={{textAlign:"center"}}>{item.email}</TableCell>
-                      <TableCell sx={{textAlign:"center"}}>{item.branch}</TableCell>
-                      <TableCell sx={{textAlign:"center"}}>{item.department}</TableCell>
-                      <TableCell sx={{textAlign:"center"}}>{item.designation}</TableCell>
-                      <TableCell sx={{textAlign:"center"}}>{item.dateOfJoin}</TableCell>
-                      <TableCell sx={{textAlign:"center"}} className={styles.tableAction}>
-                        <MdOutlineMode onClick={()=>handleEdit(item._id)} fontSize={30} />
-                        <RiDeleteBinLine
-                          onClick={() => handleDelete(item._id)}
-                          fontSize={30}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                return (
+                  <TableRow key={idx}>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      <CommonButton
+                        name={item.emp_id}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.email}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.branch}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.department}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{item.designation}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.dateOfJoin)}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
+                      <MdOutlineMode onClick={() => handleEdit(item._id)} fontSize={30} />
+                      <RiDeleteBinLine
+                        onClick={() => handleDelete(item._id)}
+                        fontSize={30}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>}
 

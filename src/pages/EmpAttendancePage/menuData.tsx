@@ -32,15 +32,16 @@ export const menuData = [
     },
     {
         "id": 3,
-        "icon": <CgNotes />,
-        "title": "Leave Policy",
-        "link": "/leave-policy",
-    },
-    {
-        "id": 4,
         "icon": <GiNotebook />,
         "title": "Claims Request",
         "link": "/claims-request",
+    },
+    {
+        "id": 4,
+        "icon": <CgNotes />,
+        "title": "Leave Policy",
+        "link": "/leave-policy",
+        
     },
     {
         "id": 5,

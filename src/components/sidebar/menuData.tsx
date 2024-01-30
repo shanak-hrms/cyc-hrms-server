@@ -15,6 +15,69 @@ import { CgNotes } from "react-icons/cg";
 
 
 
+// export const menuData = [
+//     {
+//         "id": 1,
+//         "icon": <AiOutlineHome />,
+//         "title": "Dashboard",
+//         "link": "/"
+//     },
+//     {
+//         "id": 2,
+//         "icon": <AiOutlineTeam />,
+//         "title": "Staff",
+//         "link": "/user"
+//     },
+//     {
+//         "id": 3,
+//         "icon": <AiOutlineUser />,
+//         "title": "Employee",
+//         "link": "/employee",
+//     },
+//     {
+//         "id": 4,
+//         "icon": <TbCalendarTime />,
+//         "title": "Attandance",
+//         "link": "/attandance",
+//     },
+//     {
+//         "id": 5,
+//         "icon": <GrDocumentTime />,
+//         "title": "Manage Leave",
+//         "link": "/manage-leave",
+//     },
+//     {
+//         "id": 6,
+//         "icon": <MdOutlineManageHistory />,
+//         "title": "Lead Management",
+//         "link": "/lead-management",
+//     },
+//     {
+//         "id": 7,
+//         "icon": <MdOutlineManageHistory />,
+//         "title": "Payrol Management",
+//         "link": "#",
+//         "subMenu": [
+//             {
+//                 "id": 1,
+//                 "icon": <MdOutlineManageHistory />,
+//                 "title": "Salary Calculation",
+//                 "link": "/salary-calculation",
+//             }, {
+//                 "id": 2,
+//                 "icon": <MdOutlineManageHistory />,
+//                 "title": "Pay Slip",
+//                 "link": "/pay-slip",
+//             }
+//         ]
+//     },
+//     {
+//         "id": 8,
+//         "icon": <CgNotes />,
+//         "title": "Company Policy",
+//         "link": "/company-policy",
+//     }
+// ]
 export const menuData = [
     {
         "id": 1,
@@ -35,12 +98,6 @@ export const menuData = [
         "link": "/employee",
     },
     {
-        "id": 4,
-        "icon": <TbCalendarTime />,
-        "title": "Attandance",
-        "link": "/attandance",
-    },
-    {
         "id": 5,
         "icon": <GrDocumentTime />,
         "title": "Manage Leave",
@@ -53,7 +110,14 @@ export const menuData = [
         "link": "/lead-management",
     },
     {
-        "id": 6,
+        "id": 7,
+        "icon": <MdOutlineManageHistory />,
+        "title": "Leave Policy",
+        "link": "/leave-policy",
+
+    },
+    {
+        "id": 8,
         "icon": <CgNotes />,
         "title": "Company Policy",
         "link": "/company-policy",

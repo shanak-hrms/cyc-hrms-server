@@ -7,6 +7,11 @@ import logo from '../../asserst/images/LOGO CYC.jpg'
 const Sidebar = ({ menuData, handleLogout }: any) => {
     const [show, setShow] = useState(false);
     const [role, setRole] = useState<string | null>('')
+    const [openSubMenuId, setOpenSubMenuId] = useState(null);
+
+    const handleSubMenuToggle = (itemId: any) => {
+        setOpenSubMenuId(openSubMenuId === itemId ? null : itemId);
+    };
 
     const navigation = useNavigate()
     const location = useLocation()
@@ -31,6 +36,15 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
                         <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
                             <MenuItem>  {item.icon}{item.title}</MenuItem>
                         </MenuList>
+                        {/* <>
+                            {item.subMenu?.map((item: any) => {
+                                return (
+                                    <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                                        <MenuItem>  {item.icon}{item.title}</MenuItem>
+                                    </MenuList>
+                                )
+                            })}
+                        </> */}
                     </Grid>
                 )
             })}

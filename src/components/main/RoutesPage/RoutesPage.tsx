@@ -16,6 +16,8 @@ import Invoice from '../../../pages/Invoice/Invoice'
 import InvoicePreview from '../../../pages/invoicePreview/invoicePreview'
 import LeadManagement from '../../../pages/LeadManagement/LeadManagement'
 import CompanyPolicy from '../../../pages/CompanyPolicy/CompanyPolicy'
+import PaySlip from '../../../pages/PaySlip/PaySlip'
+import LeavePolicy from '../../LeavePolicy/LeavePolicy'
 
 const RoutesPage = () => {
     return (
@@ -35,7 +37,9 @@ const RoutesPage = () => {
                 <Route path='/emp-attendance' element={<EmpAttendancePage />} />
                 <Route path='/invoice' element={<Invoice />} />
                 <Route path='/invoice-preview' element={<InvoicePreview />} />
+                <Route path='/leave-policy' element={<LeavePolicy />} />
                 <Route path='/company-policy' element={<CompanyPolicy />} />
+                <Route path='/pay-slip' element={<PaySlip />} />
             </Routes>
         </Fragment>
     )

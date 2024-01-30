@@ -7,6 +7,7 @@ import { BiUserCheck } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import img from '../../../asserst/images/profile_pic.jpg'
 import CustomLoader from '../../CustomLoader/CustomLoader'
+import HeadingText from '../../HeadingText/HeadingText'
 
 
 export interface IUser {
@@ -23,16 +24,15 @@ export interface IUserDataType {
     loading: boolean;
 }
 const User = ({ handleClick, data, handleAction, loading }: IUserDataType) => {
-    
+
     return (
         <Grid className={styles.userContainer}>
-            <Grid>
-                <Typography variant='h5'>Manage Staff</Typography>
-                <Box>
-                    <BiUserCheck fontSize={32} />
-                    <AiOutlinePlus onClick={handleClick} cursor={"pointer"} fontSize={32} />
-                </Box>
-            </Grid>
+            <HeadingText
+                heading={'Manage Staff'}
+                IsAction={true}
+                name='Add Staff'
+                handleClick={handleClick}
+            />
             {loading ? <CustomLoader /> :
                 <Grid container spacing={2} >
                     {data && data.map((item: IUser, idx: number) => {

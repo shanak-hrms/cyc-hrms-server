@@ -15,7 +15,12 @@ const StaffPage = () => {
     const [loading, setLoading] = useState(false)
 
 
-    const handleClick = () => setOpen(!open);
+    const handleClick = async () => {
+        const empId = `CYC00${Math.floor(Math.random() * 100) + 1}`
+        await setInputData((preState: any) => ({ ...preState, emp_id: empId }))
+        console.log(empId, "empId")
+        setOpen(!open)
+    };
     const handleClose = () => setOpen(false);
     console.log("inputData", inputData)
     const handleChange = (e: any) => {

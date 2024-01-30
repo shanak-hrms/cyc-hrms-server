@@ -19,11 +19,10 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
     const [name, setName] = useState()
     const [empId, setEmpId] = useState()
     useEffect(() => {
-        const dataString: any = localStorage.getItem("loginedUser")
-        const data = JSON.parse(dataString)
-        const { name, emp_id } = data;
-        setName(name)
-        setEmpId(emp_id)
+        const userName: any = localStorage.getItem("userName")
+        const userId: any = localStorage.getItem("empId")
+        setName(userName)
+        setEmpId(userId)
     }, [])
     return (
         <Modal

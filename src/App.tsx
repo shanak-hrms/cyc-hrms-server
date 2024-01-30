@@ -13,11 +13,25 @@ const App = () => {
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
+  const [userData, setUserData] = useState<any>();
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value })
   };
 
+  const getData = async () => {
+    try {
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/user`)
+      const data = response.data.userData;
+      setUserData(data);
+      console.log(data, "data")
+
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
   const handleLogin = async () => {
     const adminEmail = "admin@gmail.com";
     const adminPass = "admin@123";
@@ -30,12 +44,18 @@ const App = () => {
       setUser("ADMIN");
     } else {
       try {
+
         const response = await axios.post('https://hrms-server-ygpa.onrender.com/user/login', inputData);
+        console.log(response, "response")
         const loginedUser = response.data;
         const newToken = response.data.token;
         const newRole = response.data.role;
         const newEmail = response.data.email;
-        const newName = response.data.username;
+
+        const newData = userData.filter((item: any) => item.email === response.data.email)
+        console.log(newData, "newData")
+        const newName = newData[0].name;
+        const newEmpId = newData[0].emp_id;
 
         setIsLogin(newToken);
         setUser(newRole);
@@ -45,7 +65,8 @@ const App = () => {
         localStorage.setItem('userRole', newRole);
         localStorage.setItem('email', newEmail);
         localStorage.setItem('userName', newName);
-        console.log(response, 'response..');
+        localStorage.setItem('empId', newEmpId);
+
       }
       catch (error) {
         console.error("An error occurred:", error);
@@ -62,6 +83,10 @@ const App = () => {
     navigation('/')
     setIsLogin('');
   };
+  useEffect(() => {
+    getData();
+
+  }, [])
 
   return (
     <Fragment>

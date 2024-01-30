@@ -95,13 +95,13 @@ const EmployeeTable = ({
                     <TableCell sx={{ textAlign: "center" }}>{item.department}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.designation}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.dateOfJoin)}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
+                    {/* <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
                       <MdOutlineMode onClick={() => handleEdit(item._id)} fontSize={30} />
                       <RiDeleteBinLine
                         onClick={() => handleDelete(item._id)}
                         fontSize={30}
                       />
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 );
               })}

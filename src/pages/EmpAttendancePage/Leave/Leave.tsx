@@ -12,14 +12,21 @@ const Leave = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [name, setName] = useState(false)
-    const [emp_id, setEmpId] = useState(false)
+    const [name, setName] = useState('')
+    const [emp_id, setEmpId] = useState('')
     const [leaveId, setLeaveId] = useState<string>()
     const [inputData, setInputData] = useState<any>({
         emp_id: '', name: '', start_date: '', end_date: '', leave_type: '', leave_reason: '', remark: ''
     });
     const [leaveData, setLeaveData] = useState<any>('')
-    const handleModal = () => setOpen(!open)
+    const handleModal = () => {
+        const userName: any = localStorage.getItem("userName")
+        const userId: any = localStorage.getItem("empId")
+        setName(userName)
+        setEmpId(userId)
+        setOpen(!open)
+    }
+    console.log(name, "name")
     const handleClose = () => setOpen(false)
     const handleEditClose = () => {
         setEditModal(false)
@@ -44,15 +51,6 @@ const Leave = () => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-        const dataString: any = localStorage.getItem("loginedUser");
-        const userData = JSON.parse(dataString);
-        const { emp_id, name } = userData;
-        setName(name);
-        setEmpId(emp_id)
-    }, []);
-
     const handleClick = async () => {
         if (inputData.start_date == '' ||
             inputData.end_date == '' ||
@@ -62,7 +60,7 @@ const Leave = () => {
             return;
         }
         try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empLeave/create', { name, emp_id, start_date: inputData.start_date, end_date: inputData.end_date, leave_reason: inputData.leave_reason, leave_type: inputData.leave_type });
+            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empLeave/create', { name: name, emp_id: emp_id, start_date: inputData.start_date, end_date: inputData.end_date, leave_reason: inputData.leave_reason, leave_type: inputData.leave_type });
             await fetchData();
             console.log(response, "response..")
             if (response.status === 200) {
@@ -144,6 +142,10 @@ const Leave = () => {
         }
     }
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+    console.log(leaveData, "leaveData...")
     return (
         <Grid>
             <HeadingText

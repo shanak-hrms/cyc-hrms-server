@@ -55,9 +55,8 @@ const ClaimsRequest = () => {
     };
     const getUserData = async () => {
         try {
-            const loginedUserString: any = localStorage.getItem('loginedUser')
-            const loginedUser = JSON.parse(loginedUserString)
-            const { name, emp_id } = loginedUser;
+            const emp_id: any = localStorage.getItem("empId")
+            const name: any = localStorage.getItem("userName")
             setEmpId(emp_id)
             setName(name)
             console.log(emp_id, "loginedUser..")

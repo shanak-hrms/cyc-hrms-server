@@ -64,9 +64,8 @@ const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) =>
     };
 
     useEffect(() => {
-        const dataString: any = localStorage.getItem("loginedUser")
-        const data = JSON.parse(dataString)
-        const { name, emp_id } = data;
+        const name:any = localStorage.getItem('userName');
+        const emp_id:any = localStorage.getItem('empId');
         setName(name)
         setEmpId(emp_id)
     }, [])

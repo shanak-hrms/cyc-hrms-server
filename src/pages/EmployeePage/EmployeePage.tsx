@@ -30,8 +30,9 @@ const EmployeePage = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const result = await axios.get("https://hrms-server-ygpa.onrender.com/employee");
-      const data = result.data.employeeData;
+      const result = await axios.get("https://hrms-server-ygpa.onrender.com/user");
+      console.log(result, "result")
+      const data = result.data.userData;
       setEmployeeData(data);
 
     } catch (error) {
@@ -105,12 +106,13 @@ const EmployeePage = () => {
     }
   }
 
+
+
   return (
     <Grid className={styles.employeePageContainer}>
       <CommonHeading
         heading={""}
-        IsHeadingAction={true}
-        onClick={() => navigation("/employee/create-employee")}
+        IsHeadingAction={false}
       />
       <EmployeeTable
         heading={"Manage Employee"}
@@ -121,13 +123,6 @@ const EmployeePage = () => {
         setQuery={setQuery}
         query={query}
         loading={loading}
-      />
-      <EmployeeModal
-        open={open}
-        inputData={inputData}
-        handleChange={handleChange}
-        handleCloss={handleCloss}
-        handleEdit={handleEdit}
       />
     </Grid>
   );

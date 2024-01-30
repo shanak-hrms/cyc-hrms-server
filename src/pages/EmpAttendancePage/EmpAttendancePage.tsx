@@ -32,20 +32,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
 
 
 
-    useEffect(() => {
-        const userEmail = localStorage.getItem('email')
-        setEmail(userEmail)
-        const loginedUserString = localStorage.getItem('loginedUser')
-        if (loginedUserString) {
-            const loginedUser = JSON.parse(loginedUserString);
-            const { name, emp_id } = loginedUser;
-            setName(name)
-            setEmpId(emp_id)
-        } else {
-            console.log('No logined user found');
-        }
 
-    }, [])
     const fetchData = async () => {
         setLoading(true)
         try {
@@ -75,16 +62,30 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     };
 
     useEffect(() => {
+        const userEmail = localStorage.getItem('email')
+        setEmail(userEmail)
+        const loginedUserString = localStorage.getItem('loginedUser')
+        if (loginedUserString) {
+            const loginedUser = JSON.parse(loginedUserString);
+            const { name, emp_id } = loginedUser;
+            setName(name)
+            setEmpId(emp_id)
+        } else {
+            console.log('No logined user found');
+        };
         fetchData();
+
     }, []);
 
     const handleCheckIn = async () => {
+        const empId: any = localStorage.getItem("empId")
+        const name: any = localStorage.getItem("userName")
         try {
             setLoading(true);
 
             const response = await axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', {
-                emp_id,
-                name,
+                emp_id: empId,
+                name: name,
                 email,
                 date,
                 clock_in,

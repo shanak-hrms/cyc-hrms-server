@@ -7,11 +7,6 @@ import logo from '../../asserst/images/LOGO CYC.jpg'
 const Sidebar = ({ menuData, handleLogout }: any) => {
     const [show, setShow] = useState(false);
     const [role, setRole] = useState<string | null>('')
-    const [openSubMenuId, setOpenSubMenuId] = useState(null);
-
-    const handleSubMenuToggle = (itemId: any) => {
-        setOpenSubMenuId(openSubMenuId === itemId ? null : itemId);
-    };
 
     const navigation = useNavigate()
     const location = useLocation()
@@ -22,7 +17,6 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
     useEffect(() => {
         const userRole = localStorage.getItem("userRole")
         setRole(userRole)
-        console.log(userRole, "userRole..")
 
     }, [])
     return (
@@ -33,18 +27,18 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
             {menuData.map((item: any) => {
                 return (
                     <Grid key={item.id} className={styles.sidebarMenu}>
-                        <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                        <MenuList onClick={item.subMenu && item.subMenu.length > 0 ? handleMenu : () => navigation(item.link)} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
                             <MenuItem>  {item.icon}{item.title}</MenuItem>
+                            {show && <>
+                                {item.subMenu?.map((item: any) => {
+                                    return (
+                                        <MenuList onClick={() => navigation(item.link)} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                                            <MenuItem>  {item.icon}{item.title}</MenuItem>
+                                        </MenuList>
+                                    )
+                                })}
+                            </>}
                         </MenuList>
-                        {/* <>
-                            {item.subMenu?.map((item: any) => {
-                                return (
-                                    <MenuList onClick={() => { navigation(item.link); handleMenu() }} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
-                                        <MenuItem>  {item.icon}{item.title}</MenuItem>
-                                    </MenuList>
-                                )
-                            })}
-                        </> */}
                     </Grid>
                 )
             })}
@@ -57,4 +51,4 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
     )
 }
 
-export default Sidebar
+export default Sidebar;

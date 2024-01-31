@@ -48,12 +48,18 @@ export const menuData = [
     },
     {
         "id": 6,
+        "icon": <GrDocumentTime />,
+        "title": "Claim Request",
+        "link": "/claims-request",
+    },
+    {
+        "id": 7,
         "icon": <MdOutlineManageHistory />,
         "title": "Lead Management",
         "link": "/lead-management",
     },
     {
-        "id": 7,
+        "id": 8,
         "icon": <MdOutlineManageHistory />,
         "title": "Payrol Management",
         "link": "#",
@@ -70,12 +76,6 @@ export const menuData = [
                 "link": "/pay-slip-form",
             }
         ]
-    },
-    {
-        "id": 8,
-        "icon": <CgNotes />,
-        "title": "Company Policy",
-        "link": "/company-policy",
     }
 ]
 

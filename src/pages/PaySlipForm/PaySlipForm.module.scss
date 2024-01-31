@@ -1,0 +1,60 @@
+.payslipformContainer {
+    width: 70%;
+    margin: auto;
+    margin-block: 4rem;
+    border-radius: 0.5rem;
+    padding: 5%;
+    background-color: #F5F5F5;
+
+
+    h4 {
+        margin-block: 1rem;
+    }
+
+    >div {
+        >div {
+            >div {
+                margin-block: 0.5rem;
+
+                p {
+                    font-size: 0.9rem;
+                }
+
+                >div {
+                    >div {
+                        height: 2.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .payslipform {
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 49%;
+        }
+    }
+
+    .earningsContainer,
+    .deductionsContainer {
+        display: flex;
+        justify-content: space-between;
+
+        >div {
+            width: 49%;
+        }
+    }
+
+    .action {
+        display: flex;
+        justify-content: right;
+        margin-block-start: 1rem;
+
+        >div:nth-child(1) {
+            margin-inline-end: 0.5rem;
+        }
+    }
+}

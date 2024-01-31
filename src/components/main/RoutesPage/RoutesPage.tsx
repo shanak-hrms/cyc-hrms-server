@@ -18,6 +18,7 @@ import LeadManagement from '../../../pages/LeadManagement/LeadManagement'
 import CompanyPolicy from '../../../pages/CompanyPolicy/CompanyPolicy'
 import PaySlip from '../../../pages/PaySlip/PaySlip'
 import LeavePolicy from '../../LeavePolicy/LeavePolicy'
+import PaySlipForm from '../../../pages/PaySlipForm/PaySlipForm'
 
 const RoutesPage = () => {
     return (
@@ -40,6 +41,7 @@ const RoutesPage = () => {
                 <Route path='/leave-policy' element={<LeavePolicy />} />
                 <Route path='/company-policy' element={<CompanyPolicy />} />
                 <Route path='/pay-slip' element={<PaySlip />} />
+                <Route path='/pay-slip-form' element={<PaySlipForm />} />
             </Routes>
         </Fragment>
     )

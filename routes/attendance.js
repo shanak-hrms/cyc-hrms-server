@@ -1,8 +1,8 @@
 const express = require('express');
-const { createAttandance, updateAttandance, deleteAttandance, getAttandance } = require('../controller/attendanceCtrl');
+const { updateAttandance, deleteAttandance, getAttandance, markAttendance } = require('../controller/attendanceCtrl');
 const router = express.Router();
 
-router.post('/create',createAttandance);
+router.post('/checkIn',markAttendance);
 router.put('/update/:userId',updateAttandance);
 router.delete('/delete/:userId',deleteAttandance);
 router.get('/get',getAttandance);

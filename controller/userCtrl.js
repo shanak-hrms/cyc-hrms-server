@@ -20,26 +20,22 @@ exports.findUserList= async (req, res) => {
 
 exports.register=async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-        const user = new User({
-            emp_id: req.body.emp_id,
-            name: req.body.name,
-            role: req.body.role,
-            dateOfJoin: req.body.dateOfJoin,
-            branch: req.body.branch,
-            department: req.body.department,
-            designation: req.body.designation,
-            email: req.body.email,
-            password: hashedPassword,
-        });
-
+        const {email}=req.body
+        let isUserExist = await User.findOne({ email });
+        if (isUserExist) {
+            throw new Error("User already registered. Please sign In");
+        }
+        const user = new User(req.body);
+        if (!user) {
+            throw new Error("User not created. Something wrong")
+        }
+        const token = await user.generateAuthToken()
         const result = await user.save();
-        res.status(200).json({
-            new_user: result,
+        res.status(201).json({
+            newUser: result,
+            token
         });
     } catch (err) {
-        console.error(err);
         res.status(500).json({
             error: err.message || 'Internal Server Error',
         });
@@ -49,41 +45,28 @@ exports.register=async (req, res) => {
 exports.Login=async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
-
         if (!user) {
             return res.status(401).json({
-                msg: 'User not exists',
+                msg: 'Invalid Credentials',
             });
         }
-
         const result = await bcrypt.compare(req.body.password, user.password);
 
         if (!result) {
             return res.status(401).json({
-                msg: 'Password matching failed',
+                msg: 'Invalid Credentials',
             });
         }
 
-        const token = jwt.sign({
-            username: user.username,
-            role: user.role,
-            phone: user.phone,
-            email: user.email,
-        },
-            'this is dummy text',
-            {
-                expiresIn: '24h',
-            });
-
+        const token =await user.generateAuthToken()
         res.status(200).json({
-            username: user.username,
+            name: user.name,
             role: user.role,
             phone: user.phone,
             email: user.email,
             token: token,
         });
     } catch (err) {
-        console.error(err);
         res.status(500).json({
             error: err.message || 'Internal Server Error',
         });

@@ -1,5 +1,5 @@
 const express = require('express');
-const Attendance = require('../model/attendance');
+const MonthlyAttendance = require('../model/attendance');
 
 exports.getAttandance=async (req, res) => {
     try {
@@ -14,23 +14,59 @@ exports.getAttandance=async (req, res) => {
     }
 };
 
-exports.createAttandance=async (req, res, next) => {
-    try {
-        const {name,date,status,clock_in,clock_out,late,early_leaving,overtime}=req.body
-        const attendance = new Attendance({
-            name,
-            date,
-            status,
-            clock_in,
-            clock_out,
-            late,
-            early_leaving,
-            overtime
-        });
+// exports.markAttendance = async (req, res) => {
+//   try {
+//     const { employeeId, date, markedWithin5Km } = req.body;
+//     const month = new Date(date).toLocaleString('en-US', { month: 'long' });
 
-        const result = await attendance.save();
-        res.status(200).json({
-            new_Attendance: result,
+//     let monthlyAttendance = await MonthlyAttendance.findOne({ employeeId, month });
+
+//     if (!monthlyAttendance) {
+//       monthlyAttendance = new MonthlyAttendance({ employeeId, month, records: [] });
+//     }
+
+//     monthlyAttendance.records.push({
+//       employeeId,
+//       date,
+//       markedWithin5Km,
+//     });
+
+//     const result = await monthlyAttendance.save();
+
+//     res.status(201).json({
+//       message: 'Attendance recorded successfully!',
+//       newAttendance: result,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       error: err.message || 'Internal Server Error',
+//     });
+//   }
+// };
+
+
+
+exports.markAttendance = async (req, res) => {
+    try {
+        const { employeeId, date, markedWithin5Km } = req.body;
+        const month = new Date(date).toLocaleString('en-US', { month: 'long' });
+
+        let monthlyAttendance = await MonthlyAttendance.findOne({ employeeId, month });
+
+        if (!monthlyAttendance) {
+            monthlyAttendance = new MonthlyAttendance({
+                employeeId,
+                month,
+                date,
+                markedWithin5Km,
+            });
+        } 
+    
+        const result = await monthlyAttendance.save();
+
+        res.status(201).json({
+            message: 'Attendance recorded successfully!',
+            newAttendance: result,
         });
     } catch (err) {
         res.status(500).json({
@@ -38,6 +74,55 @@ exports.createAttandance=async (req, res, next) => {
         });
     }
 };
+
+exports.requestApproval = async (req, res) => {
+  try {
+    const { employeeId, startDate, endDate } = req.body;
+    const approvalRequest = new ApprovalRequest({
+      employeeId,
+      startDate,
+      endDate,
+      status: 'Pending',
+    });
+
+    // Calculate the number of days between startDate and endDate
+    const daysDifference = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
+
+    // Set the approval level based on the number of days
+    let approvalLevel;
+    if (daysDifference <= 2) {
+      approvalLevel = 'Line Manager';
+    } else if (daysDifference <= 5) {
+      approvalLevel = 'Human Resource Manager';
+    } else {
+      approvalLevel = 'Director';
+    }
+
+    approvalRequest.approvalLevel = approvalLevel;
+
+    const result = await approvalRequest.save();
+
+    res.status(201).json({
+      message: 'Approval request submitted successfully!',
+      approvalRequest: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message || 'Internal Server Error',
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
 
 exports.updateAttandance= async (req, res) => {
     try {

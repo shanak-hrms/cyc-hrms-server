@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const office = require('./office')
+router.use('/office',office)
+
 const announcement = require('./announcement')
 router.use('/announcement',announcement)
 

@@ -46,24 +46,28 @@ exports.getAttandance=async (req, res) => {
 
 
 
+
 exports.markAttendance = async (req, res) => {
     try {
         const { employeeId, date, markedWithin5Km } = req.body;
         const month = new Date(date).toLocaleString('en-US', { month: 'long' });
 
-        let monthlyAttendance = await MonthlyAttendance.findOne({ employeeId, month });
+        // Check if attendance for the given day already exists
+        const existingAttendance = await MonthlyAttendance.findOne({ employeeId, month, date });
 
-        if (!monthlyAttendance) {
-            monthlyAttendance = new MonthlyAttendance({
-                employeeId,
-                month,
-                date,
-                markedWithin5Km,
+        if (existingAttendance) {
+            return res.status(400).json({
+                message: 'Attendance for the given day already recorded.',
             });
-        } 
-    
-        const result = await monthlyAttendance.save();
+        }
 
+        const newAttendance = new MonthlyAttendance({
+            employeeId,
+            month,
+            date,
+            markedWithin5Km,
+        });
+        const result = await newAttendance.save();
         res.status(201).json({
             message: 'Attendance recorded successfully!',
             newAttendance: result,
@@ -74,6 +78,7 @@ exports.markAttendance = async (req, res) => {
         });
     }
 };
+
 
 exports.requestApproval = async (req, res) => {
   try {

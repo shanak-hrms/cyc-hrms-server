@@ -1,5 +1,21 @@
 .leadManagement {
    margin-block: 4rem;
+   position: relative;
+
+   >div:nth-child(1) {
+      display: none;
+
+      @media screen and (max-width: 480px) {
+         display: block;
+         width: 95%;
+         margin-inline: auto;
+         margin-block-end: 1.8rem;
+
+         >div {
+            width: 100%;
+         }
+      }
+   }
 
    >div {
       >div {

@@ -14,7 +14,7 @@ export interface IHeadingText {
     handleClick2?: any;
     IsName2?: boolean;
     IsSearchBox?: boolean
-    setQuery?:any
+    setQuery?: any
 }
 const HeadingText = ({ heading, name, name2, IsName2, handleClick, IsAction, handleClick2, IsSearchBox, setQuery }: IHeadingText) => {
     return (

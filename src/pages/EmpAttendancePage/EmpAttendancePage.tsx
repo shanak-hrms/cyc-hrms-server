@@ -17,6 +17,7 @@ import ClaimsRequest from '../ClaimsRequest/ClaimsRequest'
 import CompanyPolicy from '../CompanyPolicy/CompanyPolicy'
 import TakePicture from './TakePicture/TakePicture'
 import TakePhotoModal from '../../components/modal/TakePhotoModal/TakePhotoModal'
+import LeadManagement from '../LeadManagement/LeadManagement'
 
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
@@ -249,6 +250,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                     <Route path='/claims-request' element={<ClaimsRequest />} />
                     <Route path='/company-policy' element={<CompanyPolicy />} />
                     <Route path='/take-picture' element={<TakePicture />} />
+                    <Route path='/lead-management' element={<LeadManagement />} />
                 </Routes>
             </Grid>
             <ToastContainer />

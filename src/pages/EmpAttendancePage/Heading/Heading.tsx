@@ -6,6 +6,8 @@ import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingNotification from '../../../components/heading/headingNotification/HeadingNotification';
 import { useLocation } from 'react-router-dom';
 import { LuAlignJustify } from "react-icons/lu";
+import { FaUserCircle } from "react-icons/fa";
+
 
 
 export interface IHeading {
@@ -56,6 +58,9 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
                 <Box>
                     {headingName && <Typography variant='h4' fontWeight={600} fontSize={25}>Welcome, {headingName}</Typography>}
                     {date && <Typography fontSize={15}>{date}</Typography>}
+                </Box>
+                <Box>
+                    <FaUserCircle fontSize={28} />
                 </Box>
             </Grid>
             <Grid >

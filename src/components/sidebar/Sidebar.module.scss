@@ -15,8 +15,21 @@
         }
     }
 
+    // >div:nth-child(2) {
+    //     border: 2px solid blue;
+    // }
+
+    .one {
+        border: 2px solid yellow;
+    }
+
+    .two {
+        border: 2px solid blueviolet;
+        overflow: unset;
+    }
+
     .sidebarMenu {
-        margin-inline: 5%;
+        margin-inline: 1%;
 
         ul {
             padding-block: 2px;
@@ -60,21 +73,6 @@
                     margin-inline-end: 0.75rem;
                     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
                 }
-            }
-        }
-
-        .subMenu {
-            width: 80%;
-            margin-left: auto !important;
-            color: #68C5AE;
-
-            &:hover {
-                font-weight: 600;
-            }
-
-            svg {
-                font-size: 1.75rem;
-                margin-inline-end: 0.5rem;
             }
         }
     }

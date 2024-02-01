@@ -35,18 +35,5 @@ export const menuData = [
         "icon": <GiNotebook />,
         "title": "Claims Request",
         "link": "/claims-request",
-    },
-    {
-        "id": 4,
-        "icon": <CgNotes />,
-        "title": "Leave Policy",
-        "link": "/leave-policy",
-        
-    },
-    {
-        "id": 5,
-        "icon": <GrNotes />,
-        "title": "Company Policy",
-        "link": "/company-policy",
     }
 ]

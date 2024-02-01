@@ -1,51 +1,6 @@
 const express = require('express');
 const MonthlyAttendance = require('../model/attendance');
 
-exports.getAttandance=async (req, res) => {
-    try {
-        const result = await Attendance.find();
-        res.status(200).json({
-            attendanceData: result,
-        });
-    } catch (err) {
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
-    }
-};
-
-// exports.markAttendance = async (req, res) => {
-//   try {
-//     const { employeeId, date, markedWithin5Km } = req.body;
-//     const month = new Date(date).toLocaleString('en-US', { month: 'long' });
-
-//     let monthlyAttendance = await MonthlyAttendance.findOne({ employeeId, month });
-
-//     if (!monthlyAttendance) {
-//       monthlyAttendance = new MonthlyAttendance({ employeeId, month, records: [] });
-//     }
-
-//     monthlyAttendance.records.push({
-//       employeeId,
-//       date,
-//       markedWithin5Km,
-//     });
-
-//     const result = await monthlyAttendance.save();
-
-//     res.status(201).json({
-//       message: 'Attendance recorded successfully!',
-//       newAttendance: result,
-//     });
-//   } catch (err) {
-//     res.status(500).json({
-//       error: err.message || 'Internal Server Error',
-//     });
-//   }
-// };
-
-
-
 
 exports.markAttendance = async (req, res) => {
     try {
@@ -78,6 +33,63 @@ exports.markAttendance = async (req, res) => {
         });
     }
 };
+
+
+exports.checkOut = async (req, res) => {
+    try {
+        const { employeeId, date } = req.body;
+        const month = new Date(date).toLocaleString('en-US', { month: 'long' });
+
+        const existingAttendance = await MonthlyAttendance.findOne({ employeeId, month, date });
+
+        if (!existingAttendance) {
+            return res.status(404).json({
+                message: 'Attendance for the given day not found.',
+            });
+        }
+
+        if (existingAttendance.clockOut) {
+            return res.status(400).json({
+                message: 'ClockOut has already been marked for the given day.',
+            });
+        }
+
+        existingAttendance.clockOut = new Date();
+        
+        const result = await existingAttendance.save();
+
+        res.status(200).json({
+            message: 'ClockOut recorded successfully!',
+            updatedAttendance: result,
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+
+
+
+
+exports.getAttandance=async (req, res) => {
+    try {
+        const result = await Attendance.find();
+        res.status(200).json({
+            attendanceData: result,
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+
+
+
+
 
 
 exports.requestApproval = async (req, res) => {
@@ -117,14 +129,6 @@ exports.requestApproval = async (req, res) => {
     });
   }
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -174,3 +178,36 @@ exports.deleteAttandance=async (req, res) => {
         });
     }
 };
+
+
+
+
+// exports.markAttendance = async (req, res) => {
+//   try {
+//     const { employeeId, date, markedWithin5Km } = req.body;
+//     const month = new Date(date).toLocaleString('en-US', { month: 'long' });
+
+//     let monthlyAttendance = await MonthlyAttendance.findOne({ employeeId, month });
+
+//     if (!monthlyAttendance) {
+//       monthlyAttendance = new MonthlyAttendance({ employeeId, month, records: [] });
+//     }
+
+//     monthlyAttendance.records.push({
+//       employeeId,
+//       date,
+//       markedWithin5Km,
+//     });
+
+//     const result = await monthlyAttendance.save();
+
+//     res.status(201).json({
+//       message: 'Attendance recorded successfully!',
+//       newAttendance: result,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       error: err.message || 'Internal Server Error',
+//     });
+//   }
+// };

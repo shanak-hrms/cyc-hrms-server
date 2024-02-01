@@ -40,61 +40,59 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
 
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer className={styles.leadManagementTable}>
-                <Table>
-                    <TableHead sx={{ backgroundColor: "#383A3C" }}>
-                        <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Lead Name</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Lead Type</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Open Date</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Close Date</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Status</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Business Type</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Business From</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Business Value</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Business Cost</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Profit Amount</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "left" }}>Description</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data && data.filter((lead: { leadName: string }) => {
-                            return (
-                                query === "" ||
-                                (lead.leadName
-                                    ?.toLowerCase()
-                                    ?.includes(query.toLowerCase()) ??
-                                    false)
-                            );
-                        }).map((item: any) => {
-                            return (
-                                <TableRow>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.leadName}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.leadType}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{formattedDate(item.openDate)}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{formattedDate(item.closeDate)}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.leadStatus}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.businessType}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.businessFrom}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.businessVal}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.businessCost}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }}>{item.profitAmount}</TableCell>
-                                    <TableCell sx={{ textAlign: "left" }} dangerouslySetInnerHTML={{ __html: truncateWords(item.leadDesc, 8) }}></TableCell>
-                                    <TableCell sx={{ textAlign: "center", display: "flex", flexDirection: 'column' }} >
-                                        <MdOutlinePreview fontSize={18} style={{ color: "#3EC8D5" }} cursor={"pointer"} onClick={(() => handleaddBusiness(item._id))} />
-                                        <MdEdit fontSize={18} style={{ color: "#000000" }} cursor={"pointer"} onClick={(() => handleEdit(item._id))} />
-                                        <MdDelete fontSize={18} style={{ color: "#FF3A6E" }} cursor={"pointer"} onClick={(() => handleDelete(item._id))} />
-                                        <MdCloudDownload fontSize={18} style={{ color: "blue" }} cursor={"pointer"} onClick={(() => handledownload(item._id))} />
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
+        <TableContainer className={styles.leadManagementTable} >
+            <Table sx={{ width: "125%", overflowX: 'auto' }}>
+                <TableHead sx={{ backgroundColor: "#383A3C" }}>
+                    <TableRow>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Lead Name</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Lead Type</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Open Date</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Close Date</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Status</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Type</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business From</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Value</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Cost</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Profit Amount</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Description</TableCell>
+                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Action</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data && data.filter((lead: { leadName: string }) => {
+                        return (
+                            query === "" ||
+                            (lead.leadName
+                                ?.toLowerCase()
+                                ?.includes(query.toLowerCase()) ??
+                                false)
+                        );
+                    }).map((item: any) => {
+                        return (
+                            <TableRow>
+                                <TableCell sx={{ textAlign: "center" }}>{item.leadName}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.leadType}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.closeDate)}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.leadStatus}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.businessType}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.businessFrom}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.businessVal}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.businessCost}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.profitAmount}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }} dangerouslySetInnerHTML={{ __html: truncateWords(item.leadDesc, 8) }}></TableCell>
+                                <TableCell sx={{ textAlign: "center" }} >
+                                    <MdOutlinePreview fontSize={18} style={{ color: "#3EC8D5" }} cursor={"pointer"} onClick={(() => handleaddBusiness(item._id))} />
+                                    <MdEdit fontSize={18} style={{ color: "#000000" }} cursor={"pointer"} onClick={(() => handleEdit(item._id))} />
+                                    <MdDelete fontSize={18} style={{ color: "#FF3A6E" }} cursor={"pointer"} onClick={(() => handleDelete(item._id))} />
+                                    <MdCloudDownload fontSize={18} style={{ color: "blue" }} cursor={"pointer"} onClick={(() => handledownload(item._id))} />
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 

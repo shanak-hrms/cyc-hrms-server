@@ -1,9 +1,18 @@
 .empAttendancePageContainer {
+
     .empAttendanceSidebar {
         width: 18%;
+
+        @media screen and (max-width: 480px) {
+            display: none;
+        }
     }
 
     .empAttendanceScreen {
         width: 82%;
+
+        @media screen and (max-width: 480px) {
+            width: 100%;
+        }
     }
 }

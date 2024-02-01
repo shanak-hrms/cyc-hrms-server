@@ -9,6 +9,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReadLeadModal from '../../components/modal/ReadLeadModal/ReadLeadModal'
 import * as XLSX from 'xlsx';
+import SearchBox from '../../components/common/searchBox/SearchBox'
+import CommonButton from '../../components/common/CommonButton/CommonButton'
 
 
 const LeadManagement = () => {
@@ -178,6 +180,7 @@ const LeadManagement = () => {
     }, [])
     return (
         <Grid className={styles.leadManagement}>
+            <SearchBox setQuery={setQuery} />
             <HeadingText heading={'Lead Management'}
                 IsAction={true}
                 name='Add Lead'
@@ -188,6 +191,7 @@ const LeadManagement = () => {
                 setQuery={setQuery}
                 IsSearchBox={true}
             />
+
             <LeadManagementTable
                 data={leadData}
                 handleEdit={handleEditModal}

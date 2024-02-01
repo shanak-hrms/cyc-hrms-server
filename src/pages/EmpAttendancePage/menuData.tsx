@@ -8,7 +8,10 @@ import { GrNotes } from "react-icons/gr";
 import { MdOutlineEventNote } from "react-icons/md";
 import { GiStabbedNote } from "react-icons/gi";
 import { GiNotebook } from "react-icons/gi";
-import { PiNoteFill } from "react-icons/pi";
+import { MdOutlineManageHistory } from "react-icons/md";
+import { GrDocumentTime } from "react-icons/gr";
+
+
 
 
 export const menuData = [
@@ -31,9 +34,15 @@ export const menuData = [
         "link": "/leaves",
     },
     {
-        "id": 3,
-        "icon": <GiNotebook />,
+        "id": 4,
+        "icon": <GrDocumentTime />,
         "title": "Claims Request",
         "link": "/claims-request",
+    },
+    {
+        "id": 5,
+        "icon": <MdOutlineManageHistory />,
+        "title": "Lead Management",
+        "link": "/lead-management",
     }
 ]

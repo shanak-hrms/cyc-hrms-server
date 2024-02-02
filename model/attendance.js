@@ -4,7 +4,7 @@ const MonthlyAttendanceSchema = new mongoose.Schema({
   month: { type: String, required: true, enum: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
   employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, },
   date: { type: Date, required: true, },
-  clockIn: { type: Date, required: true, default: new Date() },
+  clockIn: { type: Date, default:null },
   clockOut: { type: Date, },
   markedWithin5Km: { type: Boolean, default: false, },
   regularizationRequest: {

@@ -11,9 +11,10 @@ export interface ISelectField {
     option: any;
     name: string;
     handleChange: any
+    handleClick?: any;
 
 }
-const SelectField = ({ title, data, option, name, handleChange }: ISelectField) => {
+const SelectField = ({ title, data, option, name, handleChange, handleClick }: ISelectField) => {
 
 
     return (
@@ -27,9 +28,9 @@ const SelectField = ({ title, data, option, name, handleChange }: ISelectField) 
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                 >
-                    {data.map((item: any) => {
+                    {data.map((item: any, idx: number) => {
                         return (
-                            <MenuItem key={item.id} value={item.label}>{item.label}</MenuItem>
+                            <MenuItem key={idx} value={item} onClick={handleClick}>{item}</MenuItem>
                         )
                     })}
                 </Select>

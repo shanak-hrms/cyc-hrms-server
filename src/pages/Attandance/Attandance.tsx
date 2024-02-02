@@ -30,7 +30,7 @@ const Attandance = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const result = await axios.get("https://hrms-server-ygpa.onrender.com/empAttendance");
+                const result = await axios.get("https://hrms-server-ygpa.onrender.com/api/v1/attendance/get");
                 const data = result.data.EmpAttendanceData;
                 setattandenceTable(data);
                 console.log(data, "result");

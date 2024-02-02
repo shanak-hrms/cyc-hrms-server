@@ -10,7 +10,7 @@ import StaffModal from '../../components/modal/StaffModal/StaffModal'
 
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
-    const [inputData, setInputData] = useState({ emp_id: '', name: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoin: "", role: "" })
+    const [inputData, setInputData] = useState({ emp_id: '', name: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -31,7 +31,7 @@ const StaffPage = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/user');
+            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/user/get');
             const users = response.data.userData;
             setUserData(users);
         } catch (error) {
@@ -48,7 +48,7 @@ const StaffPage = () => {
 
         setLoading(true);
         try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/user/signUp', inputData);
+            const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/signUp', inputData);
 
             if (response.status === 200) {
                 toast.success("Staff added successfuly!")
@@ -67,7 +67,7 @@ const StaffPage = () => {
     const handleDelete = async (idx: number) => {
         try {
             setLoading(true)
-            const response = await axios.delete(`https://hrms-server-ygpa.onrender.com/user/${idx}`);
+            const response = await axios.delete(`https://hrms-server-ygpa.onrender.com/api/v1/user/delete/${idx}`);
 
             if (response.status === 200) {
 

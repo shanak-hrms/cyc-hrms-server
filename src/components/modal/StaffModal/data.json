@@ -29,18 +29,5 @@
             "label": "Software Engineer"
         }
     ],
-    "role": [
-        {
-            "id": 1,
-            "label": "MANAGER"
-        },
-        {
-            "id": 2,
-            "label": "HR"
-        },
-        {
-            "id": 3,
-            "label": "EMPLOYEE"
-        }
-    ]
+    "role": ["EMPLOYEE", "HR", "DIRECTOR", "LINE MANAGER"]
 }

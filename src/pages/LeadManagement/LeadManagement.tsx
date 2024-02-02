@@ -11,27 +11,36 @@ import ReadLeadModal from '../../components/modal/ReadLeadModal/ReadLeadModal'
 import * as XLSX from 'xlsx';
 import SearchBox from '../../components/common/searchBox/SearchBox'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
+import StatusModal from '../../components/modal/StatusModal/StatusModal'
 
 
 const LeadManagement = () => {
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false)
     const [readModal, setReadModal] = useState(false)
+    const [leadStatusModal, setLeadStatusModal] = useState({})
     const handleModal = () => setOpen(!open);
     const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false) };
     const [query, setQuery] = useState('')
-    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", businessType: "", businessFrom: "", businessVal: "", businessCost: "", profitAmount: "" });
+    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", business: { type: "", source: "", vendorName: "", vendorAddress: "", businessValueBooked: "", businessCost: "", profitAmount: "" } });
+    const [statusVal, setStatusVale] = useState({ leadStatus: "Open" })
     const [leadData, setLeadData] = useState<any>()
     const [selectedItem, setSelectedLead] = useState();
     const [readLead, setReadLeadId] = useState<any>()
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        setInputData({ ...inputData, [name]: value })
+        const updatedInputData = { ...inputData };
+        if (name.startsWith("business.")) {
+            const nestedField = name.split(".")[1];
+            updatedInputData.business[nestedField] = value;
+        } else {
+            updatedInputData[name] = value;
+        }
+        setInputData(updatedInputData)
     };
     const handleChangeDes = (des: any) => {
         setInputData((preState: any) => ({ ...preState, leadDesc: des }))
     };
-    console.log(leadData, "leadData...")
     const handleReadModal = async (id: any) => {
 
         try {
@@ -49,7 +58,7 @@ const LeadManagement = () => {
     const getLeadData = async () => {
 
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
             const leadData = response.data.leadData;
             setLeadData(leadData)
         }
@@ -79,10 +88,10 @@ const LeadManagement = () => {
         }
 
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/lead/create`, inputData);
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/lead/create/new`, inputData);
             console.log(response, "response..")
             await getLeadData();
-            if (response.status === 200) {
+            if (response.status === 201) {
                 toast.success("lead Created successfully!")
                 setOpen(false)
             }
@@ -96,8 +105,8 @@ const LeadManagement = () => {
             [id]: !prevState[id]
         }));
         setSelectedLead(id)
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
-        if (response.status === 200) {
+        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+        if (response.status === 201) {
             const resData = response.data.leadData;
             const filteredData = resData.filter((employee: any) => employee._id === id);
 
@@ -120,7 +129,7 @@ const LeadManagement = () => {
     };
     const handleEdit = async () => {
         try {
-            await axios.put(`https://hrms-server-ygpa.onrender.com/lead/${selectedItem}`, inputData)
+            await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/lead/newstatus/${selectedItem}`, inputData)
             await getLeadData();
         } catch (err) {
             console.log(err)
@@ -128,9 +137,29 @@ const LeadManagement = () => {
             setEditModal(false)
         }
     };
+    const handleChangeStatus = async (e: any) => {
+
+        try {
+            const { name, value } = e.target;
+            await setStatusVale({ ...statusVal, [name]: value })
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleUpdateStatus = async (idx: any) => {
+        const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/lead/newstatus/${idx}`, statusVal)
+
+        if (response.status === 200) {
+            await getLeadData();
+        }
+
+    }
     const handleDelete = async (id: any) => {
         try {
-            await axios.delete(`https://hrms-server-ygpa.onrender.com/lead/${id}`);
+            await axios.delete(`https://hrms-server-ygpa.onrender.com/api/v1/lead/delete/particular/${id}`);
             await getLeadData();
         } catch (err) {
             console.log(err)
@@ -174,7 +203,6 @@ const LeadManagement = () => {
 
     }
 
-
     useEffect(() => {
         getLeadData();
     }, [])
@@ -199,6 +227,10 @@ const LeadManagement = () => {
                 handleaddBusiness={handleReadModal}
                 query={query}
                 handledownload={handledownloadItem}
+                leadStatusModal={leadStatusModal}
+                statusVal={statusVal}
+                handleChangeStatus={handleChangeStatus}
+                handleUpdateStatus={handleUpdateStatus}
             />
             <LeadManagementModal
                 open={open}

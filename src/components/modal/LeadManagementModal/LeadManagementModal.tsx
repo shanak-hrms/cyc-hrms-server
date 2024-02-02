@@ -18,54 +18,10 @@ export interface ILeadManagementModal {
 }
 const LeadManagementModal = ({ open, heading, inputData, handleChange, handleChangeText, handleClose, handleClick }: ILeadManagementModal) => {
     const data = {
-        "leadType": [
-            {
-                "id": 1,
-                "label": "Carporate"
-            },
-            {
-                "id": 2,
-                "label": "TMC"
-            }
-        ],
-        "leadStatus": [
-            {
-                "id": 1,
-                "label": "Closed "
-            },
-            {
-                "id": 2,
-                "label": "Open"
-            },
-            {
-                "id": 3,
-                "label": "Hot"
-            },
-            {
-                "id": 4,
-                "label": "Cold"
-            }
-        ],
-        "businessleadType": [
-            {
-                "id": 1,
-                "label": "Event"
-            },
-            {
-                "id": 2,
-                "label": "Room"
-            }
-        ],
-        "leadFrom": [
-            {
-                "id": 1,
-                "label": "Direct"
-            },
-            {
-                "id": 2,
-                "label": "Vendor"
-            }
-        ]
+        "leadType": ["Corporate", "TMC"],
+        "leadStatus": ["Closed", "Open", "Cold", "Hot"],
+        "businessleadType": ["Event", "Room"],
+        "leadFrom": ["Direct", "Vendor"]
     }
 
     return (
@@ -83,7 +39,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                     <InputField
                         label={'Lead Name'}
                         name={'leadName'}
-                        placeholder={'Write lead name hare..'}
+                        placeholder={'Enter lead name'}
                         value={inputData.leadName}
                         handleChange={handleChange}
                         type={undefined}
@@ -96,6 +52,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                             name={'leadType'}
                             handleChange={handleChange}
                         />
+
                         <SelectField
                             title={'Lead Status'}
                             data={data.leadStatus}
@@ -137,45 +94,63 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                         <SelectField
                             title={'Business Type'}
                             data={data.businessleadType}
-                            option={inputData.businessType}
-                            name={'businessType'}
+                            option={inputData.business.type}
+                            name={'business.type'}
                             handleChange={handleChange}
                         />
                         <SelectField
-                            title={'Business From'}
+                            title={'Business Source'}
                             data={data.leadFrom}
-                            option={inputData.businessFrom}
-                            name={'businessFrom'}
+                            option={inputData.business.source}
+                            name={'business.source'}
                             handleChange={handleChange}
                         />
                     </Box>
-                    {inputData.businessFrom === "Direct" ? "" :
+                    {inputData.business.source === "Direct" ? "" :
                         <>
                             <Box>
                                 <InputField
-                                    label={'Business Value'}
-                                    name={'businessVal'}
-                                    placeholder={''}
-                                    value={inputData.businessVal}
+                                    label={'Vender Name'}
+                                    name={'business.vendorName'}
+                                    placeholder={'Enter vender name'}
+                                    value={inputData.business.vendorName}
                                     handleChange={handleChange}
-                                    type={undefined}
+                                    type={"text"}
+                                />
+                                <InputField
+                                    label={'Vender Address'}
+                                    name={'business.vendorAddress'}
+                                    placeholder={'Enter vender address'}
+                                    value={inputData.business.vendorAddress}
+                                    handleChange={handleChange}
+                                    type={"text"}
+                                />
+                            </Box>
+                            <Box>
+                                <InputField
+                                    label={'Business Value'}
+                                    name={'business.businessValueBooked'}
+                                    placeholder={'Enter business value'}
+                                    value={inputData.business.businessValueBooked}
+                                    handleChange={handleChange}
+                                    type={"number"}
                                 />
                                 <InputField
                                     label={'Business Cost'}
-                                    name={'businessCost'}
-                                    placeholder={''}
-                                    value={inputData.businessCost}
+                                    name={'business.businessCost'}
+                                    placeholder={'Enter business cost'}
+                                    value={inputData.business.businessCost}
                                     handleChange={handleChange}
-                                    type={undefined}
+                                    type={"number"}
                                 />
                             </Box>
                             <InputField
                                 label={'Profit Amount'}
-                                name={'profitAmount'}
-                                placeholder={''}
-                                value={inputData.profitAmount}
+                                name={'business.profitAmount'}
+                                placeholder={'Enter profit amount'}
+                                value={inputData.business.profitAmount}
                                 handleChange={handleChange}
-                                type={undefined}
+                                type={"number"}
                             />
                         </>}
                 </Grid>

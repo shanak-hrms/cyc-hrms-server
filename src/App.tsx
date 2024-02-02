@@ -21,7 +21,7 @@ const App = () => {
 
   const getData = async () => {
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/user`)
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
       const data = response.data.userData;
       setUserData(data);
       console.log(data, "data")
@@ -45,12 +45,15 @@ const App = () => {
     } else {
       try {
 
-        const response = await axios.post('https://hrms-server-ygpa.onrender.com/user/login', inputData);
+        const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/login', inputData);
         console.log(response, "response")
         const loginedUser = response.data;
         const newToken = response.data.token;
         const newRole = response.data.role;
         const newEmail = response.data.email;
+        console.log(newToken, "newToken")
+        console.log(newRole, "newRole")
+        console.log(newEmail, "newEmail")
 
         const newData = userData.filter((item: any) => item.email === response.data.email)
         console.log(newData, "newData")

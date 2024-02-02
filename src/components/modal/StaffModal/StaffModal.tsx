@@ -33,57 +33,68 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
                         <InputField
                             label={'Name'}
                             name={'name'}
-                            placeholder={''}
+                            placeholder={'Enter your name'}
                             value={inputValue.name}
                             handleChange={handleChange}
-                            type={undefined}
+                            type={"text"}
                         />
                         <InputField
-                            label={'Date of join'}
-                            name={'dateOfJoin'}
-                            placeholder={'dateOfJoin'}
-                            value={inputValue.dateOfJoin}
+                            label={'Email'}
+                            name={'email'}
+                            placeholder={'Enter your email'}
+                            value={inputValue.email}
+                            handleChange={handleChange}
+                            type={"text"}
+                        />
+                        <InputField
+                            label={'Branch'}
+                            name={'branch'}
+                            placeholder={'Enter your branch'}
+                            value={inputValue.branch}
+                            handleChange={handleChange}
+                            type={"text"}
+                        />
+                        <InputField
+                            label={'Designation'}
+                            name={'designation'}
+                            placeholder={'Enter your designation'}
+                            value={inputValue.designation}
+                            handleChange={handleChange}
+                            type={"text"}
+                        />
+                        <InputField
+                            label={'dateOfJoining'}
+                            name={'dateOfJoining'}
+                            placeholder={'Enter your joining date'}
+                            value={inputValue.dateOfJoining}
                             handleChange={handleChange}
                             type={"date"}
-                        />
-                        <SelectField
-                            title={'Branch'}
-                            data={data.branch}
-                            option={inputValue.branch}
-                            name={'branch'}
-                            handleChange={handleChange}
-                        />
-                        <SelectField
-                            title={'Designation'}
-                            data={data.designation}
-                            option={inputValue.designation}
-                            name={'designation'}
-                            handleChange={handleChange}
                         />
                     </Grid>
                     <Grid>
                         <InputField
-                            label={'Email'}
-                            name={'email'}
-                            placeholder={''}
-                            value={inputValue.email}
+                            label={'Mobile'}
+                            name={'mobile'}
+                            placeholder={'Enter your mobile'}
+                            value={inputValue.mobile}
                             handleChange={handleChange}
-                            type={undefined}
+                            type={"number"}
                         />
                         <InputField
                             label={'Password'}
                             name={'password'}
-                            placeholder={''}
+                            placeholder={'Enter your password'}
                             value={inputValue.password}
                             handleChange={handleChange}
                             type={"password"}
                         />
-                        <SelectField
-                            title={'Department'}
-                            data={data.department}
-                            option={inputValue.department}
+                        <InputField
+                            label={'Department'}
                             name={'department'}
+                            placeholder={'Enter your department'}
+                            value={inputValue.department}
                             handleChange={handleChange}
+                            type={"text"}
                         />
                         <SelectField
                             title={'Role'}
@@ -91,6 +102,14 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
                             option={inputValue.role}
                             name={'role'}
                             handleChange={handleChange}
+                        />
+                        <InputField
+                            label={'Address'}
+                            name={'address'}
+                            placeholder={'Enter your address'}
+                            value={inputValue.address}
+                            handleChange={handleChange}
+                            type={"text"}
                         />
                     </Grid>
 

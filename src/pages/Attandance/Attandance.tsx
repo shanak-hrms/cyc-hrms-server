@@ -31,9 +31,11 @@ const Attandance = () => {
             try {
                 setLoading(true);
                 const result = await axios.get("https://hrms-server-ygpa.onrender.com/api/v1/attendance/get");
-                const data = result.data.EmpAttendanceData;
+                const data = result.data.attendanceData;
+                const newData = data[0].regularizationRequest.status
                 setattandenceTable(data);
-                console.log(data, "result");
+                console.log(result, "result");
+                console.log(newData, "newData")
             } catch (error) {
                 console.error("Error fetching attendance data:", error);
             } finally {

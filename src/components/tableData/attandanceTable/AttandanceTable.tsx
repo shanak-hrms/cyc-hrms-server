@@ -55,8 +55,10 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                                 <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.email}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.date}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.clock_in}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.clock_out}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.clockIn}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>
+                                    {item.clock_out}
+                                    </TableCell>
                             </TableRow>
                         )
                     })}

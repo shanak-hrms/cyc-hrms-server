@@ -13,12 +13,13 @@ export interface IAttendance {
 }
 const Attendance = ({ loading, attendanceData }: IAttendance) => {
     const [email, setEmail] = useState<any>('')
+    console.log(attendanceData, "attendanceData..")
 
     useEffect(() => {
-        const empDataString: any = localStorage.getItem("loginedUser")
-        const empData = JSON.parse(empDataString);
-        const empEmail = empData.email;
-        setEmail(empEmail)
+        // const empDataString: any = localStorage.getItem("loginedUser")
+        // const empData = JSON.parse(empDataString);
+        // const empEmail = empData.email;
+        // setEmail(empEmail)
     }, []);
 
     return (
@@ -41,7 +42,7 @@ const Attendance = ({ loading, attendanceData }: IAttendance) => {
                 </TableContainer>
                 <TableContainer>
                     {loading ? <CustomLoader /> : <Table>
-                        <TableBody>
+                        {/* <TableBody>
                             {
                                 attendanceData?.filter((emp: {
                                     [x: string]: any; employee: any;
@@ -55,6 +56,24 @@ const Attendance = ({ loading, attendanceData }: IAttendance) => {
                                             <TableCell sx={{ textAlign: "center" }}>{item.date}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>Present</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{item.clock_in}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.clock_out}</TableCell>
+                                        </TableRow>
+                                    )
+                                })
+                            }
+                        </TableBody> */}
+                        <TableBody>
+                            {
+                                attendanceData && attendanceData.map((item: any, idx: any) => {
+                                    return (
+                                        <TableRow key={idx}>
+                                            <TableCell sx={{ textAlign: "center" }}>
+                                                <CommonButton name={item.emp_id} />
+                                            </TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.date}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>Present</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.clockIn}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{item.clock_out}</TableCell>
                                         </TableRow>
                                     )

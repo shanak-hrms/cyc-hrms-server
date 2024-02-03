@@ -18,11 +18,13 @@ import CompanyPolicy from '../CompanyPolicy/CompanyPolicy'
 import TakePicture from './TakePicture/TakePicture'
 import TakePhotoModal from '../../components/modal/TakePhotoModal/TakePhotoModal'
 import LeadManagement from '../LeadManagement/LeadManagement'
+import RequestModal from '../../components/modal/RequestModal/RequestModal'
 
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
     const [photoModal, setPhotoModal] = useState(false)
-    const handleClose = () => setPhotoModal(false)
+    const [requestModal, setRequestModal] = useState(true)
+    const handleClose = () => { setPhotoModal(false); setRequestModal(false) }
     const [attendanceData, setAttendanceData] = useState<any>([])
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
@@ -34,33 +36,12 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [stream, setStream] = useState<any>(null);
     const videoRef = useRef<any>();
 
-    const formatedData = new Date();
-    const date = formatedData.toLocaleDateString();
-    const time = formatedData.getTime();
-    const clock_in = new Date(time).toLocaleTimeString();
-    const clock_out = new Date(time).toLocaleTimeString();
-
     const fetchData = async () => {
         setLoading(true)
         try {
-            const result = await axios.get('https://hrms-server-ygpa.onrender.com/empAttendance');
-            const data = result.data.EmpAttendanceData;
-
-            if (Array.isArray(data) && data.length > 0) {
-                const lastIndex = data.length - 1;
-                const lastItem = data[lastIndex];
-                const attendance_id = lastItem._id;
-                setCheckedAttendance(attendance_id);
-            } else {
-                console.log("Data is not an array or is empty");
-            }
-
+            const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
+            const data = result.data.attendanceData;
             setAttendanceData(data);
-
-            const empDataString: any = localStorage.getItem("loginedUser");
-            const empData = JSON.parse(empDataString);
-            const empEmail = empData.email;
-            setEmail(empEmail);
         } catch (error) {
             console.error("Error during GET request:", error);
         } finally {
@@ -69,26 +50,6 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     };
 
     const handleCheckOut = async () => {
-        try {
-            setLoading(true);
-
-            if (checkedAttendance) {
-                const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empAttendance/${checkedAttendance}`, { clock_out });
-
-                if (response.status === 200) {
-                    console.log("Clock-out successful");
-                    await fetchData();
-                } else {
-                    console.error("Clock-out request failed with status:", response.status);
-                }
-            } else {
-                console.log("Not clocked in");
-            }
-        } catch (error) {
-            console.error("Error during clock-out request:", error);
-        } finally {
-            setLoading(false);
-        }
     };
 
     useEffect(() => {
@@ -172,13 +133,16 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             console.error('videoRef.current is null');
         }
     };
+    const handleRequest = async () => {
+        const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
+            employeeId: "65bb86c5b21e8914f90801cd",
+            markedWithin5Km: true,
+            date: "2024-01-29T12:00:00Z"
+        })
+        console.log(response, "response")
+    }
 
     const handleCheckIn = async () => {
-        const empId = localStorage.getItem("empId");
-        const name = localStorage.getItem("userName");
-        const email = localStorage.getItem("userEmail");
-        const date = new Date();
-        const clock_in = new Date().toISOString();
 
         if (!userLocation) {
             alert('Unable to get your current location.');
@@ -197,33 +161,11 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             alert('You are not within 5km of the office location.');
             return;
         }
-        startCamera();
-        setPhotoModal(true);
-
-        // try {
-        //     setLoading(true);
-
-        //     const response = await axios.post('https://hrms-server-ygpa.onrender.com/empAttendance/clock-in', {
-        //         emp_id: empId,
-        //         name: name,
-        //         email: email,
-        //         date: date,
-        //         clock_in: clock_in,
-        //     });
-
-        //     console.log(response.data, 'response');
-
-        //     if (response.status === 200) {
-        //         console.log("Clock-in successful");
-        //         await fetchData();
-        //     } else {
-        //         console.error("Clock-in request failed with status:", response.status);
-        //     }
-        // } catch (error) {
-        //     console.error("Error during clock-in request:", error);
-        // } finally {
-        //     setLoading(false);
-        // }
+        // startCamera();
+        // setPhotoModal(true);
+        // if()
+        setRequestModal(true)
+        console.log("hello")
     };
 
 
@@ -259,6 +201,11 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 videoRef={videoRef}
                 takePicture={takePicture}
                 handleClose={handleClose}
+            />
+            <RequestModal
+                open={requestModal}
+                handleClose={handleClose}
+                handleRequest={handleRequest}
             />
         </Grid>
     )

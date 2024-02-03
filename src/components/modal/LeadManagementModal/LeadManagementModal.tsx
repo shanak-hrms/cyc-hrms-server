@@ -27,7 +27,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
     return (
         <Modal
             open={open}
-            sx={{ width: 600, height: 'fit-content', margin: 'auto' }}
+            className={styles.leadManagementModalContainer}
         >
             <Grid className={styles.leadManagementModal}>
                 <Box display={"flex"} justifyContent={"space-between"}>
@@ -85,7 +85,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                         heading='Lead Description'
                         placeholder="Write lead description..."
                         onChange={handleChangeText}
-                        width={490}
+                        width={420}
                         height={125}
                     />
                 </Grid>

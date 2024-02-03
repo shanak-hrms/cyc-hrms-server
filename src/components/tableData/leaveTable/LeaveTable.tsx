@@ -64,8 +64,8 @@ const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) =>
     };
 
     useEffect(() => {
-        const name:any = localStorage.getItem('userName');
-        const emp_id:any = localStorage.getItem('empId');
+        const name: any = localStorage.getItem('userName');
+        const emp_id: any = localStorage.getItem('empId');
         setName(name)
         setEmpId(emp_id)
     }, [])
@@ -75,9 +75,9 @@ const LeaveTable = ({ loading, data, handleEdit, handleDelete }: ILeaveTable) =>
                 <Table>
                     <TableHead style={{ backgroundColor: "#383A3C" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMPLOYEE ID</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMPLOYEE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Leave Type</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMP ID</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>

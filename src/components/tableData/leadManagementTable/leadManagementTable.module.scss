@@ -1,5 +1,12 @@
 .leadManagementTable {
     table {
+        width: 150%;
+        overflow-x: auto;
+
+        @media screen and (max-width:480px) {
+            width: 550%;
+        }
+
         tr {
 
             th,

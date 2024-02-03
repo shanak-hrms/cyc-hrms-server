@@ -1,65 +1,77 @@
-.leadManagementModal {
-    background-color: #ffffff;
-    padding: 8%;
-    border-radius: 0.5rem;
-    height: 40rem;
-    overflow: scroll;
+.leadManagementModalContainer {
+    width: 32rem;
+    height: fit-content;
+    margin: auto;
 
-    .leadManagement {
-        >div {
-            margin-block: 1rem;
-        }
+    @media screen and (max-width:480px) {
+        width: 100%;
+        border: 2px solid brown;
 
-        >div:nth-child(2),
-        >div:nth-child(3) {
-            margin-block: 1rem;
-            display: flex;
-            justify-content: space-between;
+    }
 
-            >div:nth-child(1),
-            >div:nth-child(2) {
-                width: 48%;
+    .leadManagementModal {
+        background-color: #ffffff;
+        padding: 8%;
+        border-radius: 0.5rem;
+        height: 40rem;
+        overflow: scroll;
 
-                >div {
-                    margin: auto;
+        .leadManagement {
+            >div {
+                margin-block: 1rem;
+            }
+
+            >div:nth-child(2),
+            >div:nth-child(3) {
+                margin-block: 1rem;
+                display: flex;
+                justify-content: space-between;
+
+                >div:nth-child(1),
+                >div:nth-child(2) {
+                    width: 48%;
+
+                    >div {
+                        margin: auto;
+                    }
                 }
             }
         }
-    }
 
-    .leadBusiness {
-
-        >div {
-            margin-block: 1rem;
-        }
-
-        >div:nth-child(1),
-        >div:nth-child(2),
-        >div:nth-child(3) {
-            display: flex;
-            justify-content: space-between;
+        .leadBusiness {
 
             >div {
-                width: 48%;
+                margin-block: 1rem;
+            }
+
+            >div:nth-child(1),
+            >div:nth-child(2),
+            >div:nth-child(3) {
+                display: flex;
+                justify-content: space-between;
 
                 >div {
-                    margin: auto;
+                    width: 48%;
+
+                    >div {
+                        margin: auto;
+                    }
                 }
             }
+
         }
 
-    }
+        .leadManagement+div {
+            height: 13rem;
+        }
 
-    .leadManagement+div {
-        height: 13rem;
-    }
+        .action {
+            display: flex;
+            justify-content: right;
 
-    .action {
-        display: flex;
-        justify-content: right;
-
-        >div:nth-child(1) {
-            margin-inline-end: 0.5rem;
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
         }
     }
 }

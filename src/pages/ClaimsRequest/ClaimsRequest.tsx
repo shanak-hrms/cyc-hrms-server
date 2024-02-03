@@ -137,16 +137,17 @@ const ClaimsRequest = () => {
     }, [])
 
     return (
-        <Grid>
+        <Grid className={styles.claimRequestContainer}>
             {selectedFile && <img src={selectedFile} />}
 
-            <HeadingText
-                heading={'Claims Special Request'}
-                IsAction={true}
-                name='Claim'
-                handleClick={handleClickModal}
-            />
-            <TableContainer>
+            <Grid className={styles.claimHeader}>
+                <HeadingText
+                    heading={'Claims Special Request'}
+                    IsAction={false}
+                />
+                <CommonButton name={"Claim"} onClick={handleClickModal} />
+            </Grid>
+            <TableContainer className={styles.tableContainer}>
                 <Table>
                     <TableHead sx={{ backgroundColor: "#383A3C" }}>
                         <TableRow>

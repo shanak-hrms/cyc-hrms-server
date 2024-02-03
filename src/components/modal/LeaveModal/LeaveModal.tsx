@@ -27,7 +27,7 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
     return (
         <Modal
             open={open}
-            sx={{ width: 600, height: "fit-content", margin: "auto" }}
+            className={styles.leadModalContainer}
         >
             <Grid className={styles.createLeaveModalContainer}>
                 <Box display={"flex"} justifyContent={"space-between"}>
@@ -77,14 +77,7 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
                             handleChange={handleChange}
                             type={"text"}
                         />
-                        <InputField
-                            label={'Remak'}
-                            name={'remark'}
-                            placeholder={'Remark'}
-                            value={inputData.remark}
-                            handleChange={handleChange}
-                            type={"text"}
-                        />
+
                     </Box>
                     <Box display={"flex"}>
                         <CommonButton

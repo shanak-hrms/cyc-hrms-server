@@ -9,27 +9,27 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 
 export interface IClaimsRequestModal {
     open: boolean;
-    heading:string;
+    heading: string;
     empId: string;
     name: string;
-    buttonName:string;
+    buttonName: string;
     inputData: any;
     handleClose: any;
     handleChange: any;
-    handleChangefile:any
+    handleChangefile: any
     handleClick: any;
     handleChengeMessage: any
 }
-const ClaimsRequestModal = ({ open, heading, empId, name,buttonName, inputData, handleClose, handleChange,handleChangefile,handleClick, handleChengeMessage }: IClaimsRequestModal) => {
+const ClaimsRequestModal = ({ open, heading, empId, name, buttonName, inputData, handleClose, handleChange, handleChangefile, handleClick, handleChengeMessage }: IClaimsRequestModal) => {
     const handleChengeText = () => {
 
     }
     return (
         <Modal
             open={open}
-            sx={{ width: 600, height: 'fit-content', margin: "auto" }}
+            className={styles.claimsRequestContainer}
         >
-            <Grid className={styles.claimsRequestContainer}>
+            <Grid className={styles.claimsRequest}>
                 <Box display={"flex"} justifyContent={"space-between"}>
                     <Typography variant='h5' fontSize={22} fontWeight={22}>{heading}</Typography>
                     <MdOutlineClose fontSize={22} cursor={"pointer"} onClick={handleClose} />

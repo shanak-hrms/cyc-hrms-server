@@ -1,0 +1,18 @@
+.claimRequestContainer{
+    .claimHeader{
+        display: flex;
+        justify-content: space-between;
+        padding-inline-end: 1rem;
+        margin-block-start: 2rem;
+        >div{
+            margin-block: auto;
+        }
+    }
+    .tableContainer{
+        border: 1px solid blue;
+        table{
+            width: 150%;
+            overflow-x: scroll;
+        }
+    }
+}

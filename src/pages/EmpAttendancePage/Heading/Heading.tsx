@@ -56,7 +56,7 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
 
                 </Box>
                 <Box>
-                    {headingName && <Typography variant='h4' fontWeight={600} fontSize={25}>Welcome, {headingName}</Typography>}
+                    {headingName && <Typography variant='h4' fontWeight={600} fontSize={25}>Hi, {headingName}</Typography>}
                     {date && <Typography fontSize={15}>{date}</Typography>}
                 </Box>
                 <Box>

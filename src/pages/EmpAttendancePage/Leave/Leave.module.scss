@@ -1,0 +1,13 @@
+.leaveContainer {
+
+    .leaveHeader {
+        display: flex;
+        justify-content: space-between;
+        margin-block-start: 2rem;
+        padding-inline-end: 1rem;
+
+        >div:nth-child(2) {
+            margin-block: auto;
+        }
+    }
+}

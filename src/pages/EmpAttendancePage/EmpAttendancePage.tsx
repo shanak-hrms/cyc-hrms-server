@@ -23,7 +23,7 @@ import RequestModal from '../../components/modal/RequestModal/RequestModal'
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
     const [photoModal, setPhotoModal] = useState(false)
-    const [requestModal, setRequestModal] = useState(true)
+    const [requestModal, setRequestModal] = useState(false)
     const handleClose = () => { setPhotoModal(false); setRequestModal(false) }
     const [attendanceData, setAttendanceData] = useState<any>([])
     const [email, setEmail] = useState<any>()

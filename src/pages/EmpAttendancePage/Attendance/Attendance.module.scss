@@ -4,10 +4,34 @@
     margin-block-end: 2rem;
     height: 10rem;
 
+    .attendanceHeading {
+        display: flex;
+        justify-content: space-between;
+
+        >div:nth-child(2) {
+            display: none;
+
+            @media screen and (max-width:480px) {
+                display: block;
+                margin-block: auto;
+            }
+        }
+    }
 
     .attendance {
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         overflow: scroll;
+
+        .tableContainer {
+
+            table {
+                width: 120%;
+
+                @media screen and (max-width:480px) {
+                    width: 200%;
+                }
+            }
+        }
     }
 
     table {

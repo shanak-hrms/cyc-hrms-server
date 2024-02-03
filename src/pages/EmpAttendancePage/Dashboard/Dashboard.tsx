@@ -55,10 +55,10 @@ const Dashboard = () => {
 
   return (
     <Grid className={styles.dashboardContainer}>
-      <Grid container spacing={2}>
+      <Grid className={styles.cardContainer}>
         {data.map((item) => {
           return (
-            <Grid item sm={4}>
+            <Grid key={item.id} className={styles.card}>
               <CommonCard
                 icon={item.icon}
                 heading={item.heading}
@@ -72,7 +72,7 @@ const Dashboard = () => {
       </Grid>
       <Grid container className={styles.dashboard}>
         <Grid item sm={6}>
-          <TableContainer>
+          <TableContainer className={styles.tableContainer}>
             <Table>
               <TableHead sx={{ backgroundColor: '#383A3C' }}>
                 <TableRow >

@@ -42,7 +42,7 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
 
     return (
         <TableContainer className={styles.leadManagementTable} >
-            <Table sx={{ width: "150%", overflowX: 'auto' }}>
+            <Table>
                 <TableHead sx={{ backgroundColor: "#383A3C" }}>
                     <TableRow>
                         <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Lead Name</TableCell>

@@ -24,14 +24,20 @@ const Attendance = ({ loading, attendanceData }: IAttendance) => {
 
     return (
         <Grid className={styles.attendanceContainer}>
-            <HeadingText heading={'Attendance List'} />
+            <Grid className={styles.attendanceHeading}>
+                <HeadingText
+                    heading={'Attendance List'}
+                />
+                <CommonButton name={"Clock In"} />
+            </Grid>
+
             <Grid container className={styles.attendance}>
-                <TableContainer>
-                    <Table>
+                <TableContainer className={styles.tableContainer}>
+                    <Table sx={{ overflowX: 'auto' }}>
                         <TableHead>
                             <TableRow sx={{ backgroundColor: "#383A3C" }}>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMPLOYEE ID</TableCell>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMPLOYEE</TableCell>
+                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMP ID</TableCell>
+                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>DATE</TableCell>
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CHECK IN</TableCell>
@@ -85,6 +91,7 @@ const Attendance = ({ loading, attendanceData }: IAttendance) => {
             </Grid>
         </Grid>
     )
+
 }
 
 export default Attendance;

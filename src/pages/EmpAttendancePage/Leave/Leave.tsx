@@ -6,6 +6,8 @@ import LeaveModal from '../../../components/modal/LeaveModal/LeaveModal';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import styles from './Leave.module.scss'
+import CommonButton from '../../../components/common/CommonButton/CommonButton';
 
 
 const Leave = () => {
@@ -147,12 +149,14 @@ const Leave = () => {
     }, []);
     console.log(leaveData, "leaveData...")
     return (
-        <Grid>
-            <HeadingText
-                heading={'Leave'}
-                IsAction={true}
-                name='Apply'
-                handleClick={handleModal} />
+        <Grid className={styles.leaveContainer}>
+            <Grid className={styles.leaveHeader}>
+                <HeadingText
+                    heading={'Leave'}
+                    IsAction={false}
+                />
+                <CommonButton name={"Apply"} onClick={handleModal} />
+            </Grid>
             <LeaveTable
                 data={leaveData}
                 loading={loading}

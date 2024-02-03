@@ -2,12 +2,41 @@ const express = require('express');
 const router = express.Router();
 const EmpLeave = require('../model/empLeave');
 
-exports.getemployeeLeave=async (req, res) => {
+
+exports.applyForLeave = async (req, res) => {
     try {
-        const result = await EmpLeave.find();
-        res.status(200).json({
-            leaveData: result,
-        });
+        const {_id:employeeId}=req.user
+        const { month, startDate, endDate, dates, leaveType } = req.body;
+
+        if (!['Sick', 'Privilege', 'LWP'].includes(leaveType)) {
+            return res.status(400).json({ error: 'Invalid leaveType. Valid options are Sick, Privilege, or LWP.' });
+        }
+
+        let needApprovalFrom = [];
+        if (leaveType === 'Sick') {
+            needApprovalFrom = ['HR'];
+        } else if (leaveType === 'LWP') {
+            needApprovalFrom = ['Line Manager', 'HR', 'Director'];
+        }
+
+        if ((startDate && endDate && !dates) || (!startDate && !endDate && dates && dates.length > 0)) {
+            const leaveRequest = new EmpLeave({
+                month,
+                employeeId,
+                startDate,
+                endDate,
+                dates,
+                leaveType,
+                needApprovalFrom
+            });
+            await leaveRequest.save();
+            res.status(201).json({
+                message: 'Leave request submitted successfully',
+                leaveRequest,
+            });
+        } else {
+            return res.status(400).json({ error: 'Invalid input. Provide either startDate and endDate or dates array.' });
+        }
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -16,30 +45,7 @@ exports.getemployeeLeave=async (req, res) => {
     }
 };
 
-exports.appyLeaveRequest=async (req, res) => {
-    try {
-        const { emp_id, name, leave_type, start_date, end_date, leave_reason, status } = req.body;
-        const createLeave = new EmpLeave({
-            emp_id,
-            name,
-            leave_type,
-            start_date,
-            end_date,
-            leave_reason,
-            status,
-        });
 
-        const result = await createLeave.save();
-        res.status(200).json({
-            new_leave: result,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
-    }
-};
 exports.updateLeaveRequest=async (req, res, next) => {
     try {
         const userId = req.params.userId;
@@ -88,3 +94,16 @@ exports.deleteLeaveRequest=async (req, res, next) => {
     }
 };
 
+exports.getemployeeLeave=async (req, res) => {
+    try {
+        const result = await EmpLeave.find();
+        res.status(200).json({
+            leaveData: result,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};

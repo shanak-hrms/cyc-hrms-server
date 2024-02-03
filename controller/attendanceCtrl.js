@@ -77,7 +77,8 @@ exports.markAttendance = async (req, res) => {
 
 exports.requestApproval = async (req, res) => {
     try {
-        const { employeeId, date,} = req.body;
+        const {_id:employeeId}=req.user
+        const {date,} = req.body;
         const currentDate = new Date(date);
         const requestedDate = new Date(date);
         const days = Math.ceil((currentDate - requestedDate) / (1000 * 60 * 60 * 24));
@@ -224,7 +225,7 @@ exports.checkOut = async (req, res) => {
 
 exports.getAttandance = async (req, res) => {
     try {
-        const result = await MonthlyAttendance.find();
+        const result = await MonthlyAttendance.find().populate("employeeId",{name:1,email:1});
         res.status(200).json({
             attendanceData: result,
         });
@@ -235,6 +236,20 @@ exports.getAttandance = async (req, res) => {
     }
 };
 
+exports.getAttandanceForMonth = async (req, res) => {
+    try {
+        const {_id:employeeId}=req.user
+        const {month}=req.query
+        const result = await MonthlyAttendance.find({employeeId,month}).populate("employeeId",{name:1,email:1});
+        res.status(200).json({
+            attendanceData: result,
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
 
 
 

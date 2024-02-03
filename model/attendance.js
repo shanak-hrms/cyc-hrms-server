@@ -12,6 +12,9 @@ const MonthlyAttendanceSchema = new mongoose.Schema({
     status: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'No Request'], default: 'No Request', },
     approver: { type: mongoose.Schema.Types.ObjectId, ref: 'User', },
   },
+},{
+  versionKey: false,
+  timestamps: true
 });
 
 const MonthlyAttendance = mongoose.model('MonthlyAttendance', MonthlyAttendanceSchema);

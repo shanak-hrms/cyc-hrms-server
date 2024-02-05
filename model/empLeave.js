@@ -11,7 +11,7 @@ const leaveSchema = new mongoose.Schema({
     approver: [
         {
             approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
-            role: { type: String, required: true, enum: ['LineManager', 'HR', 'Director'] },
+            role: { type: String, required: true, enum: ['Line Manager', 'HR', 'Director'] },
         }
     ],
     approvedDates: [{ type: Date }],

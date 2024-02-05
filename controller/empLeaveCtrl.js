@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const EmpLeave = require('../model/empLeave');
 
+
+
 exports.applyForLeave = async (req, res) => {
     try {
         const { _id: employeeId } = req.user;
@@ -73,7 +75,7 @@ exports.applyForLeave = async (req, res) => {
 
             });
             await leaveRequest.save();
-            
+
             res.status(201).json({
                 message: 'Leave request submitted successfully',
                 leaveRequest,
@@ -89,6 +91,54 @@ exports.applyForLeave = async (req, res) => {
     }
 };
 
+
+exports.getPendingLeave = async (req, res) => {
+    try {
+        const pendingLeave = await EmpLeave.find({ status: 'Pending' })
+            .populate('employeeId', { name: 1, email: 1 });
+
+        res.status(200).json({
+            pendingLeave,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+exports.getApprovedLeave = async (req, res) => {
+    try {
+        const approvedLeave = await EmpLeave.find({ status: 'Approved' })
+            .populate('employeeId', { name: 1, email: 1 }); 
+
+        res.status(200).json({
+            approvedLeave,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+exports.getRejectedLeave = async (req, res) => {
+    try {
+        const rejectedLeave = await EmpLeave.find({ status: 'Rejected' })
+            .populate('employeeId', { name: 1, email: 1 });
+
+        res.status(200).json({
+            rejectedLeave,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
 
 
 

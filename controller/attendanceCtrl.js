@@ -5,7 +5,7 @@ const User = require('../model/user');
 
 exports.markAttendance = async (req, res) => {
     try {
-        const { _id:employeeId } = req.user
+        const { _id: employeeId } = req.user
         const { date, markedWithin5Km } = req.body;
         const currentDate = new Date();
         const attendanceDate = new Date(date);
@@ -119,6 +119,55 @@ exports.requestApproval = async (req, res) => {
     }
 };
 
+exports.getAllPendingRegularizationRequests = async (req, res) => {
+    try {
+        const { role } = req.user
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "LINE MANAGER") {
+            throw new Error("Only HR, DIRECTOR, or LINE MANAGER are allowed to access.");
+        }
+        const pendingRegularizationRequests = await MonthlyAttendance.find({
+            'regularizationRequest.status': 'Pending',
+        })
+            .populate('employeeId', { name: 1, email: 1 });
+
+        res.status(200).json({
+            pendingRegularizationRequests,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+exports.getPendingRegularizationRequestById = async (req, res) => {
+    try {
+        const { pendingId } = req.params;
+
+        const pendingRegularizationRequest = await MonthlyAttendance.findOne({
+            _id: pendingId,
+            'regularizationRequest.status': 'Pending',
+        }).populate('employeeId', { name: 1, email: 1 });
+
+        if (!pendingRegularizationRequest) {
+            return res.status(404).json({
+                error: 'Pending Regularization Request not found',
+            });
+        }
+
+        res.status(200).json({
+            pendingRegularizationRequest,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+
 exports.approveRequest = async (req, res) => {
     try {
         const { _id: approverId, role } = req.user
@@ -185,10 +234,10 @@ exports.approveRequest = async (req, res) => {
 exports.checkOut = async (req, res) => {
     try {
         const { _id: employeeId } = req.user
-        const {requestId}=req.params
+        const { requestId } = req.params
         const { date } = req.body;
         const month = new Date(date).toLocaleString('en-US', { month: 'long' });
-        const existingAttendance = await MonthlyAttendance.findOne({ employeeId,_id:requestId, month, date:new Date(date) });
+        const existingAttendance = await MonthlyAttendance.findOne({ employeeId, _id: requestId, month, date: new Date(date) });
         // console.log("month", existingAttendance)
 
         if (!existingAttendance) {

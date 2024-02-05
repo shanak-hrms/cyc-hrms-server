@@ -14,6 +14,14 @@ export interface IAttandanceTable {
     loading: boolean;
 }
 const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, loading }: IAttandanceTable) => {
+    function formatDate(dateString: any) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+    }
+    function formatTime(dateString: any) {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString();
+    }
 
     return (
         <Grid className={styles.attandanceTableContainer}>
@@ -49,16 +57,13 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                     }).map((item: any) => {
                         return (
                             <TableRow key={item.id}>
+                                <TableCell sx={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.employeeId.email}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>
-                                    <CommonButton name={item.emp_id} />
+                                    {formatTime(item.clockOut)}
                                 </TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.email}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.date}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.clockIn}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>
-                                    {item.clock_out}
-                                    </TableCell>
                             </TableRow>
                         )
                     })}

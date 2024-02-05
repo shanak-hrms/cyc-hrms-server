@@ -9,7 +9,13 @@
         justify-content: space-between;
 
         >div:nth-child(2) {
-            display: none;
+            display: flex;
+            padding-inline-end: 1rem;
+            margin-block: auto;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
 
             @media screen and (max-width:480px) {
                 display: block;
@@ -20,12 +26,12 @@
 
     .attendance {
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        overflow: scroll;
+
 
         .tableContainer {
 
             table {
-                width: 120%;
+                // width: 120%;
 
                 @media screen and (max-width:480px) {
                     width: 200%;

@@ -10,8 +10,10 @@ export interface IRequestModal {
     open: boolean;
     handleClose: () => void;
     handleRequest: () => void;
+    requestVal: any;
+    handleChange: any;
 }
-const RequestModal = ({ open, handleClose, handleRequest }: IRequestModal) => {
+const RequestModal = ({ open, handleClose, handleRequest, requestVal, handleChange }: IRequestModal) => {
     return (
         <Modal
             open={open}
@@ -25,7 +27,7 @@ const RequestModal = ({ open, handleClose, handleRequest }: IRequestModal) => {
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
                 <Grid className={styles.inputField}>
                     <Typography>Select Date</Typography>
-                    <TextField type='date' />
+                    <TextField type='date' name='date' value={requestVal.date} onChange={handleChange} />
                 </Grid>
                 <Divider sx={{ marginBlock: 2 }} />
 

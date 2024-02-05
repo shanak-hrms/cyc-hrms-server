@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Attendance.module.scss'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Grid, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingText from '../../../components/HeadingText/HeadingText';
@@ -9,11 +9,21 @@ import CustomLoader from '../../../components/CustomLoader/CustomLoader';
 export interface IAttendance {
     loading: boolean;
     attendanceData: any;
+    handleCheckIn: any;
+    handleClockOut: any;
+    handleRequest: any;
 
 }
-const Attendance = ({ loading, attendanceData }: IAttendance) => {
-    const [email, setEmail] = useState<any>('')
-    console.log(attendanceData, "attendanceData..")
+const Attendance = ({ loading, attendanceData, handleCheckIn, handleClockOut, handleRequest }: IAttendance) => {
+
+    function formatDate(dateString: any) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+    }
+    function formatTime(dateString: any) {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString();
+    }
 
     useEffect(() => {
         // const empDataString: any = localStorage.getItem("loginedUser")
@@ -28,15 +38,16 @@ const Attendance = ({ loading, attendanceData }: IAttendance) => {
                 <HeadingText
                     heading={'Attendance List'}
                 />
-                <CommonButton name={"Clock In"} />
+                <Grid>
+                    <CommonButton name={"Requet Approval"} onClick={handleRequest} />
+                    <CommonButton name={"Clock In"} onClick={handleCheckIn} />
+                </Grid>
             </Grid>
-
             <Grid container className={styles.attendance}>
-                <TableContainer className={styles.tableContainer}>
-                    <Table sx={{ overflowX: 'auto' }}>
+                <TableContainer className={styles.tableContainer} >
+                    <Table>
                         <TableHead>
                             <TableRow sx={{ backgroundColor: "#383A3C" }}>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMP ID</TableCell>
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>DATE</TableCell>
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
@@ -44,49 +55,29 @@ const Attendance = ({ loading, attendanceData }: IAttendance) => {
                                 <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CHECK OUT</TableCell>
                             </TableRow>
                         </TableHead>
-                    </Table>
-                </TableContainer>
-                <TableContainer>
-                    {loading ? <CustomLoader /> : <Table>
-                        {/* <TableBody>
-                            {
-                                attendanceData?.filter((emp: {
-                                    [x: string]: any; employee: any;
-                                }) => emp.email === email).map((item: any, idx: number) => {
-                                    return (
-                                        <TableRow key={idx}>
-                                            <TableCell sx={{ textAlign: "center" }}>
-                                                <CommonButton name={item.emp_id} />
-                                            </TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.date}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>Present</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.clock_in}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.clock_out}</TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                            }
-                        </TableBody> */}
                         <TableBody>
                             {
                                 attendanceData && attendanceData.map((item: any, idx: any) => {
                                     return (
-                                        <TableRow key={idx}>
+                                        <TableRow key={item._id}>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.regularizationRequest.status}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>
-                                                <CommonButton name={item.emp_id} />
+                                                {item.clockOut === "" ?
+                                                    <>{formatTime(item.clockOut)}</>
+
+                                                    :
+                                                    <CommonButton name={"Clock Out"} onClick={() => handleClockOut(item._id)} />
+                                                }
                                             </TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.date}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>Present</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.clockIn}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.clock_out}</TableCell>
                                         </TableRow>
                                     )
                                 })
                             }
                         </TableBody>
-                    </Table>}
+                    </Table>
                 </TableContainer>
             </Grid>
         </Grid>

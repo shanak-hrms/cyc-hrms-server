@@ -25,23 +25,20 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [menu, setMenu] = useState(false)
     const [photoModal, setPhotoModal] = useState(false)
     const [requestModal, setRequestModal] = useState(false)
+    const [requestVal, setRequestVal] = useState<any>({ date: "" })
+    const handleRequestModal = () => setRequestModal(!requestModal);
     const handleClose = () => { setPhotoModal(false); setRequestModal(false) }
+    const handleMenu = () => setMenu(!menu);
+    const handleResponsiveMenu = () => setMenu(false);
     const [attendanceData, setAttendanceData] = useState<any>([])
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
     const [emp_id, setEmpId] = useState<any>()
+    const [userToken, setUserToken] = useState()
     const [loading, setLoading] = useState(false);
     const [userLocation, setUserLocation] = useState<any>(null);
     const [stream, setStream] = useState<any>(null);
     const videoRef = useRef<any>();
-
-    const handleMenu = () => {
-        setMenu(!menu)
-    }
-    const handleResponsiveMenu = () => {
-        setMenu(false)
-
-    }
 
     const fetchData = async () => {
         setLoading(true)
@@ -55,9 +52,28 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setLoading(false)
         }
     };
+    const handleClockOut = async (idx: any) => {
 
-    const handleCheckOut = async () => {
+        if (attendanceData && attendanceData.length > 0) {
+            const matchId: any = attendanceData.filter((item: any) => item._id === idx);
+            const checkOut = matchId[0].date;
+            try {
+                const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
+                    { date: checkOut },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${userToken}`
+                        }
+                    }
+                )
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            console.log("attendanceData is undefined or empty");
+        }
     };
+
 
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
@@ -65,9 +81,10 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         const loginedUserString = localStorage.getItem('loginedUser')
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
-            const { name, emp_id } = loginedUser;
+            const { name, emp_id, token } = loginedUser;
             setName(name)
             setEmpId(emp_id)
+            setUserToken(token)
         } else {
             console.log('No logined user found');
         };
@@ -140,14 +157,30 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             console.error('videoRef.current is null');
         }
     };
-    const handleRequest = async () => {
-        const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
-            employeeId: "65bb86c5b21e8914f90801cd",
-            markedWithin5Km: true,
-            date: "2024-01-29T12:00:00Z"
-        })
-        console.log(response, "response")
+
+    const handleChangeRequest = (e: any) => {
+        const { name, value } = e.target;
+        setRequestVal({ ...requestVal, [name]: value })
     }
+    const handleRequest = async () => {
+        const { date } = requestVal;
+        const desiredDate = new Date(date);
+        const formattedDate = desiredDate.toISOString();
+
+        const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
+            date: formattedDate
+        },
+            {
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                }
+            });
+
+        if (response.status === 201) {
+            setRequestModal(false);
+        }
+    };
+
 
     const handleCheckIn = async () => {
 
@@ -170,9 +203,30 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         }
         // startCamera();
         // setPhotoModal(true);
-        // if()
-        setRequestModal(true)
-        console.log("hello")
+
+
+        try {
+            const desiredDate = new Date();
+            const formattedDate = desiredDate.toISOString();
+
+            const response = await axios.post(
+                'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
+                { date: formattedDate },
+                {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                }
+            )
+            if (response.status === 201) {
+                await fetchData();
+                await setPhotoModal(false);
+            }
+
+        } catch (error) {
+            console.error('Error occurred:', error);
+        }
+
     };
 
 
@@ -187,15 +241,13 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             <Grid className={styles.empAttendanceScreen}>
                 <Heading
                     menu={menu}
-                    IsAction={true}
-                    handleCheckIn={handleCheckIn}
-                    handleCheckOut={handleCheckOut}
+                    IsAction={false}
                     handleClick={handleMenu}
                     handleResponsiveMenu={handleResponsiveMenu}
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} loading={loading} />} />
+                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} loading={loading} handleCheckIn={handleCheckIn} handleClockOut={handleClockOut} handleRequest={handleRequestModal} />} />
                     <Route path='/leaves' element={<Leave />} />
                     <Route path='/leave-policy' element={<LeavePolicy />} />
                     <Route path='/loader' element={<CustomLoader />} />
@@ -214,8 +266,10 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             />
             <RequestModal
                 open={requestModal}
+                requestVal={requestVal}
                 handleClose={handleClose}
                 handleRequest={handleRequest}
+                handleChange={handleChangeRequest}
             />
         </Grid>
     )

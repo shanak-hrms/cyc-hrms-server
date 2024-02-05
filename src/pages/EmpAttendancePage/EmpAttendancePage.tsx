@@ -22,6 +22,7 @@ import RequestModal from '../../components/modal/RequestModal/RequestModal'
 
 
 const EmpAttendancePage = ({ handleLogout }: any) => {
+    const [menu, setMenu] = useState(false)
     const [photoModal, setPhotoModal] = useState(false)
     const [requestModal, setRequestModal] = useState(false)
     const handleClose = () => { setPhotoModal(false); setRequestModal(false) }
@@ -29,12 +30,18 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
     const [emp_id, setEmpId] = useState<any>()
-    const [checkedAttendance, setCheckedAttendance] = useState()
     const [loading, setLoading] = useState(false);
     const [userLocation, setUserLocation] = useState<any>(null);
-    const [attendanceMarked, setAttendanceMarked] = useState(false);
     const [stream, setStream] = useState<any>(null);
     const videoRef = useRef<any>();
+
+    const handleMenu = () => {
+        setMenu(!menu)
+    }
+    const handleResponsiveMenu = () => {
+        setMenu(false)
+
+    }
 
     const fetchData = async () => {
         setLoading(true)
@@ -179,9 +186,12 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
                 <Heading
+                    menu={menu}
                     IsAction={true}
                     handleCheckIn={handleCheckIn}
                     handleCheckOut={handleCheckOut}
+                    handleClick={handleMenu}
+                    handleResponsiveMenu={handleResponsiveMenu}
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />

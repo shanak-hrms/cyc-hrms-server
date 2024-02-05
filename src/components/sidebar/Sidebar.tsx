@@ -6,9 +6,13 @@ import logo from '../../asserst/images/LOGO CYC.jpg'
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TbPoint } from "react-icons/tb";
 
+export interface ISidebar {
+    menuData: any;
+    handleResponsiveMenu?: any;
+    handleLogout: any;
+}
 
-
-const Sidebar = ({ menuData, handleLogout }: any) => {
+const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => {
     const [show, setShow] = useState(false);
     const [role, setRole] = useState<string | null>('')
 
@@ -16,6 +20,7 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
     const location = useLocation()
     const path = location.pathname
     const handleMenu = async () => {
+        console.log("menu")
         try {
             if (path === '/pay-slip-form' || path === '/salary-calculation') {
                 setShow(true);
@@ -41,17 +46,19 @@ const Sidebar = ({ menuData, handleLogout }: any) => {
                 {menuData.map((item: any) => {
                     return (
                         <Grid key={item.id} className={styles.sidebarMenu}>
-                            <MenuList onClick={item.subMenu && item.subMenu.length > 0 ? handleMenu : () => navigation(item.link)} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
-                                <MenuItem>  {item.icon}{item.title} {item.subMenu && item.subMenu.length > 0 ? <MdKeyboardArrowDown style={{ backgroundColor: "transparent", boxShadow: "unset" }} /> : ""}</MenuItem>
-                                {show && <>
-                                    {item.subMenu?.map((item: any) => {
-                                        return (
-                                            <MenuList onClick={() => navigation(item.link)} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
-                                                <MenuItem className={styles.subMenu}> <TbPoint /> {item.title}</MenuItem>
-                                            </MenuList>
-                                        )
-                                    })}
-                                </>}
+                            <MenuList onClick={handleResponsiveMenu}>
+                                <MenuList onClick={item.subMenu && item.subMenu.length > 0 ? handleMenu : () => navigation(item.link)} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                                    <MenuItem>  {item.icon}{item.title} {item.subMenu && item.subMenu.length > 0 ? <MdKeyboardArrowDown style={{ backgroundColor: "transparent", boxShadow: "unset" }} /> : ""}</MenuItem>
+                                    {show && <>
+                                        {item.subMenu?.map((item: any) => {
+                                            return (
+                                                <MenuList onClick={() => navigation(item.link)} className={path == item.link ? styles.activeMenu : styles.inActiveMenu}>
+                                                    <MenuItem className={styles.subMenu}> <TbPoint /> {item.title}</MenuItem>
+                                                </MenuList>
+                                            )
+                                        })}
+                                    </>}
+                                </MenuList>
                             </MenuList>
                         </Grid>
                     )

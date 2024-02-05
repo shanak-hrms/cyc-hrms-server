@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const EmpLeave = require('../model/empLeave');
 
-
 exports.applyForLeave = async (req, res) => {
     try {
-        const {_id:employeeId}=req.user
+        const { _id: employeeId } = req.user;
         const { month, startDate, endDate, dates, leaveType } = req.body;
 
         if (!['Sick', 'Privilege', 'LWP'].includes(leaveType)) {
@@ -13,29 +12,74 @@ exports.applyForLeave = async (req, res) => {
         }
 
         let needApprovalFrom = [];
+
         if (leaveType === 'Sick') {
             needApprovalFrom = ['HR'];
         } else if (leaveType === 'LWP') {
             needApprovalFrom = ['Line Manager', 'HR', 'Director'];
         }
 
-        if ((startDate && endDate && !dates) || (!startDate && !endDate && dates && dates.length > 0)) {
+        let leaveDates = [];
+
+        if (dates && dates.length > 0) {
+            let isSaturdayFound = false;
+            let isMondayFound = false;
+
+            // Loop through provided dates
+            for (const date of dates) {
+                // Include date
+                leaveDates.push(new Date(date));
+
+                // Check if the date is a Saturday
+                if (new Date(date).getDay() === 6) {
+                    isSaturdayFound = true;
+                }
+
+                // Check if the date is a Monday
+                if (new Date(date).getDay() === 1) {
+                    isMondayFound = true;
+                }
+
+                // Include the corresponding Sunday only when both Saturday and Monday occur continuously
+                if (isSaturdayFound && isMondayFound) {
+                    const nextDay = new Date(date);
+                    nextDay.setDate(nextDay.getDate() -1);
+                    leaveDates.push(nextDay);
+
+                    // Reset flags after including corresponding Sunday
+                    isSaturdayFound = false;
+                    isMondayFound = false;
+                }
+            }
+        } else if (startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            while (start <= end) {
+                leaveDates.push(new Date(start));
+                start.setDate(start.getDate() + 1);
+            }
+        }
+
+        if (leaveDates.length > 0) {
             const leaveRequest = new EmpLeave({
                 month,
                 employeeId,
                 startDate,
                 endDate,
-                dates,
+                dates: leaveDates,
                 leaveType,
-                needApprovalFrom
+                needApprovalFrom,
             });
+
             await leaveRequest.save();
+
             res.status(201).json({
                 message: 'Leave request submitted successfully',
                 leaveRequest,
             });
         } else {
-            return res.status(400).json({ error: 'Invalid input. Provide either startDate and endDate or dates array.' });
+            return res.status(400).json({ error: 'Invalid input. Provide valid dates or date range.' });
         }
     } catch (err) {
         console.error(err);
@@ -46,7 +90,11 @@ exports.applyForLeave = async (req, res) => {
 };
 
 
-exports.updateLeaveRequest=async (req, res, next) => {
+
+
+
+
+exports.updateLeaveRequest = async (req, res, next) => {
     try {
         const userId = req.params.userId;
         const newData = req.body;
@@ -71,7 +119,7 @@ exports.updateLeaveRequest=async (req, res, next) => {
     }
 };
 
-exports.deleteLeaveRequest=async (req, res, next) => {
+exports.deleteLeaveRequest = async (req, res, next) => {
     try {
         const userId = req.params.userId;
 
@@ -94,7 +142,7 @@ exports.deleteLeaveRequest=async (req, res, next) => {
     }
 };
 
-exports.getemployeeLeave=async (req, res) => {
+exports.getemployeeLeave = async (req, res) => {
     try {
         const result = await EmpLeave.find();
         res.status(200).json({

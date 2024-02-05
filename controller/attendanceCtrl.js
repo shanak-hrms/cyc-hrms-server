@@ -185,11 +185,11 @@ exports.approveRequest = async (req, res) => {
 exports.checkOut = async (req, res) => {
     try {
         const { _id: employeeId } = req.user
+        const {requestId}=req.params
         const { date } = req.body;
         const month = new Date(date).toLocaleString('en-US', { month: 'long' });
-        console.log("month", month)
-        const existingAttendance = await MonthlyAttendance.findOne({ employeeId, month, date });
-        console.log("month", existingAttendance)
+        const existingAttendance = await MonthlyAttendance.findOne({ employeeId,_id:requestId, month, date:new Date(date) });
+        // console.log("month", existingAttendance)
 
         if (!existingAttendance) {
             return res.status(404).json({

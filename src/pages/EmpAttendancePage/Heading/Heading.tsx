@@ -7,15 +7,18 @@ import HeadingNotification from '../../../components/heading/headingNotification
 import { useLocation } from 'react-router-dom';
 import { LuAlignJustify } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
-
-
+import Sidebar from '../../../components/sidebar/Sidebar';
+import { menuData } from '../menuData';
 
 export interface IHeading {
     handleCheckIn?: any;
     handleCheckOut?: any;
     IsAction?: boolean;
+    menu?: boolean;
+    handleClick?: () => void;
+    handleResponsiveMenu?: any;
 }
-const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
+const Heading = ({ handleCheckIn, handleCheckOut, IsAction, menu, handleClick, handleResponsiveMenu }: IHeading) => {
     const location = useLocation();
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
     const [date, setDate] = useState<any>('');
@@ -52,7 +55,7 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
         <Grid container className={styles.headingContainer}>
             <Grid >
                 <Box>
-                    {typeof window !== 'undefined' && window.innerWidth && window.innerWidth < 480 ? <LuAlignJustify fontSize={35} /> : <>{img && <img src={img} alt='img' />}</>}
+                    {typeof window !== 'undefined' && window.innerWidth && window.innerWidth < 480 ? <LuAlignJustify fontSize={35} onClick={handleClick} /> : <>{img && <img src={img} alt='img' />}</>}
 
                 </Box>
                 <Box>
@@ -80,6 +83,13 @@ const Heading = ({ handleCheckIn, handleCheckOut, IsAction }: IHeading) => {
                         {typeof window !== 'undefined' && window.innerWidth && window.innerWidth < 480 ? <img src='' /> : <HeadingNotification />}
                     </Box>
                 }
+            </Grid>
+            <Grid className={styles.responsiveMenu}>
+                {menu && <Sidebar
+                    menuData={menuData}
+                    handleLogout={undefined}
+                    handleResponsiveMenu={handleResponsiveMenu}
+                />}
             </Grid>
         </Grid>
     )

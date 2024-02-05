@@ -1,18 +1,18 @@
 const express = require('express');
 const MonthlyAttendance = require('../model/attendance');
-const User = require('../model/user'); 
+const User = require('../model/user');
 
 
 exports.markAttendance = async (req, res) => {
     try {
-        const { employeeId, date, markedWithin5Km } = req.body;
+        const { _id:employeeId } = req.user
+        const { date, markedWithin5Km } = req.body;
         const currentDate = new Date();
         const attendanceDate = new Date(date);
         const month = attendanceDate.toLocaleString('en-US', { month: 'long' });
-        
+
         // Check if attendance is for the previous day
         const isPreviousDay = attendanceDate < currentDate;
-
         if (isPreviousDay) {
             const approvalRequired = true;
 
@@ -37,10 +37,10 @@ exports.markAttendance = async (req, res) => {
                     });
                 }
 
-                approvalExists.clockIn =attendanceDate;
+                approvalExists.clockIn = attendanceDate;
 
                 const result = await approvalExists.save();
-                
+
                 return res.status(201).json({
                     message: 'Attendance recorded successfully!',
                     newAttendance: result,
@@ -50,7 +50,7 @@ exports.markAttendance = async (req, res) => {
         // Check if attendance for the given day already exists
         const existingAttendance = await MonthlyAttendance.findOne({ employeeId, month, date, });
 
-        if (existingAttendance.clockIn) {
+        if (existingAttendance?.clockIn) {
             return res.status(400).json({
                 message: 'Attendance for the given day already recorded.',
             });
@@ -61,7 +61,7 @@ exports.markAttendance = async (req, res) => {
             month,
             date,
             markedWithin5Km,
-            clockIn:new Date()
+            clockIn: new Date()
         });
         const result = await newAttendance.save();
         res.status(201).json({
@@ -77,12 +77,12 @@ exports.markAttendance = async (req, res) => {
 
 exports.requestApproval = async (req, res) => {
     try {
-        const {_id:employeeId}=req.user
-        const {date,} = req.body;
+        const { _id: employeeId } = req.user
+        const { date, } = req.body;
         const currentDate = new Date(date);
         const requestedDate = new Date(date);
         const days = Math.ceil((currentDate - requestedDate) / (1000 * 60 * 60 * 24));
-        console.log("days",days)
+        console.log("days", days)
         const month = currentDate.toLocaleString('en-US', { month: 'long' });
 
         // Check if approval request already exists for the given day
@@ -121,8 +121,8 @@ exports.requestApproval = async (req, res) => {
 
 exports.approveRequest = async (req, res) => {
     try {
-        const {_id:approverId,role}=req.user
-        const { requestId} = req.params;
+        const { _id: approverId, role } = req.user
+        const { requestId } = req.params;
         const request = await MonthlyAttendance.findById(requestId);
 
         if (!request) {
@@ -184,12 +184,12 @@ exports.approveRequest = async (req, res) => {
 
 exports.checkOut = async (req, res) => {
     try {
-        const {_id:employeeId}=req.user
-        const {date } = req.body;
+        const { _id: employeeId } = req.user
+        const { date } = req.body;
         const month = new Date(date).toLocaleString('en-US', { month: 'long' });
-        console.log("month",month)
+        console.log("month", month)
         const existingAttendance = await MonthlyAttendance.findOne({ employeeId, month, date });
-        console.log("month",existingAttendance)
+        console.log("month", existingAttendance)
 
         if (!existingAttendance) {
             return res.status(404).json({
@@ -225,7 +225,7 @@ exports.checkOut = async (req, res) => {
 
 exports.getAttandance = async (req, res) => {
     try {
-        const result = await MonthlyAttendance.find().populate("employeeId",{name:1,email:1});
+        const result = await MonthlyAttendance.find().populate("employeeId", { name: 1, email: 1 });
         res.status(200).json({
             attendanceData: result,
         });
@@ -238,9 +238,9 @@ exports.getAttandance = async (req, res) => {
 
 exports.getAttandanceForMonth = async (req, res) => {
     try {
-        const {_id:employeeId}=req.user
-        const {month}=req.query
-        const result = await MonthlyAttendance.find({employeeId,month}).populate("employeeId",{name:1,email:1});
+        const { _id: employeeId } = req.user
+        const { month } = req.query
+        const result = await MonthlyAttendance.find({ employeeId, month }).populate("employeeId", { name: 1, email: 1 });
         res.status(200).json({
             attendanceData: result,
         });

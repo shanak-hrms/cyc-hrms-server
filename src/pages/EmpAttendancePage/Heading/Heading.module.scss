@@ -2,6 +2,7 @@
     justify-content: space-between;
     padding: 2%;
     background-color: whitesmoke;
+    position: relative;
 
     @media screen and (max-width: 480px) {
         padding: 1rem;
@@ -83,6 +84,14 @@
     }
 
     .responsiveMenu {
-        z-index: 1;
+        display: none;
+
+        @media screen and (max-width:480px) {
+            display: block;
+            z-index: 1;
+            position: absolute;
+            top: 100%;
+            left: 2%;
+        }
     }
 }

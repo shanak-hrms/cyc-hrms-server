@@ -1,12 +1,8 @@
 {
     "tableTitle": [
         {
-            "id": 1,
-            "title": "EMPLOYEE ID"
-        },
-        {
             "id": 2,
-            "title": "EMPLOYEE"
+            "title": "NAME"
         },
         {
             "id": 3,

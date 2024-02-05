@@ -70,10 +70,10 @@ exports.applyForLeave = async (req, res) => {
                 dates: leaveDates,
                 leaveType,
                 needApprovalFrom,
+
             });
-
             await leaveRequest.save();
-
+            
             res.status(201).json({
                 message: 'Leave request submitted successfully',
                 leaveRequest,

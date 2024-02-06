@@ -25,9 +25,11 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [menu, setMenu] = useState(false)
     const [photoModal, setPhotoModal] = useState(false)
     const [requestModal, setRequestModal] = useState(false)
+    const [reqAtten, setReqAtten] = useState(false)
     const [requestVal, setRequestVal] = useState<any>({ date: "" })
+    const [reqAttenVal, setReqAttenVal] = useState<any>({ date: "" })
     const handleRequestModal = () => setRequestModal(!requestModal);
-    const handleClose = () => { setPhotoModal(false); setRequestModal(false) }
+    const handleClose = () => { setPhotoModal(false); setRequestModal(false); setReqAtten(false) }
     const handleMenu = () => setMenu(!menu);
     const handleResponsiveMenu = () => setMenu(false);
     const [attendanceData, setAttendanceData] = useState<any>([])
@@ -66,6 +68,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                         }
                     }
                 )
+                if(response.status===201){}
             } catch (err) {
                 console.log(err);
             }
@@ -73,7 +76,6 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             console.log("attendanceData is undefined or empty");
         }
     };
-
 
     useEffect(() => {
         const userEmail = localStorage.getItem('email')
@@ -180,8 +182,13 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setRequestModal(false);
         }
     };
-
-
+    const handleReqAtt = (idx: any) => {
+        setReqAtten((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+    }
+    const handleChangeReqAtt = (e: any) => {
+        const { name, value } = e.target;
+        setReqAttenVal({ ...reqAttenVal, [name]: value })
+    }
     const handleCheckIn = async () => {
 
         if (!userLocation) {
@@ -204,10 +211,10 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         // startCamera();
         // setPhotoModal(true);
 
-
         try {
             const desiredDate = new Date();
             const formattedDate = desiredDate.toISOString();
+            console.log(formattedDate, "formattedDate...000")
 
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
@@ -228,7 +235,62 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         }
 
     };
+    const handlePreviousCheckIn = async () => {
 
+        // if (!userLocation) {
+        //     alert('Unable to get your current location.');
+        //     return;
+        // }
+
+        // const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
+        // const distance = calculateDistance(
+        //     userLocation.latitude,
+        //     userLocation.longitude,
+        //     officeLocation.latitude,
+        //     officeLocation.longitude
+        // );
+
+        // if (distance > 5) {
+        //     alert('You are not within 5km of the office location.');
+        //     return;
+        // }
+        // startCamera();
+        // setPhotoModal(true);
+        try {
+            const timeString = reqAttenVal.date;
+            const [hours, minutes] = timeString.split(":");
+
+            const currentDate = new Date();
+
+            currentDate.setHours(parseInt(hours, 10));
+            currentDate.setMinutes(parseInt(minutes, 10));
+
+            currentDate.setSeconds(0);
+            currentDate.setMilliseconds(0);
+
+            const formattedDate = currentDate.toISOString();
+            console.log(formattedDate, "formattedDateformattedDate")
+
+            const response = await axios.post(
+                'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
+                { date: formattedDate },
+                {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                }
+            )
+            if (response.status === 201) {
+                await fetchData();
+                await setReqAtten(false);
+                // await setPhotoModal(false);
+            }
+
+        } catch (error) {
+            console.error('Error occurred:', error);
+        }
+
+    };
 
     return (
         <Grid container className={styles.empAttendancePageContainer}>
@@ -247,7 +309,21 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
-                    <Route path='/attendance' element={<Attendance attendanceData={attendanceData} loading={loading} handleCheckIn={handleCheckIn} handleClockOut={handleClockOut} handleRequest={handleRequestModal} />} />
+                    <Route path='/attendance' element={
+                        <Attendance
+                            open={reqAtten}
+                            handleClose={handleClose}
+                            handleChange={handleChangeReqAtt}
+                            reqAttenVal={reqAttenVal}
+                            handleAttendance={handlePreviousCheckIn}
+                            attendanceData={attendanceData}
+                            loading={loading}
+                            handleCheckIn={handleCheckIn}
+                            handleClockOut={handleClockOut}
+                            handleRequest={handleRequestModal}
+                            handleReqAtt={handleReqAtt}
+                        />
+                    } />
                     <Route path='/leaves' element={<Leave />} />
                     <Route path='/leave-policy' element={<LeavePolicy />} />
                     <Route path='/loader' element={<CustomLoader />} />

@@ -5,16 +5,23 @@ import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingText from '../../../components/HeadingText/HeadingText';
 import CustomLoader from '../../../components/CustomLoader/CustomLoader';
+import ReqAttenModal from '../../../components/modal/ReqAttenModal/ReqAttenModal';
 
 export interface IAttendance {
+    open: boolean
     loading: boolean;
     attendanceData: any;
     handleCheckIn: any;
     handleClockOut: any;
     handleRequest: any;
-
+    handleReqAtt: any;
+    reqAttenVal: any;
+    handleChange: any;
+    handleClose: any
+    handleAttendance: any
 }
-const Attendance = ({ loading, attendanceData, handleCheckIn, handleClockOut, handleRequest }: IAttendance) => {
+
+const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockOut, handleRequest, handleReqAtt, reqAttenVal, handleChange, handleClose, handleAttendance }: IAttendance) => {
 
     function formatDate(dateString: any) {
         const date = new Date(dateString);
@@ -60,16 +67,31 @@ const Attendance = ({ loading, attendanceData, handleCheckIn, handleClockOut, ha
                                 attendanceData && attendanceData.map((item: any, idx: any) => {
                                     return (
                                         <TableRow key={item._id}>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{item.regularizationRequest.status}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>{item.regularizationRequest?.status}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>
-                                                {item.clockOut === "" ?
+                                                {item.regularizationRequest.status === "Approved"
+                                                    ?
+                                                    <CommonButton name={"Clock In"} onClick={() => handleReqAtt(item._id)} />
+                                                    :
+                                                    <Box>
+                                                        {item.clockIn === null
+                                                            ?
+                                                            "00:00:00"
+                                                            :
+                                                            <>{formatTime(item.clockIn)}</>
+                                                        }
+                                                    </Box>
+                                                }
+                                            </TableCell>
+
+                                            <TableCell sx={{ textAlign: "center" }}>
+                                                {item.clockOut === undefined ?
+                                                    <CommonButton name={"Clock Out"} onClick={() => handleClockOut(item._id)} />
+                                                    :
                                                     <>{formatTime(item.clockOut)}</>
 
-                                                    :
-                                                    <CommonButton name={"Clock Out"} onClick={() => handleClockOut(item._id)} />
                                                 }
                                             </TableCell>
                                         </TableRow>
@@ -80,6 +102,13 @@ const Attendance = ({ loading, attendanceData, handleCheckIn, handleClockOut, ha
                     </Table>
                 </TableContainer>
             </Grid>
+            <ReqAttenModal
+                open={open}
+                reqAttenVal={reqAttenVal}
+                handleChange={handleChange}
+                handleClose={handleClose}
+                handleAttendance={handleAttendance}
+            />
         </Grid>
     )
 

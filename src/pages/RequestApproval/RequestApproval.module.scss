@@ -1,0 +1,17 @@
+.requestApprovalContainer {
+    margin-block: 2rem;
+
+    .heading {
+        display: flex;
+        justify-content: space-between;
+
+        >div:nth-child(2) {
+            margin-block: auto;
+            padding-inline-end: 1rem;
+
+            >div>div {
+                height: 2.5rem;
+            }
+        }
+    }
+}

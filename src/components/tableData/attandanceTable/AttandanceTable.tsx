@@ -1,9 +1,10 @@
 import React from 'react'
 import styles from './AttandanceTable.module.scss'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import CommonButton from '../../common/CommonButton/CommonButton';
 import CustomLoader from '../../CustomLoader/CustomLoader';
 import SearchBox from '../../common/searchBox/SearchBox';
+import { useNavigate } from 'react-router';
 
 export interface IAttandanceTable {
     heading: string;
@@ -14,6 +15,7 @@ export interface IAttandanceTable {
     loading: boolean;
 }
 const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, loading }: IAttandanceTable) => {
+    const navigation = useNavigate()
     function formatDate(dateString: any) {
         const date = new Date(dateString);
         return date.toLocaleDateString();
@@ -27,9 +29,10 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
         <Grid className={styles.attandanceTableContainer}>
             <TableHead className={styles.tableHead}>
                 <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
-                <TableCell sx={{ fontSize: 20 }}>
+                <Box sx={{ fontSize: 20 }}>
                     <SearchBox setQuery={setQuery} />
-                </TableCell>
+                    <CommonButton name={"Request Approval List"} onClick={() => navigation('/request-approval-list')} />
+                </Box>
             </TableHead>
             <TableContainer>
                 <Table>

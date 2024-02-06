@@ -96,7 +96,7 @@ const App = () => {
       <EmployeeDataContextProvider>
         {IsLogin ?
           <>
-            {(user === "ADMIN" || user === "MANAGER" || user === "HR") && <Overview handleLogout={handleLogout} />}
+            {(user === "ADMIN" || user === "DIRECTOR" || user === "LINE MANAGER" || user === "HR") && <Overview handleLogout={handleLogout} />}
 
             {user === "EMPLOYEE" && <EmpAttendancePage handleLogout={handleLogout} />}
           </>

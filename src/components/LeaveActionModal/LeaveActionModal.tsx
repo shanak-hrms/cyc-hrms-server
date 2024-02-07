@@ -15,9 +15,9 @@ export interface ILeaveActionModal {
   endDate: string,
   totalLeave: string,
   leaveReason: string
-  handleClose: () => void;
-  handleApproved: () => void;
-  handleReject: () => void;
+  handleClose: any;
+  handleApproved: any;
+  handleReject: any;
 
 }
 const LeaveActionModal = ({ open, name, empId, leaveType, startDate, endDate, totalLeave, leaveReason, handleClose, handleApproved, handleReject }: ILeaveActionModal) => {

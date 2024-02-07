@@ -6,6 +6,7 @@ import ManageLeaveTable from "../../components/common/ManageLeave/ManageLeaveTab
 import data from "./data.json";
 import LeaveActionModal from "../../components/LeaveActionModal/LeaveActionModal";
 import axios from "axios";
+import ConformActionModal from "../../components/modal/ConformActionModal/ConformActionModal";
 
 export interface ManageType {
   emp_id: string;
@@ -22,107 +23,122 @@ export interface ManageType {
 const ManageLeave = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('')
-  const [loading, setLoading] = useState(false);
-  const [leaveData, setLeaveData] = useState<any>();
   const handleClose = () => setOpen(false);
-  const [selectedLeave, setSelectedLeave] = useState<any>()
-  const [name, setName] = useState<any>()
-  const [empId, setEmpId] = useState<any>()
-  const [leaveType, setLeaveType] = useState<any>()
-  const [startDate, setStartDate] = useState<any>()
-  const [endDate, setEndDate] = useState<any>()
-  const [totalLeave, setTotaleLeave] = useState<any>()
-  const [leaveReason, setLeaveReason] = useState<any>()
-  const [user, setUser] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [pendingLeaveData, setPendingLeaveData] = useState<any>();
+  const [approvedLeaveData, setApprovedLeaveData] = useState<any>();
+  const [rejectedLeaveData, setRejectedLeaveData] = useState<any>();
+  const [selectedId, setSelectedId] = useState<any>()
 
-  const getData = async () => {
-    const newUser = localStorage.getItem("userRole")
+
+
+  const getPendingLeaveData = async () => {
+    const userTokenString: any = localStorage.getItem("loginedUser")
+    const userToken = JSON.parse(userTokenString)
+    const { token } = userToken
     try {
-      setLoading(true)
-      const response = await axios.get('https://hrms-server-ygpa.onrender.com/empLeave')
-      const data = response.data.leaveData;
-      if (newUser === "HR") {
-        setLeaveData(data)
-      } else if (newUser === "MANAGER") {
-        const filteredData = data.filter((item: any) => item.status === "hr_Approved" || item.status === "manager_Approved")
-        setLeaveData(filteredData)
-      } else if (newUser === "ADMIN") {
-        const filteredData = data.filter((item: any) => item.status === "manager_Approved" || item.status === "Approved")
-        setLeaveData(filteredData)
-      } else {
-        console.log("err")
-      }
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      setPendingLeaveData(response.data.pendingLeave)
 
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
     }
-  }
-
-
-  const handleAction = (idx: any) => {
-    setOpen((preState: any) => ({
-      ...preState, [idx]: !preState[idx]
-    }))
-    const newData = leaveData.filter((item: any) => item._id === idx)
-    const id = newData[0]._id;
-    const name = newData[0].name;
-    const empId = newData[0].emp_id;
-    const leaveType = newData[0].leave_type;
-    const startDate = newData[0].start_date;
-    const endDate = newData[0].end_date;
-    const totalLeave = newData[0].total_day;
-    const leaveReason = newData[0].leave_reason;
-    const status = newData[0].status;
-    console.log(newData, "newData...")
-    setSelectedLeave(id)
-    setName(name)
-    setEmpId(empId)
-    setLeaveType(leaveType)
-    setStartDate(startDate)
-    setEndDate(endDate)
-    setTotaleLeave(totalLeave)
-    setLeaveReason(leaveReason)
-  }
-  const handleApproved = async () => {
-    let newStatus = "";
-    if (user === "ADMIN") {
-      newStatus = "Approved";
-    } else if (user === "MANAGER") {
-      newStatus = "manager_Approved";
-    } else if (user === "HR") {
-      newStatus = "hr_Approved";
+    catch (err) {
+      console.log(err)
     }
+
+  }
+  const getApprovedLeaveData = async () => {
+    const userTokenString: any = localStorage.getItem("loginedUser")
+    const userToken = JSON.parse(userTokenString)
+    const { token } = userToken
     try {
-      await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${selectedLeave}`, { status: newStatus });
-      await getData();
-      console.log(user, "user..");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setOpen(false);
-    }
-  }
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approved/request/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      setApprovedLeaveData(response.data.approvedLeave)
 
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
+  const getRejectedLeaveData = async () => {
+    const userTokenString: any = localStorage.getItem("loginedUser")
+    const userToken = JSON.parse(userTokenString)
+    const { token } = userToken
+    try {
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/rejected/request/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      setRejectedLeaveData(response.data.rejectedLeave)
+
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
+  const handleAction = async (idx: any) => {
+    try {
+      setOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }));
+      await setSelectedId(idx)
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
   const handleReject = async () => {
+    const userTokenString: any = localStorage.getItem("loginedUser");
+    const userToken = JSON.parse(userTokenString);
+    const { token } = userToken;
+    console.log(token, "token...");
     try {
-      axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${selectedLeave}`, { status: "Rejected" })
-      await getData();
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setOpen(false)
+      const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/reject/request/${selectedId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(response, "response...");
+      console.log(token, "333...");
+    } catch (err) {
+      console.log(err);
     }
   };
 
+  const handleApprove = async () => {
+    const userTokenString: any = localStorage.getItem("loginedUser");
+    const userToken = JSON.parse(userTokenString);
+    const { token } = userToken;
+    console.log(token, "token...");
+    try {
+      const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1//empLeave/approve/request/${selectedId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
   useEffect(() => {
-    const userRole: any = localStorage.getItem("userRole");
-    setUser(userRole)
-
-    getData();
-  }, []);
-
+    getPendingLeaveData();
+    getApprovedLeaveData();
+    getRejectedLeaveData();
+  }, [])
   return (
     <Grid className={styles.manageLeaveContainer}>
       <CommonHeading heading={""} />
@@ -130,24 +146,19 @@ const ManageLeave = () => {
         query={query}
         setQuery={setQuery}
         heading={"Manage Leave"}
-        tableData={leaveData}
-        tableTitle={data.tableTitle}
+        pendingLeaveData={pendingLeaveData}
         IsManageLeaveAction={true}
         handleAction={handleAction}
         loading={loading}
+        approvedLeaveData={approvedLeaveData}
+        rejectedLeaveData={rejectedLeaveData}
+        tableTitle={undefined}
       />
-      <LeaveActionModal
+      <ConformActionModal
         open={open}
-        name={name}
-        empId={empId}
-        leaveType={leaveType}
-        startDate={startDate}
-        endDate={endDate}
-        totalLeave={totalLeave}
-        leaveReason={leaveReason}
         handleClose={handleClose}
-        handleApproved={handleApproved}
         handleReject={handleReject}
+        handleApprove={handleApprove}
       />
     </Grid>
   );

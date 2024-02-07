@@ -8,9 +8,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 
 } from "@mui/material";
-import { BiRightArrow } from "react-icons/bi";
 import SearchBox from "../searchBox/SearchBox";
 import CommonButton from "../CommonButton/CommonButton";
 import CustomLoader from "../../CustomLoader/CustomLoader";
@@ -19,7 +19,9 @@ export interface IManageLeaveTable {
   heading: string;
   query: any;
   setQuery: any;
-  tableData: any;
+  pendingLeaveData: any;
+  approvedLeaveData: any;
+  rejectedLeaveData: any;
   tableTitle: any;
   IsManageLeaveAction: boolean;
   leaveActionHandler?: any;
@@ -34,23 +36,17 @@ const ManageLeaveTable = ({
   query,
   setQuery,
   heading,
-  tableTitle,
-  tableData,
-  handleAction,
-  loading
+  pendingLeaveData,
+  approvedLeaveData,
+  rejectedLeaveData,
+  loading,handleAction
 }: IManageLeaveTable) => {
-  const formattedDate = (idx: any) => {
-    const dateObj = new Date(idx);
-    const year = dateObj.getUTCFullYear();
-    const month = dateObj.getUTCMonth() + 1;
-    const day = dateObj.getUTCDate();
+  const formateDate: any = (dateString: any) => {
+    const date = new Date(dateString)
+    const formate = date.toLocaleDateString()
+    return formate
 
-    const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-    if (formattedDateString === "1970-01-01") {
-      return formattedDateString;
-    }
-    return formattedDateString;
-  };
+  }
 
   return (
     <Grid className={styles.commonTableContainer}>
@@ -60,59 +56,123 @@ const ManageLeaveTable = ({
           <SearchBox setQuery={setQuery} />
         </TableCell>
       </TableHead>
-      <TableContainer>
+      <TableContainer className={styles.tableContainer}>
         <Table>
           <TableHead style={{ backgroundColor: "#383A3C" }}>
             <TableRow>
-              {tableTitle.map((item: any) => {
-                return (
-                  <TableCell style={{ color: "#68C5AE", textAlign: "center" }}>{item.title}</TableCell>
-                );
-              })}
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
             </TableRow>
           </TableHead>
-        </Table>
-      </TableContainer>
-      <TableContainer>
-        {loading ? <CustomLoader /> : <Table>
           <TableBody>
-            {tableData && tableData.filter((employee: { name: string }) => {
+            {pendingLeaveData && pendingLeaveData.map((item: any, idx: number) => {
               return (
-                query === "" ||
-                (employee.name
-                  ?.toLowerCase()
-                  ?.includes(query.toLowerCase()) ??
-                  false)
-              );
-            }).map((item: any, idx: number) => {
-              return (
-                <>
-                  <TableRow key={idx}>
-                    <TableCell sx={{ textAlign: "center" }}>
-                      <CommonButton name={item.emp_id} onClick={(() => console.log("hi"))} />
-                    </TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{item.leave_type}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.start_date)}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.end_date)}</TableCell>
-                    {/* <TableCell>{item.total_day}</TableCell> */}
-                    <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
-                      <BiRightArrow
-                        onClick={(() => handleAction(item._id))}
-                        fontSize={30}
-                      />
-                    </TableCell>
-                  </TableRow>
-                </>
-              );
+                <TableRow key={idx}>
+                  <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
+                    <CommonButton name={"Action"} onClick={()=>handleAction(item._id)} />
+                  </TableCell>
+                </TableRow>
+              )
             })}
           </TableBody>
-        </Table>}
+        </Table>
+      </TableContainer>
+      <TableContainer className={styles.tableContainer}>
+        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5}>Approved Leave</Typography>
+        <Table>
+          <TableHead style={{ backgroundColor: "#383A3C" }}>
+            <TableRow>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {approvedLeaveData && approvedLeaveData.map((item: any, idx: number) => {
+              return (
+                <TableRow key={idx}>
+                  <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
+                    <CommonButton name={"Action"} onClick={()=>handleAction(item._id)} />
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TableContainer className={styles.tableContainer}>
+        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5}>Pending Leave</Typography>
+        <Table>
+          <TableHead style={{ backgroundColor: "#383A3C" }}>
+            <TableRow>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
+
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rejectedLeaveData && rejectedLeaveData.map((item: any, idx: number) => {
+              return (
+                <TableRow key={idx}>
+                  <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
+                    <CommonButton name={"Action"} onClick={()=>handleAction(item._id)} />
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
       </TableContainer>
     </Grid>
   );
 };
 
 export default ManageLeaveTable;
+
+// {pendingLeaveData && pendingLeaveData.filter((employee: { name: string }) => {
+//   return (
+//     query === "" ||
+//     (employee.name
+//       ?.toLowerCase()
+//       ?.includes(query.toLowerCase()) ??
+//       false)
+//   );
+// }}

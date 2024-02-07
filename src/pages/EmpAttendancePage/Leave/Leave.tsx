@@ -21,7 +21,7 @@ const Leave = () => {
     const [radioVal, setRadioVal] = useState("date")
     const [newDateVal, setNewDateVal] = useState({ newDate: "" })
     const [selectedDates, setSelectedDates] = useState<any>([]);
-    const [leaveData, setLeaveData] = useState<any>('')
+    const [pendingData, setPendingData] = useState<any>('')
     const handleModal = () => { setOpen(!open) }
     const handleClose = () => setOpen(false)
     const handleEditClose = () => {
@@ -41,13 +41,57 @@ const Leave = () => {
         setNewDateVal({ ...newDateVal, [name]: value });
         setSelectedDates([...selectedDates, value]);
     };
-    console.log(selectedDates, "selectedDates..")
-    const fetchData = async () => {
-        setLoading(true)
+    const getApprovedLeaveData = async () => {
+        const userTokenString: any = localStorage.getItem("loginedUser")
+        const userToken = JSON.parse(userTokenString)
+        const { token } = userToken
         try {
-            const response = axios.get('https://hrms-server-ygpa.onrender.com/empLeave')
-            const data = (await response).data.leaveData;
-            setLeaveData(data)
+            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approved/request/list/foruser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            const data = response.data.approvedLeave;
+            setPendingData(data)
+
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoading(false)
+        }
+    };
+    const getPendingLeaveData = async () => {
+        const userTokenString: any = localStorage.getItem("loginedUser")
+        const userToken = JSON.parse(userTokenString)
+        const { token } = userToken
+        try {
+            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approved/request/list/foruser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            const data = response.data.approvedLeave;
+            setPendingData(data)
+
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoading(false)
+        }
+    };
+    const getRejectedLeaveData = async () => {
+        const userTokenString: any = localStorage.getItem("loginedUser")
+        const userToken = JSON.parse(userTokenString)
+        const { token } = userToken
+        try {
+            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/rejected/request/list/foruser', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            const data = response.data.rejectedLeave;
+            console.log(response, "response")
+            setPendingData(data)
 
         } catch (error) {
             console.error('Error:', error);
@@ -57,8 +101,6 @@ const Leave = () => {
     };
 
     const handleClick = async () => {
-
-
         try {
             const userTokenString: any = localStorage.getItem("loginedUser")
             const userToken = JSON.parse(userTokenString)
@@ -81,8 +123,6 @@ const Leave = () => {
                     },
                 }
             );
-            await fetchData();
-            console.log(response, 'response..');
             if (response.status === 201) {
                 toast.success('Leave successfully created');
             } else {
@@ -99,7 +139,7 @@ const Leave = () => {
         setLoading(true)
         try {
             await axios.delete(`https://hrms-server-ygpa.onrender.com/empLeave/${idx}`);
-            setLeaveData((prevLeaveData: any) => {
+            setPendingData((prevLeaveData: any) => {
                 return prevLeaveData.filter((leave: { _id: string }) => leave._id !== idx);
             });
         } catch (error) {
@@ -120,7 +160,7 @@ const Leave = () => {
 
             if (response.status === 200) {
                 const data = response.data.leaveData;
-                const filteredData = leaveData.filter((leave: any) => leave._id === idx);
+                const filteredData = pendingData.filter((leave: any) => leave._id === idx);
                 setInputData({
                     emp_id: filteredData[0].emp_id,
                     name: filteredData[0].name,
@@ -141,7 +181,7 @@ const Leave = () => {
         try {
             const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${leaveId}`, inputData)
 
-            setLeaveData((prevLeaveData: any[]) => {
+            setPendingData((prevLeaveData: any[]) => {
                 const updatedLeaveData = prevLeaveData.map(leave => {
                     if (leave._id === leaveId) {
 
@@ -152,7 +192,6 @@ const Leave = () => {
 
                 return updatedLeaveData;
             });
-            await fetchData();
         } catch (error) {
             console.log(error)
         } finally {
@@ -162,7 +201,9 @@ const Leave = () => {
     };
 
     useEffect(() => {
-        fetchData();
+        getApprovedLeaveData();
+        getPendingLeaveData();
+        getRejectedLeaveData();
     }, []);
 
     return (
@@ -175,7 +216,7 @@ const Leave = () => {
                 <CommonButton name={"Apply"} onClick={handleModal} />
             </Grid>
             <LeaveTable
-                data={leaveData}
+                pendingData={pendingData}
                 loading={loading}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}

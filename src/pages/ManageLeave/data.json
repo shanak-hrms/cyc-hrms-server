@@ -2,31 +2,31 @@
     "tableTitle": [
         {
             "id": 1,
-            "title": "EMPLOYEE ID"
+            "title": "NAME"
         },
         {
             "id": 2,
-            "title": "EMPLOYEE"
-        },
-        {
-            "id": 3,
-            "title": "LEAVE TYPE"
-        },
-        {
-            "id": 4,
             "title": "START DATE"
         },
         {
-            "id": 5,
+            "id": 3,
             "title": "END DATE"
         },
         {
+            "id": 4,
+            "title": "MONTH"
+        },
+        {
+            "id": 5,
+            "title": "LEAVE TYPE"
+        },
+        {
             "id": 7,
-            "title": "LEAVE REASON"
+            "title": "STATUS"
         },
         {
             "id": 8,
-            "title": "STATUS"
+            "title": "REASON"
         },
         {
             "id": 9,

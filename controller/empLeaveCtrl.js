@@ -90,7 +90,6 @@ exports.applyForLeave = async (req, res) => {
     }
 };
 
-
 exports.getPendingLeave = async (req, res) => {
     try {
         const pendingLeave = await EmpLeave.find({ status: 'Pending' })
@@ -113,7 +112,7 @@ exports.getParticularLeaveByID = async (req, res) => {
         // if (role !== "User") {
         //     throw new Error("User are not allowed to access.");
         // }
-        
+
         const {requestId}=req.params
         const pendingLeave = await EmpLeave.findById(requestId)
             .populate('employeeId', { name: 1, email: 1 });
@@ -128,7 +127,23 @@ exports.getParticularLeaveByID = async (req, res) => {
         });
     }
 };
+exports.getPendingLeaveForUser = async (req, res) => {
+    try {
+        const { _id: employeeId } = req.user;
 
+        const approvedLeave = await EmpLeave.find({ status: 'Pending', employeeId: employeeId })
+            .populate('employeeId', { name: 1, email: 1 }); 
+
+        res.status(200).json({
+            approvedLeave,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
 
 exports.getApprovedLeave = async (req, res) => {
     try {
@@ -259,48 +274,3 @@ exports.rejectLeaveRequest = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
-
-
-exports.deleteLeaveRequest = async (req, res, next) => {
-    try {
-        const userId = req.params.userId;
-
-        const result = await EmpLeave.deleteOne({ _id: userId });
-
-        if (result.deletedCount === 1) {
-            res.status(200).json({
-                message: 'leave deleted successfully',
-            });
-        } else {
-            res.status(404).json({
-                message: 'leave not found',
-            });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
-    }
-};
-
-exports.getemployeeLeave = async (req, res) => {
-    try {
-        const result = await EmpLeave.find();
-        res.status(200).json({
-            leaveData: result,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
-    }
-};

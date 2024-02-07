@@ -1,18 +1,6 @@
 {
-    "leaveType": [
-        {
-            "id": 1,
-            "label": "LWP"
-        },
-        {
-            "id": 2,
-            "label": "CL"
-        },
-        {
-            "id": 3,
-            "label": "EL"
-        }
-    ],
+    "leaveType": ["Sick", "Privilege", "LWP"],
+    "month": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     "branch": [
         {
             "id": 1,

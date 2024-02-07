@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './LeaveModal.module.scss'
-import { Modal, Grid, Typography, Divider, Box } from '@mui/material'
+import { Modal, Grid, Typography, Divider, Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import SelectField from '../../SelectField/SelectField';
 import InputField from '../../inputField/InputField';
 import CommonButton from '../../common/CommonButton/CommonButton';
@@ -14,8 +14,13 @@ export interface ILeaveModal {
     inputData: any;
     handleChange: any;
     handleClick: any;
+    handleChangeRadio: any;
+    radioVal: any;
+    newDateVal: any;
+    selectedDates: any;
+    handleChangeRandomDate: any;
 }
-const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handleClick }: ILeaveModal) => {
+const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handleClick, handleChangeRadio, radioVal, newDateVal, selectedDates, handleChangeRandomDate }: ILeaveModal) => {
     const [name, setName] = useState()
     const [empId, setEmpId] = useState()
     useEffect(() => {
@@ -34,52 +39,98 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
                     <Typography variant='h4' fontSize={20} fontWeight={500}>{heading} </Typography>
                     <RxCross1 fontSize={20} cursor={"pointer"} onClick={handleClose} />
                 </Box>
-                <Divider />
-                <Grid>
-                    <Box display={"flex"} justifyContent={"space-between"}>
-                        <Typography variant='h5' fontWeight={600} fontSize={18}>NAME: <span style={{ fontSize: 18, fontWeight: 500 }}>{name}</span></Typography>
-                        <Typography fontWeight={600} fontSize={18}>ID: <span style={{ fontSize: 18, fontWeight: 500 }}>{empId}</span></Typography>
-                    </Box>
+                <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
+                <Grid className={styles.createLeaveModal}>
                     <Box display={"flex"}>
-                        <InputField
-                            label={'Start Date'}
-                            name={'start_date'}
-                            placeholder={''}
-                            value={inputData.start_date}
-                            handleChange={handleChange}
-                            type={"date"}
-                        />
-                        <InputField
-                            label={'End Date'}
-                            name={'end_date'}
-                            placeholder={''}
-                            value={inputData.end_date}
-                            handleChange={handleChange}
-                            type={"date"}
-                        />
-
+                        {radioVal && radioVal === "date"
+                            ?
+                            <>
+                                <InputField
+                                    label={'Start Date'}
+                                    name={'startDate'}
+                                    placeholder={''}
+                                    value={inputData.startDate}
+                                    handleChange={handleChange}
+                                    type={"date"}
+                                />
+                                <InputField
+                                    label={'End Date'}
+                                    name={'endDate'}
+                                    placeholder={''}
+                                    value={inputData.endDate}
+                                    handleChange={handleChange}
+                                    type={"date"}
+                                />
+                            </>
+                            :
+                            <>
+                                <InputField
+                                    label={'Select Date'}
+                                    name={'newDate'}
+                                    placeholder={''}
+                                    value={newDateVal.newDate}
+                                    handleChange={handleChangeRandomDate}
+                                    type={"date"}
+                                />
+                            </>
+                        }
                     </Box>
+                    <Box>
+                        {selectedDates && selectedDates.length > 0 ?
+                            <Grid className={styles.selectedDate}>
+                                {selectedDates && selectedDates.length > 0 && selectedDates.map((item: any) => {
+                                    return (
+                                        <Typography>{item}</Typography>
+                                    )
+                                })}
+
+                            </Grid>
+                            : ""}
+                    </Box>
+                    <Box>
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="demo-row-radio-buttons-group-label"
+                                name="row-radio-buttons-group"
+                                value={radioVal}
+                                onChange={handleChangeRadio}
+                            >
+                                <FormControlLabel value="date" control={<Radio />} label="Date" />
+                                <FormControlLabel value="random-date" control={<Radio />} label="Random Date" />
+
+                            </RadioGroup>
+                        </FormControl>
+                    </Box>
+
                     <Box>
                         <SelectField
                             title={'Leave Type'}
                             data={data.leaveType}
-                            option={inputData.leave_type}
-                            name={'leave_type'}
+                            option={inputData.leaveType}
+                            name={'leaveType'}
+                            handleChange={handleChange}
+                        />
+                        <SelectField
+                            title={'Month'}
+                            data={data.month}
+                            option={inputData.month}
+                            name={'month'}
                             handleChange={handleChange}
                         />
                     </Box>
                     <Box>
                         <InputField
                             label={'Leave Reason'}
-                            name={'leave_reason'}
-                            placeholder={''}
-                            value={inputData.leave_reason}
+                            name={'leaveReason'}
+                            placeholder={'Enter your reason'}
+                            value={inputData.leaveReason}
                             handleChange={handleChange}
                             type={"text"}
                         />
 
                     </Box>
-                    <Box display={"flex"}>
+                    <Box>
                         <CommonButton
                             name={"Close"}
                             onClick={handleClose}

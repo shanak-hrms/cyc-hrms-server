@@ -19,6 +19,7 @@ import CompanyPolicy from '../../../pages/CompanyPolicy/CompanyPolicy'
 import PaySlip from '../../../pages/PaySlip/PaySlip'
 import LeavePolicy from '../../LeavePolicy/LeavePolicy'
 import PaySlipForm from '../../../pages/PaySlipForm/PaySlipForm'
+import { RequestApproval } from '../../../pages/RequestApproval/RequestApproval'
 
 const RoutesPage = () => {
     return (
@@ -42,6 +43,8 @@ const RoutesPage = () => {
                 <Route path='/company-policy' element={<CompanyPolicy />} />
                 <Route path='/pay-slip' element={<PaySlip />} />
                 <Route path='/pay-slip-form' element={<PaySlipForm />} />
+                <Route path='/request-approval-list' element={<RequestApproval />} />
+
             </Routes>
         </Fragment>
     )

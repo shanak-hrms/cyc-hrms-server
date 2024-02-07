@@ -55,7 +55,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         }
     };
     const handleClockOut = async (idx: any) => {
-
+console.log(idx, "idx////")
         if (attendanceData && attendanceData.length > 0) {
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);
             const checkOut = matchId[0].date;
@@ -68,7 +68,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                         }
                     }
                 )
-                if(response.status===201){}
+                if (response.status === 201) { }
             } catch (err) {
                 console.log(err);
             }
@@ -213,8 +213,9 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
 
         try {
             const desiredDate = new Date();
-            const formattedDate = desiredDate.toISOString();
-            console.log(formattedDate, "formattedDate...000")
+            const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
+            console.log(formattedDate);
+
 
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',

@@ -107,9 +107,49 @@ exports.getPendingLeave = async (req, res) => {
     }
 };
 
+exports.getParticularLeaveByID = async (req, res) => {
+    try {
+        // const { role } = req.user
+        // if (role !== "User") {
+        //     throw new Error("User are not allowed to access.");
+        // }
+        
+        const {requestId}=req.params
+        const pendingLeave = await EmpLeave.findById(requestId)
+            .populate('employeeId', { name: 1, email: 1 });
+
+        res.status(200).json({
+            pendingLeave,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+
 exports.getApprovedLeave = async (req, res) => {
     try {
         const approvedLeave = await EmpLeave.find({ status: 'Approved' })
+            .populate('employeeId', { name: 1, email: 1 }); 
+
+        res.status(200).json({
+            approvedLeave,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+exports.getApprovedLeaveForUser = async (req, res) => {
+    try {
+        const { _id: employeeId } = req.user;
+
+        const approvedLeave = await EmpLeave.find({ status: 'Approved', employeeId: employeeId })
             .populate('employeeId', { name: 1, email: 1 }); 
 
         res.status(200).json({
@@ -139,26 +179,14 @@ exports.getRejectedLeave = async (req, res) => {
     }
 };
 
-
-
-
-
-exports.updateLeaveRequest = async (req, res, next) => {
+exports.getRejectedLeaveForUSer = async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const newData = req.body;
-
-        const updateLeave = await EmpLeave.findByIdAndUpdate(userId, newData, { new: true });
-
-        if (!updateLeave) {
-            return res.status(404).json({
-                message: 'leave not found',
-            });
-        }
+        const { _id: employeeId } = req.user;
+        const rejectedLeave = await EmpLeave.find({ status: 'Rejected',employeeId:employeeId })
+            .populate('employeeId', { name: 1, email: 1 });
 
         res.status(200).json({
-            message: 'Leave updated successfully',
-            leaveData: updateLeave,
+            rejectedLeave,
         });
     } catch (err) {
         console.error(err);
@@ -167,6 +195,78 @@ exports.updateLeaveRequest = async (req, res, next) => {
         });
     }
 };
+
+
+exports.approveLeaveRequest = async (req, res) => {
+    try {
+        const { leaveRequestId } = req.params;
+        const { role,_id: approverId} = req.user;
+
+        const leaveRequest = await EmpLeave.findById(leaveRequestId);
+
+        if (!leaveRequest) {
+            return res.status(404).json({ error: 'Leave request not found' });
+        }
+
+        if (!leaveRequest.needApprovalFrom.includes(role)) {
+            return res.status(403).json({ error: 'You are not authorized to approve this leave request' });
+        }
+
+        leaveRequest.status = 'Approved';
+        leaveRequest.approver = {approverId,role};
+        await leaveRequest.save();
+
+        res.status(200).json({
+            message: 'Leave request approved successfully',
+            leaveRequest,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+exports.rejectLeaveRequest = async (req, res) => {
+    try {
+        const { leaveRequestId } = req.params;
+        const { role,_id: approverId} = req.user;
+
+        const leaveRequest = await EmpLeave.findById(leaveRequestId);
+
+        if (!leaveRequest) {
+            return res.status(404).json({ error: 'Leave request not found' });
+        }
+
+        if (!leaveRequest.needApprovalFrom.includes(role)) {
+            return res.status(403).json({ error: 'You are not authorized to reject this leave request' });
+        }
+
+        leaveRequest.status = 'Rejected';
+        leaveRequest.approver = {approverId,role};
+        await leaveRequest.save();
+
+        res.status(200).json({
+            message: 'Leave request approved successfully',
+            leaveRequest,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
+
+
+
+
+
+
+
+
 
 exports.deleteLeaveRequest = async (req, res, next) => {
     try {

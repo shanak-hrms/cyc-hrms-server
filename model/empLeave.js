@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const leaveSchema = new mongoose.Schema({
     month: { type: String, required: true, enum: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
-    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     startDate: { type: Date },
     endDate: { type: Date },
     dates: [{ type: Date, required: true }],
@@ -10,7 +10,7 @@ const leaveSchema = new mongoose.Schema({
     status: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'No Request'], default: 'Pending' },
     approver: [
         {
-            approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+            approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
             role: { type: String, required: true, enum: ['Line Manager', 'HR', 'Director'] },
         }
     ],

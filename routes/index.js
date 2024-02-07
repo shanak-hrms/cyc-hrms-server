@@ -16,12 +16,14 @@ router.use('/claims', claimsRequest)
 const empAttendance = require('./empAttendance')
 router.use('/empAttendance', empAttendance)
 
+const salary = require('./salaryStructure')
+router.use('/salary',salary)
+
+const payroll = require('./payroll')
+router.use('/payroll',payroll)
 
 const empLeave = require('./empLeave')
 router.use('/empLeave',empLeave)
-
-const employee = require('./employee')
-router.use('/employee',employee)
 
 const invoice = require('./invoice')
 router.use('/invoice',invoice)

@@ -12,7 +12,8 @@ exports.markAttendance = async (req, res) => {
         const month = attendanceDate.toLocaleString('en-US', { month: 'long' });
 
         // Check if attendance is for the previous day
-        const isPreviousDay = attendanceDate < currentDate;
+        const isPreviousDay = attendanceDate.toDateString() !== currentDate.toDateString();
+
         if (isPreviousDay) {
             const approvalRequired = true;
 
@@ -198,14 +199,14 @@ exports.approveRequest = async (req, res) => {
             }
             request.regularizationRequest.approver = approverId;
         } else if (days >= 3 && days <= 5) {
-            if (approver.role !== 'HR' && approver.role !== 'Director') {
+            if (role !== 'HR' && role !== 'Director') {
                 return res.status(403).json({
                     message: 'Permission denied. Only HR or Directors can approve requests for 3-5 days.',
                 });
             }
             request.regularizationRequest.approver = approverId;
         } else if (days > 5) {
-            if (approver.role !== 'DIRECTOR') {
+            if (role !== 'DIRECTOR') {
                 return res.status(403).json({
                     message: 'Permission denied. Only Directors can approve requests for more than 5 days.',
                 });

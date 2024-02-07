@@ -11,64 +11,58 @@
     .createLeaveModalContainer {
         background-color: #ffffff;
         border-radius: 0.5rem;
+        padding: 6%;
 
-        >div {
-            padding-inline: 5%;
-            padding-block: 5%;
+        .createLeaveModal {
 
             >div:nth-child(1) {
+                display: flex;
+                justify-content: space-between;
+
                 >div {
-                    width: 100%;
-
-                    >div {
-                        margin: auto;
-                    }
-
-                    >div:nth-child(1) {
-                        padding-inline-end: 0.5rem;
-                    }
+                    width: 49%;
                 }
             }
 
             >div:nth-child(2) {
-                width: 100%;
-                margin-block-start: 2rem;
+                margin-block-start: 1rem;
 
-                >div {
-                    margin-block: auto;
+                .selectedDate {
+                    border: 1px solid darkgray;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
                     width: 100%;
                 }
-
-                >div:nth-child(1),
-                >div:nth-child(2) {
-                    padding-inline-end: 0.5rem;
-                }
-
             }
 
             >div:nth-child(3) {
                 margin-block-start: 1rem;
-                width: 10rem;
-
-                >div>div {
-                    margin: auto;
-                }
             }
 
             >div:nth-child(4) {
+                display: flex;
+                justify-content: space-between;
+
                 >div {
-                    margin-block: 1.5rem;
+                    width: 49%;
+
+                    >div {
+                        margin-inline: auto;
+                    }
                 }
             }
 
-            div:nth-child(5) {
-                width: fit-content;
-                margin-inline-start: auto;
+            >div:nth-child(6) {
+                display: flex;
+                justify-content: right;
+                margin-block-start: 1rem;
 
                 >div:nth-child(1) {
                     margin-inline-end: 0.5rem;
                 }
             }
+
+
         }
     }
 }

@@ -14,21 +14,15 @@ const Leave = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [name, setName] = useState('')
-    const [emp_id, setEmpId] = useState('')
     const [leaveId, setLeaveId] = useState<string>()
     const [inputData, setInputData] = useState<any>({
-        emp_id: '', name: '', start_date: '', end_date: '', leave_type: '', leave_reason: '', remark: ''
+        startDate: '', endDate: '', leaveType: '', month: "", leaveReason: ''
     });
+    const [radioVal, setRadioVal] = useState("date")
+    const [newDateVal, setNewDateVal] = useState({ newDate: "" })
+    const [selectedDates, setSelectedDates] = useState<any>([]);
     const [leaveData, setLeaveData] = useState<any>('')
-    const handleModal = () => {
-        const userName: any = localStorage.getItem("userName")
-        const userId: any = localStorage.getItem("empId")
-        setName(userName)
-        setEmpId(userId)
-        setOpen(!open)
-    }
-    console.log(name, "name")
+    const handleModal = () => { setOpen(!open) }
     const handleClose = () => setOpen(false)
     const handleEditClose = () => {
         setEditModal(false)
@@ -39,6 +33,15 @@ const Leave = () => {
         setInputData({ ...inputData, [name]: value })
     };
 
+    const handleChangeRadio = (e: any) => {
+        setRadioVal(e.target.value)
+    };
+    const handleChangeRandomDate = (e: any) => {
+        const { name, value } = e.target;
+        setNewDateVal({ ...newDateVal, [name]: value });
+        setSelectedDates([...selectedDates, value]);
+    };
+    console.log(selectedDates, "selectedDates..")
     const fetchData = async () => {
         setLoading(true)
         try {
@@ -54,27 +57,41 @@ const Leave = () => {
     };
 
     const handleClick = async () => {
-        if (inputData.start_date == '' ||
-            inputData.end_date == '' ||
-            inputData.leave_reason == '' ||
-            inputData.leave_type == '') {
-            toast.error("Please fill all the field!")
-            return;
-        }
+
+
         try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/empLeave/create', { name: name, emp_id: emp_id, start_date: inputData.start_date, end_date: inputData.end_date, leave_reason: inputData.leave_reason, leave_type: inputData.leave_type });
+            const userTokenString: any = localStorage.getItem("loginedUser")
+            const userToken = JSON.parse(userTokenString)
+            const { token } = userToken
+
+            const response = await axios.post(
+                'https://hrms-server-ygpa.onrender.com/api/v1/empLeave/apply/request',
+                {
+                    name: "name",
+                    email: "email",
+                    startDate: inputData.startDate,
+                    endDate: inputData.endDate,
+                    month: inputData.month,
+                    dates: selectedDates,
+                    leaveType: inputData.leaveType,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             await fetchData();
-            console.log(response, "response..")
-            if (response.status === 200) {
-                toast.success("Leave successfully created");
+            console.log(response, 'response..');
+            if (response.status === 201) {
+                toast.success('Leave successfully created');
             } else {
-                toast.error("Failed to create leave");
+                toast.error('Failed to create leave');
             }
         } catch (error) {
-
             console.error('Error:', error);
         } finally {
-            setOpen(false)
+            setOpen(false);
         }
     };
 
@@ -118,7 +135,7 @@ const Leave = () => {
         } catch (error) {
             console.error(error)
         }
-    }
+    };
     const handleEditLeave = async () => {
         setLoading(true)
         try {
@@ -142,12 +159,12 @@ const Leave = () => {
             setEditModal(false)
             setLoading(false)
         }
-    }
+    };
 
     useEffect(() => {
         fetchData();
     }, []);
-    console.log(leaveData, "leaveData...")
+
     return (
         <Grid className={styles.leaveContainer}>
             <Grid className={styles.leaveHeader}>
@@ -170,15 +187,20 @@ const Leave = () => {
                 inputData={inputData}
                 handleChange={handleChange}
                 handleClick={handleClick}
+                handleChangeRadio={handleChangeRadio}
+                radioVal={radioVal}
+                newDateVal={newDateVal}
+                selectedDates={selectedDates}
+                handleChangeRandomDate={handleChangeRandomDate}
             />
-            <LeaveModal
+            {/* <LeaveModal
                 open={editModal}
                 heading={"Edit Leave"}
                 handleClose={handleEditClose}
                 inputData={inputData}
                 handleChange={handleChange}
                 handleClick={handleEditLeave}
-            />
+            /> */}
             <ToastContainer />
         </Grid>
     )

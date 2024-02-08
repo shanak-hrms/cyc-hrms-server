@@ -13,15 +13,15 @@ export interface IAttendance {
     attendanceData: any;
     handleCheckIn: any;
     handleClockOut: any;
-    handleRequest: any;
-    handleReqAtt: any;
+    handleReqAppModal: any;
+    handleReqAttModal: any;
     reqAttenVal: any;
     handleChange: any;
     handleClose: any
     handleAttendance: any
 }
 
-const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockOut, handleRequest, handleReqAtt, reqAttenVal, handleChange, handleClose, handleAttendance }: IAttendance) => {
+const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockOut, handleReqAppModal, handleReqAttModal, reqAttenVal, handleChange, handleClose, handleAttendance }: IAttendance) => {
 
     function formatDate(dateString: any) {
         const date = new Date(dateString);
@@ -46,7 +46,7 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                     heading={'Attendance List'}
                 />
                 <Grid>
-                    <CommonButton name={"Requet Approval"} onClick={handleRequest} />
+                    <CommonButton name={"Requet Approval"} onClick={handleReqAppModal} />
                     <CommonButton name={"Clock In"} onClick={handleCheckIn} />
                 </Grid>
             </Grid>
@@ -73,7 +73,7 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                                             <TableCell sx={{ textAlign: "center" }}>
                                                 {item.regularizationRequest.status === "Approved"
                                                     ?
-                                                    <CommonButton name={"Clock In"} onClick={() => handleReqAtt(item._id)} />
+                                                    <CommonButton name={"Clock In"} onClick={() => handleReqAttModal(item._id)} />
                                                     :
                                                     <Box>
                                                         {item.clockIn === null

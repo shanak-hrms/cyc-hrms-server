@@ -165,7 +165,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         const { name, value } = e.target;
         setRequestVal({ ...requestVal, [name]: value })
     }
-    const handleRequest = async () => {
+    const handleRequestAtt = async () => {
         const { date } = requestVal;
         const desiredDate = new Date(date);
         const formattedDate = desiredDate.toISOString();
@@ -180,10 +180,11 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             });
 
         if (response.status === 201) {
+            await fetchData();
             setRequestModal(false);
         }
     };
-    const handleReqAtt = (idx: any) => {
+    const handleReqAttModal = (idx: any) => {
         setReqAtten((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
     }
     const handleChangeReqAtt = (e: any) => {
@@ -237,51 +238,33 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         }
 
     };
+
     const handlePreviousCheckIn = async () => {
 
-        // if (!userLocation) {
-        //     alert('Unable to get your current location.');
-        //     return;
-        // }
+        const { date } = reqAttenVal;
+        const today = new Date();
+        const [hours, minutes] = date.split(':');
+        today.setHours(hours);
+        today.setMinutes(minutes);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
 
-        // const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
-        // const distance = calculateDistance(
-        //     userLocation.latitude,
-        //     userLocation.longitude,
-        //     officeLocation.latitude,
-        //     officeLocation.longitude
-        // );
+        const formattedDate = today.toISOString();
+        const attendanceTime = formattedDate.split('.')[0] + 'Z';
+        console.log(attendanceTime, "formattedDateWithoutMilliseconds")
 
-        // if (distance > 5) {
-        //     alert('You are not within 5km of the office location.');
-        //     return;
-        // }
-        // startCamera();
-        // setPhotoModal(true);
         try {
-            const timeString = reqAttenVal.date;
-            const [hours, minutes] = timeString.split(":");
-
-            const currentDate = new Date();
-
-            currentDate.setHours(parseInt(hours, 10));
-            currentDate.setMinutes(parseInt(minutes, 10));
-
-            currentDate.setSeconds(0);
-            currentDate.setMilliseconds(0);
-
-            const formattedDate = currentDate.toISOString();
-            console.log(formattedDate, "formattedDateformattedDate")
 
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
-                { date: formattedDate },
+                { date: attendanceTime },
                 {
                     headers: {
                         Authorization: `Bearer ${userToken}`
                     }
                 }
             )
+            console.log(response, "response...")
             if (response.status === 201) {
                 await fetchData();
                 await setReqAtten(false);
@@ -322,8 +305,8 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                             loading={loading}
                             handleCheckIn={handleCheckIn}
                             handleClockOut={handleClockOut}
-                            handleRequest={handleRequestModal}
-                            handleReqAtt={handleReqAtt}
+                            handleReqAppModal={handleRequestModal}
+                            handleReqAttModal={handleReqAttModal}
                         />
                     } />
                     <Route path='/leaves' element={<Leave />} />
@@ -346,7 +329,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 open={requestModal}
                 requestVal={requestVal}
                 handleClose={handleClose}
-                handleRequest={handleRequest}
+                handleRequest={handleRequestAtt}
                 handleChange={handleChangeRequest}
             />
         </Grid>

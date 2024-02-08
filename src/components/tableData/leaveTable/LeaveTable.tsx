@@ -64,7 +64,6 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -96,7 +95,6 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
                             <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

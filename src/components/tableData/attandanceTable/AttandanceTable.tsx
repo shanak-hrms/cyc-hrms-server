@@ -24,7 +24,7 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
         const date = new Date(dateString);
         return date.toLocaleTimeString();
     }
-
+    console.log(tableData, "tableData...")
     return (
         <Grid className={styles.attandanceTableContainer}>
             <TableHead className={styles.tableHead}>
@@ -45,33 +45,23 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                             })}
                         </TableRow>
                     </TableHead>
-                </Table>
-            </TableContainer>
-            <TableContainer>
-                {loading ? <CustomLoader /> : <Table><TableBody>
-                    {tableData && tableData.filter((employee: { name: string }) => {
-                        return (
-                            query === "" ||
-                            (employee.name
-                                ?.toLowerCase()
-                                ?.includes(query.toLowerCase()) ??
-                                false)
-                        );
-                    }).map((item: any) => {
-                        return (
-                            <TableRow key={item.id}>
-                                <TableCell sx={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{item.employeeId.email}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
-                                <TableCell sx={{ textAlign: "center" }}>
-                                    {formatTime(item.clockOut)}
-                                </TableCell>
-                            </TableRow>
-                        )
-                    })}
-                </TableBody></Table>}
+                    <TableBody>
+                        {tableData && tableData.length > 0 && tableData.map((item: any) => {
+                            return (
+                                <TableRow key={item._id} >
+                                    <TableCell style={{ textAlign: "center" }}>{"NAME"}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{"email"}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>
+                                        {item.clockOut === undefined ? "00:00:00" : <>{formatTime(item.clockOut)}</>}
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
 
+                    </TableBody>
+                </Table>
             </TableContainer>
         </Grid>
     )

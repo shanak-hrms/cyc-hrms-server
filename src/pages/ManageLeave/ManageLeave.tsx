@@ -103,7 +103,7 @@ const ManageLeave = () => {
     const userTokenString: any = localStorage.getItem("loginedUser");
     const userToken = JSON.parse(userTokenString);
     const { token } = userToken;
-    console.log(token, "token...");
+    console.log(token, "handleReject...");
     try {
       const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/reject/request/${selectedId}`, {}, {
         headers: {

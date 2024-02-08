@@ -7,9 +7,22 @@
         display: flex;
         justify-content: space-between;
         padding-inline: 1%;
+        padding-block: 1rem;
+
+        h5 {
+            margin-block: auto;
+        }
+
+        >div {
+            >div {
+                >div {
+                    height: 2.5rem;
+                }
+            }
+        }
     }
 
-    .tableContainer{
+    .tableContainer {
         margin-block-end: 2rem;
     }
 }

@@ -90,7 +90,7 @@ const Leave = () => {
                 }
             })
             const data = response.data.rejectedLeave;
-            console.log(response, "response")
+            console.log(response, "getRejectedLeaveData")
             setPendingData(data)
 
         } catch (error) {

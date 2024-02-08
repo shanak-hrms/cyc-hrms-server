@@ -19,7 +19,7 @@ const ConformActionModal = ({ open, handleClose, handleReject, handleApprove }: 
         >
             <Grid className={styles.conformAction}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h5' fontSize={22} fontWeight={500}>Are you sure to </Typography>
+                    <Typography variant='h5' fontSize={22} fontWeight={500}>Are you sure ? </Typography>
                     <MdOutlineClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />

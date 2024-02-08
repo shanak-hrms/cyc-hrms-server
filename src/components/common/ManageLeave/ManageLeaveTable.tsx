@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./ManageLeaveTable.module.scss";
 import {
+  Box,
   Grid,
   Table,
   TableBody,
@@ -39,7 +40,7 @@ const ManageLeaveTable = ({
   pendingLeaveData,
   approvedLeaveData,
   rejectedLeaveData,
-  loading,handleAction
+  loading, handleAction
 }: IManageLeaveTable) => {
   const formateDate: any = (dateString: any) => {
     const date = new Date(dateString)
@@ -50,12 +51,10 @@ const ManageLeaveTable = ({
 
   return (
     <Grid className={styles.commonTableContainer}>
-      <TableHead className={styles.tableHead}>
-        <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
-        <TableCell sx={{ fontSize: 20 }}>
-          <SearchBox setQuery={setQuery} />
-        </TableCell>
-      </TableHead>
+      <Grid className={styles.tableHead}>
+        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={1.25}>Peanding Leave</Typography>
+        <SearchBox setQuery={setQuery} />
+      </Grid>
       <TableContainer className={styles.tableContainer}>
         <Table>
           <TableHead style={{ backgroundColor: "#383A3C" }}>
@@ -82,7 +81,7 @@ const ManageLeaveTable = ({
                   <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
-                    <CommonButton name={"Action"} onClick={()=>handleAction(item._id)} />
+                    <CommonButton name={"Action"} onClick={() => handleAction(item._id)} />
                   </TableCell>
                 </TableRow>
               )
@@ -91,7 +90,7 @@ const ManageLeaveTable = ({
         </Table>
       </TableContainer>
       <TableContainer className={styles.tableContainer}>
-        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5}>Approved Leave</Typography>
+        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5} marginBlockEnd={1.5}>Approved Leave</Typography>
         <Table>
           <TableHead style={{ backgroundColor: "#383A3C" }}>
             <TableRow>
@@ -102,7 +101,6 @@ const ManageLeaveTable = ({
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -116,9 +114,6 @@ const ManageLeaveTable = ({
                   <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    <CommonButton name={"Action"} onClick={()=>handleAction(item._id)} />
-                  </TableCell>
                 </TableRow>
               )
             })}
@@ -126,19 +121,17 @@ const ManageLeaveTable = ({
         </Table>
       </TableContainer>
       <TableContainer className={styles.tableContainer}>
-        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5}>Pending Leave</Typography>
+        <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5} marginBlockEnd={1.5}>Rejected Leave</Typography>
         <Table>
           <TableHead style={{ backgroundColor: "#383A3C" }}>
             <TableRow>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
+            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
               <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
-
             </TableRow>
           </TableHead>
           <TableBody>
@@ -152,9 +145,6 @@ const ManageLeaveTable = ({
                   <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
-                  <TableCell sx={{ textAlign: "center" }}>
-                    <CommonButton name={"Action"} onClick={()=>handleAction(item._id)} />
-                  </TableCell>
                 </TableRow>
               )
             })}

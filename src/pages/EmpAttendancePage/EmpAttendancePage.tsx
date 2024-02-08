@@ -55,7 +55,6 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
         }
     };
     const handleClockOut = async (idx: any) => {
-console.log(idx, "idx////")
         if (attendanceData && attendanceData.length > 0) {
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);
             const checkOut = matchId[0].date;
@@ -68,7 +67,9 @@ console.log(idx, "idx////")
                         }
                     }
                 )
-                if (response.status === 201) { }
+                if (response.status === 200) {
+                    await fetchData();
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -204,7 +205,7 @@ console.log(idx, "idx////")
             officeLocation.longitude
         );
 
-        if (distance > 5) {
+        if (distance > 50) {
             alert('You are not within 5km of the office location.');
             return;
         }

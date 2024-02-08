@@ -27,7 +27,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [requestModal, setRequestModal] = useState(false)
     const [reqAtten, setReqAtten] = useState(false)
     const [requestVal, setRequestVal] = useState<any>({ date: "" })
-    const [reqAttenVal, setReqAttenVal] = useState<any>({ date: "" })
+    const [reqAttenVal, setReqAttenVal] = useState<any>({ time: "" })
     const handleRequestModal = () => setRequestModal(!requestModal);
     const handleClose = () => { setPhotoModal(false); setRequestModal(false); setReqAtten(false) }
     const handleMenu = () => setMenu(!menu);
@@ -40,8 +40,9 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     const [loading, setLoading] = useState(false);
     const [userLocation, setUserLocation] = useState<any>(null);
     const [stream, setStream] = useState<any>(null);
+    const [appAttId, setAppAttId] = useState()
     const videoRef = useRef<any>();
-
+    console.log(reqAttenVal, "reqAttenVal....")
     const fetchData = async () => {
         setLoading(true)
         try {
@@ -184,8 +185,14 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             setRequestModal(false);
         }
     };
-    const handleReqAttModal = (idx: any) => {
-        setReqAtten((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+    const handleReqAttModal = async (idx: any) => {
+        try {
+            await setReqAtten((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+            await setAppAttId(idx)
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
     const handleChangeReqAtt = (e: any) => {
         const { name, value } = e.target;
@@ -240,42 +247,28 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
     };
 
     const handlePreviousCheckIn = async () => {
-
-        const { date } = reqAttenVal;
-        const today = new Date();
-        const [hours, minutes] = date.split(':');
-        today.setHours(hours);
-        today.setMinutes(minutes);
-        today.setSeconds(0);
-        today.setMilliseconds(0);
-
-        const formattedDate = today.toISOString();
-        const attendanceTime = formattedDate.split('.')[0] + 'Z';
-        console.log(attendanceTime, "formattedDateWithoutMilliseconds")
-
+        const { time } = reqAttenVal;
         try {
-
-            const response = await axios.post(
-                'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
-                { date: attendanceTime },
+            const response = await axios.patch(
+                `https://hrms-server-ygpa.onrender.com/api/v1/attendance/Approved/attendance/checkIn/${appAttId}`,
+                { time: time },
                 {
                     headers: {
                         Authorization: `Bearer ${userToken}`
                     }
                 }
-            )
-            console.log(response, "response...")
-            if (response.status === 201) {
+            );
+            console.log(response, "response...");
+            if (response.status === 200) {
                 await fetchData();
                 await setReqAtten(false);
                 // await setPhotoModal(false);
             }
-
         } catch (error) {
             console.error('Error occurred:', error);
         }
-
     };
+
 
     return (
         <Grid container className={styles.empAttendancePageContainer}>

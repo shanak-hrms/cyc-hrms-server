@@ -30,7 +30,7 @@ const ReqAttenModal = ({ open, reqAttenVal, handleClose, handleChange, handleAtt
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
                 <Grid className={styles.selectField}>
                     <Typography>Select Time</Typography>
-                    <TextField type='time' name='date' value={reqAttenVal.date} onChange={handleChange} />
+                    <TextField type='time' name='time' value={reqAttenVal.time} onChange={handleChange} />
                 </Grid>
                 <Grid className={styles.action}>
                     <CommonButton name={"Cancel"} onClick={handleClose} />

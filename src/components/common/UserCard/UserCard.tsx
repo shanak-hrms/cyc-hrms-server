@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './UserCard.module.scss'
-import { Grid, Box, Typography } from '@mui/material'
+import { Grid, Box, Typography, List, ListItemButton, ListItemText } from '@mui/material'
 import { PiDotsThreeOutlineVerticalDuotone } from 'react-icons/pi';
 import CommonButton from '../CommonButton/CommonButton';
 import img from '../../../asserst/images/profile_pic.jpg'
@@ -15,14 +15,26 @@ export interface IUserCard {
     IsButton: boolean;
     IsLabel: boolean;
     handleClick?: any
+    actionOpen?: boolean;
+    handleEdit?: any;
+    handleAddSalary?: any;
+    handleDelete?: any;
 }
-const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick }: IUserCard) => {
+const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete }: IUserCard) => {
     return (
         <Grid className={styles.userCardContainer}>
-            {IsLabel ? <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
                 <Typography variant='h5'>{label}</Typography>
                 <PiDotsThreeOutlineVerticalDuotone fontSize={20} onClick={handleClick} cursor={"pointer"} />
-            </Box> : <PiDotsThreeOutlineVerticalDuotone fontSize={20} />}
+            </Box>
+            <Box>
+                {actionOpen ? <>
+                    <Typography onClick={handleEdit}>edit staff</Typography>
+                    <Typography onClick={handleAddSalary}>add salary</Typography>
+                    <Typography onClick={handleDelete}>delete</Typography></> : ""}
+
+            </Box>
+
             <Box>
                 <Box>
                     {/* <img src={img} alt='img' /> */}

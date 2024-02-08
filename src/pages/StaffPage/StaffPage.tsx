@@ -6,23 +6,32 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StaffModal from '../../components/modal/StaffModal/StaffModal'
+import SalaryStructureModal from '../../components/modal/SalaryStructureModal/SalaryStructureModal'
 
 
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
+    const [actionOpen, setActionOpen] = useState(false)
+    const [salStrModal, setSalStrModal] = useState(true)
+    const handleClose = () => { setOpen(false); setSalStrModal(false) };
     const [inputData, setInputData] = useState({ emp_id: '', name: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
+    const [staffId, setStaffId] = useState()
 
-
+    const handleActionModal = async (idx: any) => {
+        setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+        await setStaffId(idx)
+    }
+    const handleAddSalaryModal = async (idx: any) => {
+        setSalStrModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+    }
     const handleClick = async () => {
         const empId = `CYC00${Math.floor(Math.random() * 100) + 1}`
         await setInputData((preState: any) => ({ ...preState, emp_id: empId }))
         console.log(empId, "empId")
         setOpen(!open)
     };
-    const handleClose = () => setOpen(false);
-    console.log("inputData", inputData)
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value });
@@ -94,8 +103,12 @@ const StaffPage = () => {
             <User
                 data={userData}
                 handleClick={handleClick}
-                handleAction={handleDelete}
+                handleAction={handleActionModal}
                 loading={loading}
+                actionOpen={actionOpen}
+                handleEdit={undefined}
+                handleAddSalary={handleAddSalaryModal}
+                handleDelete={handleDelete}
             />
             <StaffModal
                 open={open}
@@ -103,6 +116,11 @@ const StaffPage = () => {
                 inputValue={inputData}
                 handleChange={handleChange}
                 handleCreate={handleCreate}
+            />
+            <SalaryStructureModal
+                open={salStrModal}
+                handleClose={handleClose}
+                handleCreate={undefined}
             />
             <ToastContainer />
         </Grid>

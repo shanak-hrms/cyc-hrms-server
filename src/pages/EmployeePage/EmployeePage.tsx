@@ -84,7 +84,7 @@ const EmployeePage = () => {
 
   }
 
-  const handlePayrollDownload = (idx:any) => {
+  const handlePayrollDownload = (idx: any) => {
 
   }
 

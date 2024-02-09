@@ -10,20 +10,15 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 export interface IClaimsRequestModal {
     open: boolean;
     heading: string;
-    empId: string;
-    name: string;
     buttonName: string;
     inputData: any;
     handleClose: any;
     handleChange: any;
-    handleChangefile: any
     handleClick: any;
     handleChengeMessage: any
 }
-const ClaimsRequestModal = ({ open, heading, empId, name, buttonName, inputData, handleClose, handleChange, handleChangefile, handleClick, handleChengeMessage }: IClaimsRequestModal) => {
-    const handleChengeText = () => {
+const ClaimsRequestModal = ({ open, heading, buttonName, inputData, handleClose, handleChange, handleClick, handleChengeMessage }: IClaimsRequestModal) => {
 
-    }
     return (
         <Modal
             open={open}
@@ -34,33 +29,33 @@ const ClaimsRequestModal = ({ open, heading, empId, name, buttonName, inputData,
                     <Typography variant='h5' fontSize={22} fontWeight={22}>{heading}</Typography>
                     <MdOutlineClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
-                <Divider sx={{ marginBlockStart: 2, marginBlockEnd: 4 }} />
-                <Grid className={styles.claimsRequest}>
-                    <Grid>
-                        <Typography>Id: {empId}</Typography>
-                        <Typography>Name: {name}</Typography>
-                    </Grid>
-                    <InputField
-                        label={'Claim Type'}
-                        name={'claimsType'}
-                        placeholder={'claimsType'}
-                        value={inputData.claimsType}
-                        handleChange={handleChange}
-                        type={"undefined"}
-                    />
-                    <TextEditer
-                        heading='Message'
-                        placeholder='Write message...'
-                        onChange={handleChengeMessage}
-                    />
-                    <InputField
-                        label={'Attachment'}
-                        name={'attachment'}
-                        placeholder={''}
-                        value={inputData.attachment}
-                        handleChange={handleChangefile}
-                        type={"file"}
-                    />
+                <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
+                <Grid className={styles.claimsField}>
+                    <Box>
+                        <InputField
+                            label={'Claim Name'}
+                            name={'claimName'}
+                            placeholder={'please enter name'}
+                            value={inputData.claimName}
+                            handleChange={handleChange}
+                            type={"text"}
+                        />
+                        <InputField
+                            label={'Claim Amount'}
+                            name={'claimAmount'}
+                            placeholder={'please enter amount'}
+                            value={inputData.claimAmount}
+                            handleChange={handleChange}
+                            type={"number"}
+                        />
+                    </Box>
+                    <Box>
+                        <TextEditer
+                            heading='Message'
+                            placeholder='Write message...'
+                            onChange={handleChengeMessage}
+                        />
+                    </Box>
                     <Box>
                         <CommonButton
                             name={"Close"}
@@ -69,7 +64,6 @@ const ClaimsRequestModal = ({ open, heading, empId, name, buttonName, inputData,
                         <CommonButton
                             name={buttonName}
                             onClick={handleClick}
-
                         />
                     </Box>
                 </Grid>

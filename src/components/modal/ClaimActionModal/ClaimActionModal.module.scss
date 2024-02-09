@@ -1,0 +1,21 @@
+.conformActionModal {
+    width: 32rem;
+    height: fit-content;
+    margin: auto;
+
+    .conformAction {
+        background-color: #ffffff;
+        padding: 6%;
+        border-radius: 0.5rem;
+
+        .action {
+            display: flex;
+            justify-content: right;
+            margin-block-start: 1rem;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
+        }
+    }
+}

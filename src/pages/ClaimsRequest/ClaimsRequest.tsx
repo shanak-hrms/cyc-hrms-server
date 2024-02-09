@@ -6,21 +6,15 @@ import ClaimsRequestModal from '../../components/modal/ClaimsRequestModal/Claims
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MdEdit, MdDelete } from "react-icons/md";
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 
 
 const ClaimsRequest = () => {
-    const [open, setOpen] = useState(false);
-    const [editModal, setEditModal] = useState(false)
-    const handleClose = () => { setOpen(false); setEditModal(false) };
-    const [inputData, setInputData] = useState({ emp_id: "", name: "", claimsType: "", message: "", attachment: "" });
+    const [open, setOpen] = useState(true);
+    const handleClose = () => { setOpen(false) };
+    const [inputData, setInputData] = useState({ claimName: "", claimAmount: "", message: "" });
     const [claimRequestData, setClaimRequestData] = useState<any>();
-    const [empId, setEmpId] = useState<any>("");
-    const [name, setName] = useState<any>("");
     const [claimMessage, setClaimMessage] = useState();
-    const [claimsRequestId, setClaimRequestId] = useState()
-    const [selectedFile, setSelectedFile] = useState<any>(null);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -30,53 +24,39 @@ const ClaimsRequest = () => {
         setClaimMessage(des)
         setInputData((preState: any) => ({ ...preState, message: claimMessage }))
     };
-    const handleChangefile = (e: any) => {
-        const file = e.target.files[0];
-
-        if (file) {
-            console.log('Selected file:', file);
-            const reader = new FileReader();
-
-            reader.onloadend = () => {
-                setSelectedFile({
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    data: reader.result,
-                });
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-    const handleClickModal = () => {
+    const handleClickModal = (idx: any) => {
         setOpen(!open);
-        setInputData((preState: any) => ({ ...preState, emp_id: empId, name: name, attachment: selectedFile }))
     };
-    const getUserData = async () => {
+    const getData = async () => {
+        const loginedUserSting: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { token } = loginedUser
         try {
-            const emp_id: any = localStorage.getItem("empId")
-            const name: any = localStorage.getItem("userName")
-            setEmpId(emp_id)
-            setName(name)
-            console.log(emp_id, "loginedUser..")
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/claim/all/request/list/ofuser`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            const data = response.data.claimData;
+            setClaimRequestData(data);
         }
         catch (err) {
             console.log(err)
         }
-    };
-    const getData = async () => {
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/claim-request`)
-        const data = response.data.claimsRequestData;
-        setClaimRequestData(data);
     }
     const handleCreateClaimRequest = async () => {
-        if (inputData.attachment === "" || inputData.claimsType === "", inputData.message === "") {
-            toast.error("Please fill all the field!")
-            return;
-        }
+        const loginedUserSting: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { token } = loginedUser
+
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/claim-request/create`, inputData)
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/claim/apply/request`, inputData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             console.log(response, "response....");
             if (response.status === 200) {
                 toast.success("Claim request created successfully!")
@@ -88,37 +68,6 @@ const ClaimsRequest = () => {
             console.log(err)
         }
     }
-    const handleEditModal = async (idx: any) => {
-        await setEditModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
-        await setClaimRequestId(idx);
-        await setInputData((preState: any) => ({ ...preState, emp_id: empId, name: name, attachment: selectedFile }))
-
-    };
-    const handleEditClaimRequest = async () => {
-        if (inputData.attachment === "" || inputData.claimsType === "", inputData.message === "") {
-            toast.error("Please fill all the field!")
-            return;
-        }
-        try {
-            const response = await axios.put(`https://hrms-server-ygpa.onrender.com/claim-request/${claimsRequestId}`, inputData)
-            if (response.status === 200) {
-                setEditModal(false)
-                toast.success("Claim request updated successfully")
-            }
-            await getData();
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-    const handleDelete = async (idx: any) => {
-        try {
-            await axios.delete(`https://hrms-server-ygpa.onrender.com/claim-request/${idx}`);
-            await getData();
-        } catch (error) {
-            console.error("Error deleting employee:", error);
-        }
-    };
 
     const formatedMessage = (message: any) => {
         if (message !== undefined && message !== null) {
@@ -131,15 +80,15 @@ const ClaimsRequest = () => {
             return '';
         }
     }
+    const formateDate = (dateString: any) => {
+        const date = new Date(dateString)
+        return date.toLocaleDateString();
+    }
     useEffect(() => {
         getData();
-        getUserData();
     }, [])
-
     return (
         <Grid className={styles.claimRequestContainer}>
-            {selectedFile && <img src={selectedFile} />}
-
             <Grid className={styles.claimHeader}>
                 <HeadingText
                     heading={'Claims Special Request'}
@@ -147,36 +96,26 @@ const ClaimsRequest = () => {
                 />
                 <CommonButton name={"Claim"} onClick={handleClickModal} />
             </Grid>
-            <TableContainer className={styles.tableContainer}>
+            <TableContainer>
                 <Table>
                     <TableHead sx={{ backgroundColor: "#383A3C" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Employee Id</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Claim Type</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Message</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Attachment</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Action</TableCell>
-
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CLAIM NAME</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CLAIM AMOUNT</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>DATE</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MESSAGE</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {claimRequestData && claimRequestData.map((item: any) => {
                             return (
                                 <TableRow>
-                                    <TableCell sx={{ textAlign: "center" }}>
-                                        <CommonButton name={item.emp_id} />
-                                    </TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{item.claimsType}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.claimName}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.claimAmount}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{formateDate(item.date)}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formatedMessage(item.message)}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}  >
-                                        <CommonButton name={"View"} />
-                                    </TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>
-                                        <MdEdit fontSize={22} cursor={"pointer"} onClick={(() => handleEditModal(item._id))} />
-                                        <MdDelete fontSize={22} cursor={"pointer"} onClick={(() => handleDelete(item._id))} />
-                                    </TableCell>
                                 </TableRow>
                             )
                         })}
@@ -187,27 +126,11 @@ const ClaimsRequest = () => {
             <ClaimsRequestModal
                 open={open}
                 heading='Claim Special Request'
-                empId={empId}
-                name={name}
                 buttonName={"Submit"}
                 inputData={inputData}
                 handleChange={handleChange}
-                handleChangefile={handleChangefile}
                 handleClose={handleClose}
                 handleClick={handleCreateClaimRequest}
-                handleChengeMessage={handleChengeMessage}
-            />
-            <ClaimsRequestModal
-                open={editModal}
-                heading='Update Claim Special Request'
-                empId={empId}
-                name={name}
-                buttonName={"Update"}
-                inputData={inputData}
-                handleChange={handleChange}
-                handleChangefile={handleChangefile}
-                handleClose={handleClose}
-                handleClick={handleEditClaimRequest}
                 handleChengeMessage={handleChengeMessage}
             />
             <ToastContainer />

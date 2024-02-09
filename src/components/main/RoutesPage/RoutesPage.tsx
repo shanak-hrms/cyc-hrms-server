@@ -20,6 +20,7 @@ import PaySlip from '../../../pages/PaySlip/PaySlip'
 import LeavePolicy from '../../LeavePolicy/LeavePolicy'
 import PaySlipForm from '../../../pages/PaySlipForm/PaySlipForm'
 import { RequestApproval } from '../../../pages/RequestApproval/RequestApproval'
+import ManageClaimRequest from '../../../pages/ManageClaimRequest/ManageClaimRequest'
 
 const RoutesPage = () => {
     return (
@@ -33,6 +34,7 @@ const RoutesPage = () => {
                 <Route path='/employee/edit-employee' element={<EditAddedEmployee />} />
                 <Route path='/timesheet' element={<TimeSheet />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />
+                <Route path='/claims-request' element={<ManageClaimRequest />} />
                 <Route path='/lead-management' element={<LeadManagement />} />
                 <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />

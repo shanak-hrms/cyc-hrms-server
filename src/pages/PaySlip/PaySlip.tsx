@@ -1,14 +1,34 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import styles from './PaySlip.module.scss'
-import { Box, Divider, Grid, Typography } from '@mui/material'
+import { Box, Divider, Grid, Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Typography, ListItemButton, ListItemText, ListItem } from '@mui/material'
 import logo from '../../asserst/images/LOGO_CYC2.png'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import { useNavigate } from 'react-router-dom'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import SearchBox from '../../components/common/searchBox/SearchBox'
+import { errorMonitor } from 'events'
+import axios from 'axios'
 
 const PaySlip = () => {
     const navigation = useNavigate()
+    const [query, setQuery] = useState("")
+    const [empData, setEmpData] = useState<any>()
+    const getEmployeeData = async () => {
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
+            const data = response.data.userData
+            setEmpData(data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+    useEffect(() => {
+        getEmployeeData();
+
+    }, [])
     const handleDownload = () => {
         const input: any = document.getElementById('userData');
         html2canvas(input)
@@ -21,9 +41,43 @@ const PaySlip = () => {
 
     }
     return (
-        <Fragment>
-            <Grid id="userData" className={styles.payslipContainer}>
-                <Grid className={styles.payslip}>
+        <Grid className={styles.payslipContainer}>
+            <Grid className={styles.payslipHeading}>
+                <Typography variant='h5' fontSize={25} fontWeight={600}>Pay Slip</Typography>
+                <SearchBox setQuery={setQuery} />
+            </Grid>
+            <Grid className={styles.filterData}>
+                {/* {empData && empData.filter((employee: { name: string }) => {
+                    return (
+                        query === "" ||
+                        (employee.name
+                            ?.toLowerCase()
+                            ?.includes(query.toLowerCase()) ?? false)
+                    );
+                }).map((item: any, idx: number) => {
+                    return (
+                        <ListItemButton key={idx}>
+                            <Typography paddingInline={2.5} sx={{ textAlign: "center" }}>{item.name}</Typography>
+                        </ListItemButton>
+                    );
+                })} */}
+                {empData && empData.filter((employee: { name: string }) => {
+                    return (
+                        query === "" ||
+                        (employee.name
+                            ?.toLowerCase()
+                            ?.includes(query.toLowerCase()) ?? false)
+                    );
+                }).map((item: any, idx: number) => {
+                    return (
+                        <ListItemButton key={idx}>
+                           {query===item ? "A":"B"}
+                        </ListItemButton>
+                    );
+                })}
+            </Grid>
+            <Grid id="userData" className={styles.payslip}>
+                <Grid className={styles.payslipField}>
                     <Box>
                         <Typography variant='h2' fontSize={25} fontWeight={600}>Company Name</Typography>
                         <img src={logo} alt='logo' />
@@ -118,7 +172,7 @@ const PaySlip = () => {
                 <CommonButton name="Cancel" onClick={(() => navigation('/'))} />
                 <CommonButton name="Download" onClick={handleDownload} />
             </Grid>
-        </Fragment>
+        </Grid>
     )
 }
 

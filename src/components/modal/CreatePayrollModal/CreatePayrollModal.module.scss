@@ -1,0 +1,30 @@
+.createPayrollModal {
+    width: 32rem;
+    height: fit-content;
+    margin: auto;
+
+    .createPayroll {
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        padding: 6%;
+
+        .createField {
+            display: flex;
+            justify-content: space-between;
+
+            >div {
+                width: 49%;
+            }
+        }
+
+        .action {
+            display: flex;
+            justify-content: right;
+            margin-block-start: 1rem;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
+        }
+    }
+}

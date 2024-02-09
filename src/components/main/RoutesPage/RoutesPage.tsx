@@ -41,7 +41,7 @@ const RoutesPage = () => {
                 <Route path='/invoice-preview' element={<InvoicePreview />} />
                 <Route path='/leave-policy' element={<LeavePolicy />} />
                 <Route path='/company-policy' element={<CompanyPolicy />} />
-                <Route path='/pay-slip' element={<PaySlip />} />
+                <Route path='/pay-slip' element={<EmployeePage />} />
                 <Route path='/pay-slip-form' element={<PaySlipForm />} />
                 <Route path='/request-approval-list' element={<RequestApproval />} />
 

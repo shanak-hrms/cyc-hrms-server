@@ -29,12 +29,6 @@ export const menuData = [
         "link": "/user"
     },
     {
-        "id": 3,
-        "icon": <AiOutlineUser />,
-        "title": "Employee",
-        "link": "/employee",
-    },
-    {
         "id": 4,
         "icon": <TbCalendarTime />,
         "title": "Attandance",
@@ -65,15 +59,10 @@ export const menuData = [
         "link": "#",
         "subMenu": [
             {
-                "id": 1,
-                "icon": <MdOutlineManageHistory />,
-                "title": "Salary Calculation",
-                "link": "/salary-calculation",
-            }, {
                 "id": 2,
                 "icon": <MdOutlineManageHistory />,
                 "title": "Pay Slip",
-                "link": "/pay-slip-form",
+                "link": "/pay-slip",
             }
         ]
     }

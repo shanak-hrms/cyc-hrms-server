@@ -23,6 +23,7 @@ export interface IAttendance {
 
 const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockOut, handleReqAppModal, handleReqAttModal, reqAttenVal, handleChange, handleClose, handleAttendance }: IAttendance) => {
 
+    console.log(attendanceData, "attendanceData..")
     function formatDate(dateString: any) {
         const date = new Date(dateString);
         return date.toLocaleDateString();
@@ -70,19 +71,12 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                                             <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{item.regularizationRequest?.status}</TableCell>
-                                            <TableCell sx={{ textAlign: "center" }}>
-                                                {item.regularizationRequest.status === "Approved"
+                                            <TableCell>
+                                                {item.clockIn === null
                                                     ?
                                                     <CommonButton name={"Clock In"} onClick={() => handleReqAttModal(item._id)} />
                                                     :
-                                                    <Box>
-                                                        {item.clockIn === null
-                                                            ?
-                                                            "00:00:00"
-                                                            :
-                                                            <>{formatTime(item.clockIn)}</>
-                                                        }
-                                                    </Box>
+                                                    <>{formatTime(item.clockIn)}</>
                                                 }
                                             </TableCell>
 

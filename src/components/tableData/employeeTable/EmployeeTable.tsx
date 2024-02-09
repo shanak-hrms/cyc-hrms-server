@@ -14,16 +14,20 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import CommonButton from "../../common/CommonButton/CommonButton";
 import SearchBox from "../../common/searchBox/SearchBox";
 import CustomLoader from "../../CustomLoader/CustomLoader";
+import { FaCloudDownloadAlt } from "react-icons/fa";
+import { MdOutlineMenuBook } from "react-icons/md";
+import { MdPreview } from "react-icons/md";
+
+
 
 export interface IEmployeeTable {
   heading: string;
   tableTitle: any;
   tableData: any;
-  handleEdit: any;
-  handleDelete: any;
+  handlePayrollModal: any;
+  handlePayrollDownload: any;
   setQuery: any;
   query: any;
-  loading: boolean
 }
 
 const EmployeeTable = ({
@@ -32,21 +36,12 @@ const EmployeeTable = ({
   setQuery,
   tableTitle,
   tableData,
-  handleEdit,
-  handleDelete,
-  loading
+  handlePayrollModal,
+  handlePayrollDownload,
 }: IEmployeeTable) => {
   const formattedDate = (idx: any) => {
-    const dateObj = new Date(idx);
-    const year = dateObj.getUTCFullYear();
-    const month = dateObj.getUTCMonth() + 1;
-    const day = dateObj.getUTCDate();
-
-    const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-    if (formattedDateString === "1970-01-01") {
-      return formattedDateString;
-    }
-    return formattedDateString;
+    const date = new Date(idx)
+    return date.toLocaleDateString()
   };
   return (
     <Grid className={styles.commonTableContainer}>
@@ -67,10 +62,6 @@ const EmployeeTable = ({
               })}
             </TableRow>
           </TableHead>
-        </Table>
-      </TableContainer>
-      <TableContainer>
-        {loading ? <CustomLoader /> : <Table>
           <TableBody>
             {tableData && tableData.filter((employee: { name: string }) => {
               return (
@@ -84,30 +75,21 @@ const EmployeeTable = ({
               .map((item: any, idx: any) => {
                 return (
                   <TableRow key={idx}>
-                    <TableCell sx={{ textAlign: "center" }}>
-                      <CommonButton
-                        name={item.emp_id}
-                      />
-                    </TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.name}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.email}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.branch}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.department}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.designation}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.dateOfJoin)}</TableCell>
-                    {/* <TableCell sx={{ textAlign: "center" }} className={styles.tableAction}>
-                      <MdOutlineMode onClick={() => handleEdit(item._id)} fontSize={30} />
-                      <RiDeleteBinLine
-                        onClick={() => handleDelete(item._id)}
-                        fontSize={30}
-                      />
-                    </TableCell> */}
+                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.date)}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      <MdOutlineMenuBook fontSize={22} cursor={"pointer"} onClick={(() => handlePayrollModal(item._id))} />
+                      <MdPreview fontSize={22} cursor={"pointer"} onClick={(() => handlePayrollDownload(item._id))} />
+                    </TableCell>
                   </TableRow>
                 );
               })}
           </TableBody>
-        </Table>}
-
+        </Table>
       </TableContainer>
     </Grid>
   );

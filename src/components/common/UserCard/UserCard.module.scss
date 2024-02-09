@@ -2,6 +2,7 @@
     padding: 1.5rem;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 0.5rem;
+    position: relative;
 
 
 
@@ -17,6 +18,28 @@
     }
 
     >div:nth-child(2) {
+        background-color: #F5F5F5;
+        position: absolute;
+        top: 20%;
+        right: 10%;
+
+        p {
+            padding-inline: 0.5rem;
+            background-color: #F5F5F5;
+            color: #000000;
+            font-size: 0.8rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #383A3C;
+                color: #68C5AE;
+            }
+        }
+
+
+    }
+
+    >div:nth-child(3) {
         width: fit-content;
         margin: auto;
 

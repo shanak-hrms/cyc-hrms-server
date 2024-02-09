@@ -22,8 +22,13 @@ export interface IUserDataType {
     handleAction: any;
     data: any;
     loading: boolean;
+    actionOpen: boolean | any;
+    handleEdit: any;
+    handleAddSalary: any;
+    handlePayroll: any;
+    handleDelete: any;
 }
-const User = ({ handleClick, data, handleAction, loading }: IUserDataType) => {
+const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete }: IUserDataType) => {
 
     return (
         <Grid className={styles.userContainer}>
@@ -45,8 +50,12 @@ const User = ({ handleClick, data, handleAction, loading }: IUserDataType) => {
                                     email={item.email}
                                     IsButton={false}
                                     IsLabel={true}
+                                    actionOpen={actionOpen[item._id]}
                                     handleClick={(() => handleAction(item._id))}
-                                />
+                                    handleEdit={() => handleEdit(item._id)}
+                                    handleAddSalary={() => handleAddSalary(item._id)}
+                                    handlePayroll={() => handlePayroll(item._id)}
+                                    handleDelete={() => handleDelete(item._id)} />
                             </Grid>
                         )
                     })}

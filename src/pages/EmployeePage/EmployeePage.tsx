@@ -7,9 +7,14 @@ import data from "./data.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import EmployeeModal from "../../components/modal/EmployeeModal/EmployeeModal";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CreatePayrollModal from "../../components/modal/CreatePayrollModal/CreatePayrollModal";
+
 
 const EmployeePage = () => {
-  const [open, setOpen] = useState(false)
+  const [payrollModal, setPayrollModal] = useState(false);
+  const handleClose = () => setPayrollModal(false);
   const [inputData, setInputData] = useState<any>({
     name: "",
     email: "",
@@ -19,20 +24,18 @@ const EmployeePage = () => {
     designation: "",
     dateOfJoin: ""
   });
+  const [payrollVal, setPayrollVal] = useState({ employeeId: "", month: "", year: "" })
+
   const [query, setQuery] = useState("");
   const [editEmployee, setEditEmployee] = useState();
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [loading, setLoading] = useState(false)
-  const handleCloss = () => setOpen(false);
-
-  const navigation = useNavigate();
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const result = await axios.get("https://hrms-server-ygpa.onrender.com/user");
-      console.log(result, "result")
-      const data = result.data.userData;
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
+      const data = response.data.userData
       setEmployeeData(data);
 
     } catch (error) {
@@ -41,71 +44,53 @@ const EmployeePage = () => {
       setLoading(false)
     }
   };
+
+  const handlePayrollModal = async (idx: any) => {
+    setPayrollModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }));
+    setPayrollVal({ ...payrollVal, employeeId: idx });
+  };
+  const handleChangePayroll = (e: any) => {
+    const { name, value } = e.target;
+    setPayrollVal({ ...payrollVal, [name]: value });
+  }
+  const handleCreatePayroll = async () => {
+    const loginedUserString: any = localStorage.getItem("loginedUser")
+    const loginedUser = JSON.parse(loginedUserString)
+    const { token } = loginedUser
+    if (payrollVal.month === "") {
+      toast.error("Please fill month");
+      return;
+    } else if (payrollVal.year === "") {
+      toast.error("Please fill year")
+      return;
+    }
+
+    try {
+      const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/create`, payrollVal,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      if (response.status === 200) {
+        toast.success("Payroll created successfuly")
+        setPayrollModal(false)
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+
+  }
+
+  const handlePayrollDownload = (idx:any) => {
+
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
-
-
-  const handleDelete = async (employeeId: any) => {
-    try {
-      setLoading(true);
-      await axios.delete(`https://hrms-server-ygpa.onrender.com/employee/${employeeId}`);
-
-      setEmployeeData((prevEmployeeData: any[]) =>
-        prevEmployeeData.filter((employee: { _id: any }) => employee._id !== employeeId)
-      );
-    } catch (error) {
-      console.error("Error deleting employee:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleEditModal = async (idx: any) => {
-    try {
-      setOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }));
-      setEditEmployee(idx);
-
-      const res = await axios.get('https://hrms-server-ygpa.onrender.com/employee');
-
-      if (res.status === 200) {
-        const resData = res.data.employeeData;
-        const filteredData = resData.filter((employee: any) => employee._id === editEmployee);
-
-        setInputData({
-          emp_id: filteredData[0].emp_id,
-          name: filteredData[0].name,
-          email: filteredData[0].email,
-          branch: filteredData[0].branch,
-          department: filteredData[0].department,
-          designation: filteredData[0].designation,
-          dateOfJoin: filteredData[0].dateOfJoin
-        });
-      } else {
-        console.error('Failed to fetch employee data');
-      }
-    } catch (error) {
-      console.error('An error occurred while fetching or processing data:', error);
-    }
-  };
-
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setInputData({ ...inputData, [name]: value })
-  }
-
-  const handleEdit = async () => {
-    try {
-      await axios.put(`https://hrms-server-ygpa.onrender.com/employee/${editEmployee}`, inputData)
-      await fetchData();
-
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setOpen(false)
-    }
-  }
-
 
 
   return (
@@ -115,15 +100,20 @@ const EmployeePage = () => {
         IsHeadingAction={false}
       />
       <EmployeeTable
-        heading={"Manage Employee"}
+        heading={"Pay Slip Management"}
         tableTitle={data.tableTitle}
         tableData={employeeData}
-        handleEdit={handleEditModal}
-        handleDelete={handleDelete}
+        handlePayrollModal={handlePayrollModal}
+        handlePayrollDownload={handlePayrollDownload}
         setQuery={setQuery}
         query={query}
-        loading={loading}
       />
+      <CreatePayrollModal
+        open={payrollModal}
+        payrollVal={payrollVal}
+        handleCreate={handleCreatePayroll}
+        handleClose={handleClose}
+        handleChange={handleChangePayroll} />
     </Grid>
   );
 };

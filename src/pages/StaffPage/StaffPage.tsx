@@ -7,29 +7,65 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StaffModal from '../../components/modal/StaffModal/StaffModal'
 import SalaryStructureModal from '../../components/modal/SalaryStructureModal/SalaryStructureModal'
+import CreatePayrollModal from '../../components/modal/CreatePayrollModal/CreatePayrollModal'
 
 
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
     const [actionOpen, setActionOpen] = useState(false)
-    const [salStrModal, setSalStrModal] = useState(true)
-    const handleClose = () => { setOpen(false); setSalStrModal(false) };
+    const [salStrModal, setSalStrModal] = useState(false)
+    const handleClose = () => { setOpen(false); setSalStrModal(false); };
     const [inputData, setInputData] = useState({ emp_id: '', name: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
+    const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
-    const [staffId, setStaffId] = useState()
 
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
-        await setStaffId(idx)
+        setSalStrVal({ ...salStrVal, employeeId: idx })
     }
     const handleAddSalaryModal = async (idx: any) => {
         setSalStrModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
     }
+    const handleChangeSalStr = (e: any) => {
+        const { name, value } = e.target;
+        setSalStrVal({ ...salStrVal, [name]: value })
+    }
+    const handleCreateSalary = async () => {
+        const loginedUserString: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserString)
+        const { token } = loginedUser
+
+        if (salStrVal.basicSalary === "") {
+            toast.error("Please fill basic salary");
+            return;
+        } else if (salStrVal.hraPercentage === "") {
+            toast.error("Please fill HRA percentage")
+            return;
+        } else if (salStrVal.travelAllowance === "") {
+            toast.error("Please fill travel allowance")
+            return;
+        }
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/salary/create/structure`, salStrVal,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            if (response.status === 201) {
+                setSalStrModal(false)
+                toast.success("Salary created successfully")
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
     const handleClick = async () => {
         const empId = `CYC00${Math.floor(Math.random() * 100) + 1}`
         await setInputData((preState: any) => ({ ...preState, emp_id: empId }))
-        console.log(empId, "empId")
         setOpen(!open)
     };
     const handleChange = (e: any) => {
@@ -97,7 +133,6 @@ const StaffPage = () => {
         }
     };
 
-
     return (
         <Grid>
             <User
@@ -108,6 +143,7 @@ const StaffPage = () => {
                 actionOpen={actionOpen}
                 handleEdit={undefined}
                 handleAddSalary={handleAddSalaryModal}
+                handlePayroll={undefined}
                 handleDelete={handleDelete}
             />
             <StaffModal
@@ -119,8 +155,10 @@ const StaffPage = () => {
             />
             <SalaryStructureModal
                 open={salStrModal}
+                salStrVal={salStrVal}
                 handleClose={handleClose}
-                handleCreate={undefined}
+                handleChange={handleChangeSalStr}
+                handleCreate={handleCreateSalary}
             />
             <ToastContainer />
         </Grid>

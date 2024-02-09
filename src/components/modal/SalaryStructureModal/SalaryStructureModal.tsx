@@ -9,11 +9,13 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 
 export interface ISalaryStructureModal {
     open: boolean;
+    salStrVal: any;
     handleClose: () => void;
-    handleCreate:()=>void;
+    handleCreate: any;
+    handleChange: any;
 }
 
-const SalaryStructureModal = ({ open, handleClose, handleCreate }: ISalaryStructureModal) => {
+const SalaryStructureModal = ({ open, salStrVal, handleClose, handleCreate, handleChange }: ISalaryStructureModal) => {
     return (
         <Modal
             open={open}
@@ -31,32 +33,32 @@ const SalaryStructureModal = ({ open, handleClose, handleCreate }: ISalaryStruct
                             label={'Basic Salary'}
                             name={'basicSalary'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
-                            type={undefined}
+                            value={salStrVal.basicSalary}
+                            handleChange={handleChange}
+                            type={"number"}
                         />
                         <InputField
                             label={'HRA Percentage'}
                             name={'hraPercentage'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
-                            type={undefined}
+                            value={salStrVal.hraPercentage}
+                            handleChange={handleChange}
+                            type={"number"}
                         />
                     </Box>
                     <Box>
                         <InputField
-                            label={'Basic Salary'}
-                            name={'basicSalary'}
+                            label={'Travel Allowance'}
+                            name={'travelAllowance'}
                             placeholder={''}
-                            value={''}
-                            handleChange={undefined}
-                            type={undefined}
+                            value={salStrVal.travelAllowance}
+                            handleChange={handleChange}
+                            type={"number"}
                         />
                     </Box>
                     <Box>
                         <CommonButton name="Cancel" onClick={handleClose} />
-                        <CommonButton name="Submit" onClick={handleCreate}/>
+                        <CommonButton name="Submit" onClick={handleCreate} />
                     </Box>
 
                 </Grid>

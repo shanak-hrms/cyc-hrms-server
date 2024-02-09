@@ -18,9 +18,10 @@ export interface IUserCard {
     actionOpen?: boolean;
     handleEdit?: any;
     handleAddSalary?: any;
+    handlePayroll?: any;
     handleDelete?: any;
 }
-const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete }: IUserCard) => {
+const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete }: IUserCard) => {
     return (
         <Grid className={styles.userCardContainer}>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
@@ -31,6 +32,7 @@ const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, a
                 {actionOpen ? <>
                     <Typography onClick={handleEdit}>edit staff</Typography>
                     <Typography onClick={handleAddSalary}>add salary</Typography>
+                    <Typography onClick={handlePayroll}>create payroll</Typography>
                     <Typography onClick={handleDelete}>delete</Typography></> : ""}
 
             </Box>

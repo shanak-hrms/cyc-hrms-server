@@ -1,87 +1,80 @@
-const express = require('express');
-const ClaimsRequest = require('../model/claimsRequest');
+const TravelClaim = require('../model/claimsRequest');
 
-exports.getClaimsRequest=async (req, res) => {
+exports.requestClaim = async (req, res) => {
     try {
-        const result = await ClaimsRequest.find();
-        res.status(200).json({
-            claimsRequestData: result,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
-    }
-};
-
-exports.createClaimsRequest=async (req, res) => {
-    try {
-        const createClaimRequest = new ClaimsRequest({
-            emp_id: req.body.emp_id,
-            name: req.body.name,
-            message: req.body.message,
-            attachment: req.body.attachment,
-            claimsType: req.body.claimsType,
-        });
-
-        const result = await createClaimRequest.save();
-        res.status(200).json({
-            message: 'Claim request created successfully!',
-            new_claimRequest: result,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
-    }
-};
-
-exports.updateClaimRequest=async (req, res) => {
-    try {
-        const userId = req.params.userId;
-        const newData = req.body;
-
-        const updateClaimRequest = await ClaimsRequest.findByIdAndUpdate(userId, newData, { new: true });
-
-        if (!updateClaimRequest) {
-            return res.status(404).json({
-                message: 'Claim request not found',
-            });
+        const { _id: employeeId } = req.user
+        const { claimName, claimAmount } = req.body;
+        const threshold = 2000;
+        console.log("claims", employeeId, claimName, claimAmount)
+        if (claimAmount > threshold) {
+            return res.status(400).json({ message: 'Claim amount exceeds threshold.' });
         }
 
-        res.status(200).json({
-            message: 'Claim request updated successfully',
-            claimsRequestData: updateClaimRequest,
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
+        let needApprovalFrom = ['Line Manager', 'HR', 'Director'];
+        const newClaim = new TravelClaim({ employeeId, claimName, claimAmount,needApprovalFrom });
+        await newClaim.save();
+        res.json(newClaim);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 
-exports.deleteClaimsRequest= async (req, res) => {
+exports.approveClaim = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const { claimId } = req.params;
+        const { _id: approverId, role } = req.user;
 
-        const result = await ClaimsRequest.deleteOne({ _id: userId });
-
-        if (result.deletedCount === 1) {
-            res.status(200).json({
-                message: 'Claim request deleted successfully',
-            });
-        } else {
-            res.status(404).json({
-                message: 'Claim request not found',
-            });
+        const claim = await TravelClaim.findById(claimId);
+        if (!claim) {
+            return res.status(404).json({ message: 'Claim not found' });
         }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: err.message || 'Internal Server Error',
-        });
+
+        // Check if the current user is authorized to approve the claim
+        if (!claim.needApprovalFrom.includes(role)) {
+            return res.status(403).json({ error: 'You are not authorized to approve this request' });
+        }
+
+        claim.approver = { approverId, role };
+        claim.status = 'Approved';
+        await claim.save();
+
+        res.json({ message: 'Claim approved successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
+
+exports.rejectClaim = async (req, res) => {
+    try {
+        const { claimId } = req.params;
+        const { _id:approverId, role } = req.user;
+
+        const claim = await TravelClaim.findById(claimId);
+        if (!claim) {
+            return res.status(404).json({ message: 'Claim not found' });
+        }
+
+        if (!claim.needApprovalFrom.includes(role)) {
+            return res.status(403).json({ error: 'You are not authorized to approve this request' });
+        }
+
+        claim.status = 'Rejected';
+        claim.approver = { approverId, role };
+
+        await claim.save();
+
+        res.json({ message: 'Claim rejected successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.getAllClaimsOfUser = async (req, res) => {
+    try {
+      const { _id:userId } = req.user;  
+      const claims = await TravelClaim.find({ employeeId: userId });
+      res.status(200).json(claims);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };

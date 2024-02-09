@@ -1,9 +1,10 @@
 const express = require('express');
-const { updateAttandance, deleteAttandance, getAttandance, markAttendance, requestApproval, approveRequest, checkOut, getAttandanceForMonth, getPendingRegularizationRequestById, getAllPendingRegularizationRequests } = require('../controller/attendanceCtrl');
+const { updateAttandance, deleteAttandance, getAttandance, markAttendance, requestApproval, approveRequest, checkOut, getAttandanceForMonth, getPendingRegularizationRequestById, getAllPendingRegularizationRequests, checkINApprovedAttendance } = require('../controller/attendanceCtrl');
 const {auth} = require('../middleware/auth');
 const router = express.Router();
 
 router.post('/checkIn',auth,markAttendance);
+router.patch('/Approved/attendance/checkIn/:requestId',auth,checkINApprovedAttendance);
 router.post('/request/approval',auth,requestApproval);
 router.patch('/approve/attendance-request/:requestId',auth,approveRequest);
 router.patch('/checkOut/:requestId',auth,checkOut);

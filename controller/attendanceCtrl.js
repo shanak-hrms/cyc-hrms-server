@@ -6,7 +6,7 @@ const User = require('../model/user');
 exports.markAttendance = async (req, res) => {
     try {
         const { _id: employeeId } = req.user
-        const { date, markedWithin5Km } = req.body;
+        const { date, markedWithin5Km ,time} = req.body;
         const currentDate = new Date();
         const attendanceDate = new Date(date);
         const month = attendanceDate.toLocaleString('en-US', { month: 'long' });
@@ -38,14 +38,17 @@ exports.markAttendance = async (req, res) => {
                     });
                 }
 
-                approvalExists.clockIn = attendanceDate;
+                // const clockINDate=approvalExists.date
+                // const formatClockIn=clockINDate.split("T")[0]
+                // const combineClockIn=formatClockIn.concat(`${time}:00Z`)
+                // approvalExists.clockIn = combineClockIn;
 
-                const result = await approvalExists.save();
+                // const result = await approvalExists.save();
 
-                return res.status(201).json({
-                    message: 'Attendance recorded successfully!',
-                    newAttendance: result,
-                });
+
+
+                throw new Error("Please CheckIN Attendance for the given day throught ChecIN Previous day Module.")
+
             }
         }
         // Check if attendance for the given day already exists
@@ -76,11 +79,52 @@ exports.markAttendance = async (req, res) => {
     }
 };
 
+
+exports.checkINApprovedAttendance = async (req, res) => {
+    try {
+        const { _id: employeeId } = req.user;
+        const { requestId } = req.params;
+        const { time } = req.body;
+        const approvalExists = await MonthlyAttendance.findOne({ _id: requestId, employeeId });
+        if (!approvalExists) {
+            return res.status(404).json({
+                message: 'Approval Attendance for the given id not found.',
+            });
+        }
+        const isApproved = approvalExists?.regularizationRequest?.status === 'Approved';
+        if (!isApproved) {
+            return res.status(400).json({
+                message: 'Attendance for the previous day requires approval from Line Manager, Director, or HR.',
+            });
+        }
+
+        if (approvalExists.clockIn) {
+            return res.status(400).json({
+                message: 'clockIn has already been marked.',
+            });
+        }
+        const clockINDate = approvalExists.date.toISOString();
+        const formatClockIn = clockINDate.split("T")[0];
+        const combineClockIn = formatClockIn.concat(`T${time}:00.000Z`);        
+        approvalExists.clockIn = new Date(combineClockIn);
+        const result = await approvalExists.save();
+
+        res.status(200).json({
+            message: 'clockIn recorded successfully!',
+            updatedAttendance: result,
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message || 'Internal Server Error',
+        });
+    }
+};
+
 exports.requestApproval = async (req, res) => {
     try {
         const { _id: employeeId } = req.user
         const { date, } = req.body;
-        const currentDate = new Date(date);
+        const currentDate = new Date();
         const requestedDate = new Date(date);
         const days = Math.ceil((currentDate - requestedDate) / (1000 * 60 * 60 * 24));
         console.log("days", days)
@@ -168,7 +212,7 @@ exports.getPendingRegularizationRequestById = async (req, res) => {
     }
 };
 
-
+          
 exports.approveRequest = async (req, res) => {
     try {
         const { _id: approverId, role } = req.user

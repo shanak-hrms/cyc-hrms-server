@@ -1,12 +1,14 @@
 const express = require('express');
-const { createClaimsRequest, updateClaimRequest, deleteClaimsRequest, getClaimsRequest } = require('../controller/claimsRequestCtrl');
+const {auth} = require('../middleware/auth');
+const { requestClaim, approveClaim, rejectClaim, getAllClaimsOfUser } = require('../controller/claimsRequestCtrl');
 const router = express.Router();
 
-router.post('/create',createClaimsRequest);
-router.put('/update/:userId',updateClaimRequest);
-router.delete('/delete/:userId',deleteClaimsRequest);
-router.get('/get',getClaimsRequest);
+router.post('/apply/request',auth,requestClaim);
+router.patch('/approve/request/:claimId',auth,approveClaim);
+router.patch('/reject/request/:claimId',auth,rejectClaim);
+router.get('/all/request/list/ofuser',auth,getAllClaimsOfUser);
 
-module.exports = router;
+
+module.exports = router;   
 
 

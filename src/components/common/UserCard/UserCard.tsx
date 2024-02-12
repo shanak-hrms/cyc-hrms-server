@@ -6,6 +6,8 @@ import CommonButton from '../CommonButton/CommonButton';
 import img from '../../../asserst/images/profile_pic.jpg'
 import { RxAvatar } from "react-icons/rx";
 import { PiUserCircleLight } from "react-icons/pi";
+import { MdEdit, MdOutlineAdd, MdDelete } from "react-icons/md";
+
 
 export interface IUserCard {
     label: string;
@@ -30,10 +32,16 @@ const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, a
             </Box>
             <Box>
                 {actionOpen ? <>
-                    <Typography onClick={handleEdit}>edit staff</Typography>
-                    <Typography onClick={handleAddSalary}>add salary</Typography>
-                    <Typography onClick={handlePayroll}>create payroll</Typography>
-                    <Typography onClick={handleDelete}>delete</Typography></> : ""}
+                    <ListItemButton onClick={handleEdit} sx={{ display: "flex", flexDirection: "column" }}>
+                        <ListItemText sx={{ textAlign: "left", }} > <MdEdit fontSize={18} />Edit</ListItemText>
+                    </ListItemButton>
+                    <ListItemButton onClick={handleAddSalary} sx={{ display: "flex", flexDirection: "column" }}>
+                        <ListItemText sx={{ textAlign: "left", }} > <MdOutlineAdd fontSize={18} />Add Salart</ListItemText>
+                    </ListItemButton>
+                    <ListItemButton onClick={handleDelete} sx={{ display: "flex", flexDirection: "column" }}>
+                        <ListItemText sx={{ textAlign: "left" }} > <MdDelete fontSize={18} />Delete</ListItemText>
+                    </ListItemButton>
+                </> : ""}
 
             </Box>
 

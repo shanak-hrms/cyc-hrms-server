@@ -9,6 +9,8 @@ import { RiHotspotLine } from 'react-icons/ri';
 import MeetingSchedule from './meetingSchedule/MeetingSchedule';
 import Calender from './calender/Calender';
 import AnnouncementModal from '../modal/AnnouncementModal/AnnouncementModal';
+import ServiceCard from './ServiceCard/ServiceCard';
+
 
 export interface IDashboard {
     handleCreate: any;
@@ -23,103 +25,58 @@ export interface IDashboard {
     open: boolean;
     handleDelete: any;
 }
-const Dashboard = ({ announcementData, handleCreate, handleEdit, inputData, handleChange, handleEditModal, handleClose, editModal, handleModal, open, handleDelete }: IDashboard) => {
+const Dashboard = () => {
 
 
     const data = [
         {
-            "id": 1,
-            "icon": <AiOutlineTeam />,
-            "heading": "Staff",
-            "number": 0,
-            "color": "#58024B"
-        },
-        {
             "id": 2,
-            "icon": <TbTicket />,
-            "heading": "Ticket",
-            "number": 0,
+            "icon": <TbTicket fontSize={25} />,
+            "heading": "Open Lead",
+            "number": 12,
             "color": "#3EC9D6"
         },
         {
             "id": 3,
-            "icon": <MdAccountBalanceWallet />,
-            "heading": "Account Balance",
-            "number": "0",
+            "icon": <MdAccountBalanceWallet fontSize={25} />,
+            "heading": "Close Lead",
+            "number": 8,
             "color": "#6FD943"
         },
         {
-            "id": 4,
-            "icon": <RiHotspotLine />,
-            "heading": "Jobs",
-            "number": 0,
+            "id": 2,
+            "icon": <TbTicket fontSize={25} />,
+            "heading": "Hot Lead",
+            "number": 12,
             "color": "#3EC9D6"
         },
         {
-            "id": 5,
-            "icon": <RiHotspotLine />,
-            "heading": "Active Jobs",
-            "number": 0,
+            "id": 3,
+            "icon": <MdAccountBalanceWallet fontSize={25} />,
+            "heading": "Cold Lead",
+            "number": 8,
             "color": "#6FD943"
-        },
-        {
-            "id": 6,
-            "icon": <RiHotspotLine />,
-            "heading": "Inactive Jobs",
-            "number": 0,
-            "color": "#58024B"
         }
     ]
 
     return (
         <Grid className={styles.dashboardContainer}>
-            <Typography variant='h2' fontWeight={500} fontSize={20}>Dashboard</Typography>
-            <Grid spacing={2} container>
+            <Grid className={styles.dashboard}>
                 {data && data.map((item: any) => {
                     return (
-                        <Grid item sm={4}>
-                            <CommonCard
-                                icon={item.icon}
-                                heading={item.heading}
-                                number={item.number}
-                                color={item.color}
-                                backgroundColor={item.color}
-                            />
+                        <Grid item sm={3}>
+                            <ServiceCard heading={item.heading} subHeading={item.number} icon={item.icon} />
                         </Grid>
                     )
-                })}
-            </Grid>
-            <Grid container spacing={2} className={styles.dashboard2ndSection}>
-                <Grid item sm={7}>
-                    <MeetingSchedule
-                        handleClick={handleModal}
-                        handleEdit={handleEditModal}
-                        data={announcementData}
-                        handleDelete={handleDelete}
-                    />
+                })}</Grid>
+            <Grid container>
+                <Grid item sm={6} >
+
                 </Grid>
-                <Grid item sm={5}>
+                <Grid item sm={6} >
                     <Calender />
                 </Grid>
             </Grid>
-            <AnnouncementModal
-                open={open}
-                name={"Create"}
-                heading={"Create New Announcement"}
-                handleClose={handleClose}
-                inputData={inputData}
-                handleChange={handleChange}
-                handleClick={handleCreate}
-            />
-            <AnnouncementModal
-                open={editModal}
-                name={"Edit"}
-                heading={"Edit Announcement"}
-                handleClose={handleClose}
-                inputData={inputData}
-                handleChange={handleChange}
-                handleClick={handleEdit}
-            />
         </Grid>
     )
 }

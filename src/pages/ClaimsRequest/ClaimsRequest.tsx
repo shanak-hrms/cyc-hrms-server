@@ -10,7 +10,7 @@ import CommonButton from '../../components/common/CommonButton/CommonButton'
 
 
 const ClaimsRequest = () => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const handleClose = () => { setOpen(false) };
     const [inputData, setInputData] = useState({ claimName: "", claimAmount: "", message: "" });
     const [claimRequestData, setClaimRequestData] = useState<any>();
@@ -98,13 +98,13 @@ const ClaimsRequest = () => {
             </Grid>
             <TableContainer>
                 <Table>
-                    <TableHead sx={{ backgroundColor: "#383A3C" }}>
+                    <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CLAIM NAME</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CLAIM AMOUNT</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MESSAGE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>CLAIM NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>CLAIM AMOUNT</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>MESSAGE</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

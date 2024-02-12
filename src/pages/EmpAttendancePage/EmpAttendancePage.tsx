@@ -19,9 +19,14 @@ import TakePicture from './TakePicture/TakePicture'
 import TakePhotoModal from '../../components/modal/TakePhotoModal/TakePhotoModal'
 import LeadManagement from '../LeadManagement/LeadManagement'
 import RequestModal from '../../components/modal/RequestModal/RequestModal'
+import NewHeading from '../../components/NewHeading/NewHeading'
 
-
-const EmpAttendancePage = ({ handleLogout }: any) => {
+export interface IEmpAttendancePage {
+    open: any;
+    handleClick: any;
+    handleLogout: any;
+}
+const EmpAttendancePage = ({ open, handleClick, handleLogout }: IEmpAttendancePage) => {
     const [menu, setMenu] = useState(false)
     const [photoModal, setPhotoModal] = useState(false)
     const [requestModal, setRequestModal] = useState(false)
@@ -213,7 +218,7 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
             officeLocation.longitude
         );
 
-        if (distance > 50) {
+        if (distance > 5) {
             alert('You are not within 5km of the office location.');
             return;
         }
@@ -279,12 +284,13 @@ const EmpAttendancePage = ({ handleLogout }: any) => {
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
-                <Heading
+                {/* <Heading
                     menu={menu}
                     IsAction={false}
                     handleClick={handleMenu}
                     handleResponsiveMenu={handleResponsiveMenu}
-                />
+                /> */}
+                <NewHeading open={open} handleClick={handleClick} handleLogout={handleLogout} />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
                     <Route path='/attendance' element={

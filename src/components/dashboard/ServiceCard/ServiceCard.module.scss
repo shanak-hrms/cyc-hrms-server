@@ -1,0 +1,15 @@
+.serviceCardContainer {
+    display: flex;
+    justify-content: space-between;
+    // padding-block: 2.5%;
+    padding-inline: 6%;
+
+    >div:nth-child(2) {
+        margin-block: auto;
+        padding-block: 0.5rem;
+        padding-inline: 0.25rem;
+        background-color: #00ACB2;
+        color: #000000;
+        border-radius: 0.25rem;
+    }
+}

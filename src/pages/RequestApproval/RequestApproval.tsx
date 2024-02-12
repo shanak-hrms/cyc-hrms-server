@@ -5,7 +5,6 @@ import HeadingText from '../../components/HeadingText/HeadingText'
 import SearchBox from '../../components/common/searchBox/SearchBox'
 import axios from 'axios'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
-import { error } from 'console'
 import ApproveReqModal from '../../components/modal/ApproveReqModal/ApproveReqModal'
 
 export const RequestApproval = () => {
@@ -88,15 +87,13 @@ export const RequestApproval = () => {
             </Grid>
             <TableContainer>
                 <Table>
-                    <TableHead sx={{ backgroundColor: "#383A3C" }}>
+                    <TableHead sx={{ backgroundColor: "#000000" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>EMAIL</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-                            {/* <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CLOCK IN</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CLOCK OUT</TableCell> */}
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
+                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>Name</TableCell>
+                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>EMAIL</TableCell>
+                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>DATE</TableCell>
+                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>ACTION</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -107,8 +104,6 @@ export const RequestApproval = () => {
                                     <TableCell sx={{ textAlign: "center" }}>{item.employeeId.email}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.date)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.regularizationRequest.status}</TableCell>
-                                    {/* <TableCell sx={{ textAlign: "center" }}>{formateTime(item.date)}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{formateTime(item.date)}</TableCell> */}
                                     <TableCell sx={{ textAlign: "center" }}>
                                         <CommonButton
                                             name={"Approve"}

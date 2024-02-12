@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Box, MenuList, MenuItem, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
-import logo from '../../asserst/images/LOGO CYC.jpg'
+import logo from '../../asserst/images/CYC_logo-01-removebg-preview.png'
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TbPoint } from "react-icons/tb";
 
@@ -70,9 +70,9 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
                     <Typography fontSize={14} sx={{ cursor: "pointer", "&:hover": { color: "#68C5AE" } }} paddingInlineStart={1}
                         onClick={(() => navigation('/leave-policy'))}>*Leave policy</Typography>
                 </Box>
-                <MenuList onClick={handleLogout}>
-                    <MenuItem>Logout</MenuItem>
-                </MenuList>
+                {/* <MenuList onClick={handleLogout}>
+                    <MenuItem>Version: 3.0.3</MenuItem>
+                </MenuList> */}
             </Grid>
         </Grid>
     )

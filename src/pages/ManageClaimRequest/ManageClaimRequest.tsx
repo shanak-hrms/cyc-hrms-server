@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from './ManageClaimRequest.module.scss'
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import axios from 'axios'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import ClaimActionModal from '../../components/modal/ClaimActionModal/ClaimActionModal'
@@ -93,17 +93,18 @@ const ManageClaimRequest = () => {
     }, [])
     return (
         <Fragment>
-            <Grid>
+            <Grid className={styles.manageClaimRequest}>
+                <Typography variant='h5' fontSize={22} fontWeight={500}>Claim Request</Typography>
                 <TableContainer>
                     <Table>
-                        <TableHead sx={{ backgroundColor: "#383A3C" }}>
+                        <TableHead sx={{ backgroundColor: "#00ACB2" }}>
                             <TableRow>
-                                <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>CLAIM NAME</TableCell>
-                                <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>CLAIM AMOUNT</TableCell>
-                                <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>DATE</TableCell>
-                                <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>STATUS</TableCell>
-                                <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>MESSAGE</TableCell>
-                                <TableCell sx={{ color: "#ffffff", textAlign: "center" }}>ACTION</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>CLAIM NAME</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>CLAIM AMOUNT</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>DATE</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>MESSAGE</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>ACTION</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

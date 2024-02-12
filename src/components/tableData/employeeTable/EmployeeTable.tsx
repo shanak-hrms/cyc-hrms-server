@@ -53,11 +53,11 @@ const EmployeeTable = ({
       </TableHead>
       <TableContainer>
         <Table>
-          <TableHead style={{ backgroundColor: "#383A3C" }}>
+          <TableHead style={{ backgroundColor: "#00ACB2" }}>
             <TableRow>
               {tableTitle.map((item: any) => {
                 return (
-                  <TableCell style={{ color: "#68C5AE", textAlign: "center" }}>{item.title}</TableCell>
+                  <TableCell style={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>{item.title}</TableCell>
                 );
               })}
             </TableRow>

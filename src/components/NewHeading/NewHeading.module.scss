@@ -1,0 +1,46 @@
+.newHeadingContainer {
+    position: relative;
+
+    .newHeading {
+        display: flex;
+        justify-content: space-between;
+        background-color: #F8FAF9;
+        padding-block: 1%;
+        padding-inline: 2%;
+
+        >div:nth-child(1) {
+            margin-block: auto;
+
+            h5 {
+                color: #00ACB2;
+                font-size: 1.8rem;
+            }
+
+            span {
+                color: #000000;
+            }
+        }
+    }
+
+    .headingMenu {
+        border: 1px solid #d9def1;
+        position: absolute;
+        top: 90%;
+        right: 2%;
+        background-color: #ffffff;
+        border-radius: 0.25rem;
+        z-index: 1;
+
+        >div {
+            &:hover {
+                background-color: #00ACB2;
+                color: #000000;
+            }
+
+            >div {
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+}

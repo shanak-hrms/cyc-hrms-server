@@ -49,8 +49,8 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                         {tableData && tableData.length > 0 && tableData.map((item: any) => {
                             return (
                                 <TableRow key={item._id} >
-                                    <TableCell style={{ textAlign: "center" }}>{"NAME"}</TableCell>
-                                    <TableCell style={{ textAlign: "center" }}>{"email"}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{item.employeeId.email}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>

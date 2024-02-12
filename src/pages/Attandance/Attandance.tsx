@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from '../TimeSheet/TimeSheet.module.scss'
+import styles from './Attandance.module.scss'
 import { Grid, SelectChangeEvent } from '@mui/material';
 import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
 import data from './data.json'
@@ -47,7 +47,7 @@ const Attandance = () => {
     }, []);
 
     return (
-        <Grid className={styles.timeSheetContainer}>
+        <Grid className={styles.attandanceContainer}>
             <CommonHeading
                 heading={''}
                 onClick={openModal}

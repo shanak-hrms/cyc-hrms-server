@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './Attendance.module.scss'
 import { Grid, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import axios from 'axios';
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingText from '../../../components/HeadingText/HeadingText';
-import CustomLoader from '../../../components/CustomLoader/CustomLoader';
 import ReqAttenModal from '../../../components/modal/ReqAttenModal/ReqAttenModal';
 
 export interface IAttendance {
@@ -23,7 +21,6 @@ export interface IAttendance {
 
 const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockOut, handleReqAppModal, handleReqAttModal, reqAttenVal, handleChange, handleClose, handleAttendance }: IAttendance) => {
 
-    console.log(attendanceData, "attendanceData..")
     function formatDate(dateString: any) {
         const date = new Date(dateString);
         return date.toLocaleDateString();
@@ -32,13 +29,6 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
         const date = new Date(dateString);
         return date.toLocaleTimeString();
     }
-
-    useEffect(() => {
-        // const empDataString: any = localStorage.getItem("loginedUser")
-        // const empData = JSON.parse(empDataString);
-        // const empEmail = empData.email;
-        // setEmail(empEmail)
-    }, []);
 
     return (
         <Grid className={styles.attendanceContainer}>
@@ -55,12 +45,12 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                 <TableContainer className={styles.tableContainer} >
                     <Table>
                         <TableHead>
-                            <TableRow sx={{ backgroundColor: "#383A3C" }}>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>DATE</TableCell>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CHECK IN</TableCell>
-                                <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>CHECK OUT</TableCell>
+                            <TableRow sx={{ backgroundColor: "#02ABB5" }}>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>NAME</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>DATE</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>CHECK IN</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>CHECK OUT</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -71,7 +61,7 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                                             <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
                                             <TableCell sx={{ textAlign: "center" }}>{item.regularizationRequest?.status}</TableCell>
-                                            <TableCell>
+                                            <TableCell sx={{ textAlign: "center" }}>
                                                 {item.clockIn === null
                                                     ?
                                                     <CommonButton name={"Clock In"} onClick={() => handleReqAttModal(item._id)} />

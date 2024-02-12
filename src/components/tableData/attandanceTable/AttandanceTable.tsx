@@ -36,11 +36,11 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
             </TableHead>
             <TableContainer>
                 <Table>
-                    <TableHead style={{ backgroundColor: "#383A3C" }}>
+                    <TableHead style={{ backgroundColor: "#00ACB2" }}>
                         <TableRow >
                             {tableHeading.map((item: any) => {
                                 return (
-                                    <TableCell key={item.id} style={{ color: "#68C5AE", textAlign: "center" }}>{item.title}</TableCell>
+                                    <TableCell key={item.id} style={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>{item.title}</TableCell>
                                 )
                             })}
                         </TableRow>
@@ -49,8 +49,8 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                         {tableData && tableData.length > 0 && tableData.map((item: any) => {
                             return (
                                 <TableRow key={item._id} >
-                                    <TableCell style={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>
-                                    <TableCell style={{ textAlign: "center" }}>{item.employeeId.email}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
+                                    <TableCell style={{ textAlign: "center" }}>{item.employeeId?.email}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>

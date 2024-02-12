@@ -8,8 +8,8 @@
 
     >div:nth-child(1) {
         h5 {
-            background-color: #383A3C;
-            color: #68C5AE;
+            background-color: #00ACB2;
+            color: #000000;
             padding-inline: 1.25rem;
             padding-block: 0.35rem;
             font-size: 0.85rem;
@@ -18,25 +18,31 @@
     }
 
     >div:nth-child(2) {
-        background-color: #F5F5F5;
+        background-color: #ffffff;
+        border: 1px solid darkgrey;
+        border-radius: 0.25rem;
         position: absolute;
         top: 20%;
         right: 10%;
 
-        p {
-            padding-inline: 0.5rem;
-            background-color: #F5F5F5;
-            color: #000000;
-            font-size: 0.8rem;
-            cursor: pointer;
-
+        >div {
             &:hover {
-                background-color: #383A3C;
-                color: #68C5AE;
+                background-color: #00ACB2;
+                color: #000000;
+            }
+
+            >div {
+                width: 100%;
+                padding: 0%;
+                margin: 0%;
+                margin-block: auto;
+
+                span {
+                    font-size: 0.8rem;
+
+                }
             }
         }
-
-
     }
 
     >div:nth-child(3) {
@@ -49,7 +55,7 @@
         }
 
         h4 {
-            color: #383A3C;
+            color: #000000;
             margin-block-start: 0.5rem;
             font-weight: 700;
             font-size: 1.18rem;

@@ -57,16 +57,16 @@ const ManageLeaveTable = ({
       </Grid>
       <TableContainer className={styles.tableContainer}>
         <Table>
-          <TableHead style={{ backgroundColor: "#383A3C" }}>
+          <TableHead style={{ backgroundColor: "#00ACB2" }}>
             <TableRow>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>ACTION</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>NAME</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>START DATE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>END DATE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>MONTH</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>LEAVE TYPE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>REASON</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>ACTION</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -92,15 +92,15 @@ const ManageLeaveTable = ({
       <TableContainer className={styles.tableContainer}>
         <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5} marginBlockEnd={1.5}>Approved Leave</Typography>
         <Table>
-          <TableHead style={{ backgroundColor: "#383A3C" }}>
+          <TableHead style={{ backgroundColor: "#00ACB2" }}>
             <TableRow>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>NAME</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>START DATE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>END DATE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>MONTH</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>LEAVE TYPE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>REASON</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -123,15 +123,15 @@ const ManageLeaveTable = ({
       <TableContainer className={styles.tableContainer}>
         <Typography variant="h5" fontSize={22} fontWeight={500} marginInlineStart={2.5} marginBlockEnd={1.5}>Rejected Leave</Typography>
         <Table>
-          <TableHead style={{ backgroundColor: "#383A3C" }}>
+          <TableHead style={{ backgroundColor: "#00ACB2" }}>
             <TableRow>
-            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-              <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>NAME</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>START DATE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>END DATE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>MONTH</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>LEAVE TYPE</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+              <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>REASON</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

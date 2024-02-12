@@ -1,9 +1,16 @@
 .leaveContainer {
+    width: 96%;
+    margin-inline: auto;
+    margin-block-start: 3rem;
+    margin-block-end: 2rem;
+    border: 1px solid #d9def1;
+    border-radius: 0.5rem;
+
 
     .leaveHeader {
         display: flex;
         justify-content: space-between;
-        margin-block-start: 2rem;
+        margin-block-start: 1rem;
         padding-inline-end: 1rem;
 
         >div:nth-child(2) {

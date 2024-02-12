@@ -12,6 +12,7 @@ import MeetingScheduleTable from '../../../components/tableData/meetingScheduleT
 import tabelData from '../../../data/mettingSchedule.json'
 import Calender from '../../../components/dashboard/calender/Calender';
 import MeetingSchedule from '../../../components/dashboard/meetingSchedule/MeetingSchedule';
+import ServiceCard from '../../../components/dashboard/ServiceCard/ServiceCard';
 
 const Dashboard = () => {
   const [anouncementData, setAnouncementData] = useState<any>()
@@ -19,23 +20,23 @@ const Dashboard = () => {
   const data = [
     {
       "id": 1,
-      "icon": <AiOutlineTeam />,
+      "icon": <AiOutlineTeam fontSize={25} />,
       "heading": "Leave",
-      "number": 0,
+      "number": 20,
       "color": "#58024B"
     },
     {
       "id": 2,
-      "icon": <TbTicket />,
-      "heading": "Casual Leave",
-      "number": 0,
+      "icon": <TbTicket fontSize={25} />,
+      "heading": "Privilege",
+      "number": 12,
       "color": "#3EC9D6"
     },
     {
       "id": 3,
-      "icon": <MdAccountBalanceWallet />,
-      "heading": "Sick Leave",
-      "number": 0,
+      "icon": <MdAccountBalanceWallet fontSize={25} />,
+      "heading": "LWP",
+      "number": 8,
       "color": "#6FD943"
     }
   ]
@@ -59,20 +60,14 @@ const Dashboard = () => {
         {data.map((item) => {
           return (
             <Grid key={item.id} className={styles.card}>
-              <CommonCard
-                icon={item.icon}
-                heading={item.heading}
-                number={item.number}
-                color={item.color}
-                backgroundColor={'#383A3C'}
-              />
+              <ServiceCard heading={item.heading} subHeading={item.number} icon={item.icon} />
             </Grid>
           )
         })}
       </Grid>
       <Grid container className={styles.dashboard}>
         <Grid item sm={6}>
-          <TableContainer className={styles.tableContainer}>
+          {/* <TableContainer className={styles.tableContainer}>
             <Table>
               <TableHead sx={{ backgroundColor: '#383A3C' }}>
                 <TableRow >
@@ -95,7 +90,7 @@ const Dashboard = () => {
                 })}
               </TableBody>
             </Table>
-          </TableContainer>
+          </TableContainer> */}
         </Grid>
         <Grid item sm={6}>
           <Calender />

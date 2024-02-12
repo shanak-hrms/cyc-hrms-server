@@ -1,16 +1,19 @@
 .dashboardContainer {
-    margin-inline: 2%;
+    border-radius: 0.5rem;
+    margin-block-start: 3rem;
+    margin-block-end: 2rem;
+    width: 96% !important;
+    margin-inline: auto;
 
-    h2 {
-        padding-block: 2rem;
-    }
+    .dashboard {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #d9def1;
+        padding-block: 1.5%;
+        margin-block: 2.5%;
 
-    .dashboard2ndSection {
-        > div:nth-child(1){
-            // background-color: aqua;
-        }
-        > div:nth-child(2){
-            // background-color: yellow;
+        >div {
+            border-right: 1px dashed rgb(217, 222, 241);
         }
     }
 }

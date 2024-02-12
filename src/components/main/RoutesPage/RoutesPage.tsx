@@ -30,21 +30,16 @@ const RoutesPage = () => {
                 <Route path='/user' element={<StaffPage />} />
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
                 <Route path='/employee' element={<EmployeePage />} />
-                <Route path='/employee/create-employee' element={<CreateNewEmployee />} />
-                <Route path='/employee/edit-employee' element={<EditAddedEmployee />} />
-                <Route path='/timesheet' element={<TimeSheet />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />
                 <Route path='/claims-request' element={<ManageClaimRequest />} />
                 <Route path='/lead-management' element={<LeadManagement />} />
                 <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />
-                <Route path='/emp-attendance' element={<EmpAttendancePage />} />
                 <Route path='/invoice' element={<Invoice />} />
                 <Route path='/invoice-preview' element={<InvoicePreview />} />
                 <Route path='/leave-policy' element={<LeavePolicy />} />
                 <Route path='/company-policy' element={<CompanyPolicy />} />
                 <Route path='/pay-slip' element={<EmployeePage />} />
-                <Route path='/pay-slip-form' element={<PaySlipForm />} />
                 <Route path='/request-approval-list' element={<RequestApproval />} />
 
             </Routes>

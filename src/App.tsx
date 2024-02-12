@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigation = useNavigate()
+  const [open, setOpen] = useState(false);
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
@@ -80,6 +81,9 @@ const App = () => {
   // window.addEventListener('beforeunload', () => {
   //   localStorage.removeItem('userToken');
   // });
+  const handleClickUSer = () => {
+    setOpen(!open)
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');
@@ -96,9 +100,15 @@ const App = () => {
       <EmployeeDataContextProvider>
         {IsLogin ?
           <>
-            {(user === "ADMIN" || user === "DIRECTOR" || user === "LINE MANAGER" || user === "HR") && <Overview handleLogout={handleLogout} />}
+            {(user === "ADMIN" || user === "DIRECTOR" || user === "LINE MANAGER" || user === "HR") 
+            && 
+            <Overview 
+            open={open}
+            handleLogout={handleLogout} 
+            handleClick={handleClickUSer}
+             />}
 
-            {user === "EMPLOYEE" && <EmpAttendancePage handleLogout={handleLogout} />}
+            {user === "EMPLOYEE" && <EmpAttendancePage handleLogout={handleLogout} open={open} handleClick={handleClickUSer} />}
           </>
           :
           <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />

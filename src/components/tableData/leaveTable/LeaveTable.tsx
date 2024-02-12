@@ -24,15 +24,15 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
         <>
             <TableContainer className={styles.leaveTableContainer}>
                 <Table>
-                    <TableHead style={{ backgroundColor: "#383A3C" }}>
+                    <TableHead style={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>START DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>END DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>MONTH</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>LEAVE TYPE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>REASON</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -55,15 +55,15 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
             <TableContainer className={styles.leaveTableContainer}>
                 <Typography variant='h5' fontSize={22} fontWeight={500} paddingInlineStart={2.5}>Pending Leave</Typography>
                 <Table>
-                    <TableHead style={{ backgroundColor: "#383A3C" }}>
+                    <TableHead style={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>START DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>END DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>MONTH</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>LEAVE TYPE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>REASON</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -86,15 +86,15 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
             <TableContainer className={styles.leaveTableContainer}>
                 <Typography variant='h5' fontSize={22} fontWeight={500} paddingInlineStart={2.5}>Rejected Leave</Typography>
                 <Table>
-                    <TableHead style={{ backgroundColor: "#383A3C" }}>
+                    <TableHead style={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>NAME</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>START DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>MONTH</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>LEAVE TYPE</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>REASON</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>START DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>END DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>MONTH</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>LEAVE TYPE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>REASON</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

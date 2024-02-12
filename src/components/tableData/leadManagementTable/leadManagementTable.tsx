@@ -43,22 +43,22 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
     return (
         <TableContainer className={styles.leadManagementTable} >
             <Table>
-                <TableHead sx={{ backgroundColor: "#383A3C" }}>
+                <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                     <TableRow>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Lead Name</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Lead Type</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Open Date</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Close Date</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Status</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Type</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Source</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Vendor Name</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Vendor Address</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Value</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Business Cost</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Profit Amount</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Description</TableCell>
-                        <TableCell sx={{ color: "#68C5AE", textAlign: "center" }}>Action</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Lead Name</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Lead Type</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Open Date</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Close Date</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Status</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Type</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Source</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Vendor Name</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Vendor Address</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Value</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Cost</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Profit Amount</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Description</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

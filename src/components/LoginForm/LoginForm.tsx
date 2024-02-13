@@ -37,11 +37,12 @@ const LoginForm = ({ inputData, handleChange, handleClick }: ILoginForm) => {
                     type={"password"}
                 />
             </Box>
-            <Typography style={{ color: "#68C5AE", cursor: "pointer" }}>Forgot Your Password?</Typography>
             <CommonButton
                 name={"Login"}
                 onClick={handleClick}
             />
+            <Typography style={{ color: "#68C5AE", cursor: "pointer" }}> Kindly contact to HR, if you forgot your Password?</Typography>
+
 
         </Grid>
     )

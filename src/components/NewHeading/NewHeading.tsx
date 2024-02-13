@@ -3,15 +3,18 @@ import styles from './NewHeading.module.scss'
 import { Box, Grid, ListItemButton, ListItemText, Typography } from '@mui/material'
 import { FaUser } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
-import { JsonRequestError } from '@fullcalendar/core';
+import { IoMdClose } from "react-icons/io";
+
 
 
 export interface INewHeading {
     open: any;
+    menu?: any;
+    handleMemuToggal?: any
     handleClick: any;
     handleLogout: any;
 }
-const NewHeading = ({ open, handleClick, handleLogout }: INewHeading) => {
+const NewHeading = ({ open, menu, handleMemuToggal, handleClick, handleLogout }: INewHeading) => {
     const [userName, setUserName] = useState('')
     useEffect(() => {
         const userName: any = localStorage.getItem("userName")
@@ -21,6 +24,9 @@ const NewHeading = ({ open, handleClick, handleLogout }: INewHeading) => {
     return (
         <Grid className={styles.newHeadingContainer}>
             <Grid className={styles.newHeading}>
+                <Box>
+                    <IoMdClose fontSize={25} cursor={"pointer"} onClick={handleMemuToggal} />
+                </Box>
                 <Box>
                     <Typography variant='h5' fontSize={18} fontWeight={600}>Hey, <span>{userName}</span></Typography>
                 </Box>
@@ -37,7 +43,20 @@ const NewHeading = ({ open, handleClick, handleLogout }: INewHeading) => {
                         <ListItemText>Logout</ListItemText>
                     </ListItemButton>
                 </Grid>
+
             }
+            <>
+                {menu &&
+                    <Grid className={styles.headingMenu}>
+                        {/* <ListItemButton>
+                        <ListItemText>Profile</ListItemText>
+                    </ListItemButton> */}
+                        <ListItemButton onClick={handleLogout}>
+                            <ListItemText>Logout</ListItemText>
+                        </ListItemButton>
+                    </Grid>
+                    }
+            </>
 
         </Grid>
     )

@@ -1,7 +1,7 @@
 .loginFormContainer {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 12%;
-    width: 32rem;
+    padding: 8%;
+    // width: 32rem;
     border-radius: 0.5rem;
     background-color: #ffffff;
 
@@ -9,7 +9,7 @@
         margin-block: 1.5rem;
     }
 
-    p:nth-child(3)+div {
+    >div {
         margin-block-start: 2rem;
 
         button {
@@ -23,5 +23,10 @@
                 background-color: #383A3C;
             }
         }
+    }
+
+    >div+p {
+        margin-block-start: 0.5rem;
+        font-size: 0.9rem;
     }
 }

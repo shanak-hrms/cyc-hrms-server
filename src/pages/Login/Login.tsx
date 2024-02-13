@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './Login.module.scss'
 import { Box, Grid, Typography } from '@mui/material'
-import logo from '../../asserst/images/LOGO CYC.jpg'
+import logo from '../../asserst/images/CYC_logo-01-removebg-preview.png'
 import LoginForm from '../../components/LoginForm/LoginForm'
 import hr from '../../asserst/images/hr.jpg'
 
@@ -13,24 +13,20 @@ export interface ILogin {
 
 }
 const Login = ({ inputData, handleChange, handleLogin }: ILogin) => {
+    
 
     return (
         <Grid className={styles.loginContainer}>
             <Box>
                 <img src={logo} alt='img' />
             </Box>
-            <Grid container justifyContent={"space-between"}>
-                <Box>
-                    <img src={hr} alt='hr' />
-                </Box>
-                <Box>
-                    <LoginForm
-                        inputData={inputData}
-                        handleChange={handleChange}
-                        handleClick={handleLogin}
-                    />
-                </Box>
-            </Grid>
+            <Box>
+                <LoginForm
+                    inputData={inputData}
+                    handleChange={handleChange}
+                    handleClick={handleLogin}
+                />
+            </Box>
         </Grid>
     )
 }

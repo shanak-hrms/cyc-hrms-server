@@ -12,7 +12,7 @@ const App = () => {
   const navigation = useNavigate()
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
-
+  const handleResponsiveMenu = () => setMenu(false);
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
@@ -86,7 +86,9 @@ const App = () => {
   const handleClickUSer = () => {
     setOpen(!open)
   }
-  
+  const handleSidebarMemu = () => {
+    setMenu(!menu)
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');
@@ -103,15 +105,26 @@ const App = () => {
       <EmployeeDataContextProvider>
         {IsLogin ?
           <>
-            {(user === "ADMIN" || user === "DIRECTOR" || user === "LINE MANAGER" || user === "HR") 
-            && 
-            <Overview 
-            open={open}
-            handleLogout={handleLogout} 
-            handleClick={handleClickUSer}
-             />}
+            {(user === "ADMIN" || user === "DIRECTOR" || user === "LINE MANAGER" || user === "HR")
+              &&
+              <Overview
+                open={open}
+                handleLogout={handleLogout}
+                handleClick={handleClickUSer}
+                menu={menu}
+                handleSidebarMemu={handleSidebarMemu}
+                handleResponsiveMenu={handleResponsiveMenu}
+              />}
 
-            {user === "EMPLOYEE" && <EmpAttendancePage handleLogout={handleLogout} open={open} handleClick={handleClickUSer} />}
+            {user === "EMPLOYEE" &&
+              <EmpAttendancePage
+                handleLogout={handleLogout}
+                open={open}
+                handleClickLogout={handleClickUSer}
+                menu={menu}
+                handleSidebarMemu={handleSidebarMemu}
+                handleResponsiveMenu={handleResponsiveMenu}
+              />}
           </>
           :
           <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />

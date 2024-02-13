@@ -4,6 +4,8 @@
     @media screen and (max-width:480px) {
         position: fixed;
         width: 100%;
+        z-index: 1;
+
     }
 
     .newHeading {
@@ -14,12 +16,11 @@
         padding-inline: 2%;
 
         @media screen and (max-width:480px) {
-            padding-block: 4%;
-            padding-inline: 2%;
-
+            padding-block: 2%;
         }
 
-        .menuToggal {
+
+        .headingMenuOne {
             display: none;
 
             @media screen and (max-width:480px) {
@@ -29,7 +30,7 @@
             }
         }
 
-        >div:nth-child(2) {
+        .headingName {
             margin-block: auto;
 
             h5 {
@@ -41,41 +42,10 @@
                 color: #000000;
             }
         }
-    }
 
-    .headingMenuOne {
-        border: 1px solid #d9def1;
-        position: absolute;
-        top: 90%;
-        left: 2%;
-        background-color: #ffffff;
-        border-radius: 0.25rem;
-        z-index: 1;
-        display: none;
-
-        @media screen and (max-width:480px) {
-            display: block;
+        .headinglogout {
+            // border: 2px solid yellow;
         }
-
-        >div {
-            height: fit-content;
-
-            &:hover {
-                background-color: #00ACB2;
-                color: #000000;
-            }
-
-            >div {
-                padding: 0;
-                margin: 0;
-            }
-
-            >div:nth-child(1) {
-                display: none;
-
-            }
-        }
-
     }
 
     .headingMenu {
@@ -97,6 +67,27 @@
                 padding: 0;
                 margin: 0;
             }
+        }
+    }
+
+    .headingSidebarMenu {
+        display: none;
+
+        @media screen and (max-width:480px) {
+            display: block;
+
+            >div {
+                border: 1px solid #d9def1;
+                height: fit-content;
+                z-index: 1;
+
+                >div:nth-child(1) {
+                    display: none;
+                }
+
+
+            }
+
         }
     }
 }

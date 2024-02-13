@@ -6,20 +6,19 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { FiAlignJustify } from "react-icons/fi";
 import Sidebar from '../sidebar/Sidebar';
-import { menuData } from '../../pages/EmpAttendancePage/menuData';
-
-
-
+import { menuData } from '../../pages/EmpAttendancePage/menuData'
 
 export interface INewHeading {
     open: any;
     menu?: any;
-    handleClickMemu?: any
-    handleClick: any;
+    handleSidebarMemu?: any
+    handleClickLogout?: any;
     handleLogout: any;
+    handleResponsiveMenu?: any;
 }
-const NewHeading = ({ open, menu, handleClickMemu, handleClick, handleLogout }: INewHeading) => {
+const NewHeading = ({ open, menu, handleSidebarMemu, handleClickLogout, handleLogout, handleResponsiveMenu }: INewHeading) => {
     const [userName, setUserName] = useState('')
+
     useEffect(() => {
         const userName: any = localStorage.getItem("userName")
         setUserName(userName)
@@ -28,14 +27,14 @@ const NewHeading = ({ open, menu, handleClickMemu, handleClick, handleLogout }: 
     return (
         <Grid className={styles.newHeadingContainer}>
             <Grid className={styles.newHeading}>
-                <Grid className={styles.menuToggal}>
-                    <FiAlignJustify fontSize={32} cursor={"pointer"} onClick={handleClickMemu} />
+                <Grid className={styles.headingMenuOne}>
+                    <FiAlignJustify fontSize={32} cursor={"pointer"} onClick={handleSidebarMemu} />
                 </Grid>
-                <Grid>
+                <Grid className={styles.headingName}>
                     <Typography variant='h5' fontSize={18} fontWeight={600}>Hey, <span>{userName}</span></Typography>
                 </Grid>
-                <Grid>
-                    <FaUserCircle fontSize={41} cursor={"pointer"} onClick={handleClick} />
+                <Grid className={styles.headinglogout}>
+                    <FaUserCircle fontSize={41} cursor={"pointer"} onClick={handleClickLogout} />
                 </Grid>
             </Grid>
             {open &&
@@ -46,13 +45,13 @@ const NewHeading = ({ open, menu, handleClickMemu, handleClick, handleLogout }: 
                 </Grid>
 
             }
-            {/* <>
-                {open &&
-                    <Grid className={styles.headingMenuOne}>
-                        <Sidebar menuData={menuData} handleLogout={undefined} />
+            <>
+                {menu &&
+                    <Grid className={styles.headingSidebarMenu}>
+                        <Sidebar menuData={menuData} handleLogout={undefined} handleResponsiveMenu={handleResponsiveMenu} />
                     </Grid>
                 }
-            </> */}
+            </>
 
         </Grid>
     )

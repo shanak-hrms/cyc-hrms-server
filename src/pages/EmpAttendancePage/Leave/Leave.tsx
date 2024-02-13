@@ -221,7 +221,7 @@ const Leave = () => {
                 <CommonButton name={"Apply"} onClick={handleModal} />
             </Grid>
             <LeaveTable
-            leaveData={leaveData}
+                leaveData={leaveData}
                 pendingData={pendingData}
                 rejectedData={rejectedData}
                 loading={loading}

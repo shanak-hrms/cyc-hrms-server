@@ -67,30 +67,6 @@ const Dashboard = () => {
       </Grid>
       <Grid container className={styles.dashboard}>
         <Grid item sm={6}>
-          {/* <TableContainer className={styles.tableContainer}>
-            <Table>
-              <TableHead sx={{ backgroundColor: '#383A3C' }}>
-                <TableRow >
-                  <TableCell sx={{ color: "#68C5AE" }}>TITLE</TableCell>
-                  <TableCell sx={{ color: "#68C5AE" }}>START DATE</TableCell>
-                  <TableCell sx={{ color: "#68C5AE" }}>START TIME</TableCell>
-                  <TableCell sx={{ color: "#68C5AE" }}>DESCRIPTION</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {anouncementData && anouncementData.map((item: any) => {
-                  return (
-                    <TableRow>
-                      <TableCell>{item.title}</TableCell>
-                      <TableCell>{item.start_date}</TableCell>
-                      <TableCell>{item.start_time}</TableCell>
-                      <TableCell>{item.description}</TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer> */}
         </Grid>
         <Grid item sm={6}>
           <Calender />

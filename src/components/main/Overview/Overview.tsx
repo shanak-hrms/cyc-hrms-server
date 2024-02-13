@@ -9,10 +9,13 @@ import NewHeading from '../../NewHeading/NewHeading'
 
 export interface IOverview {
     open: any;
+    menu: any;
+    handleSidebarMemu: any;
     handleLogout: () => void;
     handleClick: any;
+    handleResponsiveMenu?:any
 }
-const Overview = ({ open, handleLogout, handleClick }: IOverview) => {
+const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick,handleResponsiveMenu }: IOverview) => {
     return (
         <Grid className={styles.overviewContainer}>
             <Grid container className={styles.overview}>
@@ -26,8 +29,11 @@ const Overview = ({ open, handleLogout, handleClick }: IOverview) => {
                     {/* <Heading /> */}
                     <NewHeading
                         open={open}
-                        handleClick={handleClick}
-                        handleLogout={handleLogout} />
+                        handleClickLogout={handleClick}
+                        handleLogout={handleLogout}
+                        menu={menu}
+                        handleSidebarMemu={handleSidebarMemu} 
+                        handleResponsiveMenu={handleResponsiveMenu}/>
                     <RoutesPage />
                 </Grid>
             </Grid>

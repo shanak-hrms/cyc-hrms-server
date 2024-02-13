@@ -23,11 +23,14 @@ import NewHeading from '../../components/NewHeading/NewHeading'
 
 export interface IEmpAttendancePage {
     open: any;
-    handleClick: any;
+    menu: any;
+    handleSidebarMemu: any;
+    handleClickLogout: any;
     handleLogout: any;
+    handleResponsiveMenu?: any;
 }
-const EmpAttendancePage = ({ open, handleClick, handleLogout }: IEmpAttendancePage) => {
-    const [menu, setMenu] = useState(false)
+const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, handleLogout, handleResponsiveMenu }: IEmpAttendancePage) => {
+    // const [menu, setMenu] = useState(false)
     const [photoModal, setPhotoModal] = useState(false)
     const [requestModal, setRequestModal] = useState(false)
     const [reqAtten, setReqAtten] = useState(false)
@@ -35,8 +38,8 @@ const EmpAttendancePage = ({ open, handleClick, handleLogout }: IEmpAttendancePa
     const [reqAttenVal, setReqAttenVal] = useState<any>({ time: "" })
     const handleRequestModal = () => setRequestModal(!requestModal);
     const handleClose = () => { setPhotoModal(false); setRequestModal(false); setReqAtten(false) }
-    const handleMenu = () => setMenu(!menu);
-    const handleResponsiveMenu = () => setMenu(false);
+    // const handleMenu = () => setMenu(!menu);
+    // const handleResponsiveMenu = () => setMenu(false);
     const [attendanceData, setAttendanceData] = useState<any>([])
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
@@ -290,7 +293,7 @@ const EmpAttendancePage = ({ open, handleClick, handleLogout }: IEmpAttendancePa
                     handleClick={handleMenu}
                     handleResponsiveMenu={handleResponsiveMenu}
                 /> */}
-                <NewHeading open={open} handleClick={handleClick} handleLogout={handleLogout} />
+                <NewHeading open={open} menu={menu} handleClickLogout={handleClickLogout} handleSidebarMemu={handleSidebarMemu} handleLogout={handleLogout} handleResponsiveMenu={handleResponsiveMenu} />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
                     <Route path='/attendance' element={

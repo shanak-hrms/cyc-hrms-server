@@ -27,6 +27,7 @@ const ClaimsRequest = () => {
     const handleClickModal = (idx: any) => {
         setOpen(!open);
     };
+    console.log(claimRequestData, "claimRequestData...")
     const getData = async () => {
         const loginedUserSting: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserSting);
@@ -100,11 +101,11 @@ const ClaimsRequest = () => {
                 <Table>
                     <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>CLAIM NAME</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>CLAIM AMOUNT</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>MESSAGE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>CLAIM NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>CLAIM AMOUNT</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>MESSAGE</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

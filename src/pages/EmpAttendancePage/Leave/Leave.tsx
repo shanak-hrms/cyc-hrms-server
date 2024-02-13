@@ -21,13 +21,16 @@ const Leave = () => {
     const [radioVal, setRadioVal] = useState("date")
     const [newDateVal, setNewDateVal] = useState({ newDate: "" })
     const [selectedDates, setSelectedDates] = useState<any>([]);
+    const [leaveData, setLeaveData] = useState<any>('')
     const [pendingData, setPendingData] = useState<any>('')
+    const [rejectedData, setRejectedData] = useState<any>('')
+
     const handleModal = () => { setOpen(!open) }
     const handleClose = () => setOpen(false)
     const handleEditClose = () => {
         setEditModal(false)
     }
-
+    console.log(inputData, "inputData..")
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputData({ ...inputData, [name]: value })
@@ -52,7 +55,7 @@ const Leave = () => {
                 }
             })
             const data = response.data.approvedLeave;
-            setPendingData(data)
+            setLeaveData(data)
 
         } catch (error) {
             console.error('Error:', error);
@@ -65,7 +68,7 @@ const Leave = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approved/request/list/foruser', {
+            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/foruser', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -91,7 +94,8 @@ const Leave = () => {
             })
             const data = response.data.rejectedLeave;
             console.log(response, "getRejectedLeaveData")
-            setPendingData(data)
+            setRejectedData(data)
+            console.log(response, "response")
 
         } catch (error) {
             console.error('Error:', error);
@@ -116,6 +120,7 @@ const Leave = () => {
                     month: inputData.month,
                     dates: selectedDates,
                     leaveType: inputData.leaveType,
+                    leaveReason: inputData.leaveReason
                 },
                 {
                     headers: {
@@ -216,7 +221,9 @@ const Leave = () => {
                 <CommonButton name={"Apply"} onClick={handleModal} />
             </Grid>
             <LeaveTable
+            leaveData={leaveData}
                 pendingData={pendingData}
+                rejectedData={rejectedData}
                 loading={loading}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}

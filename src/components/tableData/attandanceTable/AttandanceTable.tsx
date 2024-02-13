@@ -40,13 +40,19 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                         <TableRow >
                             {tableHeading.map((item: any) => {
                                 return (
-                                    <TableCell key={item.id} style={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>{item.title}</TableCell>
+                                    <TableCell key={item.id} style={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>{item.title}</TableCell>
                                 )
                             })}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tableData && tableData.length > 0 && tableData.map((item: any) => {
+                        {tableData && tableData.length > 0 && tableData.filter((item: any) => {
+                            const employeeName = item.employeeId?.name || "";
+                            return (
+                                query === "" ||
+                                employeeName.toLowerCase().includes(query.toLowerCase())
+                            );
+                        }).map((item: any) => {
                             return (
                                 <TableRow key={item._id} >
                                     <TableCell style={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
@@ -57,10 +63,10 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                                         {item.clockOut === undefined ? "00:00:00" : <>{formatTime(item.clockOut)}</>}
                                     </TableCell>
                                 </TableRow>
-                            )
+                            );
                         })}
-
                     </TableBody>
+
                 </Table>
             </TableContainer>
         </Grid>

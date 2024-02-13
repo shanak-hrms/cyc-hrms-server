@@ -70,10 +70,16 @@ const ManageLeaveTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {pendingLeaveData && pendingLeaveData.map((item: any, idx: number) => {
+            {pendingLeaveData && pendingLeaveData.filter((item: any) => {
+              const employeeName = item.employeeId?.name || "";
+              return (
+                query === "" ||
+                employeeName.toLowerCase().includes(query.toLowerCase())
+              );
+            }).map((item: any, idx: number) => {
               return (
                 <TableRow key={idx}>
-                  <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
@@ -104,10 +110,16 @@ const ManageLeaveTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {approvedLeaveData && approvedLeaveData.map((item: any, idx: number) => {
+            {approvedLeaveData && approvedLeaveData.filter((item: any) => {
+              const employeeName = item.employeeId?.name || "";
+              return (
+                query === "" ||
+                employeeName.toLowerCase().includes(query.toLowerCase())
+              );
+            }).map((item: any, idx: number) => {
               return (
                 <TableRow key={idx}>
-                  <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
@@ -135,10 +147,16 @@ const ManageLeaveTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rejectedLeaveData && rejectedLeaveData.map((item: any, idx: number) => {
+            {rejectedLeaveData && rejectedLeaveData.filter((item: any) => {
+              const employeeName = item.employeeId?.name || "";
+              return (
+                query === "" ||
+                employeeName.toLowerCase().includes(query.toLowerCase())
+              );
+            }).map((item: any, idx: number) => {
               return (
                 <TableRow key={idx}>
-                  <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
                   <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>

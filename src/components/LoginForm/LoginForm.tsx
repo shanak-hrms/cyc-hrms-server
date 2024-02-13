@@ -3,14 +3,19 @@ import styles from './LoginForm.module.scss'
 import { Box, Grid, Typography } from '@mui/material'
 import InputField from '../inputField/InputField'
 import CommonButton from '../common/CommonButton/CommonButton'
+import { IoMdClose } from "react-icons/io";
+
 
 export interface ILoginForm {
+    open:boolean;
+    handleClose:any;
+    handleForgate:any;
     inputData: any,
     handleChange: any;
     handleClick: any;
 
 }
-const LoginForm = ({ inputData, handleChange, handleClick }: ILoginForm) => {
+const LoginForm = ({open, handleClose, handleForgate, inputData, handleChange, handleClick }: ILoginForm) => {
 
     return (
         <Grid className={styles.loginFormContainer}>
@@ -37,11 +42,18 @@ const LoginForm = ({ inputData, handleChange, handleClick }: ILoginForm) => {
                     type={"password"}
                 />
             </Box>
-            <Typography style={{ color: "#68C5AE", cursor: "pointer" }}>Forgot Your Password?</Typography>
+            <Typography style={{ color: "#68C5AE", cursor: "pointer" }} onClick={handleForgate}>Forgot Your Password?</Typography>
             <CommonButton
                 name={"Login"}
                 onClick={handleClick}
             />
+            {open ?
+                <Grid className={styles.forgate}>
+                    <Box>
+                        <IoMdClose fontSize={26} cursor={"pointer"} onClick={handleClose} />
+                    </Box>
+                    <Typography textAlign={"center"}>Please contact to hr</Typography>
+                </Grid> : ""}
 
         </Grid>
     )

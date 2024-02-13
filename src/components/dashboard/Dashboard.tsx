@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.scss'
 import { Box, Grid, Typography } from '@mui/material'
 import CommonCard from '../common/CommonCard/CommonCard'
@@ -10,6 +10,7 @@ import MeetingSchedule from './meetingSchedule/MeetingSchedule';
 import Calender from './calender/Calender';
 import AnnouncementModal from '../modal/AnnouncementModal/AnnouncementModal';
 import ServiceCard from './ServiceCard/ServiceCard';
+import axios from 'axios';
 
 
 export interface IDashboard {
@@ -26,7 +27,6 @@ export interface IDashboard {
     handleDelete: any;
 }
 const Dashboard = () => {
-
 
     const data = [
         {
@@ -58,7 +58,21 @@ const Dashboard = () => {
             "color": "#6FD943"
         }
     ]
+    const getLeadData = async () => {
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+            console.log(response.data.leadData, "response")
 
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+    useEffect(() => {
+        getLeadData()
+
+    }, [])
     return (
         <Grid className={styles.dashboardContainer}>
             <Grid className={styles.dashboard}>

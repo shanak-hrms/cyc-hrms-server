@@ -1,9 +1,10 @@
 .loginFormContainer {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 12%;
-    width: 32rem;
+    padding: 5%;
+    // width: 32rem;
     border-radius: 0.5rem;
     background-color: #ffffff;
+    position: relative;
 
     >div>div {
         margin-block: 1.5rem;
@@ -22,6 +23,32 @@
             &:hover {
                 background-color: #383A3C;
             }
+        }
+    }
+
+    .forgate {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        z-index: 1;
+        background-color: #ffffff;
+        border: 1px solid #d9def1;
+        border-radius: 0.5rem;
+
+        >div {
+            display: flex;
+            justify-content: right;
+            width: 16rem;
+
+            svg {
+                margin-block-start: -14%;
+                margin-inline-end: -4%;
+            }
+        }
+
+        p {
+            padding-block-end: 2.5rem;
+
         }
     }
 }

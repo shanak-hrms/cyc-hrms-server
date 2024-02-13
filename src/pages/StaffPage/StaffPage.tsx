@@ -12,21 +12,28 @@ import CreatePayrollModal from '../../components/modal/CreatePayrollModal/Create
 
 const StaffPage = () => {
     const [open, setOpen] = useState(false);
+    const [editModal, setEditModal] = useState(false)
     const [actionOpen, setActionOpen] = useState(false)
     const [salStrModal, setSalStrModal] = useState(false)
-    const handleClose = () => { setOpen(false); setSalStrModal(false); };
+    const handleClose = () => { setOpen(false); setSalStrModal(false); setEditModal(false) };
     const [inputData, setInputData] = useState({ emp_id: '', name: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
+    const [editId, setEditId] = useState()
 
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
     }
+    const handleEditModal = (idx: any) => {
+        setEditModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+        setEditId(idx)
+        console.log(idx, "idx..")
+    };
     const handleAddSalaryModal = async (idx: any) => {
         setSalStrModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
-    }
+    };
     const handleChangeSalStr = (e: any) => {
         const { name, value } = e.target;
         setSalStrVal({ ...salStrVal, [name]: value })
@@ -108,6 +115,42 @@ const StaffPage = () => {
             setOpen(false);
         }
     };
+    const handleUpdate = async () => {
+        const loginedUserString: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserString)
+        const { token } = loginedUser
+        if (inputData.name === "") {
+            toast.error("Please fill name")
+            return;
+        } else if (inputData.email === '') {
+            toast.error("Please fill email")
+            return;
+        } else if (inputData.email === '') {
+            toast.error("Please fill email")
+            return;
+        } else if (inputData.role === '') {
+            toast.error("Please selete role")
+            return;
+        }
+        try {
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/user/update/profile`, inputData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            if (response.status === 200) {
+                toast.success("Profile updated successfully")
+                setEditModal(false)
+                fetchData();
+            }
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
 
     const handleDelete = async (idx: number) => {
         try {
@@ -141,17 +184,26 @@ const StaffPage = () => {
                 handleAction={handleActionModal}
                 loading={loading}
                 actionOpen={actionOpen}
-                handleEdit={undefined}
+                handleEdit={handleEditModal}
                 handleAddSalary={handleAddSalaryModal}
                 handlePayroll={undefined}
                 handleDelete={handleDelete}
             />
             <StaffModal
                 open={open}
+                heading={"Add Staff/ Employee"}
                 handleClose={handleClose}
                 inputValue={inputData}
                 handleChange={handleChange}
                 handleCreate={handleCreate}
+            />
+            <StaffModal
+                open={editModal}
+                heading={"Update Staff/ Employee"}
+                handleClose={handleClose}
+                inputValue={inputData}
+                handleChange={handleChange}
+                handleCreate={handleUpdate}
             />
             <SalaryStructureModal
                 open={salStrModal}

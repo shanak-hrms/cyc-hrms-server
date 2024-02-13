@@ -4,17 +4,21 @@ import { Box, Grid, ListItemButton, ListItemText, Typography } from '@mui/materi
 import { FaUser } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { FiAlignJustify } from "react-icons/fi";
+import Sidebar from '../sidebar/Sidebar';
+import { menuData } from '../../pages/EmpAttendancePage/menuData';
+
 
 
 
 export interface INewHeading {
     open: any;
     menu?: any;
-    handleMemuToggal?: any
+    handleClickMemu?: any
     handleClick: any;
     handleLogout: any;
 }
-const NewHeading = ({ open, menu, handleMemuToggal, handleClick, handleLogout }: INewHeading) => {
+const NewHeading = ({ open, menu, handleClickMemu, handleClick, handleLogout }: INewHeading) => {
     const [userName, setUserName] = useState('')
     useEffect(() => {
         const userName: any = localStorage.getItem("userName")
@@ -24,39 +28,31 @@ const NewHeading = ({ open, menu, handleMemuToggal, handleClick, handleLogout }:
     return (
         <Grid className={styles.newHeadingContainer}>
             <Grid className={styles.newHeading}>
-                <Box>
-                    <IoMdClose fontSize={25} cursor={"pointer"} onClick={handleMemuToggal} />
-                </Box>
-                <Box>
+                <Grid className={styles.menuToggal}>
+                    <FiAlignJustify fontSize={32} cursor={"pointer"} onClick={handleClickMemu} />
+                </Grid>
+                <Grid>
                     <Typography variant='h5' fontSize={18} fontWeight={600}>Hey, <span>{userName}</span></Typography>
-                </Box>
-                <Box>
+                </Grid>
+                <Grid>
                     <FaUserCircle fontSize={41} cursor={"pointer"} onClick={handleClick} />
-                </Box>
+                </Grid>
             </Grid>
             {open &&
                 <Grid className={styles.headingMenu}>
-                    {/* <ListItemButton>
-                        <ListItemText>Profile</ListItemText>
-                    </ListItemButton> */}
                     <ListItemButton onClick={handleLogout}>
                         <ListItemText>Logout</ListItemText>
                     </ListItemButton>
                 </Grid>
 
             }
-            <>
-                {menu &&
-                    <Grid className={styles.headingMenu}>
-                        {/* <ListItemButton>
-                        <ListItemText>Profile</ListItemText>
-                    </ListItemButton> */}
-                        <ListItemButton onClick={handleLogout}>
-                            <ListItemText>Logout</ListItemText>
-                        </ListItemButton>
+            {/* <>
+                {open &&
+                    <Grid className={styles.headingMenuOne}>
+                        <Sidebar menuData={menuData} handleLogout={undefined} />
                     </Grid>
-                    }
-            </>
+                }
+            </> */}
 
         </Grid>
     )

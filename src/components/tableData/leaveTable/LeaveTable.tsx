@@ -7,12 +7,14 @@ import CustomLoader from '../../CustomLoader/CustomLoader';
 
 export interface ILeaveTable {
     loading: boolean;
+    leaveData: any;
     pendingData: any;
+    rejectedData: any;
     handleEdit: (idx: string) => void;
     handleDelete: (idx: string) => void;
 }
 
-const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTable) => {
+const LeaveTable = ({ loading, leaveData, pendingData, rejectedData, handleEdit, handleDelete }: ILeaveTable) => {
 
     const formateDate = (date: any) => {
         const dateString = new Date(date)
@@ -26,26 +28,26 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
                 <Table>
                     <TableHead style={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>NAME</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>START DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>MONTH</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>LEAVE TYPE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>REASON</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>START DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>END DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>MONTH</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>LEAVE TYPE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>REASON</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {pendingData && pendingData.map((item: any, idx: number) => {
+                        {leaveData && leaveData.map((item: any, idx: number) => {
                             return (
                                 <TableRow key={idx}>
-                                    <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.leaveReason}</TableCell>
                                 </TableRow>
                             )
                         })}
@@ -53,30 +55,30 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
                 </Table>
             </TableContainer>
             <TableContainer className={styles.leaveTableContainer}>
-                <Typography variant='h5' fontSize={22} fontWeight={500} paddingInlineStart={2.5}>Pending Leave</Typography>
+                {/* <Typography variant='h5' fontSize={22} fontWeight={500} paddingInlineStart={2.5}>Pending Leave</Typography> */}
                 <Table>
                     <TableHead style={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>NAME</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>START DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>MONTH</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>LEAVE TYPE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>REASON</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>START DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>END DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>MONTH</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>LEAVE TYPE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>REASON</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {pendingData && pendingData.map((item: any, idx: number) => {
                             return (
                                 <TableRow key={idx}>
-                                    <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.leaveReason}</TableCell>
                                 </TableRow>
                             )
                         })}
@@ -84,30 +86,30 @@ const LeaveTable = ({ loading, pendingData, handleEdit, handleDelete }: ILeaveTa
                 </Table>
             </TableContainer>
             <TableContainer className={styles.leaveTableContainer}>
-                <Typography variant='h5' fontSize={22} fontWeight={500} paddingInlineStart={2.5}>Rejected Leave</Typography>
+                {/* <Typography variant='h5' fontSize={22} fontWeight={500} paddingInlineStart={2.5}>Rejected Leave</Typography> */}
                 <Table>
                     <TableHead style={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>NAME</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>START DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>END DATE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>MONTH</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>LEAVE TYPE</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight:600, fontSize:13 }}>REASON</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>START DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>END DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>MONTH</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>LEAVE TYPE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>STATUS</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontWeight: 600, fontSize: 13 }}>REASON</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {pendingData && pendingData.map((item: any, idx: number) => {
+                        {rejectedData && rejectedData.map((item: any, idx: number) => {
                             return (
                                 <TableRow key={idx}>
-                                    <TableCell sx={{ textAlign: "center" }}>NAME</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.startDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.endDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leaveType}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
-                                    <TableCell sx={{ textAlign: "center" }}>{item.leave_reason}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.leaveReason}</TableCell>
                                 </TableRow>
                             )
                         })}

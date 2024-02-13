@@ -1,6 +1,11 @@
 .newHeadingContainer {
     position: relative;
 
+    @media screen and (max-width:480px) {
+        position: fixed;
+        width: 100%;
+    }
+
     .newHeading {
         display: flex;
         justify-content: space-between;
@@ -8,7 +13,23 @@
         padding-block: 1%;
         padding-inline: 2%;
 
-        >div:nth-child(1) {
+        @media screen and (max-width:480px) {
+            padding-block: 4%;
+            padding-inline: 2%;
+
+        }
+
+        .menuToggal {
+            display: none;
+
+            @media screen and (max-width:480px) {
+                display: block;
+                margin-block: auto;
+
+            }
+        }
+
+        >div:nth-child(2) {
             margin-block: auto;
 
             h5 {
@@ -20,6 +41,41 @@
                 color: #000000;
             }
         }
+    }
+
+    .headingMenuOne {
+        border: 1px solid #d9def1;
+        position: absolute;
+        top: 90%;
+        left: 2%;
+        background-color: #ffffff;
+        border-radius: 0.25rem;
+        z-index: 1;
+        display: none;
+
+        @media screen and (max-width:480px) {
+            display: block;
+        }
+
+        >div {
+            height: fit-content;
+
+            &:hover {
+                background-color: #00ACB2;
+                color: #000000;
+            }
+
+            >div {
+                padding: 0;
+                margin: 0;
+            }
+
+            >div:nth-child(1) {
+                display: none;
+
+            }
+        }
+
     }
 
     .headingMenu {

@@ -3,6 +3,8 @@ import styles from './LoginForm.module.scss'
 import { Box, Grid, Typography } from '@mui/material'
 import InputField from '../inputField/InputField'
 import CommonButton from '../common/CommonButton/CommonButton'
+import { IoMdClose } from "react-icons/io";
+
 
 export interface ILoginForm {
     inputData: any,
@@ -10,7 +12,7 @@ export interface ILoginForm {
     handleClick: any;
 
 }
-const LoginForm = ({ inputData, handleChange, handleClick }: ILoginForm) => {
+const LoginForm = ({inputData, handleChange, handleClick }: ILoginForm) => {
 
     return (
         <Grid className={styles.loginFormContainer}>

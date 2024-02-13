@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
   const navigation = useNavigate()
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
+
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
@@ -84,6 +86,7 @@ const App = () => {
   const handleClickUSer = () => {
     setOpen(!open)
   }
+  
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');

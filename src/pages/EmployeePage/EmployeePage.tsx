@@ -14,7 +14,8 @@ import CreatePayrollModal from "../../components/modal/CreatePayrollModal/Create
 
 const EmployeePage = () => {
   const [payrollModal, setPayrollModal] = useState(false);
-  const handleClose = () => setPayrollModal(false);
+  const [downloadModal, setDownloadModal] = useState(false)
+  const handleClose = () => { setPayrollModal(false); setDownloadModal(false) };
   const [inputData, setInputData] = useState<any>({
     name: "",
     email: "",
@@ -25,11 +26,11 @@ const EmployeePage = () => {
     dateOfJoin: ""
   });
   const [payrollVal, setPayrollVal] = useState({ employeeId: "", month: "", year: "" })
-
   const [query, setQuery] = useState("");
   const [editEmployee, setEditEmployee] = useState();
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [loading, setLoading] = useState(false)
+  const [downloadId, setDownloadId] = useState()
 
   const fetchData = async () => {
     try {
@@ -84,10 +85,24 @@ const EmployeePage = () => {
 
   }
 
-  const handlePayrollDownload = (idx: any) => {
-
+  const handlePayrollDownloadModal = (idx: any) => {
+    setDownloadModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+    console.log(idx, "idx")
+    setDownloadId(idx)
   }
+  const handleDownload = async () => {
 
+    try {
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/download/monthly-payroll/${downloadId}`
+      )
+      console.log(response, "response...")
+
+    }
+    catch (err) {
+      console.log(err)
+    }
+    console.log("fhjk")
+  }
   useEffect(() => {
     fetchData();
   }, []);
@@ -104,16 +119,26 @@ const EmployeePage = () => {
         tableTitle={data.tableTitle}
         tableData={employeeData}
         handlePayrollModal={handlePayrollModal}
-        handlePayrollDownload={handlePayrollDownload}
+        handlePayrollDownload={handlePayrollDownloadModal}
         setQuery={setQuery}
         query={query}
       />
       <CreatePayrollModal
         open={payrollModal}
+        heading={"Create Payroll"}
         payrollVal={payrollVal}
         handleCreate={handleCreatePayroll}
         handleClose={handleClose}
-        handleChange={handleChangePayroll} />
+        handleChange={handleChangePayroll}
+      />
+      <CreatePayrollModal
+        open={downloadModal}
+        heading={"Download Pay Slip"}
+        payrollVal={payrollVal}
+        handleCreate={handleDownload}
+        handleClose={handleClose}
+        handleChange={handleChangePayroll}
+      />
     </Grid>
   );
 };

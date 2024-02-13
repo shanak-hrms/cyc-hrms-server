@@ -10,6 +10,7 @@ import ApproveReqModal from '../../components/modal/ApproveReqModal/ApproveReqMo
 export const RequestApproval = () => {
     const [open, setOpen] = useState(false)
     const handleClose = () => setOpen(false)
+    const [query, setQuery] = useState('')
     const [reqData, setReqData] = useState<any>();
     const [userToken, setUserToken] = useState()
     const [reqId, setReqId] = useState()
@@ -83,7 +84,7 @@ export const RequestApproval = () => {
         <Grid className={styles.requestApprovalContainer}>
             <Grid className={styles.heading}>
                 <HeadingText heading={'Request Approval List'} />
-                <SearchBox />
+                <SearchBox setQuery={setQuery} />
             </Grid>
             <TableContainer>
                 <Table>
@@ -97,7 +98,13 @@ export const RequestApproval = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {reqData && reqData.map((item: any) => {
+                        {reqData && reqData.filter((item: any) => {
+                            const employeeName = item.employeeId?.name || "";
+                            return (
+                                query === "" ||
+                                employeeName.toLowerCase().includes(query.toLowerCase())
+                            );
+                        }).map((item: any) => {
                             return (
                                 <TableRow>
                                     <TableCell sx={{ textAlign: "center" }}>{item.employeeId.name}</TableCell>

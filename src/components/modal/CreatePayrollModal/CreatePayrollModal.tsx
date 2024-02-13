@@ -7,12 +7,13 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 
 export interface ICreatePayrollModal {
     open: boolean;
+    heading: string;
     payrollVal: any;
     handleCreate: () => void;
     handleClose: () => void;
     handleChange: any;
 }
-const CreatePayrollModal = ({ open, payrollVal, handleCreate, handleClose, handleChange }: ICreatePayrollModal) => {
+const CreatePayrollModal = ({ open, heading, payrollVal, handleCreate, handleClose, handleChange }: ICreatePayrollModal) => {
     return (
         <Modal
             open={open}
@@ -20,7 +21,7 @@ const CreatePayrollModal = ({ open, payrollVal, handleCreate, handleClose, handl
         >
             <Grid className={styles.createPayroll}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h5' fontSize={22} fontWeight={500}>Create Payroll</Typography>
+                    <Typography variant='h5' fontSize={22} fontWeight={500}>{heading}</Typography>
                     <MdOutlineClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />

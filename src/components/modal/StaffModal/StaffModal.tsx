@@ -10,13 +10,14 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 
 export interface IStaffModal {
     open: boolean;
+    heading: string;
     handleClose: any;
     inputValue: any;
     handleChange: any;
     handleCreate: any;
 
 }
-const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate }: IStaffModal) => {
+const StaffModal = ({ open, heading, handleClose, inputValue, handleChange, handleCreate }: IStaffModal) => {
     return (
         <Modal
             open={open}
@@ -24,7 +25,7 @@ const StaffModal = ({ open, handleClose, inputValue, handleChange, handleCreate 
         >
             <Grid className={styles.staffModalContainer}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h5' fontSize={22} fontWeight={500}>Add Staff</Typography>
+                    <Typography variant='h5' fontSize={22} fontWeight={500}>{heading}</Typography>
                     <MdClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />

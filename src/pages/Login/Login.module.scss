@@ -1,39 +1,41 @@
 .loginContainer {
-    background-image: linear-gradient(to right, #383A3C 70%, #68C5AE 30%);
-    height: 100vh;
 
     >div:nth-child(1) {
-        width: 30rem;
-        height: 15rem;
+        width: 20%;
+        height: auto;
+        margin-block-start: -3%;
+        margin-inline-start: -2%;
+
+        @media screen and (max-width: 480px) {
+            width: 100%;
+            margin: auto;
+            height: 10rem;
+        }
 
         img {
             width: 100%;
             height: 100%;
-            // margin-block-start: 10%;
-            // margin-inline-start: 20%;
         }
     }
 
     >div:nth-child(2) {
-        padding-inline: 10%;
+        margin-block-start: -12%;
 
-
-        >div:nth-child(1) {
-            width: 45%;
-            height: 15%;
-            margin-block-start: 2%;
-            border-radius: 0.5rem;
-
-            img {
-                width: 100%;
-                height: 100%;
-                border-radius: 0.5rem;
-
-            }
+        @media screen and (max-width: 480px) {
+            margin-block-start: unset;
         }
 
-        >div:nth-child(2) {
-            margin-block-start: -8.5rem;
+
+        >div {
+            width: 35%;
+            height: fit-content;
+            margin-inline: auto !important;
+
+            @media screen and (max-width: 480px) {
+                width: 100%;
+            }
+
+
         }
     }
 }

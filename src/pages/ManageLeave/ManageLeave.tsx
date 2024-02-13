@@ -7,6 +7,8 @@ import data from "./data.json";
 import LeaveActionModal from "../../components/LeaveActionModal/LeaveActionModal";
 import axios from "axios";
 import ConformActionModal from "../../components/modal/ConformActionModal/ConformActionModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface ManageType {
   emp_id: string;
@@ -110,8 +112,12 @@ const ManageLeave = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      console.log(response, "response...");
-      console.log(token, "333...");
+      if (response.status === 200) {
+        await getRejectedLeaveData()
+        setOpen(false)
+        toast.success("Leave rejected successfully")
+
+      }
     } catch (err) {
       console.log(err);
     }
@@ -128,6 +134,11 @@ const ManageLeave = () => {
           Authorization: `Bearer ${token}`
         }
       });
+      if (response.status === 200) {
+        await getApprovedLeaveData()
+        setOpen(false)
+        toast.success("Leave approved successfully")
+      }
 
     } catch (err) {
       console.log(err);
@@ -160,6 +171,7 @@ const ManageLeave = () => {
         handleReject={handleReject}
         handleApprove={handleApprove}
       />
+      <ToastContainer />
     </Grid>
   );
 };

@@ -22,6 +22,13 @@ const StaffPage = () => {
     const [loading, setLoading] = useState(false)
     const [editId, setEditId] = useState()
 
+    const handleGlobalModal = () => {
+        if (actionOpen == true) {
+        console.log(actionOpen, "actionOpen")
+            setActionOpen(false)
+        }
+    }
+
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
@@ -177,7 +184,7 @@ const StaffPage = () => {
     };
 
     return (
-        <Grid>
+        <Grid onClick={handleGlobalModal}>
             <User
                 data={userData}
                 handleClick={handleClick}

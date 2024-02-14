@@ -42,10 +42,12 @@ const Dashboard = () => {
   ]
   const getData = async () => {
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/anouncement`)
-      const data = response.data.anouncementData;
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+      const data = response.data.leadData;
+      const openLead = data.filter((item: any) => item.leadStatus === "Open")
       setAnouncementData(data)
       console.log(data, "data...")
+      console.log(openLead, "openLead")
     } catch (err) {
       console.log(err)
     }
@@ -67,30 +69,6 @@ const Dashboard = () => {
       </Grid>
       <Grid container className={styles.dashboard}>
         <Grid item sm={6}>
-          {/* <TableContainer className={styles.tableContainer}>
-            <Table>
-              <TableHead sx={{ backgroundColor: '#383A3C' }}>
-                <TableRow >
-                  <TableCell sx={{ color: "#68C5AE" }}>TITLE</TableCell>
-                  <TableCell sx={{ color: "#68C5AE" }}>START DATE</TableCell>
-                  <TableCell sx={{ color: "#68C5AE" }}>START TIME</TableCell>
-                  <TableCell sx={{ color: "#68C5AE" }}>DESCRIPTION</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {anouncementData && anouncementData.map((item: any) => {
-                  return (
-                    <TableRow>
-                      <TableCell>{item.title}</TableCell>
-                      <TableCell>{item.start_date}</TableCell>
-                      <TableCell>{item.start_time}</TableCell>
-                      <TableCell>{item.description}</TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer> */}
         </Grid>
         <Grid item sm={6}>
           <Calender />

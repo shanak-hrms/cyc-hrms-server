@@ -8,12 +8,13 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 export interface ICreatePayrollModal {
     open: boolean;
     heading: string;
+    name?: string;
     payrollVal: any;
     handleCreate: () => void;
     handleClose: () => void;
     handleChange: any;
 }
-const CreatePayrollModal = ({ open, heading, payrollVal, handleCreate, handleClose, handleChange }: ICreatePayrollModal) => {
+const CreatePayrollModal = ({ open, name, heading, payrollVal, handleCreate, handleClose, handleChange }: ICreatePayrollModal) => {
     return (
         <Modal
             open={open}
@@ -45,7 +46,7 @@ const CreatePayrollModal = ({ open, heading, payrollVal, handleCreate, handleClo
                 </Grid>
                 <Grid className={styles.action}>
                     <CommonButton name={"Cancel"} onClick={handleClose} />
-                    <CommonButton name={"Submit"} onClick={handleCreate} />
+                    <CommonButton name={name} onClick={handleCreate} />
                 </Grid>
 
             </Grid>

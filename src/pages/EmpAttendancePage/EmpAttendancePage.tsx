@@ -30,7 +30,6 @@ export interface IEmpAttendancePage {
     handleResponsiveMenu?: any;
 }
 const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, handleLogout, handleResponsiveMenu }: IEmpAttendancePage) => {
-    // const [menu, setMenu] = useState(false)
     const [photoModal, setPhotoModal] = useState(false)
     const [requestModal, setRequestModal] = useState(false)
     const [reqAtten, setReqAtten] = useState(false)
@@ -38,8 +37,6 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const [reqAttenVal, setReqAttenVal] = useState<any>({ time: "" })
     const handleRequestModal = () => setRequestModal(!requestModal);
     const handleClose = () => { setPhotoModal(false); setRequestModal(false); setReqAtten(false) }
-    // const handleMenu = () => setMenu(!menu);
-    // const handleResponsiveMenu = () => setMenu(false);
     const [attendanceData, setAttendanceData] = useState<any>([])
     const [email, setEmail] = useState<any>()
     const [name, setName] = useState<any>()
@@ -50,13 +47,17 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const [stream, setStream] = useState<any>(null);
     const [appAttId, setAppAttId] = useState()
     const videoRef = useRef<any>();
-    console.log(reqAttenVal, "reqAttenVal....")
+
     const fetchData = async () => {
+        const loginedUserStr: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserStr)
+        const { email } = loginedUser
         setLoading(true)
         try {
             const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
             const data = result.data.attendanceData;
-            setAttendanceData(data);
+            const filterData = data?.filter((item: any) => item.employeeId?.email === email)
+            setAttendanceData(filterData);
         } catch (error) {
             console.error("Error during GET request:", error);
         } finally {
@@ -287,12 +288,6 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
-                {/* <Heading
-                    menu={menu}
-                    IsAction={false}
-                    handleClick={handleMenu}
-                    handleResponsiveMenu={handleResponsiveMenu}
-                /> */}
                 <NewHeading open={open} menu={menu} handleClickLogout={handleClickLogout} handleSidebarMemu={handleSidebarMemu} handleLogout={handleLogout} handleResponsiveMenu={handleResponsiveMenu} />
                 <Routes>
                     <Route path='/' element={<Dashboard />} />

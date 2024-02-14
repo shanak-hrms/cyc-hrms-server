@@ -13,12 +13,14 @@ import axios from 'axios'
 const PaySlip = () => {
     const navigation = useNavigate()
     const [query, setQuery] = useState("")
-    const [empData, setEmpData] = useState<any>()
+    const [data, setData] = useState<any>()
+
     const getEmployeeData = async () => {
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
-            const data = response.data.userData
-            setEmpData(data)
+            const payrollDataStr: any = localStorage.getItem("payrollData")
+            const payrollData = JSON.parse(payrollDataStr)
+            console.log(payrollData.month, "payrollDataStr")
+            setData(payrollData)
         }
         catch (err) {
             console.log(err)
@@ -46,36 +48,6 @@ const PaySlip = () => {
                 <Typography variant='h5' fontSize={25} fontWeight={600}>Pay Slip</Typography>
                 <SearchBox setQuery={setQuery} />
             </Grid>
-            <Grid className={styles.filterData}>
-                {/* {empData && empData.filter((employee: { name: string }) => {
-                    return (
-                        query === "" ||
-                        (employee.name
-                            ?.toLowerCase()
-                            ?.includes(query.toLowerCase()) ?? false)
-                    );
-                }).map((item: any, idx: number) => {
-                    return (
-                        <ListItemButton key={idx}>
-                            <Typography paddingInline={2.5} sx={{ textAlign: "center" }}>{item.name}</Typography>
-                        </ListItemButton>
-                    );
-                })} */}
-                {empData && empData.filter((employee: { name: string }) => {
-                    return (
-                        query === "" ||
-                        (employee.name
-                            ?.toLowerCase()
-                            ?.includes(query.toLowerCase()) ?? false)
-                    );
-                }).map((item: any, idx: number) => {
-                    return (
-                        <ListItemButton key={idx}>
-                           {query===item ? "A":"B"}
-                        </ListItemButton>
-                    );
-                })}
-            </Grid>
             <Grid id="userData" className={styles.payslip}>
                 <Grid className={styles.payslipField}>
                     <Box>
@@ -87,9 +59,9 @@ const PaySlip = () => {
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Mail:hr@cycevents.in</Typography>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Phone No: 033-3580-6414</Typography>
                     </Grid>
-                    <Typography textAlign={"center"} variant='h4' fontSize={22} fontWeight={600}>Pay Slip for Month of ____,2024</Typography>
+                    <Typography textAlign={"center"} variant='h4' fontSize={22} fontWeight={600}>Pay Slip for Month of {data?.month},2024</Typography>
                     <Box display={"flex"} justifyContent={"space-between"}>
-                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>Employee Name :</Typography>
+                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>Employee Name :{data?.employeeId?.name}</Typography>
                         <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| Emp Code: </Typography>
                     </Box>
                     <Typography variant='h4' fontSize={15} fontWeight={600}>Department :</Typography>
@@ -127,14 +99,14 @@ const PaySlip = () => {
                                 </Grid>
                                 <Grid item sm={6}>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>12</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>243</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.basic}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.hra}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>12 </Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>123</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.travelAllowanceDeduction}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
                                     </Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>12</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>Amount in Words</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalGrossPay}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.netPay}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -150,18 +122,18 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
                                     </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Total Deduction</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>Amount in Words</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}></Typography>
                                 </Grid>
                                 <Grid item sm={6}>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>12</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>243</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployee}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeduction}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>12 </Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>123</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.ptax}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
                                     </Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>12</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>Amount in Words</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalDeductions}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}></Typography>
                                 </Grid>
                             </Grid>
                         </Grid>

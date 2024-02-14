@@ -17,7 +17,7 @@ const RequestModal = ({ open, handleClose, handleRequest, requestVal, handleChan
     return (
         <Modal
             open={open}
-            sx={{ width: 500, height: 'fit-content', margin: "auto" }}
+            className={styles.requestModalContainer}
         >
             <Grid className={styles.requestModal}>
                 <Box display={"flex"} justifyContent={"space-between"}>

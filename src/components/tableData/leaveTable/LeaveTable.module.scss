@@ -2,11 +2,9 @@
     margin-block-end: 2rem;
 
     table {
-        // width: 150%;
-        // overflow-x: auto;
-
         @media screen and (max-width:480px) {
-            // width: 340%;
+            width: 250%;
+            overflow-x: auto;
         }
 
         tr {

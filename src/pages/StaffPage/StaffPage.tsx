@@ -8,15 +8,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import StaffModal from '../../components/modal/StaffModal/StaffModal'
 import SalaryStructureModal from '../../components/modal/SalaryStructureModal/SalaryStructureModal'
 import CreatePayrollModal from '../../components/modal/CreatePayrollModal/CreatePayrollModal'
+import { useNavigate } from 'react-router-dom'
 
 
 const StaffPage = () => {
+    const navigation = useNavigate();
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false)
     const [actionOpen, setActionOpen] = useState(false)
     const [salStrModal, setSalStrModal] = useState(false)
     const handleClose = () => { setOpen(false); setSalStrModal(false); setEditModal(false) };
-    const [inputData, setInputData] = useState({ emp_id: '', name: "",empCode:"",uanNumber:"",bankName:"",bankAccount:"",esic:"", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
+    const [inputData, setInputData] = useState({ emp_id: '', name: "", empCode: "", uanNumber: "", bankName: "", bankAccount: "", esic: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
@@ -24,11 +26,11 @@ const StaffPage = () => {
 
     const handleGlobalModal = () => {
         if (actionOpen == true) {
-        console.log(actionOpen, "actionOpen")
+            console.log(actionOpen, "actionOpen")
             setActionOpen(false)
         }
     }
-console.log(inputData, "inputData")
+    console.log(inputData, "inputData")
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
@@ -80,7 +82,9 @@ console.log(inputData, "inputData")
     const handleClick = async () => {
         const empId = `CYC00${Math.floor(Math.random() * 100) + 1}`
         await setInputData((preState: any) => ({ ...preState, emp_id: empId }))
-        setOpen(!open)
+        // setOpen(!open)
+        navigation('/add-staff')
+
     };
     const handleChange = (e: any) => {
         const { name, value } = e.target;

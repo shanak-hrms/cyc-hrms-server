@@ -15,7 +15,6 @@ export interface IStaffModal {
     inputValue: any;
     handleChange: any;
     handleCreate: any;
-
 }
 const StaffModal = ({ open, heading, handleClose, inputValue, handleChange, handleCreate }: IStaffModal) => {
     return (

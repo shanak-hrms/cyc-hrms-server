@@ -2,4 +2,16 @@
     >div {
         width: 100% !important;
     }
+
+    .required {
+        margin-block-end: -0.25rem;
+
+        span {
+            font-size: 1.25rem;
+        }
+
+        p {
+            font-size: 0.75rem;
+        }
+    }
 }

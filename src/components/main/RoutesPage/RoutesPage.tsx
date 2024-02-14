@@ -21,6 +21,7 @@ import LeavePolicy from '../../LeavePolicy/LeavePolicy'
 import PaySlipForm from '../../../pages/PaySlipForm/PaySlipForm'
 import { RequestApproval } from '../../../pages/RequestApproval/RequestApproval'
 import ManageClaimRequest from '../../../pages/ManageClaimRequest/ManageClaimRequest'
+import AddStaff from '../../../pages/AddStaff/AddStaff'
 
 const RoutesPage = () => {
     return (
@@ -28,6 +29,7 @@ const RoutesPage = () => {
             <Routes>
                 <Route path='/' element={<DashboardPage />} />
                 <Route path='/user' element={<StaffPage />} />
+                <Route path='/add-staff' element={<AddStaff />} />
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
                 <Route path='/employee' element={<EmployeePage />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />

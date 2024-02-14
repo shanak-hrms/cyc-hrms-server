@@ -7,9 +7,9 @@ import { GrDocumentTime } from "react-icons/gr";
 import { TbCalendarTime } from "react-icons/tb";
 import { FaTasks } from "react-icons/fa";
 import { PiNoteBold } from "react-icons/pi";
-import { MdOutlineManageHistory, MdOutlineEventNote  } from "react-icons/md";
+import { MdOutlineManageHistory, MdOutlineEventNote } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
-import { PiNote,PiNotePencilFill } from "react-icons/pi";
+import { PiNote, PiNotePencilFill } from "react-icons/pi";
 
 
 
@@ -55,8 +55,8 @@ export const menuData = [
     },
     {
         "id": 8,
-        "icon": <MdOutlineEventNote  />,
-        "title": "Payrol Management",
+        "icon": <MdOutlineEventNote />,
+        "title": "Payroll Management",
         "link": "/pay-slip",
     }
 ]

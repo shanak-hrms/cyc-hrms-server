@@ -51,7 +51,7 @@ const PaySlip = () => {
             <Grid id="userData" className={styles.payslip}>
                 <Grid className={styles.payslipField}>
                     <Box>
-                        <Typography variant='h2' fontSize={25} fontWeight={600}>Company Name</Typography>
+                        <Typography variant='h2' fontSize={25} fontWeight={600}>C Y C</Typography>
                         <img src={logo} alt='logo' />
                     </Box>
                     <Grid className={styles.addressSection}>
@@ -62,24 +62,22 @@ const PaySlip = () => {
                     <Typography textAlign={"center"} variant='h4' fontSize={22} fontWeight={600}>Pay Slip for Month of {data?.month},2024</Typography>
                     <Box display={"flex"} justifyContent={"space-between"}>
                         <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>Employee Name :{data?.employeeId?.name}</Typography>
-                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| Emp Code: </Typography>
+                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| Emp Code: {data?.employeeId?.empCode}</Typography>
                     </Box>
-                    <Typography variant='h4' fontSize={15} fontWeight={600}>Department :</Typography>
+                    <Typography variant='h4' fontSize={15} fontWeight={600}>Department :{data?.employeeId?.department}</Typography>
 
                     <Grid className={styles.designationSection} display={"flex"} justifyContent={"space-between"}>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Designation:</Typography>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>| Emp Band: </Typography>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Status: Permanent</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Designation:{data?.employeeId?.name}</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Status: {data?.employeeId?.probationStatus == true ? "Probation" : "Permanent"}</Typography>
                     </Grid>
-                    <Typography variant='h4' fontSize={15} fontWeight={600}>Payment Mode :</Typography>
                     <Typography variant='h4' fontSize={15} fontWeight={600}>Present Days:</Typography>
                     <Box display={"flex"} justifyContent={"space-between"}>
-                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>UAN :</Typography>
-                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| ESIC / Group Medical Ref No: </Typography>
+                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>UAN :{data?.employeeId?.uanNumber}</Typography>
+                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| ESIC / Group Medical Ref No: {data?.employeeId?.esic}</Typography>
                     </Box>
                     <Box display={"flex"} justifyContent={"space-between"}>
-                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>Bank Name: </Typography>
-                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}> Bank Account Number:
+                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>Bank Name: {data?.employeeId?.bankName}</Typography>
+                        <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}> Bank Account Number:{data?.employeeId?.bankAccount}
                         </Typography>
                     </Box>
                     <Grid className={styles.earningDeductionCOnatiner}>
@@ -101,7 +99,7 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.basic}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.hra}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>12 </Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.specialAllowance?.value}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.travelAllowanceDeduction}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
                                     </Typography>
@@ -117,7 +115,6 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Salary head</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>PF Employee</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>ESI Employee</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Salary Advance </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Professional tax</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
                                     </Typography>
@@ -128,7 +125,6 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployee}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeduction}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>12 </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.ptax}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
                                     </Typography>

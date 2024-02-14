@@ -16,7 +16,7 @@ const StaffPage = () => {
     const [actionOpen, setActionOpen] = useState(false)
     const [salStrModal, setSalStrModal] = useState(false)
     const handleClose = () => { setOpen(false); setSalStrModal(false); setEditModal(false) };
-    const [inputData, setInputData] = useState({ emp_id: '', name: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
+    const [inputData, setInputData] = useState({ emp_id: '', name: "",empCode:"",uanNumber:"",bankName:"",bankAccount:"",esic:"", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" })
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
@@ -28,7 +28,7 @@ const StaffPage = () => {
             setActionOpen(false)
         }
     }
-
+console.log(inputData, "inputData")
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
@@ -114,6 +114,7 @@ const StaffPage = () => {
             }
 
             await fetchData();
+            console.log(response, "response..")
 
         } catch (error) {
             console.error("Error during POST request:", error);

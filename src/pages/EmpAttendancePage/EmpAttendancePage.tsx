@@ -209,23 +209,23 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     }
     const handleCheckIn = async () => {
 
-        if (!userLocation) {
-            alert('Unable to get your current location.');
-            return;
-        }
+        // if (!userLocation) {
+        //     alert('Unable to get your current location.');
+        //     return;
+        // }
 
-        const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
-        const distance = calculateDistance(
-            userLocation.latitude,
-            userLocation.longitude,
-            officeLocation.latitude,
-            officeLocation.longitude
-        );
+        // const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
+        // const distance = calculateDistance(
+        //     userLocation.latitude,
+        //     userLocation.longitude,
+        //     officeLocation.latitude,
+        //     officeLocation.longitude
+        // );
 
-        if (distance > 5) {
-            alert('You are not within 5km of the office location.');
-            return;
-        }
+        // if (distance > 5) {
+        //     alert('You are not within 5km of the office location.');
+        //     return;
+        // }
         // startCamera();
         // setPhotoModal(true);
 

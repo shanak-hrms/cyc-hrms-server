@@ -15,39 +15,58 @@ import MeetingSchedule from '../../../components/dashboard/meetingSchedule/Meeti
 import ServiceCard from '../../../components/dashboard/ServiceCard/ServiceCard';
 
 const Dashboard = () => {
-  const [anouncementData, setAnouncementData] = useState<any>()
+  const [openLead, setOpenLead] = useState()
+  const [closeLead, setCloseLead] = useState()
+  const [hotLead, sethotLead] = useState()
+  const [coldLead, setColdLead] = useState()
 
   const data = [
     {
-      "id": 1,
-      "icon": <AiOutlineTeam fontSize={25} />,
-      "heading": "Leave",
-      "number": 20,
-      "color": "#58024B"
-    },
-    {
       "id": 2,
       "icon": <TbTicket fontSize={25} />,
-      "heading": "Privilege",
-      "number": 12,
+      "heading": "Open Lead",
+      "number": openLead,
       "color": "#3EC9D6"
     },
     {
       "id": 3,
       "icon": <MdAccountBalanceWallet fontSize={25} />,
-      "heading": "LWP",
-      "number": 8,
+      "heading": "Close Lead",
+      "number": closeLead,
+      "color": "#6FD943"
+    },
+    {
+      "id": 2,
+      "icon": <TbTicket fontSize={25} />,
+      "heading": "Hot Lead",
+      "number": hotLead,
+      "color": "#3EC9D6"
+    },
+    {
+      "id": 3,
+      "icon": <MdAccountBalanceWallet fontSize={25} />,
+      "heading": "Cold Lead",
+      "number": coldLead,
       "color": "#6FD943"
     }
   ]
   const getData = async () => {
     try {
       const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+      console.log(response.data.leadData, "response")
       const data = response.data.leadData;
-      const openLead = data.filter((item: any) => item.leadStatus === "Open")
-      setAnouncementData(data)
-      console.log(data, "data...")
-      console.log(openLead, "openLead")
+      const openLeadData = data.filter((item: any) => item.leadStatus === "Open")
+      const openLeadNo = openLeadData.length;
+      setOpenLead(openLeadNo)
+      const closeLeadData = data.filter((item: any) => item.leadStatus === "Close")
+      const closeLeadNo = closeLeadData.length;
+      setCloseLead(closeLeadNo)
+      const hotLeadData = data.filter((item: any) => item.leadStatus === "Hot")
+      const hotLeadNo = hotLeadData.length;
+      sethotLead(hotLeadNo)
+      const coldLeadData = data.filter((item: any) => item.leadStatus === "Cold")
+      const coldLeadNo = coldLeadData.length;
+      setColdLead(coldLeadNo)
     } catch (err) {
       console.log(err)
     }

@@ -72,34 +72,26 @@ const StaffModal = ({ open, heading, handleClose, inputValue, handleChange, hand
                             type={"text"}
                         />
                         <InputField
-                            label={'Emp Brand'}
-                            name={'empBrand'}
-                            placeholder={'Enter your emp brand'}
-                            value={inputValue.empBrand}
-                            handleChange={handleChange}
-                            type={"text"}
-                        />
-                        <InputField
                             label={'Bank Name'}
-                            name={'banckName'}
+                            name={'bankName'}
                             placeholder={'Enter your bank name'}
-                            value={inputValue.banckName}
+                            value={inputValue.bankName}
                             handleChange={handleChange}
                             type={"text"}
                         />
                         <InputField
                             label={'UNA'}
-                            name={'una'}
+                            name={'uanNumber'}
                             placeholder={'Enter your una'}
-                            value={inputValue.una}
+                            value={inputValue.uanNumber}
                             handleChange={handleChange}
-                            type={"text"}
+                            type={"number"}
                         />
                         <InputField
-                            label={'Status'}
-                            name={'status'}
-                            placeholder={'Enter your status'}
-                            value={inputValue.una}
+                            label={'Address'}
+                            name={'address'}
+                            placeholder={'Enter your address'}
+                            value={inputValue.address}
                             handleChange={handleChange}
                             type={"text"}
                         />
@@ -119,14 +111,6 @@ const StaffModal = ({ open, heading, handleClose, inputValue, handleChange, hand
                             name={'mobile'}
                             placeholder={'Enter your mobile'}
                             value={inputValue.mobile}
-                            handleChange={handleChange}
-                            type={"number"}
-                        />
-                        <InputField
-                            label={'Payment Mode'}
-                            name={'payMode'}
-                            placeholder={'Enter your payment mode'}
-                            value={inputValue.payMode}
                             handleChange={handleChange}
                             type={"number"}
                         />
@@ -155,28 +139,21 @@ const StaffModal = ({ open, heading, handleClose, inputValue, handleChange, hand
                         />
                         <InputField
                             label={'Bank Account Number'}
-                            name={'banckAcc'}
+                            name={'bankAccount'}
                             placeholder={'Enter your bank account'}
-                            value={inputValue.banckAcc}
+                            value={inputValue.bankAccount}
                             handleChange={handleChange}
-                            type={"text"}
+                            type={"number"}
                         />
                         <InputField
                             label={'ESIC / Group Medical Ref No'}
-                            name={'banckAcc'}
-                            placeholder={'Enter your bank account'}
-                            value={inputValue.banckAcc}
+                            name={'esic'}
+                            placeholder={'Enter your esi'}
+                            value={inputValue.esic}
                             handleChange={handleChange}
                             type={"text"}
                         />
-                        <InputField
-                            label={'Address'}
-                            name={'address'}
-                            placeholder={'Enter your address'}
-                            value={inputValue.address}
-                            handleChange={handleChange}
-                            type={"text"}
-                        />
+
                     </Grid>
 
                 </Grid>

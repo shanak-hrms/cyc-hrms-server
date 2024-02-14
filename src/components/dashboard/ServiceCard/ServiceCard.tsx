@@ -5,7 +5,7 @@ import { FaUserGroup } from "react-icons/fa6";
 
 export interface IServiceCard {
     heading: string;
-    subHeading: number;
+    subHeading: any;
     icon: any;
 }
 const ServiceCard = ({ heading, subHeading, icon }: IServiceCard) => {

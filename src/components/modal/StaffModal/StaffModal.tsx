@@ -80,9 +80,9 @@ const StaffModal = ({ open, heading, handleClose, inputValue, handleChange, hand
                             type={"text"}
                         />
                         <InputField
-                            label={'UNA'}
+                            label={'UAN'}
                             name={'uanNumber'}
-                            placeholder={'Enter your una'}
+                            placeholder={'Enter your uan'}
                             value={inputValue.uanNumber}
                             handleChange={handleChange}
                             type={"number"}

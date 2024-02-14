@@ -40,6 +40,7 @@ const RoutesPage = () => {
                 <Route path='/leave-policy' element={<LeavePolicy />} />
                 <Route path='/company-policy' element={<CompanyPolicy />} />
                 <Route path='/pay-slip' element={<EmployeePage />} />
+                <Route path='/pay-slip-preview' element={<PaySlip />} />
                 <Route path='/request-approval-list' element={<RequestApproval />} />
 
             </Routes>

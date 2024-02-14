@@ -49,11 +49,15 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const videoRef = useRef<any>();
 
     const fetchData = async () => {
+        const loginedUserStr: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserStr)
+        const { email } = loginedUser
         setLoading(true)
         try {
             const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
             const data = result.data.attendanceData;
-            setAttendanceData(data);
+            const filterData = data?.filter((item: any) => item.employeeId?.email === email)
+            setAttendanceData(filterData);
         } catch (error) {
             console.error("Error during GET request:", error);
         } finally {

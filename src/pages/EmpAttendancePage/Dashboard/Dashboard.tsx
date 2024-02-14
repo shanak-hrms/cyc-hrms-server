@@ -42,10 +42,12 @@ const Dashboard = () => {
   ]
   const getData = async () => {
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/anouncement`)
-      const data = response.data.anouncementData;
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+      const data = response.data.leadData;
+      const openLead = data.filter((item: any) => item.leadStatus === "Open")
       setAnouncementData(data)
       console.log(data, "data...")
+      console.log(openLead, "openLead")
     } catch (err) {
       console.log(err)
     }

@@ -5,15 +5,76 @@
     width: 96% !important;
     margin-inline: auto;
 
-    .dashboard {
-        display: flex;
-        justify-content: space-between;
-        border: 1px solid #d9def1;
-        padding-block: 1.5%;
-        margin-block: 2.5%;
+    .dashboardBody {
+        >div:nth-child(1) {
+            padding-block-start: 1%;
+            padding-inline-end: 2%;
 
-        >div {
-            border-right: 1px dashed rgb(217, 222, 241);
+            >div:nth-child(1) {
+                display: flex;
+                justify-content: space-between;
+                padding-block-start: 5%;
+
+                >div {
+                    width: 48%;
+
+                    button {
+                        width: 100%;
+                    }
+                }
+                >div:nth-child(2){
+                    display: none;
+                }
+            }
+
+            >div:nth-child(2) {
+                border: 1px dashed #d9def1;
+                background-color: #F8FAF9;
+                margin-block: 1rem;
+                border-radius: 0.5rem;
+                display: flex;
+                justify-content: space-between;
+                padding: 4%;
+
+            }
+
+            >div:nth-child(3) {
+                border: 1px solid #d9def1;
+                border-radius: 0.5rem;
+            }
+        }
+
+        >div:nth-child(2) {
+            >div {
+                padding-block-start: 2rem;
+            }
+        }
+    }
+
+    @media screen and (max-width:480px) {
+        width: 100%;
+        margin-block-start: 6rem;
+
+        .dashboard {
+            >div {
+                width: 100%;
+            }
+        }
+
+        .dashboardBody {
+
+            >div:nth-child(1),
+            >div:nth-child(2) {
+                width: 100%;
+            }
+
+            >div:nth-child(3) {
+                width: 100%;
+
+                >div {
+                    padding-block-start: 2rem;
+                }
+            }
         }
     }
 }

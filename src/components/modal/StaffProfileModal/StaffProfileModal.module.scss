@@ -1,0 +1,23 @@
+.staffProfileModal {
+    width: 50rem;
+    height: fit-content;
+    margin: auto;
+
+    .staffProfile {
+        background-color: #ffffff;
+        padding: 6%;
+        border-radius: 0.5rem;
+    }
+
+    .staffDetails {
+        p {
+            padding-block: 0.5rem;
+            border-bottom: 1px dashed #d9def1;
+            font-weight: 600;
+        }
+        span{
+            font-weight: 500;
+            padding-inline-start: 1rem;
+        }
+    }
+}

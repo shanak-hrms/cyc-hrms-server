@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styles from './AddStaff.module.scss'
+import styles from './UpdateStaff.module.scss'
 import { Box, Divider, Grid, Typography } from '@mui/material'
 import { MdClose } from 'react-icons/md'
 import InputField from '../../components/inputField/InputField'
@@ -10,7 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import SelectField from '../../components/SelectField/SelectField'
 import { useNavigate } from 'react-router-dom'
 
-const AddStaff = () => {
+
+const UpdateStaff = () => {
     const data = {
         role: ["EMPLOYEE", "HR", "MANAGER", "DIRECTOR"],
         type: ["Probation", "Permanent"]
@@ -31,14 +32,17 @@ const AddStaff = () => {
         }
     };
 
-    const handleCreate = async () => {
-        if (inputValue.name === "" || inputValue.email === "" || inputValue.personalEmail === "" || inputValue.mobile === "" || inputValue.address === "" || inputValue.bankAccount === "" || inputValue.bankName === "" || inputValue.branch === "" || inputValue.dateOfJoining === "" || inputValue.department === "" || inputValue.designation === "" || inputValue.empCode === "" || inputValue.role === "" || inputValue.password === "" || inputValue.ifsc === "" || inputValue.staffType === "") {
-            toast.error("Please fill require field")
-            return;
-        }
+    const handleUpdate = async () => {
+        const sttafIdString: any = localStorage.getItem("staffId")
+        const sttafId = JSON.parse(sttafIdString)
+        console.log(sttafId, "sttafIdString")
+        // if (inputValue.name === "" || inputValue.email === "" || inputValue.personalEmail === "" || inputValue.mobile === "" || inputValue.address === "" || inputValue.bankAccount === "" || inputValue.bankName === "" || inputValue.branch === "" || inputValue.dateOfJoining === "" || inputValue.department === "" || inputValue.designation === "" || inputValue.empCode === "" || inputValue.role === "" || inputValue.password === "" || inputValue.ifsc === "" || inputValue.staffType === "") {
+        //     toast.error("Please fill require field")
+        //     return;
+        // }
 
         try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/signUp', inputValue);
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/user/update/profile`, inputValue);
 
             if (response.status === 200) {
                 toast.success("Staff added successfuly!")
@@ -57,7 +61,7 @@ const AddStaff = () => {
     }, []);
     return (
         <Grid className={styles.addStaffContainer}>
-            <Typography variant='h5' fontSize={25} fontWeight={600} textAlign={"center"}>Create Staff</Typography>
+            <Typography variant='h5' fontSize={25} fontWeight={600} textAlign={"center"}>Update Staff</Typography>
 
             <Grid className={styles.staffModal}>
                 <Grid>
@@ -229,11 +233,11 @@ const AddStaff = () => {
             </Grid>
             <Grid className={styles.action}>
                 <CommonButton name={"Cancel"} onClick={(() => navigation('/staff'))} />
-                <CommonButton name={"Submit"} onClick={handleCreate} />
+                <CommonButton name={"Submit"} onClick={handleUpdate} />
             </Grid>
             <ToastContainer />
         </Grid>
     )
 }
 
-export default AddStaff
+export default UpdateStaff

@@ -113,8 +113,7 @@ const App = () => {
                 handleClick={handleClickUSer}
                 menu={menu}
                 handleSidebarMemu={handleSidebarMemu}
-                handleResponsiveMenu={handleResponsiveMenu}
-              />}
+                handleResponsiveMenu={handleResponsiveMenu} />}
 
             {user === "EMPLOYEE" &&
               <EmpAttendancePage

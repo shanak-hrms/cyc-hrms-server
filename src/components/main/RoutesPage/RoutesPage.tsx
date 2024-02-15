@@ -22,14 +22,20 @@ import PaySlipForm from '../../../pages/PaySlipForm/PaySlipForm'
 import { RequestApproval } from '../../../pages/RequestApproval/RequestApproval'
 import ManageClaimRequest from '../../../pages/ManageClaimRequest/ManageClaimRequest'
 import AddStaff from '../../../pages/AddStaff/AddStaff'
+import UpdateStaff from '../../../pages/UpdateStaff/UpdateStaff'
 
-const RoutesPage = () => {
+export interface IRoutesPage {
+    handleClockIn: any;
+    handleClockOut: any;
+}
+const RoutesPage = ({ handleClockIn, handleClockOut }: IRoutesPage) => {
     return (
         <Fragment>
             <Routes>
-                <Route path='/' element={<DashboardPage />} />
+                <Route path='/' element={<DashboardPage handleClockIn={handleClockIn} handleClockOut={handleClockOut} />} />
                 <Route path='/staff' element={<StaffPage />} />
                 <Route path='/add-staff' element={<AddStaff />} />
+                <Route path='/update-staff' element={<UpdateStaff />} />
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
                 <Route path='/employee' element={<EmployeePage />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />

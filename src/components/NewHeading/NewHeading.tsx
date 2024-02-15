@@ -11,12 +11,13 @@ import {menuData} from '../../components/sidebar/menuData'
 export interface INewHeading {
     open: any;
     menu?: any;
+    menuData:any;
     handleSidebarMemu?: any
     handleClickLogout?: any;
     handleLogout: any;
     handleResponsiveMenu?: any;
 }
-const NewHeading = ({ open, menu, handleSidebarMemu, handleClickLogout, handleLogout, handleResponsiveMenu }: INewHeading) => {
+const NewHeading = ({ open, menu, menuData, handleSidebarMemu, handleClickLogout, handleLogout, handleResponsiveMenu }: INewHeading) => {
     const [userName, setUserName] = useState('')
 
     useEffect(() => {

@@ -7,17 +7,19 @@ export interface IServiceCard {
     heading: string;
     subHeading: any;
     icon: any;
+    color?: string;
+    bgColor?: string;
 }
-const ServiceCard = ({ heading, subHeading, icon }: IServiceCard) => {
+const ServiceCard = ({ heading, subHeading, icon, color, bgColor }: IServiceCard) => {
     return (
         <Grid className={styles.serviceCardContainer}>
             <Box>
                 <Typography fontSize={18} fontWeight={600}>{heading}</Typography>
-                <Typography fontSize={22} fontWeight={600} sx={{ color: "#01ABB2" }}>{subHeading}</Typography>
+                <Typography fontSize={22} fontWeight={600} sx={{ color: color }}>{subHeading}</Typography>
             </Box>
-            <Box>
+            <Box sx={{ backgroundColor: bgColor }}>
                 {icon}
-            </Box> 
+            </Box>
         </Grid>
     )
 }

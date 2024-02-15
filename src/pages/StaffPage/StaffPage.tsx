@@ -113,7 +113,7 @@ const StaffPage = () => {
     };
 
     return (
-        <Grid onClick={handleGlobalModal}>
+        <Grid onClick={handleGlobalModal} className={styles.staffPageContainer}>
             <User
                 data={userData}
                 handleClick={handleClick}

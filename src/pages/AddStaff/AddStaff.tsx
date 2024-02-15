@@ -213,7 +213,7 @@ const AddStaff = () => {
                     />
                     <InputField
                         IsRequire={false}
-                        label={'ESIC / Group Medical Ref No'}
+                        label={'ESIC Ref No'}
                         name={'esic'}
                         placeholder={'Enter your esi'}
                         value={inputValue.esic}

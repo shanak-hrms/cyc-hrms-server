@@ -6,6 +6,11 @@
     padding-block: 4%;
     border-radius: 0.5rem;
     border: 1px solid #d9def1;
+    
+    @media screen and (max-width:480px) {
+        width: 100%;
+        
+    }
 
     .staffModal {
         display: flex;

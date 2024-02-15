@@ -4,9 +4,7 @@ import { Grid } from '@mui/material'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { menuData } from './menuData'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import Dashboard from './Dashboard/Dashboard'
 import Attendance from './Attendance/Attendance'
-import Heading from './Heading/Heading'
 import axios from 'axios'
 import Leave from './Leave/Leave'
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,6 +18,8 @@ import TakePhotoModal from '../../components/modal/TakePhotoModal/TakePhotoModal
 import LeadManagement from '../LeadManagement/LeadManagement'
 import RequestModal from '../../components/modal/RequestModal/RequestModal'
 import NewHeading from '../../components/NewHeading/NewHeading'
+import Dashboard from '../../components/dashboard/Dashboard'
+import DashboardPage from './Dashboard/Dashboard'
 
 export interface IEmpAttendancePage {
     open: any;
@@ -48,6 +48,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const [appAttId, setAppAttId] = useState()
     const videoRef = useRef<any>();
 
+
     const fetchData = async () => {
         const loginedUserStr: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserStr)
@@ -65,6 +66,29 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
         }
     };
     const handleClockOut = async (idx: any) => {
+        if (attendanceData && attendanceData.length > 0) {
+            const matchId: any = attendanceData.filter((item: any) => item._id === idx);
+            const checkOut = matchId[0].date;
+            try {
+                const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
+                    { date: checkOut },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${userToken}`
+                        }
+                    }
+                )
+                if (response.status === 200) {
+                    await fetchData();
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            console.log("attendanceData is undefined or empty");
+        }
+    };
+    const handleClockOutPreVAtt = async (idx: any) => {
         if (attendanceData && attendanceData.length > 0) {
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);
             const checkOut = matchId[0].date;
@@ -207,7 +231,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
         const { name, value } = e.target;
         setReqAttenVal({ ...reqAttenVal, [name]: value })
     }
-    const handleCheckIn = async () => {
+    const handleClockIn = async () => {
 
         // if (!userLocation) {
         //     alert('Unable to get your current location.');
@@ -288,9 +312,9 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 />
             </Grid>
             <Grid className={styles.empAttendanceScreen}>
-                <NewHeading open={open} menu={menu} handleClickLogout={handleClickLogout} handleSidebarMemu={handleSidebarMemu} handleLogout={handleLogout} handleResponsiveMenu={handleResponsiveMenu} />
+                <NewHeading open={open} menu={menu} menuData={menuData} handleClickLogout={handleClickLogout} handleSidebarMemu={handleSidebarMemu} handleLogout={handleLogout} handleResponsiveMenu={handleResponsiveMenu} />
                 <Routes>
-                    <Route path='/' element={<Dashboard />} />
+                    <Route path='/' element={<DashboardPage handleClockIn={handleClockIn} handleClockOut={undefined} />} />
                     <Route path='/attendance' element={
                         <Attendance
                             open={reqAtten}
@@ -300,7 +324,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                             handleAttendance={handlePreviousCheckIn}
                             attendanceData={attendanceData}
                             loading={loading}
-                            handleCheckIn={handleCheckIn}
+                            handleCheckIn={undefined}
                             handleClockOut={handleClockOut}
                             handleReqAppModal={handleRequestModal}
                             handleReqAttModal={handleReqAttModal}

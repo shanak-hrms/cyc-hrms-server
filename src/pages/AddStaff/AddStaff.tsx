@@ -7,15 +7,20 @@ import CommonButton from '../../components/common/CommonButton/CommonButton'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import data from '../../components/modal/StaffModal/data.json'
 import SelectField from '../../components/SelectField/SelectField'
+import { useNavigate } from 'react-router-dom'
 
 
 export interface IAddStaff {
 
 }
 const AddStaff = () => {
-    const [inputValue, setInputValue] = useState({ emp_id: '', name: "", empCode: "", uanNumber: "", bankName: "", bankAccount: "", esic: "", address: "", mobile: "", email: "", password: '', branch: "", department: '', designation: "", dateOfJoining: "", role: "" });
+    const data = {
+        role: ["EMPLOYEE", "HR", "MANAGER", "DIRECTOR"],
+        type: ["Probation", "Permanent"]
+    }
+    const navigation = useNavigate();
+    const [inputValue, setInputValue] = useState({ name: "", empCode: "", uanNumber: "", bankName: "", bankAccount: "", esic: "", address: "", mobile: "", email: "", personalEmail: "", password: '', branch: "", ifsc: "", department: '', designation: "", dateOfJoining: "", role: "", staffType: "" });
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputValue({ ...inputValue, [name]: value });
@@ -31,7 +36,7 @@ const AddStaff = () => {
     };
 
     const handleCreate = async () => {
-        if (inputValue.name === "" || inputValue.email === "" || inputValue.mobile === "" || inputValue.address === "" || inputValue.bankAccount === "" || inputValue.bankName === "" || inputValue.branch === "" || inputValue.dateOfJoining === "" || inputValue.department === "" || inputValue.designation === "" || inputValue.empCode === "" || inputValue.role === "" || inputValue.password === "") {
+        if (inputValue.name === "" || inputValue.email === "" || inputValue.personalEmail === "" || inputValue.mobile === "" || inputValue.address === "" || inputValue.bankAccount === "" || inputValue.bankName === "" || inputValue.branch === "" || inputValue.dateOfJoining === "" || inputValue.department === "" || inputValue.designation === "" || inputValue.empCode === "" || inputValue.role === "" || inputValue.password === "" || inputValue.ifsc === "" || inputValue.staffType === "") {
             toast.error("Please fill require field")
             return;
         }
@@ -80,7 +85,7 @@ const AddStaff = () => {
                     />
                     <InputField
                         IsRequire={true}
-                        label={'Email'}
+                        label={'Official Email'}
                         name={'email'}
                         placeholder={'Enter your email'}
                         value={inputValue.email}
@@ -89,10 +94,10 @@ const AddStaff = () => {
                     />
                     <InputField
                         IsRequire={true}
-                        label={'Branch'}
-                        name={'branch'}
-                        placeholder={'Enter your branch'}
-                        value={inputValue.branch}
+                        label={'Personal Email'}
+                        name={'personalEmail'}
+                        placeholder={'Enter your email'}
+                        value={inputValue.personalEmail}
                         handleChange={handleChange}
                         type={"text"}
                     />
@@ -105,12 +110,22 @@ const AddStaff = () => {
                         handleChange={handleChange}
                         type={"text"}
                     />
+
                     <InputField
                         IsRequire={true}
                         label={'Bank Name'}
                         name={'bankName'}
                         placeholder={'Enter your bank name'}
                         value={inputValue.bankName}
+                        handleChange={handleChange}
+                        type={"text"}
+                    />
+                    <InputField
+                        IsRequire={true}
+                        label={'IFSC Code'}
+                        name={'ifsc'}
+                        placeholder={'Enter your IFSC code'}
+                        value={inputValue.ifsc}
                         handleChange={handleChange}
                         type={"text"}
                     />
@@ -123,14 +138,13 @@ const AddStaff = () => {
                         handleChange={handleChange}
                         type={"number"}
                     />
-                    <InputField
+                    <SelectField
                         IsRequire={true}
-                        label={'Address'}
-                        name={'address'}
-                        placeholder={'Enter your address'}
-                        value={inputValue.address}
+                        title={'Staff Type'}
+                        data={data?.type}
+                        option={inputValue?.staffType}
+                        name={'staffType'}
                         handleChange={handleChange}
-                        type={"text"}
                     />
 
                 </Grid>
@@ -175,7 +189,7 @@ const AddStaff = () => {
                         IsRequire={true}
                         title={'Role'}
                         data={data.role}
-                        option={inputValue.role}
+                        option={inputValue?.role}
                         name={'role'}
                         handleChange={handleChange}
                     />
@@ -189,6 +203,15 @@ const AddStaff = () => {
                         type={"number"}
                     />
                     <InputField
+                        IsRequire={true}
+                        label={'Branch'}
+                        name={'branch'}
+                        placeholder={'Enter your branch'}
+                        value={inputValue.branch}
+                        handleChange={handleChange}
+                        type={"text"}
+                    />
+                    <InputField
                         IsRequire={false}
                         label={'ESIC / Group Medical Ref No'}
                         name={'esic'}
@@ -197,10 +220,19 @@ const AddStaff = () => {
                         handleChange={handleChange}
                         type={"text"}
                     />
+                    <InputField
+                        IsRequire={true}
+                        label={'Address'}
+                        name={'address'}
+                        placeholder={'Enter your address'}
+                        value={inputValue.address}
+                        handleChange={handleChange}
+                        type={"text"}
+                    />
                 </Grid>
             </Grid>
             <Grid className={styles.action}>
-                <CommonButton name={"Cancel"} onClick={undefined} />
+                <CommonButton name={"Cancel"} onClick={(() => navigation('/staff'))} />
                 <CommonButton name={"Submit"} onClick={handleCreate} />
             </Grid>
             <ToastContainer />

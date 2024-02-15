@@ -26,6 +26,8 @@
         right: 10%;
 
         >div {
+            display: flex !important;
+
             &:hover {
                 background-color: #00ACB2;
                 color: #000000;

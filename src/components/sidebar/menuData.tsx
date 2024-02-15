@@ -27,7 +27,7 @@ export const menuData = [
         "id": 2,
         "icon": <AiOutlineTeam />,
         "title": "Staff",
-        "link": "/user"
+        "link": "/staff"
     },
     {
         "id": 4,

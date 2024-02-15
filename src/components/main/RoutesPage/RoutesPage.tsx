@@ -28,7 +28,7 @@ const RoutesPage = () => {
         <Fragment>
             <Routes>
                 <Route path='/' element={<DashboardPage />} />
-                <Route path='/user' element={<StaffPage />} />
+                <Route path='/staff' element={<StaffPage />} />
                 <Route path='/add-staff' element={<AddStaff />} />
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
                 <Route path='/employee' element={<EmployeePage />} />

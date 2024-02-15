@@ -6,6 +6,7 @@ import { Grid, Typography } from '@mui/material'
 import styles from './SelectField.module.scss'
 
 export interface ISelectField {
+    IsRequire?: any
     title: string;
     data: any;
     option: any;
@@ -14,13 +15,17 @@ export interface ISelectField {
     handleClick?: any;
 
 }
-const SelectField = ({ title, data, option, name, handleChange, handleClick }: ISelectField) => {
+const SelectField = ({IsRequire, title, data, option, name, handleChange, handleClick }: ISelectField) => {
 
 
     return (
         <Grid className={styles.selectFieldContainer}>
-            <FormControl sx={{ m: 1, minWidth: 120 }} >
+            <FormControl  >
                 <Typography>{title}</Typography>
+                {IsRequire ? <Grid className={styles.required}>
+                    <Typography><span style={{ color: "red" }}>*</span>Require this field</Typography>
+                </Grid> : ""}
+
                 <Select
                     value={option}
                     name={name}

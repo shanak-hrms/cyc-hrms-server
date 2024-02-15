@@ -1,11 +1,9 @@
 import React from 'react'
 import styles from './UserCard.module.scss'
-import { Grid, Box, Typography, List, ListItemButton, ListItemText } from '@mui/material'
+import { Grid, Box, Typography, ListItemButton, ListItemText } from '@mui/material'
 import { PiDotsThreeOutlineVerticalDuotone } from 'react-icons/pi';
 import CommonButton from '../CommonButton/CommonButton';
-import img from '../../../asserst/images/profile_pic.jpg'
 import { RxAvatar } from "react-icons/rx";
-import { PiUserCircleLight } from "react-icons/pi";
 import { MdEdit, MdOutlineAdd, MdDelete } from "react-icons/md";
 
 
@@ -23,7 +21,7 @@ export interface IUserCard {
     handlePayroll?: any;
     handleDelete?: any;
 }
-const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete }: IUserCard) => {
+const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete }: IUserCard) => {
     return (
         <Grid className={styles.userCardContainer}>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
@@ -32,22 +30,23 @@ const UserCard = ({ label, image, name, email, IsButton, IsLabel, handleClick, a
             </Box>
             <Box>
                 {actionOpen ? <>
-                    <ListItemButton onClick={handleEdit} sx={{ display: "flex", flexDirection: "column" }}>
-                        <ListItemText sx={{ textAlign: "left", }} > <MdEdit fontSize={18} />Edit</ListItemText>
+                    <ListItemButton onClick={handleEdit} >
+                        <MdEdit fontSize={18} style={{ marginInlineEnd: 2 }} />
+                        <ListItemText sx={{ textAlign: "left", }} > Edit</ListItemText>
                     </ListItemButton>
-                    <ListItemButton onClick={handleAddSalary} sx={{ display: "flex", flexDirection: "column" }}>
-                        <ListItemText sx={{ textAlign: "left", }} > <MdOutlineAdd fontSize={18} />Add Salart</ListItemText>
+                    <ListItemButton onClick={handleAddSalary} >
+                        <MdOutlineAdd fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                        <ListItemText sx={{ textAlign: "left", }} > Add Salary</ListItemText>
                     </ListItemButton>
-                    <ListItemButton onClick={handleDelete} sx={{ display: "flex", flexDirection: "column" }}>
-                        <ListItemText sx={{ textAlign: "left" }} > <MdDelete fontSize={18} />Delete</ListItemText>
+                    <ListItemButton onClick={handleDelete} >
+                        <MdDelete fontSize={18} style={{ marginInlineEnd: 2, color: "#FF0000" }} />
+                        <ListItemText sx={{ textAlign: "left", }} > Delete</ListItemText>
                     </ListItemButton>
                 </> : ""}
 
             </Box>
-
             <Box>
                 <Box>
-                    {/* <img src={img} alt='img' /> */}
                     <RxAvatar fontSize={90} />
                 </Box>
                 <Typography variant='h4' align='center'>{name}</Typography>

@@ -11,6 +11,8 @@ import Calender from './calender/Calender';
 import AnnouncementModal from '../modal/AnnouncementModal/AnnouncementModal';
 import ServiceCard from './ServiceCard/ServiceCard';
 import axios from 'axios';
+import { PiNoteBold,PiNoteDuotone, PiNoteFill,PiNote   } from "react-icons/pi";
+
 
 
 export interface IDashboard {
@@ -35,28 +37,28 @@ const Dashboard = () => {
     const data = [
         {
             "id": 2,
-            "icon": <TbTicket fontSize={25} />,
+            "icon": <PiNoteBold fontSize={25} />,
             "heading": "Open Lead",
             "number": openLead,
             "color": "#3EC9D6"
         },
         {
             "id": 3,
-            "icon": <MdAccountBalanceWallet fontSize={25} />,
+            "icon": <PiNoteDuotone  fontSize={25} />,
             "heading": "Close Lead",
             "number": closeLead,
             "color": "#6FD943"
         },
         {
             "id": 2,
-            "icon": <TbTicket fontSize={25} />,
+            "icon": <PiNoteFill fontSize={25} />,
             "heading": "Hot Lead",
             "number": hotLead,
             "color": "#3EC9D6"
         },
         {
             "id": 3,
-            "icon": <MdAccountBalanceWallet fontSize={25} />,
+            "icon": <PiNote  fontSize={25} />,
             "heading": "Cold Lead",
             "number": coldLead,
             "color": "#6FD943"

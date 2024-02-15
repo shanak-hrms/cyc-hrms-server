@@ -30,7 +30,7 @@ const SalaryStructureModal = ({ open, salStrVal, handleClose, handleCreate, hand
                 <Grid className={styles.salaryField}>
                     <Box>
                         <InputField
-                            label={'Basic Salary'}
+                            label={'Gross Salary'}
                             name={'basicSalary'}
                             placeholder={''}
                             value={salStrVal.basicSalary}

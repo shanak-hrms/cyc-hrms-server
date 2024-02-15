@@ -20,8 +20,9 @@ export interface IUserCard {
     handleAddSalary?: any;
     handlePayroll?: any;
     handleDelete?: any;
+    handleProfile?:any;
 }
-const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete }: IUserCard) => {
+const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete,handleProfile }: IUserCard) => {
     return (
         <Grid className={styles.userCardContainer}>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
@@ -45,7 +46,7 @@ const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handl
                 </> : ""}
 
             </Box>
-            <Box>
+            <Box onClick={handleProfile}>
                 <Box>
                     <RxAvatar fontSize={90} />
                 </Box>

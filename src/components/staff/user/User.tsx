@@ -22,9 +22,10 @@ export interface IUserDataType {
     handleEdit: any;
     handleAddSalary: any;
     handlePayroll: any;
+    handleProfile:any
     handleDelete: any;
 }
-const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete }: IUserDataType) => {
+const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete, handleProfile }: IUserDataType) => {
 
     return (
         <Grid className={styles.userContainer}>
@@ -52,6 +53,7 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
                                     handleAddSalary={() => handleAddSalary(item._id)}
                                     handlePayroll={() => handlePayroll(item._id)}
                                     handleDelete={() => handleDelete(item._id)}
+                                    handleProfile={()=>handleProfile(item._id)}
                                 />
                             </Grid>
                         )
@@ -73,6 +75,7 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
                                         handleAddSalary={() => handleAddSalary(item._id)}
                                         handlePayroll={() => handlePayroll(item._id)}
                                         handleDelete={() => handleDelete(item._id)}
+                                        handleProfile={()=>handleProfile(item._id)}
                                     />
                                 </Grid>
                             )

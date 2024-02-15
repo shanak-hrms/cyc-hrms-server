@@ -7,17 +7,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SalaryStructureModal from '../../components/modal/SalaryStructureModal/SalaryStructureModal'
 import { useNavigate } from 'react-router-dom'
+import StaffProfileModal from '../../components/modal/StaffProfileModal/StaffProfileModal'
 
 
 const StaffPage = () => {
     const navigation = useNavigate();
     const [actionOpen, setActionOpen] = useState(false)
     const [salStrModal, setSalStrModal] = useState(false)
-    const handleClose = () => { setActionOpen(false); setSalStrModal(false) }
+    const [profilModal, setProfileModal] = useState(false)
+    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
     const [editId, setEditId] = useState()
+    const [profile, setProfile] = useState<any>()
 
     const handleGlobalModal = () => {
         if (actionOpen == true) {
@@ -28,6 +31,9 @@ const StaffPage = () => {
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
+        localStorage.setItem("staffId", JSON.stringify(idx))
+        const staffDetails = userData.filter((item: any) => item._id === idx)
+        console.log(staffDetails, "staffDetails")
     }
 
     const handleAddSalaryModal = async (idx: any) => {
@@ -72,13 +78,24 @@ const StaffPage = () => {
     const handleClick = async () => {
         navigation('/add-staff')
     };
-
+    const handleEdit = () => {
+        navigation('/update-staff')
+    }
+    const handleProfile = (idx: any) => {
+        // const profileData = userData.length > 0 && userData?.filter((item: any) => item._id === idx)
+        // setProfile(profileData)
+        // console.log(profileData, "profileData")
+        // console.log(idx, "idx..")
+        // setProfileModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+    }
+    // console.log(profile[0]?.name, "profile")
     const fetchData = async () => {
         try {
             setLoading(true);
             const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/user/get');
             const users = response.data.userData;
             setUserData(users);
+            console.log(users, "users...")
         } catch (error) {
             console.error("Error during GET request:", error);
         } finally {
@@ -120,9 +137,10 @@ const StaffPage = () => {
                 handleAction={handleActionModal}
                 loading={loading}
                 actionOpen={actionOpen}
-                handleEdit={undefined}
+                handleEdit={handleEdit}
                 handleAddSalary={handleAddSalaryModal}
                 handlePayroll={undefined}
+                handleProfile={handleProfile}
                 handleDelete={handleDelete}
             />
             <SalaryStructureModal
@@ -132,6 +150,7 @@ const StaffPage = () => {
                 handleChange={handleChangeSalStr}
                 handleCreate={handleCreateSalary}
             />
+            {/* <StaffProfileModal open={profilModal} profile={undefined} handleClose={handleClose} /> */}
             <ToastContainer />
         </Grid>
     )

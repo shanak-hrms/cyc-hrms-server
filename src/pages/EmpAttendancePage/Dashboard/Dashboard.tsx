@@ -8,8 +8,10 @@ import { PiNoteBold, } from "react-icons/pi";
 export interface IDashboardPage {
   handleClockIn: any;
   handleClockOut: any;
+  IsCheckId?: any
+  attendanceData?: any
 }
-const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
+const DashboardPage = ({ handleClockIn, handleClockOut, IsCheckId, attendanceData }: IDashboardPage) => {
   const [medicalLeave, setMedicalLeave] = useState()
   const [privilageLeave, setPrivilegeLeave] = useState()
   const [lwpLeave, setLwpLeave] = useState()
@@ -65,7 +67,7 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
 
   return (
     <Grid className={styles.dashboardContainer}>
-      <Dashboard data={data} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
+      <Dashboard data={data} handleClockIn={handleClockIn} attendanceData={attendanceData} handleClockOut={handleClockOut} IsCheckId={IsCheckId} />
     </Grid>
   )
 }

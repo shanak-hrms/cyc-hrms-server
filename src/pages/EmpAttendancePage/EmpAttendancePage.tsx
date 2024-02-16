@@ -47,6 +47,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const [stream, setStream] = useState<any>(null);
     const [appAttId, setAppAttId] = useState()
     const videoRef = useRef<any>();
+    const [checkClockIn, setCheckClockIn] = useState(false)
 
 
     const fetchData = async () => {
@@ -59,12 +60,26 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             const data = result.data.attendanceData;
             const filterData = data?.filter((item: any) => item.employeeId?.email === email)
             setAttendanceData(filterData);
+
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+            const day = currentDate.getDate().toString().padStart(2, '0');
+
+            const currentData = `${year}-${month}-${day}`;
+
+            const CheckAtten = data.filter((item: any) => item.date.substring(0, 10) === currentData);
+            if (CheckAtten.length === 0) {
+                setCheckClockIn(true)
+            }
+
         } catch (error) {
             console.error("Error during GET request:", error);
         } finally {
             setLoading(false)
         }
     };
+    console.log(checkClockIn, "checkClockIn")
     const handleClockOut = async (idx: any) => {
         if (attendanceData && attendanceData.length > 0) {
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);
@@ -233,26 +248,6 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     }
     const handleClockIn = async () => {
 
-        // if (!userLocation) {
-        //     alert('Unable to get your current location.');
-        //     return;
-        // }
-
-        // const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
-        // const distance = calculateDistance(
-        //     userLocation.latitude,
-        //     userLocation.longitude,
-        //     officeLocation.latitude,
-        //     officeLocation.longitude
-        // );
-
-        // if (distance > 5) {
-        //     alert('You are not within 5km of the office location.');
-        //     return;
-        // }
-        // startCamera();
-        // setPhotoModal(true);
-
         try {
             const desiredDate = new Date();
             const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
@@ -314,7 +309,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             <Grid className={styles.empAttendanceScreen}>
                 <NewHeading open={open} menu={menu} menuData={menuData} handleClickLogout={handleClickLogout} handleSidebarMemu={handleSidebarMemu} handleLogout={handleLogout} handleResponsiveMenu={handleResponsiveMenu} />
                 <Routes>
-                    <Route path='/' element={<DashboardPage handleClockIn={handleClockIn} handleClockOut={undefined} />} />
+                    <Route path='/' element={<DashboardPage IsCheckId={checkClockIn} attendanceData={attendanceData} handleClockIn={handleClockIn} handleClockOut={undefined} />} />
                     <Route path='/attendance' element={
                         <Attendance
                             open={reqAtten}

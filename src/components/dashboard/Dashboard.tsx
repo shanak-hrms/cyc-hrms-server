@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.scss'
-import { Box, Grid, Table, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@mui/material'
+import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from '@mui/material'
 import Calender from './calender/Calender';
 import ServiceCard from './ServiceCard/ServiceCard';
 import CommonButton from '../common/CommonButton/CommonButton';
 
 export interface IDashboard {
     data: any;
-    handleClockIn:any;
-    handleClockOut:any;
+    handleClockIn: any;
+    handleClockOut: any;
+    IsCheckId?: any;
+    attendanceData?: any;
 }
-const Dashboard = ({ data, handleClockIn, handleClockOut }: IDashboard) => {
-
+const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceData }: IDashboard) => {
+    const formateDate = (idx: any) => {
+        const date = new Date(idx)
+        return date.toLocaleDateString()
+    }
+    const formateTime = (idx: any) => {
+        const date = new Date(idx)
+        return date.toLocaleTimeString()
+    }
     return (
         <Grid className={styles.dashboardContainer}>
             <Grid container spacing={1} className={styles.dashboard}>
@@ -31,8 +40,38 @@ const Dashboard = ({ data, handleClockIn, handleClockOut }: IDashboard) => {
             <Grid container className={styles.dashboardBody}>
                 <Grid item sm={6} >
                     <Box>
-                        <CommonButton name={"Clock In"} onClick={handleClockIn}/>
-                        <CommonButton name={"Clock Out"} onClick={handleClockOut}/>
+                        {IsCheckId ? <><CommonButton name={"Clock In"} onClick={handleClockIn} />
+                            <CommonButton name={"Clock Out"} onClick={handleClockOut} /></>
+                            :
+                            <><CommonButton name={"Clocked In"} />
+                            </>}
+                    </Box>
+                    <Box>
+                        <TableContainer>
+                            <Table>
+                                <TableHead sx={{ backgroundColor: "#00ADB2" }}>
+                                    <TableRow>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Name</TableCell>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Date</TableCell>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Clock In</TableCell>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Clock Out</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {attendanceData && attendanceData.map((item: any) => {
+                                        return (
+                                            <TableRow>
+                                                <TableCell>{item.employeeId?.name}</TableCell>
+                                                <TableCell>{formateDate(item?.date)}</TableCell>
+                                                <TableCell>{formateTime(item?.clockIn)}</TableCell>
+                                                <TableCell>{formateTime(item?.clockOut)}</TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Box>
                     <Box>
                         <Typography variant='h5' fontSize={16} fontWeight={500}>Manager Name: </Typography>

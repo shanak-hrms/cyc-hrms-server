@@ -18,6 +18,34 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
     const [coldLead, setColdLead] = useState()
     const [warmLead, setWarmLead] = useState()
     const [lostLead, setLostLead] = useState()
+    const [leaveData, setleaveData] = useState()
+    const [attenData, setAttenData] = useState()
+    const [claimData, setClaimData] = useState()
+    const [userRole, setUserRole] = useState()
+
+    const dataOne = [
+        {
+            "id": 1,
+            "icon": <PiNoteBold fontSize={25} />,
+            "heading": "Leave Request",
+            "number": leaveData,
+            "color": "#3EC9D6"
+        },
+        {
+            "id": 2,
+            "icon": <PiNoteBold fontSize={25} />,
+            "heading": "Attendance Request",
+            "number": attenData,
+            "color": "#5F9EA0"
+        },
+        {
+            "id": 3,
+            "icon": <PiNoteBold fontSize={25} />,
+            "heading": "Claim Request",
+            "number": claimData,
+            "color": "#FF5733"
+        },
+    ]
     const data = [
         {
             "id": 1,
@@ -65,7 +93,6 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
     const getLeadData = async () => {
         try {
             const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
-
             const data = response.data.leadData;
             const openLeadData = data.filter((item: any) => item.leadStatus === "Open")
             const openLeadNo = openLeadData.length;
@@ -90,10 +117,69 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
             console.log(err)
         }
 
+    };
+    const getLeaveData = async () => {
+        const userTokenString: any = localStorage.getItem("loginedUser")
+        const userToken = JSON.parse(userTokenString)
+        const { token } = userToken
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/list`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            const data = response.data.pendingLeave
+            const dataLength = data.length;
+            setleaveData(dataLength)
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+    const getAttendanceData = async () => {
+        try {
+            setLoading(true);
+            const result = await axios.get("https://hrms-server-ygpa.onrender.com/api/v1/attendance/get");
+            const data = result.data.attendanceData;
+            const filterData = data.filter((item: any) => item.regularizationRequest?.status === "Pending");
+            const dataLength = filterData.length;
+            setAttenData(dataLength);
+        } catch (error) {
+            console.error("Error fetching attendance data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    const getCliamData = async () => {
+        const loginedUserSting: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { token } = loginedUser
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/claim/all/pending/list`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            const data = response.data.claimData;
+            const dataLength = data.length;
+            setClaimData(dataLength);
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
+
     useEffect(() => {
-        getLeadData()
+        const role: any = localStorage.getItem("userRole")
+        setUserRole(role)
+        getLeadData();
+        getLeaveData();
+        getAttendanceData();
+        getCliamData();
 
     }, [])
     return (
@@ -101,7 +187,10 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
             {loading ?
                 <CustomLoader />
                 :
-                <Dashboard data={data} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
+                <>{userRole === "HR" ?
+                    <Dashboard data={dataOne} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
+                    :
+                    <Dashboard data={data} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />}</>
             }
         </Grid>
     )

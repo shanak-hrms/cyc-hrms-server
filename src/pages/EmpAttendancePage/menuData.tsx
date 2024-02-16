@@ -27,8 +27,8 @@ export const menuData = [
     {
         "id": 4,
         "icon": <PiNotePencilFill />,
-        "title": "Claims Request",
-        "link": "/claims-request",
+        "title": "Requests",
+        "link": "/request",
     },
     {
         "id": 5,

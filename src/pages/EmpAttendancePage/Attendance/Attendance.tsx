@@ -37,8 +37,8 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                     heading={'Attendance List'}
                 />
                 <Grid>
-                    <CommonButton name={"Requet Approval"} onClick={handleReqAppModal} />
-                    <CommonButton name={"Clock In"} onClick={handleCheckIn} />
+                    {/* <CommonButton name={"Requet Approval"} onClick={handleReqAppModal} />
+                    <CommonButton name={"Clock In"} onClick={handleCheckIn} /> */}
                 </Grid>
             </Grid>
             <Grid container className={styles.attendance}>

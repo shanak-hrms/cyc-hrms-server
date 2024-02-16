@@ -11,12 +11,12 @@ const leaveSchema = new mongoose.Schema({
     approver: [
         {
             approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-            role: { type: String, required: true, enum: ['Line Manager', 'HR', 'Director'] },
+            role: { type: String, required: true, enum: ['MANAGER', 'HR', 'DIRECTOR'] },
         }
     ],
     approvedDates: [{ type: Date }],
     rejectedDates: [{ type: Date }],
-    needApprovalFrom: [{ type: String, enum: ['Line Manager', 'HR', 'Director'] }],
+    needApprovalFrom: [{ type: String, enum: ['MANAGER', 'HR', 'DIRECTOR']}],
 },{
     versionKey: false,
     timestamps: true

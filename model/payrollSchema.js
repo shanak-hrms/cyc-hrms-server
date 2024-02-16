@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const payrollSchema = new mongoose.Schema({
     month: { type: String, required: true, enum: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
+    year: { type: String, required: true },
     employeeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -23,6 +24,13 @@ const payrollSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    specialAllowance: {
+        name: { type: String },
+        value: {
+            type: Number,
+            default: 0
+        }
+    },
     ptax: {
         type: Number,
         default: 180,
@@ -39,7 +47,7 @@ const payrollSchema = new mongoose.Schema({
     esiDeduction: {
         type: Number,
         required: true
-    },  
+    },
     pfDeductionEmployer: {
         type: Number,
         required: true

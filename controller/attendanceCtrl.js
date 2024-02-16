@@ -1,7 +1,7 @@
 const express = require('express');
 const MonthlyAttendance = require('../model/attendance');
 const User = require('../model/user');
-
+const moment = require('moment');
 
 exports.markAttendance = async (req, res) => {
     try {
@@ -9,6 +9,7 @@ exports.markAttendance = async (req, res) => {
         const { date, markedWithin5Km ,time} = req.body;
         const currentDate = new Date();
         const attendanceDate = new Date(date);
+        const year=attendanceDate.getFullYear()
         const month = attendanceDate.toLocaleString('en-US', { month: 'long' });
 
         // Check if attendance is for the previous day
@@ -63,6 +64,7 @@ exports.markAttendance = async (req, res) => {
         const newAttendance = new MonthlyAttendance({
             employeeId,
             month,
+            year,
             date,
             markedWithin5Km,
             clockIn: new Date()
@@ -78,7 +80,6 @@ exports.markAttendance = async (req, res) => {
         });
     }
 };
-
 
 exports.checkINApprovedAttendance = async (req, res) => {
     try {
@@ -126,6 +127,7 @@ exports.requestApproval = async (req, res) => {
         const { date, } = req.body;
         const currentDate = new Date();
         const requestedDate = new Date(date);
+        const year=attendanceDate.getFullYear()
         const days = Math.ceil((currentDate - requestedDate) / (1000 * 60 * 60 * 24));
         console.log("days", days)
         const month = currentDate.toLocaleString('en-US', { month: 'long' });
@@ -147,6 +149,7 @@ exports.requestApproval = async (req, res) => {
         const newRequest = new MonthlyAttendance({
             employeeId,
             month,
+            year,
             date,
             'regularizationRequest.days': days,
             'regularizationRequest.status': 'Pending',
@@ -346,9 +349,60 @@ exports.getAttandanceForMonth = async (req, res) => {
 };
 
 
+exports.autoClockout = async (req, res) => {
+    try {
+        const now = moment();
 
+        const unClockOutEmployeeAttendance = await MonthlyAttendance.find({clockOut:null,date})
+        for (const employee of unsignedEmployees) {
+            const latestAttendance = employee.attendances[0]; // Assuming the latest attendance record is the first one
+            if (!latestAttendance || latestAttendance.clockOut) {
+                continue; // Skip if the employee has already clocked out or has no attendance record
+            }
 
+            // Check if it's past midnight
+            if (now.hours() === 0 && now.minutes() === 0 && now.seconds() === 0) {
+                // Perform clockout operation
+                latestAttendance.clockOut = now.toDate();
+                await latestAttendance.save();
+            }
+        }
 
+        res.status(200).json({ message: 'Automatic clockout process completed' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.autoClockout = async (req, res) => {
+    try {
+        const now = moment();
+
+        const unClockOutEmployeeAttendance = await MonthlyAttendance.find({clockOut:null})
+        // const unClockOutTodayAttendanceList=unClockOutEmployeeAttendance.filter((attendance=>{
+        //     attendance.date.split("T")[0]===new Date()
+        // }))
+        for (const employee of unClockOutEmployeeAttendance) {
+            const latestAttendance = employee.attendances[0]; // Assuming the latest attendance record is the first one
+            if (!latestAttendance || latestAttendance.clockOut) {
+                continue; // Skip if the employee has already clocked out or has no attendance record
+            }
+
+            // Check if it's past midnight
+            if (now.hours() === 0 && now.minutes() === 0 && now.seconds() === 0) {
+                // Perform clockout operation
+                latestAttendance.clockOut = now.toDate();
+                await latestAttendance.save();
+            }
+        }
+
+        res.status(200).json({ message: 'Automatic clockout process completed' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 // exports.requestApproval = async (req, res) => {
 //     try {

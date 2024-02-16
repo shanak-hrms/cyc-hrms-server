@@ -15,7 +15,8 @@ exports.addSalaryStructure = async (req, res) => {
             travelAllowance,
             ptaxDeduction,
             pfPercentage,
-            esiPercentage
+            esiPercentage,
+            specialAllowance
         } = req.body;
 
         const isUserExist = await User.findById(employeeId);
@@ -39,7 +40,8 @@ exports.addSalaryStructure = async (req, res) => {
             travelAllowance,
             ptaxDeduction,
             pfPercentage,
-            esiPercentage
+            esiPercentage,
+            specialAllowance
         });
 
         await salaryStructure.save();

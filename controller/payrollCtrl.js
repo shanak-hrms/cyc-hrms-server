@@ -6,9 +6,9 @@ const SalaryStructure = require('../model/salarySchema');
 
 const MonthlyAttendance = require('../model/attendance');
 
-const getPresentAttendanceList = async (month) => {
+const getPresentAttendanceList = async (month,year) => {
     try {
-        const attendanceList = await MonthlyAttendance.find({ month, clockIn: { $ne: null }, clockOut: { $ne: null } });
+        const attendanceList = await MonthlyAttendance.find({ month,year, clockIn: { $ne: null }, clockOut: { $ne: null } });
 
         const attendanceListLength = attendanceList.length;
 
@@ -19,10 +19,11 @@ const getPresentAttendanceList = async (month) => {
     }
 }
 
-const getIncompleteAttendanceList = async (month) => {
+const getIncompleteAttendanceList = async (month,year) => {
     try {
         const incompletAttendanceList = await MonthlyAttendance.find({
             month,
+            year,
             clockIn: { $ne: null },
             clockOut: null
         });
@@ -67,16 +68,13 @@ function getNumberOfDaysInMonth(monthName, year) {
     }
 }
 
-
-
-
 const calculateSalary = (payroll) => {
-    const { basicSalary, hraPercentage, daPercentage, travelAllowance, ptaxDeduction, pfPercentage, esiPercentage } = payroll;
+    const { basicSalary, hraPercentage, daPercentage, travelAllowance, ptaxDeduction, pfPercentage, esiPercentage ,specialAllowance} = payroll;
 
     const hra = (hraPercentage / 100) * basicSalary;
     const da = (daPercentage / 100) * basicSalary;
 
-    const totalGrossPay = basicSalary + hra + da + travelAllowance;
+    const totalGrossPay = basicSalary + hra + da + travelAllowance+specialAllowance?.value;
 
     // Calculate PF deduction for both employee and employer
     const pfDeductionEmployee = (pfPercentage / 100) * basicSalary;
@@ -97,7 +95,7 @@ const calculateSalary = (payroll) => {
         basic: basicSalary,
         hra,
         da,
-        travelAllowanceDeduction:travelAllowance,
+        travelAllowanceDeduction: travelAllowance,
         totalGrossPay,
         ptax: ptaxDeduction,
         pfDeductionEmployee,
@@ -108,22 +106,28 @@ const calculateSalary = (payroll) => {
     };
 };
 
-
 const createPayrollAndCalculateSalary = async (req, res) => {
 
     try {
-
         const { employeeId, month, year } = req.body;
         const { role } = req.user
         if (role !== "HR" && role !== "DIRECTOR" && role !== "LINE MANAGER") {
             throw new Error("Only HR, DIRECTOR, or LINE MANAGER are allowed to access.");
         }
+
+        const existingPayroll = await Payroll.findOne({ employeeId, month });
+        if (existingPayroll) {
+            return res.status(200).json({ existingPayroll });
+        }
         const isSalaryStructureExist = await SalaryStructure.findOne({ employeeId });
-        const { basicSalary, hraPercentage, daPercentage, travelAllowance, ptaxDeduction, pfPercentage, esiPercentage } = isSalaryStructureExist;
+        if(!isSalaryStructureExist){
+            throw new Error("Salary structure is not created for this user.");
+        }
+        const { basicSalary, hraPercentage, daPercentage, travelAllowance, ptaxDeduction, pfPercentage, esiPercentage,specialAllowance } = isSalaryStructureExist;
         // const result = await MonthlyAttendance.find({ employeeId, month }).populate("employeeId", { name: 1, email: 1 });
 
-        const { attendanceList, attendanceListLength } = await getPresentAttendanceList(month)
-        const { incompletAttendanceList, incompleteAttendanceListLength } = await getIncompleteAttendanceList(month)
+        const { attendanceList, attendanceListLength } = await getPresentAttendanceList(month,year)
+        const { incompletAttendanceList, incompleteAttendanceListLength } = await getIncompleteAttendanceList(month,year)
 
         // return res.status(201).json({ complte: [attendanceList, attendanceListLength], incomplete: [incompletAttendanceList, incompleteAttendanceListLength] });
 
@@ -140,7 +144,8 @@ const createPayrollAndCalculateSalary = async (req, res) => {
             travelAllowance,
             ptaxDeduction,
             pfPercentage,
-            esiPercentage
+            esiPercentage,
+            specialAllowance
         }
 
         const result = calculateSalary(salaryObj)
@@ -159,6 +164,7 @@ const createPayrollAndCalculateSalary = async (req, res) => {
         } = result
         const payroll = new Payroll({
             month,
+            year,
             employeeId,
             basic,
             hra,
@@ -170,17 +176,50 @@ const createPayrollAndCalculateSalary = async (req, res) => {
             pfDeductionEmployer,
             esiDeduction,
             totalDeductions,
-            netPay
+            netPay,specialAllowance
         });
         await payroll.save();
 
         return res.status(200).json({ payroll });
     } catch (error) {
         console.error('Error in creating payroll:', error);
-        return res.status(500).json({ error: 'An error occurred while creating payroll' });
+        return res.status(500).json({ error});
     }
 };
 
+const getPayrollById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const payroll = await Payroll.findById(id);
+        if (!payroll) {
+            return res.status(404).json({ message: 'Payroll not found' });
+        }
+        return res.status(200).json({ payroll });
+    } catch (error) {
+        console.error('Error in getting payroll by ID:', error);
+        return res.status(500).json({ error: 'An error occurred while fetching payroll' });
+    }
+};
+
+const downloadPayrollMonthly = async (req, res) => {
+    try {
+        const { employeeId } = req.params;
+        const { month } = req.query
+        const payroll = await Payroll.findOne({ employeeId, month }).populate("employeeId", {empCode:1, name: 1, email: 1,department:1,designation:1,status:1,esic:1,bankAccount:1,bankName:1,uanNumber:1 });
+        if (!payroll) {
+            return res.status(404).json({ message: 'Payroll not found' });
+        }
+
+        return res.status(200).json({ payroll });
+    } catch (error) {
+        console.error('Error in getting payroll by ID:', error);
+        return res.status(500).json({ error: 'An error occurred while fetching payroll' });
+    }
+};
+
+
 module.exports = {
-    createPayrollAndCalculateSalary
+    createPayrollAndCalculateSalary,
+    getPayrollById: getPayrollById,
+    downloadPayrollMonthly:downloadPayrollMonthly
 };

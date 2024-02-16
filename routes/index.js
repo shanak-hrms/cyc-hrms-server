@@ -16,6 +16,14 @@ router.use('/claim', claimsRequest)
 const salary = require('./salaryStructure')
 router.use('/salary',salary)
 
+const initialSequence = require('./initialSequenceId')
+router.use('/initialSequence',initialSequence)
+
+const assign = require('./assignStaffRole')
+router.use('/assign',assign)
+
+const userAgreement = require('./userAgreement')
+router.use('/userAgreement',userAgreement)
 
 const payroll = require('./payroll')
 router.use('/payroll',payroll)

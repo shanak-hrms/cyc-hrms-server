@@ -4,14 +4,14 @@ const travelClaimSchema = new mongoose.Schema({
     claimName: {type:String,default:"TRAVEL ALLOWANCE"},
     claimAmount:{type:Number,default:0} ,
     date: { type: Date, default: Date.now },
-    status: { type: String,enum: ['Pending', 'Approved', 'Rejected', 'No Request'], default: 'No Request' },
+    status: { type: String,enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
     approver: [
         {
             approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-            role: { type: String, required: true, enum: ['Line Manager', 'HR', 'Director'] },
+            role: { type: String, required: true, enum: ['MANAGER', 'HR', 'DIRECTOR'] },
         }
     ],
-    needApprovalFrom: [{ type: String, enum: ['Line Manager', 'HR', 'Director'] }],
+    needApprovalFrom: [{ type: String, enum: ['MANAGER', 'HR', 'DIRECTOR'] }],
 
   },{
     versionKey: false,

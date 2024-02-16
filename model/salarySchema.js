@@ -22,6 +22,13 @@ const salaryStructureSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    specialAllowance: {
+        name: { type: String },
+        value: {
+            type: Number,
+            default: 0
+        }
+    },
     ptaxDeduction: {
         type: Number,
         default: 180,

@@ -15,7 +15,8 @@
 
         .createLeaveModal {
 
-            >div:nth-child(1) {
+            >div:nth-child(1),
+            >div:nth-child(3) {
                 display: flex;
                 justify-content: space-between;
 
@@ -35,16 +36,13 @@
                 }
             }
 
-            >div:nth-child(3) {
-                margin-block-start: 1rem;
-            }
 
             >div:nth-child(4) {
                 display: flex;
                 justify-content: space-between;
 
                 >div {
-                    width: 49%;
+                    width: 100%;
 
                     >div {
                         margin-inline: auto;
@@ -52,7 +50,7 @@
                 }
             }
 
-            >div:nth-child(6) {
+            >div:nth-child(5) {
                 display: flex;
                 justify-content: right;
                 margin-block-start: 1rem;

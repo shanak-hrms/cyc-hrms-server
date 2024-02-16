@@ -228,7 +228,7 @@ const Leave = () => {
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
             />
-            <LeaveModal
+            {/* <LeaveModal
                 open={open}
                 heading={"Create New Leave"}
                 handleClose={handleClose}
@@ -240,7 +240,7 @@ const Leave = () => {
                 newDateVal={newDateVal}
                 selectedDates={selectedDates}
                 handleChangeRandomDate={handleChangeRandomDate}
-            />
+            /> */}
             {/* <LeaveModal
                 open={editModal}
                 heading={"Edit Leave"}

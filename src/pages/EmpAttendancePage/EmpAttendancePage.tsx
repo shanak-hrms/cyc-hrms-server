@@ -214,25 +214,25 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
         const { name, value } = e.target;
         setRequestVal({ ...requestVal, [name]: value })
     }
-    const handleRequestAtt = async () => {
-        const { date } = requestVal;
-        const desiredDate = new Date(date);
-        const formattedDate = desiredDate.toISOString();
+    // const handleRequestAtt = async () => {
+    //     const { date } = requestVal;
+    //     const desiredDate = new Date(date);
+    //     const formattedDate = desiredDate.toISOString();
 
-        const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
-            date: formattedDate
-        },
-            {
-                headers: {
-                    Authorization: `Bearer ${userToken}`
-                }
-            });
+    //     const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
+    //         date: formattedDate
+    //     },
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${userToken}`
+    //             }
+    //         });
 
-        if (response.status === 201) {
-            await fetchData();
-            setRequestModal(false);
-        }
-    };
+    //     if (response.status === 201) {
+    //         await fetchData();
+    //         setRequestModal(false);
+    //     }
+    // };
     const handleReqAttModal = async (idx: any) => {
         try {
             await setReqAtten((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
@@ -328,7 +328,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                     <Route path='/leaves' element={<Leave />} />
                     <Route path='/leave-policy' element={<LeavePolicy />} />
                     <Route path='/loader' element={<CustomLoader />} />
-                    <Route path='/claims-request' element={<ClaimsRequest />} />
+                    <Route path='/request' element={<ClaimsRequest />} />
                     <Route path='/company-policy' element={<CompanyPolicy />} />
                     <Route path='/take-picture' element={<TakePicture />} />
                     <Route path='/lead-management' element={<LeadManagement />} />
@@ -341,13 +341,13 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 takePicture={takePicture}
                 handleClose={handleClose}
             />
-            <RequestModal
+            {/* <RequestModal
                 open={requestModal}
                 requestVal={requestVal}
                 handleClose={handleClose}
                 handleRequest={handleRequestAtt}
                 handleChange={handleChangeRequest}
-            />
+            /> */}
         </Grid>
     )
 }

@@ -21,7 +21,7 @@ const RequestModal = ({ open, handleClose, handleRequest, requestVal, handleChan
         >
             <Grid className={styles.requestModal}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h5' fontSize={22} fontWeight={500}>Requet Approval</Typography>
+                    <Typography variant='h5' fontSize={22} fontWeight={500}>Attendance Requet</Typography>
                     <IoMdClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />

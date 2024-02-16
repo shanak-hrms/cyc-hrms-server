@@ -11,16 +11,13 @@ export interface ILeaveModal {
     open: boolean;
     heading: string;
     handleClose: any;
-    inputData: any;
+    leaveVal: any;
     handleChange: any;
     handleClick: any;
     handleChangeRadio: any;
     radioVal: any;
-    newDateVal: any;
-    selectedDates: any;
-    handleChangeRandomDate: any;
 }
-const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handleClick, handleChangeRadio, radioVal, newDateVal, selectedDates, handleChangeRandomDate }: ILeaveModal) => {
+const LeaveModal = ({ open, heading, handleClose, leaveVal, handleChange, handleClick, handleChangeRadio, radioVal }: ILeaveModal) => {
     const [name, setName] = useState()
     const [empId, setEmpId] = useState()
     useEffect(() => {
@@ -42,50 +39,22 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
                 <Grid className={styles.createLeaveModal}>
                     <Box display={"flex"}>
-                        {radioVal && radioVal === "date"
-                            ?
-                            <>
-                                <InputField
-                                    label={'Start Date'}
-                                    name={'startDate'}
-                                    placeholder={''}
-                                    value={inputData.startDate}
-                                    handleChange={handleChange}
-                                    type={"date"}
-                                />
-                                <InputField
-                                    label={'End Date'}
-                                    name={'endDate'}
-                                    placeholder={''}
-                                    value={inputData.endDate}
-                                    handleChange={handleChange}
-                                    type={"date"}
-                                />
-                            </>
-                            :
-                            <>
-                                <InputField
-                                    label={'Select Date'}
-                                    name={'newDate'}
-                                    placeholder={''}
-                                    value={newDateVal.newDate}
-                                    handleChange={handleChangeRandomDate}
-                                    type={"date"}
-                                />
-                            </>
-                        }
-                    </Box>
-                    <Box>
-                        {selectedDates && selectedDates.length > 0 ?
-                            <Grid className={styles.selectedDate}>
-                                {selectedDates && selectedDates.length > 0 && selectedDates.map((item: any) => {
-                                    return (
-                                        <Typography>{item}</Typography>
-                                    )
-                                })}
-
-                            </Grid>
-                            : ""}
+                        <InputField
+                            label={'Start Date'}
+                            name={'startDate'}
+                            placeholder={''}
+                            value={leaveVal.startDate}
+                            handleChange={handleChange}
+                            type={"date"}
+                        />
+                        <InputField
+                            label={'End Date'}
+                            name={'endDate'}
+                            placeholder={''}
+                            value={leaveVal.endDate}
+                            handleChange={handleChange}
+                            type={"date"}
+                        />
                     </Box>
                     <Box>
                         <FormControl>
@@ -96,25 +65,22 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
                                 value={radioVal}
                                 onChange={handleChangeRadio}
                             >
-                                <FormControlLabel value="date" control={<Radio />} label="Date" />
-                                <FormControlLabel value="random-date" control={<Radio />} label="Random Date" />
-
+                                <FormControlLabel value="date" control={<Radio />} label="Half Day" />
                             </RadioGroup>
                         </FormControl>
                     </Box>
-
                     <Box>
                         <SelectField
                             title={'Leave Type'}
                             data={data.leaveType}
-                            option={inputData.leaveType}
+                            option={leaveVal.leaveType}
                             name={'leaveType'}
                             handleChange={handleChange}
                         />
                         <SelectField
                             title={'Month'}
                             data={data.month}
-                            option={inputData.month}
+                            option={leaveVal.month}
                             name={'month'}
                             handleChange={handleChange}
                         />
@@ -124,7 +90,7 @@ const LeaveModal = ({ open, heading, handleClose, inputData, handleChange, handl
                             label={'Leave Reason'}
                             name={'leaveReason'}
                             placeholder={'Enter your reason'}
-                            value={inputData.leaveReason}
+                            value={leaveVal.leaveReason}
                             handleChange={handleChange}
                             type={"text"}
                         />

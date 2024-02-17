@@ -102,3 +102,42 @@ exports.getCompOffCount = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+exports.getCompOffEmployeeList= async (req, res) => {
+    try {
+        const {_id:employeeId}=req.user
+        const { month, year } = req.query;
+        console.log(month,year)
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0);
+
+        const compOffCount = await CompOffDay.find({
+            employeeId,
+            dateOfRequest: { $gte: startDate, $lte: endDate },
+        });
+
+        res.json({ compOffCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
+exports.getCompOffList = async (req, res) => {
+    try {
+        const { month, year } = req.query;
+        console.log(month,year)  
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0);
+
+        const compOffCount = await CompOffDay.find({
+            dateOfRequest: { $gte: startDate, $lte: endDate },
+        });
+
+        res.json({ compOffCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};

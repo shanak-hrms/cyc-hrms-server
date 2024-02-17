@@ -75,6 +75,7 @@ exports.Login = async (req, res) => {
             role: user.role,
             phone: user.phone,
             email: user.email,
+            empStatus:user.empStatus,
             token: token,
         });
     } catch (err) {

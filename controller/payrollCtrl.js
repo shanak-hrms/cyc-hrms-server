@@ -217,9 +217,103 @@ const downloadPayrollMonthly = async (req, res) => {
     }
 };
 
+const downloadPayrollMonthlyByUser = async (req, res) => {
+    try {
+        const {_id:employeeId } = req.user;
+        const { month,year } = req.query
+        const payroll = await Payroll.findOne({ employeeId, month ,year});
+        if (!payroll) {
+            return res.status(404).json({ message: 'Payroll not found or Not created By HR for this Month' });
+        }
+
+        if(!payroll.isApprovedToDownlodByUser){
+                throw new Error("Not allowed. Need aproval from HR")
+        }
+        return res.status(200).json({ payroll });
+    } catch (error) {
+        console.error('Error in getting payroll by ID:', error);
+        return res.status(500).json({ error: error.message||'An error occurred while fetching payroll' });
+    }
+};
+
+const requestToDownloadPayroll = async (req, res) => {
+    try {
+        const { _id: employeeId } = req.user;
+        const { month, year } = req.query;
+
+        const payroll = await Payroll.findOne({ employeeId, month, year });
+        if (!payroll) {
+            return res.status(404).json({ message: 'Payroll not found or not created by HR for this month. Request HR to create payroll first.' });
+        }
+
+        if (payroll.approvalRequest === 'Pending') {
+            return res.status(400).json({ message: 'Payroll is already pending approval. Cannot submit another request.' });
+        }
+
+        payroll.approvalRequest = 'Pending';
+        await payroll.save();
+
+        return res.status(200).json({ message: 'Request to download payroll submitted successfully' });
+    } catch (error) {
+        console.error('Error requesting payroll download:', error);
+        return res.status(500).json({ error: error.message || 'An error occurred while making request' });
+    }
+};
+
+const approvePayrollDownloadRequest = async (req, res) => {
+    try {
+        const {payrollId}=req.params
+        const { role } = req.user
+        if (role !== "HR") {
+            throw new Error("Only HR is allowed to approve.");
+        }
+        const payroll = await Payroll.findById(payrollId);
+
+        if (!payroll) {
+            return res.status(404).json({ message: 'Payroll not found or not created.' });
+        }
+
+        if (payroll.approvalRequest !== 'Pending') {
+            return res.status(400).json({ message: 'No pending approval request found for the specified payroll.' });
+        }
+
+        payroll.approvalRequest = 'Approved';
+        payroll.isApprovedToDownlodByUser=true
+        await payroll.save();
+
+        return res.status(200).json({ message: 'Payroll download request approved successfully.' });
+    } catch (error) {
+        console.error('Error approving payroll download request:', error);
+        return res.status(500).json({ error: error.message || 'An error occurred while approving payroll download request.' });
+    }
+};
+
+const getPendingPayrollDownloadRequests = async (req, res) => {
+    try {
+        const { role } = req.user
+        if (role !== "HR") {
+            throw new Error("Only HR is allowed to approve.");
+        }
+        const pendingRequests = await Payroll.find({ approvalRequest: 'Pending'});
+
+        if (!pendingRequests || pendingRequests.length === 0) {
+            return res.status(404).json({ message: 'No pending payroll download requests found.' });
+        }
+
+        return res.status(200).json({ pendingRequests });
+    } catch (error) {
+        console.error('Error getting pending payroll download requests:', error);
+        return res.status(500).json({ error: error.message || 'An error occurred while fetching pending payroll download requests.' });
+    }
+};
+
 
 module.exports = {
     createPayrollAndCalculateSalary,
     getPayrollById: getPayrollById,
-    downloadPayrollMonthly:downloadPayrollMonthly
+    downloadPayrollMonthly:downloadPayrollMonthly,
+    downloadPayrollMonthlyByUser:downloadPayrollMonthlyByUser,
+    requestToDownloadPayroll:requestToDownloadPayroll,
+    approvePayrollDownloadRequest:approvePayrollDownloadRequest,
+    getPendingPayrollDownloadRequests:getPendingPayrollDownloadRequests
 };

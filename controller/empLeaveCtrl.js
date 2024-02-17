@@ -8,16 +8,15 @@ exports.applyForLeave = async (req, res) => {
         const { _id: employeeId } = req.user;
         const { month, startDate, endDate, dates, leaveType } = req.body;
 
-        if (!['Sick', 'Privilege', 'LWP'].includes(leaveType)) {
+        if (!['Sick', 'Privilege', 'LWP','Second Half','First Half'].includes(leaveType)) {
             return res.status(400).json({ error: 'Invalid leaveType. Valid options are Sick, Privilege, or LWP.' });
         }
-
         let needApprovalFrom = [];
 
-        if (leaveType === 'Sick') {
+        if (leaveType === 'Sick' || leaveType === 'Privilege' ||'Second Half' || 'First Half' ) {
             needApprovalFrom = ['HR'];
         } else if (leaveType === 'LWP') {
-            needApprovalFrom = ['Line Manager', 'HR', 'Director'];
+            needApprovalFrom = ['"HR", "DIRECTOR", "MANAGER"'];
         }
 
         let leaveDates = [];
@@ -210,7 +209,6 @@ exports.getRejectedLeaveForUSer = async (req, res) => {
         });
     }
 };
-
 
 exports.approveLeaveRequest = async (req, res) => {
     try {

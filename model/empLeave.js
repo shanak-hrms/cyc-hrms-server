@@ -6,7 +6,7 @@ const leaveSchema = new mongoose.Schema({
     startDate: { type: Date },
     endDate: { type: Date },
     dates: [{ type: Date, required: true }],
-    leaveType: { type: String, required: true, enum: ['Sick', 'Privilege', 'LWP'] },
+    leaveType: { type: String, required: true, enum: ['Sick', 'Privilege', 'LWP',"First Half",'Second Half'] },
     status: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'No Request'], default: 'Pending' },
     approver: [
         {

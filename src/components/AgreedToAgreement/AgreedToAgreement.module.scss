@@ -1,0 +1,17 @@
+.agreedToAgreement{
+    >div{
+        // width: 30rem;
+        padding-inline: 15%;
+        height: fit-content;
+        margin: auto;
+        margin-block-start: 15%;
+        p{
+            margin-block: 1rem;
+        }
+        >div{
+            display: flex;
+            justify-content: center;
+            margin-block: 1rem;
+        }
+    }
+}

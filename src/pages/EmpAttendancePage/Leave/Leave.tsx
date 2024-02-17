@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from './Leave.module.scss'
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 
-
 const Leave = () => {
     const [open, setOpen] = useState(false)
     const [editModal, setEditModal] = useState(false)

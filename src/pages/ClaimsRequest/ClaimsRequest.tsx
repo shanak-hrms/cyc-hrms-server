@@ -285,7 +285,7 @@ const ClaimsRequest = () => {
                         <CommonButton name={"Attendance Request"} onClick={handleAtenModal} />
                         <CommonButton name={"Leave Request"} onClick={handleLeaveModal} />
                         <CommonButton name={"Claim Request"} onClick={handleClickModal} />
-                        <CommonButton name={"Claim CompOff"} onClick={handleCompOffModal} />
+                        <CommonButton name={"Comp Off Request"} onClick={handleCompOffModal} />
 
                     </Box>
                 </Grid>
@@ -405,7 +405,7 @@ const ClaimsRequest = () => {
             <TableContainer className={styles.tableContainer}>
                 <Grid className={styles.claimHeader}>
                     <HeadingText
-                        heading={'CompOff Request List'}
+                        heading={'Comp Off Request List'}
                         IsAction={false}
                     />
                     {/* <Box>

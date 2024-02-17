@@ -31,6 +31,8 @@ const ClaimsRequest = () => {
     const [pendingData, setPendingData] = useState<any>();
     const [rejectData, setRejectData] = useState<any>();
     const [claimMessage, setClaimMessage] = useState();
+    const [compOffData, setCompOffData] = useState<any>();
+
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -122,22 +124,21 @@ const ClaimsRequest = () => {
             console.log(err)
         }
     }
-    const getCompOffData = async () => {
+    const getCompData = async () => {
         const loginedUserSting: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser;
         const date = new Date();
-        const getMonth = date.getMonth();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/count/all-compoff-uses-for-month?month=${getMonth}&year=${getYear}`,
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/get/list?month=2&year=${getYear}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
-                }
-            );
-            console.log(response, "response..sdf")
+                })
+            const data = response.data.compOffCount;
+            setCompOffData(data);
         }
         catch (err) {
             console.log(err)
@@ -269,7 +270,7 @@ const ClaimsRequest = () => {
         getPendingLeave();
         getRejectedLeave();
         getClaimRequest();
-        getCompOffData();
+        getCompData();
     }, []);
 
     return (
@@ -394,6 +395,42 @@ const ClaimsRequest = () => {
                                     <TableCell sx={{ textAlign: "center" }}>{formateDate(item.date)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.status}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formatedMessage(item.message)}</TableCell>
+                                </TableRow>
+                            )
+                        })}
+
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TableContainer className={styles.tableContainer}>
+                <Grid className={styles.claimHeader}>
+                    <HeadingText
+                        heading={'CompOff Request List'}
+                        IsAction={false}
+                    />
+                    {/* <Box>
+                    <CommonButton name={"Attendance Request"} onClick={handleClickModal} />
+                    <CommonButton name={"Leave Request"} onClick={handleClickModal} />
+                    <CommonButton name={"Claim Request"} onClick={handleClickModal} />
+                </Box> */}
+                </Grid>
+                <Table>
+                    <TableHead sx={{ backgroundColor: "#02ABB5" }}>
+                        <TableRow>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>NAME</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>EMAIL</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>DATE</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {compOffData && compOffData.length > 0 && compOffData.map((item: any) => {
+                            return (
+                                <TableRow>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.email}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{formateDate(item.dateOfRequest)}</TableCell>
+                                    <TableCell sx={{ textAlign: "center" }}>{item.approved === false ? "Pending" : "Approved"}</TableCell>
                                 </TableRow>
                             )
                         })}

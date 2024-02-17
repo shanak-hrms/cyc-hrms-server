@@ -9,7 +9,7 @@ var modules = {
         [{ size: ["small", false, "large", "huge"] }],
         ["bold", "italic", "underline", "strike", "blockquote"],
         [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "image"],
+        ["link",],
         [
             { list: "ordered" },
             { list: "bullet" },
@@ -24,7 +24,7 @@ var formats = [
     "header", "height", "bold", "italic",
     "underline", "strike", "blockquote",
     "list", "color", "bullet", "indent",
-    "link", "image", "align", "size",
+    "link", "align", "size",
 ];
 export interface Iinputdata {
     onChange: any;

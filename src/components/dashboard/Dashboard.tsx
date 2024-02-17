@@ -4,6 +4,7 @@ import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, Tabl
 import Calender from './calender/Calender';
 import ServiceCard from './ServiceCard/ServiceCard';
 import CommonButton from '../common/CommonButton/CommonButton';
+import axios from 'axios';
 
 export interface IDashboard {
     data: any;
@@ -13,6 +14,7 @@ export interface IDashboard {
     attendanceData?: any;
 }
 const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceData }: IDashboard) => {
+    const [holiday, setHolidays] = useState<any>()
     const formateDate = (idx: any) => {
         const date = new Date(idx)
         return date.toLocaleDateString()
@@ -20,6 +22,30 @@ const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceD
     const formateTime = (idx: any) => {
         const date = new Date(idx)
         return date.toLocaleTimeString()
+    }
+    const getMonthlyHolidays = async () => {
+        const date = new Date();
+        const getMonth = date.getMonth();
+        const getYear = date.getFullYear();
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-month?year=${getYear}&month=${getMonth}`);
+            console.log(response, "response")
+            setHolidays(response.data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+    const getYearlyHolidays = async () => {
+        const date = new Date();
+        const getYear = date.getFullYear();
+        try {
+            const response = await axios.get(`https:/hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-year?year=${getYear}`);
+            setHolidays(response.data)
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
     return (
         <Grid className={styles.dashboardContainer}>
@@ -78,23 +104,33 @@ const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceD
                         <Typography variant='h5' fontSize={16} fontWeight={500}>Sherry Lin </Typography>
                     </Box>
                     <Box>
+                        <CommonButton name={"Monthly"} onClick={getMonthlyHolidays} />
+                        <CommonButton name={"Yearly"} onClick={getYearlyHolidays} />
+                    </Box>
+                    <Box>
                         <TableContainer>
                             <Table>
                                 <TableHead sx={{ backgroundColor: "#00ADB2" }}>
                                     <TableRow>
-                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Holiday Name</TableCell>
-                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Holiday Date</TableCell>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Name</TableCell>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Date</TableCell>
+                                        {/* <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Month</TableCell> */}
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Year</TableCell>
+                                        <TableCell sx={{ color: "#000000", fontSize: 14, fontWeight: 600 }}>Description</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell>Holiday Name</TableCell>
-                                        <TableCell>Holiday Date</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Holiday Name</TableCell>
-                                        <TableCell>Holiday Date</TableCell>
-                                    </TableRow>
+                                    {holiday && holiday.map((item: any) => {
+                                        return (
+                                            <TableRow>
+                                                <TableCell>{item.name}</TableCell>
+                                                <TableCell>{formateDate(item.date)}</TableCell>
+                                                {/* <TableCell>{item.month}</TableCell> */}
+                                                <TableCell>{item.year}</TableCell>
+                                                <TableCell>{item.description}</TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
                                 </TableHead>
                             </Table>
                         </TableContainer>

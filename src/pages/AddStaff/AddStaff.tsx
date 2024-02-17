@@ -13,10 +13,10 @@ import { useNavigate } from 'react-router-dom'
 const AddStaff = () => {
     const data = {
         role: ["EMPLOYEE", "HR", "MANAGER", "DIRECTOR"],
-        type: ["Probation", "Permanent"]
+        type: ["PROBATION", "PERMANENT"]
     }
     const navigation = useNavigate();
-    const [inputValue, setInputValue] = useState({ name: "", empCode: "", uanNumber: "", bankName: "", bankAccount: "", esic: "", address: "", mobile: "", email: "", personalEmail: "", password: '', branch: "", ifsc: "", department: '', designation: "", dateOfJoining: "", role: "", staffType: "" });
+    const [inputValue, setInputValue] = useState({ name: "", uanNumber: "", bankName: "", bankAccount: "", esic: "", address: "", mobile: "", email: "", officialEmail: "", password: '', branch: "", IFSC: "", department: '', designation: "", dateOfJoining: "", role: "", empStatus: "" });
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setInputValue({ ...inputValue, [name]: value });
@@ -32,7 +32,7 @@ const AddStaff = () => {
     };
 
     const handleCreate = async () => {
-        if (inputValue.name === "" || inputValue.email === "" || inputValue.personalEmail === "" || inputValue.mobile === "" || inputValue.address === "" || inputValue.bankAccount === "" || inputValue.bankName === "" || inputValue.branch === "" || inputValue.dateOfJoining === "" || inputValue.department === "" || inputValue.designation === "" || inputValue.empCode === "" || inputValue.role === "" || inputValue.password === "" || inputValue.ifsc === "" || inputValue.staffType === "") {
+        if (inputValue.name === "" || inputValue.email === "" || inputValue.officialEmail === "" || inputValue.mobile === "" || inputValue.address === "" || inputValue.bankAccount === "" || inputValue.bankName === "" || inputValue.branch === "" || inputValue.dateOfJoining === "" || inputValue.department === "" || inputValue.designation === "" || inputValue.role === "" || inputValue.password === "" || inputValue.IFSC === "" || inputValue.empStatus === "") {
             toast.error("Please fill require field")
             return;
         }
@@ -40,12 +40,12 @@ const AddStaff = () => {
         try {
             const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/signUp', inputValue);
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 toast.success("Staff added successfuly!")
+                navigation('/staff')
             }
 
             await fetchData();
-            console.log(response, "response..")
 
         } catch (error) {
             console.error("Error during POST request:", error);
@@ -55,6 +55,7 @@ const AddStaff = () => {
     useEffect(() => {
         fetchData();
     }, []);
+    console.log(inputValue, "inputValue...")
     return (
         <Grid className={styles.addStaffContainer}>
             <Typography variant='h5' fontSize={25} fontWeight={600} textAlign={"center"}>Create Staff</Typography>
@@ -63,19 +64,19 @@ const AddStaff = () => {
                 <Grid>
                     <InputField
                         IsRequire={true}
-                        label={'Emp Code'}
-                        name={'empCode'}
-                        placeholder={'Enter your emp code'}
-                        value={inputValue.empCode}
+                        label={'Name'}
+                        name={'name'}
+                        placeholder={'Enter your name'}
+                        value={inputValue.name}
                         handleChange={handleChange}
                         type={"text"}
                     />
                     <InputField
                         IsRequire={true}
-                        label={'Name'}
-                        name={'name'}
-                        placeholder={'Enter your name'}
-                        value={inputValue.name}
+                        label={'Personal Email'}
+                        name={'officialEmail'}
+                        placeholder={'Enter your email'}
+                        value={inputValue.officialEmail}
                         handleChange={handleChange}
                         type={"text"}
                     />
@@ -90,15 +91,6 @@ const AddStaff = () => {
                     />
                     <InputField
                         IsRequire={true}
-                        label={'Personal Email'}
-                        name={'personalEmail'}
-                        placeholder={'Enter your email'}
-                        value={inputValue.personalEmail}
-                        handleChange={handleChange}
-                        type={"text"}
-                    />
-                    <InputField
-                        IsRequire={true}
                         label={'Designation'}
                         name={'designation'}
                         placeholder={'Enter your designation'}
@@ -106,7 +98,14 @@ const AddStaff = () => {
                         handleChange={handleChange}
                         type={"text"}
                     />
-
+                    <SelectField
+                        IsRequire={true}
+                        title={'Emp Status'}
+                        data={data?.type}
+                        option={inputValue?.empStatus}
+                        name={'empStatus'}
+                        handleChange={handleChange}
+                    />
                     <InputField
                         IsRequire={true}
                         label={'Bank Name'}
@@ -119,9 +118,9 @@ const AddStaff = () => {
                     <InputField
                         IsRequire={true}
                         label={'IFSC Code'}
-                        name={'ifsc'}
+                        name={'IFSC'}
                         placeholder={'Enter your IFSC code'}
-                        value={inputValue.ifsc}
+                        value={inputValue.IFSC}
                         handleChange={handleChange}
                         type={"text"}
                     />
@@ -134,13 +133,14 @@ const AddStaff = () => {
                         handleChange={handleChange}
                         type={"number"}
                     />
-                    <SelectField
+                    <InputField
                         IsRequire={true}
-                        title={'Staff Type'}
-                        data={data?.type}
-                        option={inputValue?.staffType}
-                        name={'staffType'}
+                        label={'Address'}
+                        name={'address'}
+                        placeholder={'Enter your address'}
+                        value={inputValue.address}
                         handleChange={handleChange}
+                        type={"text"}
                     />
 
                 </Grid>
@@ -216,15 +216,7 @@ const AddStaff = () => {
                         handleChange={handleChange}
                         type={"text"}
                     />
-                    <InputField
-                        IsRequire={true}
-                        label={'Address'}
-                        name={'address'}
-                        placeholder={'Enter your address'}
-                        value={inputValue.address}
-                        handleChange={handleChange}
-                        type={"text"}
-                    />
+
                 </Grid>
             </Grid>
             <Grid className={styles.action}>

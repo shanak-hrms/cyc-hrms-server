@@ -22,7 +22,8 @@
                         width: 100%;
                     }
                 }
->div:nth-child(2){
+
+                >div:nth-child(2) {
                     display: none;
                 }
             }
@@ -32,6 +33,7 @@
                 margin-block: 1rem;
 
             }
+
             >div:nth-child(3) {
                 border: 1px dashed #d9def1;
                 background-color: #F8FAF9;
@@ -47,7 +49,23 @@
                 border: 1px solid #d9def1;
                 border-radius: 0.5rem;
             }
+
             >div:nth-child(4) {
+                border: 1px solid #d9def1;
+                display: flex;
+                justify-content: space-between;
+                padding-block: 5%;
+
+                >div {
+                    width: 48%;
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+
+            >div:nth-child(5) {
                 border: 1px solid #d9def1;
                 border-radius: 0.5rem;
             }

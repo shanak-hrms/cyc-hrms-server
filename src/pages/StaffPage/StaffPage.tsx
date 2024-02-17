@@ -32,7 +32,8 @@ const StaffPage = () => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
         localStorage.setItem("staffId", JSON.stringify(idx))
-        const staffDetails = userData.filter((item: any) => item._id === idx)
+        const staffDetails = userData.filter((item: any) => item._id === idx);
+        localStorage.setItem("staffDetails", JSON.stringify(staffDetails))
         console.log(staffDetails, "staffDetails")
     }
 
@@ -88,7 +89,6 @@ const StaffPage = () => {
         // console.log(idx, "idx..")
         // setProfileModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
     }
-    // console.log(profile[0]?.name, "profile")
     const fetchData = async () => {
         try {
             setLoading(true);

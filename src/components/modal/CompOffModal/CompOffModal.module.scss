@@ -1,0 +1,37 @@
+.requestModalContainer {
+    width: 35%;
+    height: fit-content;
+    margin: auto;
+
+    @media screen and (max-width:480px) {
+        width: 100%;
+
+    }
+
+    .requestModal {
+        background-color: #ffffff;
+        padding: 6%;
+        border-radius: 0.5rem;
+
+        .inputField {
+            display: flex;
+
+            p {
+                margin-block: auto;
+                margin-inline-end: 1rem;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+        }
+
+        .action {
+            display: flex;
+            justify-content: right;
+            margin-block-start: 1rem;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+            }
+        }
+    }
+}

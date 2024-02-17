@@ -22,6 +22,12 @@ router.use('/initialSequence',initialSequence)
 const assign = require('./assignStaffRole')
 router.use('/assign',assign)
 
+const holiday = require('./holidays')
+router.use('/holiday',holiday)
+
+const compOff = require('./compOff')
+router.use('/compoff',compOff)
+
 const userAgreement = require('./userAgreement')
 router.use('/userAgreement',userAgreement)
 

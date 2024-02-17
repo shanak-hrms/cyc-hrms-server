@@ -48,7 +48,21 @@ exports.addSalaryStructure = async (req, res) => {
         res.status(201).json({ message: 'Salary structure added successfully', salaryStructure });
     } catch (error) {
         console.error('Error adding salary structure:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error:error.message || 'Internal Server Error' });
     }
 };
 
+
+exports.getAllSalaryStructures = async (req, res) => {
+  try {
+    const {role}=req.user
+    if (role !== "HR") {
+        throw new Error("Only HR is allowed to access.");
+    }
+    const salaryStructures = await SalaryStructure.find().populate("employeeId",{name:1,email:1,branch:1,department:1,role:1,bankAccount:1,mobile:1,IFSC:1,uanNumber:1,bankName:1,esic:1});
+    res.status(200).json({ salaryStructures });
+  } catch (error) {
+    console.error('Error fetching salary structures:', error);
+    res.status(500).json({ error:error.message|| 'Internal Server Error' });
+  }
+};

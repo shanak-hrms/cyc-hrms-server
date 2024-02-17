@@ -2,14 +2,14 @@ const express = require('express');
 const MonthlyAttendance = require('../model/attendance');
 const User = require('../model/user');
 const moment = require('moment');
-
+const nowUtc = moment.utc();
 exports.markAttendance = async (req, res) => {
     try {
         const { _id: employeeId } = req.user
-        const { date, markedWithin5Km ,time} = req.body;
+        const { date, markedWithin5Km, time } = req.body;
         const currentDate = new Date();
         const attendanceDate = new Date(date);
-        const year=attendanceDate.getFullYear()
+        const year = attendanceDate.getFullYear()
         const month = attendanceDate.toLocaleString('en-US', { month: 'long' });
 
         // Check if attendance is for the previous day
@@ -106,7 +106,7 @@ exports.checkINApprovedAttendance = async (req, res) => {
         }
         const clockINDate = approvalExists.date.toISOString();
         const formatClockIn = clockINDate.split("T")[0];
-        const combineClockIn = formatClockIn.concat(`T${time}:00.000Z`);        
+        const combineClockIn = formatClockIn.concat(`T${time}:00.000Z`);
         approvalExists.clockIn = new Date(combineClockIn);
         const result = await approvalExists.save();
 
@@ -127,7 +127,7 @@ exports.requestApproval = async (req, res) => {
         const { date, } = req.body;
         const currentDate = new Date();
         const requestedDate = new Date(date);
-        const year=attendanceDate.getFullYear()
+        const year = attendanceDate.getFullYear()
         const days = Math.ceil((currentDate - requestedDate) / (1000 * 60 * 60 * 24));
         console.log("days", days)
         const month = currentDate.toLocaleString('en-US', { month: 'long' });
@@ -215,7 +215,7 @@ exports.getPendingRegularizationRequestById = async (req, res) => {
     }
 };
 
-          
+
 exports.approveRequest = async (req, res) => {
     try {
         const { _id: approverId, role } = req.user
@@ -353,7 +353,7 @@ exports.autoClockout = async (req, res) => {
     try {
         const now = moment();
 
-        const unClockOutEmployeeAttendance = await MonthlyAttendance.find({clockOut:null,date})
+        const unClockOutEmployeeAttendance = await MonthlyAttendance.find({ clockOut: null, date })
         for (const employee of unsignedEmployees) {
             const latestAttendance = employee.attendances[0]; // Assuming the latest attendance record is the first one
             if (!latestAttendance || latestAttendance.clockOut) {
@@ -378,22 +378,15 @@ exports.autoClockout = async (req, res) => {
 exports.autoClockout = async (req, res) => {
     try {
         const now = moment();
-
-        const unClockOutEmployeeAttendance = await MonthlyAttendance.find({clockOut:null})
-        // const unClockOutTodayAttendanceList=unClockOutEmployeeAttendance.filter((attendance=>{
-        //     attendance.date.split("T")[0]===new Date()
-        // }))
-        for (const employee of unClockOutEmployeeAttendance) {
-            const latestAttendance = employee.attendances[0]; // Assuming the latest attendance record is the first one
-            if (!latestAttendance || latestAttendance.clockOut) {
-                continue; // Skip if the employee has already clocked out or has no attendance record
-            }
-
-            // Check if it's past midnight
-            if (now.hours() === 0 && now.minutes() === 0 && now.seconds() === 0) {
-                // Perform clockout operation
-                latestAttendance.clockOut = now.toDate();
-                await latestAttendance.save();
+        const unClockOutTodayAttendanceList = await MonthlyAttendance.find({
+            clockOut: null,
+        });
+        console.log("unClockOutTodayAttendanceList", unClockOutTodayAttendanceList,now.startOf('day').toDate(),nowUtc.startOf('day').toDate())
+        for (const attendance of unClockOutTodayAttendanceList) {
+            if (!attendance.clockOut) {
+                attendance.clockOut = nowUtc.startOf('day').toDate();
+                attendance.attendanceStatus = "Auto-Midnight"
+                await attendance.save();  
             }
         }
 
@@ -403,6 +396,30 @@ exports.autoClockout = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+exports.autoClockoutMidNight = async () => {
+    try {
+        const now = moment();
+        const unClockOutTodayAttendanceList = await MonthlyAttendance.find({
+            clockOut: null,
+        });
+        console.log("unClockOutTodayAttendanceList", unClockOutTodayAttendanceList,now.startOf('day').toDate(),nowUtc.startOf('day').toDate())
+        for (const attendance of unClockOutTodayAttendanceList) {
+            if (!attendance.clockOut) {
+                attendance.clockOut = nowUtc.startOf('day').toDate();
+                attendance.attendanceStatus = "Auto-Midnight"
+                await attendance.save();  
+            }
+        }
+
+        console.log('Automatic clockout process completed');
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+
+
 
 // exports.requestApproval = async (req, res) => {
 //     try {

@@ -18,14 +18,8 @@ export interface ILeaveModal {
     radioVal: any;
 }
 const LeaveModal = ({ open, heading, handleClose, leaveVal, handleChange, handleClick, handleChangeRadio, radioVal }: ILeaveModal) => {
-    const [name, setName] = useState()
-    const [empId, setEmpId] = useState()
-    useEffect(() => {
-        const userName: any = localStorage.getItem("userName")
-        const userId: any = localStorage.getItem("empId")
-        setName(userName)
-        setEmpId(userId)
-    }, [])
+    const [dataA, setData] = useState(["LWP"])
+    const IsProbation = true;
     return (
         <Modal
             open={open}
@@ -70,13 +64,19 @@ const LeaveModal = ({ open, heading, handleClose, leaveVal, handleChange, handle
                         </FormControl>
                     </Box>
                     <Box>
-                        <SelectField
+                        {IsProbation ? <SelectField
                             title={'Leave Type'}
+                            data={dataA}
+                            option={leaveVal.leaveType}
+                            name={'leaveType'}
+                            handleChange={handleChange}
+                        /> : <SelectField
+                            title={'wLeave Type'}
                             data={data.leaveType}
                             option={leaveVal.leaveType}
                             name={'leaveType'}
                             handleChange={handleChange}
-                        />
+                        />}
                         <SelectField
                             title={'Month'}
                             data={data.month}

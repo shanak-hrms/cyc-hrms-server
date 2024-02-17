@@ -15,7 +15,7 @@ const Leave = () => {
     const [editModal, setEditModal] = useState(false)
     const [loading, setLoading] = useState(false)
     const [leaveId, setLeaveId] = useState<string>()
-    const [inputData, setInputData] = useState<any>({
+    const [leaveVal, setLeaveVal] = useState<any>({
         startDate: '', endDate: '', leaveType: '', month: "", leaveReason: ''
     });
     const [radioVal, setRadioVal] = useState("date")
@@ -30,10 +30,9 @@ const Leave = () => {
     const handleEditClose = () => {
         setEditModal(false)
     }
-    console.log(inputData, "inputData..")
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        setInputData({ ...inputData, [name]: value })
+        setLeaveVal({ ...leaveVal, [name]: value })
     };
 
     const handleChangeRadio = (e: any) => {
@@ -103,7 +102,6 @@ const Leave = () => {
             setLoading(false)
         }
     };
-
     const handleClick = async () => {
         try {
             const userTokenString: any = localStorage.getItem("loginedUser")
@@ -115,12 +113,12 @@ const Leave = () => {
                 {
                     name: "name",
                     email: "email",
-                    startDate: inputData.startDate,
-                    endDate: inputData.endDate,
-                    month: inputData.month,
+                    startDate: leaveVal.startDate,
+                    endDate: leaveVal.endDate,
+                    month: leaveVal.month,
                     dates: selectedDates,
-                    leaveType: inputData.leaveType,
-                    leaveReason: inputData.leaveReason
+                    leaveType: leaveVal.leaveType,
+                    leaveReason: leaveVal.leaveReason
                 },
                 {
                     headers: {
@@ -129,14 +127,14 @@ const Leave = () => {
                 }
             );
             if (response.status === 201) {
-                toast.success('Leave successfully created');
+                toast.success('Leave created successfully ');
+                getPendingLeaveData();
+                setOpen(false);
             } else {
                 toast.error('Failed to create leave');
             }
         } catch (error) {
             console.error('Error:', error);
-        } finally {
-            setOpen(false);
         }
     };
 
@@ -166,7 +164,7 @@ const Leave = () => {
             if (response.status === 200) {
                 const data = response.data.leaveData;
                 const filteredData = pendingData.filter((leave: any) => leave._id === idx);
-                setInputData({
+                setLeaveVal({
                     emp_id: filteredData[0].emp_id,
                     name: filteredData[0].name,
                     leave_type: filteredData[0].leave_type,
@@ -184,7 +182,7 @@ const Leave = () => {
     const handleEditLeave = async () => {
         setLoading(true)
         try {
-            const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${leaveId}`, inputData)
+            const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${leaveId}`, leaveVal)
 
             setPendingData((prevLeaveData: any[]) => {
                 const updatedLeaveData = prevLeaveData.map(leave => {
@@ -228,19 +226,16 @@ const Leave = () => {
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
             />
-            {/* <LeaveModal
+            <LeaveModal
                 open={open}
                 heading={"Create New Leave"}
                 handleClose={handleClose}
-                inputData={inputData}
+                leaveVal={leaveVal}
                 handleChange={handleChange}
                 handleClick={handleClick}
                 handleChangeRadio={handleChangeRadio}
                 radioVal={radioVal}
-                newDateVal={newDateVal}
-                selectedDates={selectedDates}
-                handleChangeRandomDate={handleChangeRandomDate}
-            /> */}
+            />
             {/* <LeaveModal
                 open={editModal}
                 heading={"Edit Leave"}

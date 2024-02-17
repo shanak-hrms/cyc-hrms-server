@@ -9,19 +9,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import RequestModal from '../../components/modal/RequestModal/RequestModal'
 import LeaveModal from '../../components/modal/LeaveModal/LeaveModal'
+import CompOffModal from '../../components/modal/CompOffModal/CompOffModal'
 
 const ClaimsRequest = () => {
     const [open, setOpen] = useState(false);
     const [reqModal, setReqModal] = useState(false)
-    const [leaveModal, setLeaveModal] = useState(false)
-    const handleClose = () => { setOpen(false); setReqModal(false); setLeaveModal(false) };
+    const [leaveModal, setLeaveModal] = useState(false);
+    const [compModal, setCompModal] = useState(false)
+    const handleClose = () => { setOpen(false); setReqModal(false); setLeaveModal(false); setCompModal(false) };
     const handleAtenModal = () => setReqModal(!reqModal);
     const handleLeaveModal = () => setLeaveModal(!leaveModal);
+    const handleCompOffModal = () => setCompModal(!compModal);
     const [leaveVal, setLeaveVal] = useState<any>({
         startDate: '', endDate: '', leaveType: '', month: "", leaveReason: ''
     });
     const [inputData, setInputData] = useState({ claimName: "", claimAmount: "", message: "" });
     const [requestVal, setRequestVal] = useState({ date: "" })
+    const [compVal, setCompVal] = useState({ dateOfRequest: "" })
     const [attenRequestData, setAttenRequestData] = useState<any>();
     const [claimRequestData, setClaimRequestData] = useState<any>();
     const [pendingData, setPendingData] = useState<any>();
@@ -36,12 +40,15 @@ const ClaimsRequest = () => {
         const { name, value } = e.target;
         setRequestVal({ ...requestVal, [name]: value })
     };
+    const handleChangeCompOff = (e: any) => {
+        const { name, value } = e.target;
+        setCompVal({ ...compVal, [name]: value })
+    };
+    console.log(compVal, "compVal..")
     const handleChangeLeaveReq = (e: any) => {
         const { name, value } = e.target;
         setLeaveVal({ ...leaveVal, [name]: value })
     }
-    console.log(leaveVal, "leaveVal...")
-
     const handleChengeMessage = (des: any) => {
         setClaimMessage(des)
         setInputData((preState: any) => ({ ...preState, message: claimMessage }))
@@ -107,8 +114,30 @@ const ClaimsRequest = () => {
                         Authorization: `Bearer ${token}`
                     }
                 })
-            const data = response.data.claimData;
+            console.log(response.data, "responseClaim")
+            const data = response.data;
             setClaimRequestData(data);
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+    const getCompOffData = async () => {
+        const loginedUserSting: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { token } = loginedUser;
+        const date = new Date();
+        const getMonth = date.getMonth();
+        const getYear = date.getFullYear();
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/count/all-compoff-uses-for-month?month=${getMonth}&year=${getYear}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            console.log(response, "response..sdf")
         }
         catch (err) {
             console.log(err)
@@ -216,11 +245,31 @@ const ClaimsRequest = () => {
             setOpen(false);
         }
     };
+    const handleCompOffRequest = async () => {
+        const userTokenString: any = localStorage.getItem("loginedUser")
+        const userToken = JSON.parse(userTokenString)
+        const { token } = userToken
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/apply/for-a-day`, compVal,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            console.log(response, "response..")
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
     useEffect(() => {
         getAttendaceData();
         getPendingLeave();
         getRejectedLeave();
         getClaimRequest();
+        getCompOffData();
     }, []);
 
     return (
@@ -235,6 +284,8 @@ const ClaimsRequest = () => {
                         <CommonButton name={"Attendance Request"} onClick={handleAtenModal} />
                         <CommonButton name={"Leave Request"} onClick={handleLeaveModal} />
                         <CommonButton name={"Claim Request"} onClick={handleClickModal} />
+                        <CommonButton name={"Claim CompOff"} onClick={handleCompOffModal} />
+
                     </Box>
                 </Grid>
                 <Table>
@@ -265,7 +316,7 @@ const ClaimsRequest = () => {
             <TableContainer className={styles.tableContainer}>
                 <Grid className={styles.claimHeader}>
                     <HeadingText
-                        heading={'Special Request'}
+                        heading={'Leave Request List'}
                         IsAction={false}
                     />
                     {/* <Box>
@@ -315,7 +366,7 @@ const ClaimsRequest = () => {
             <TableContainer className={styles.tableContainer}>
                 <Grid className={styles.claimHeader}>
                     <HeadingText
-                        heading={'Special Request'}
+                        heading={'Claim Request List'}
                         IsAction={false}
                     />
                     {/* <Box>
@@ -335,7 +386,7 @@ const ClaimsRequest = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {claimRequestData && claimRequestData.map((item: any) => {
+                        {claimRequestData && claimRequestData.length > 0 && claimRequestData.map((item: any) => {
                             return (
                                 <TableRow>
                                     <TableCell sx={{ textAlign: "center" }}>{item.claimName}</TableCell>
@@ -377,6 +428,13 @@ const ClaimsRequest = () => {
                 handleClick={handleCreateClaimRequest}
                 handleChengeMessage={handleChengeMessage}
             />
+            <CompOffModal
+                open={compModal}
+                handleClose={handleClose}
+                handleRequest={handleCompOffRequest}
+                compVal={compVal}
+                handleChange={handleChangeCompOff} />
+
             <ToastContainer />
         </Grid>
     )

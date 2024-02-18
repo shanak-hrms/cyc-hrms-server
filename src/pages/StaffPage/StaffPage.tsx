@@ -8,26 +8,29 @@ import 'react-toastify/dist/ReactToastify.css';
 import SalaryStructureModal from '../../components/modal/SalaryStructureModal/SalaryStructureModal'
 import { useNavigate } from 'react-router-dom'
 import StaffProfileModal from '../../components/modal/StaffProfileModal/StaffProfileModal'
+import ChangeRoleModal from '../../components/modal/ChangeRoleModal/ChangeRoleModal'
 
 
 const StaffPage = () => {
     const navigation = useNavigate();
-    const [actionOpen, setActionOpen] = useState(false)
+    const [actionOpen, setActionOpen] = useState(true)
     const [salStrModal, setSalStrModal] = useState(false)
     const [profilModal, setProfileModal] = useState(false)
-    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false) }
+    const [roleModal, setRoleModal] = useState(true);
+    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false)
-    const [editId, setEditId] = useState()
-    const [profile, setProfile] = useState<any>()
 
     const handleGlobalModal = () => {
-        if (actionOpen == true) {
-            console.log(actionOpen, "actionOpen")
-            setActionOpen(false)
+
+        const values = Object.values(actionOpen);
+
+        if (values.includes(true)) {
+            setActionOpen(false);
         }
     }
+
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
@@ -40,6 +43,13 @@ const StaffPage = () => {
     const handleAddSalaryModal = async (idx: any) => {
         setSalStrModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
     };
+    const handleAssignModal = (idx: any) => {
+        setRoleModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+
+    }
+    const handleChangeRoleModal = (idx: any) => {
+        setRoleModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+    }
     const handleChangeSalStr = (e: any) => {
         const { name, value } = e.target;
         setSalStrVal({ ...salStrVal, [name]: value })
@@ -142,6 +152,8 @@ const StaffPage = () => {
                 handlePayroll={undefined}
                 handleProfile={handleProfile}
                 handleDelete={handleDelete}
+                handleAssignModal={handleAssignModal}
+                handleChangeRoleModal={handleChangeRoleModal}
             />
             <SalaryStructureModal
                 open={salStrModal}
@@ -150,6 +162,7 @@ const StaffPage = () => {
                 handleChange={handleChangeSalStr}
                 handleCreate={handleCreateSalary}
             />
+            <ChangeRoleModal open={roleModal} handleClose={handleClose} />
             {/* <StaffProfileModal open={profilModal} profile={undefined} handleClose={handleClose} /> */}
             <ToastContainer />
         </Grid>

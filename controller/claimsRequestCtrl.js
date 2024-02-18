@@ -10,7 +10,7 @@ exports.requestClaim = async (req, res) => {
             return res.status(400).json({ message: 'Claim amount exceeds threshold.' });
         }
 
-        let needApprovalFrom = ['Line Manager', 'HR', 'Director'];
+        let needApprovalFrom = ['MANAGER', 'HR', 'DIRECTOR'];
         const newClaim = new TravelClaim({ employeeId, claimName, claimAmount,needApprovalFrom });
         await newClaim.save();
         res.json(newClaim);
@@ -82,8 +82,8 @@ exports.getAllClaimsOfUser = async (req, res) => {
 exports.getAllPendingClaims = async (req, res) => {
     try {
       const {role } = req.user; 
-      if (role !== "HR" && role !== "DIRECTOR" && role !== "LINE MANAGER") {
-        throw new Error("Only HR, DIRECTOR, or LINE MANAGER are allowed to access.");
+      if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
+        throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
     } 
       const claims = await TravelClaim.find({ status: "Pending" });
       res.status(200).json({claimData:claims});

@@ -6,11 +6,14 @@ const index = require('./routes/index');
 const cron = require('node-cron');
 const router = express.Router();
 const { autoClockoutMidNight }=require("./controller/attendanceCtrl")
+const {getCurrentDate,isLastDayOfMonth}=require("./services/common")
+
 
 dotenv.config()
 const db = require('./config/dbConnection');
 
 const bodyParser = require('body-parser');
+const { calculateAndCreditLeaveEveryMonth } = require('./services/leaveCalculator');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -23,9 +26,9 @@ cron.schedule('0 0 * * *', () => {
     autoClockoutMidNight()
   });
 
-// cron.schedule('48 18 * * *', () => {
-//     autoClockoutMidNight()
-//   });
+  cron.schedule('59 23 28-31 * *', () => {
+    calculateAndCreditLeaveEveryMonth();
+});
 
 app.use((req, res, next) => {
     res.status(404).json({

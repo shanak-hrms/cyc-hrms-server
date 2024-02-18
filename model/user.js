@@ -29,7 +29,10 @@ const userSchema = new mongoose.Schema({
     isActive: { type: Boolean, default: true },
     avatar: { type: String },
     token: { type: String },
-    agreedToAgreement:{type:Boolean,default:false}
+    agreedToAgreement:{type:Boolean,default:false},
+    privilegeLeaveBalance: { type: Number, default: 0 },
+    medicalLeaveBalance: { type: Number, default: 0},
+    totalLeaveAccrued: { type: Number, default: 0 },
 }, {
     versionKey: false,
     timestamps: true

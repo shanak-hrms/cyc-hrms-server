@@ -3,6 +3,7 @@ const MonthlyAttendance = require('../model/attendance');
 const User = require('../model/user');
 const moment = require('moment');
 const nowUtc = moment.utc();
+
 exports.markAttendance = async (req, res) => {
     try {
         const { _id: employeeId } = req.user
@@ -29,7 +30,7 @@ exports.markAttendance = async (req, res) => {
 
                 if (!approvalExists) {
                     return res.status(400).json({
-                        message: 'Attendance for the previous day requires approval from Line Manager, Director, or HR.',
+                        message: 'Attendance for the previous day requires approval from Manager, Director, or HR.',
                     });
                 }
 
@@ -95,7 +96,7 @@ exports.checkINApprovedAttendance = async (req, res) => {
         const isApproved = approvalExists?.regularizationRequest?.status === 'Approved';
         if (!isApproved) {
             return res.status(400).json({
-                message: 'Attendance for the previous day requires approval from Line Manager, Director, or HR.',
+                message: 'Attendance for the previous day requires approval from Manager, Director, or HR.',
             });
         }
 
@@ -127,7 +128,7 @@ exports.requestApproval = async (req, res) => {
         const { date, } = req.body;
         const currentDate = new Date();
         const requestedDate = new Date(date);
-        const year = attendanceDate.getFullYear()
+        const year = requestedDate.getFullYear()
         const days = Math.ceil((currentDate - requestedDate) / (1000 * 60 * 60 * 24));
         console.log("days", days)
         const month = currentDate.toLocaleString('en-US', { month: 'long' });
@@ -170,8 +171,8 @@ exports.requestApproval = async (req, res) => {
 exports.getAllPendingRegularizationRequests = async (req, res) => {
     try {
         const { role } = req.user
-        if (role !== "HR" && role !== "DIRECTOR" && role !== "LINE MANAGER") {
-            throw new Error("Only HR, DIRECTOR, or LINE MANAGER are allowed to access.");
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
+            throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
         }
         const pendingRegularizationRequests = await MonthlyAttendance.find({
             'regularizationRequest.status': 'Pending',
@@ -239,9 +240,9 @@ exports.approveRequest = async (req, res) => {
         let status = 'Approved';
 
         if (days <= 2) {
-            if (role !== 'LINE MANAGER') {
+            if (role !== 'MANAGER') {
                 return res.status(403).json({
-                    message: 'Permission denied. Only Line Managers can approve requests for 2 days.',
+                    message: 'Permission denied. Only Managers can approve requests for 2 days.',
                 });
             }
             request.regularizationRequest.approver = approverId;
@@ -348,32 +349,6 @@ exports.getAttandanceForMonth = async (req, res) => {
     }
 };
 
-
-exports.autoClockout = async (req, res) => {
-    try {
-        const now = moment();
-
-        const unClockOutEmployeeAttendance = await MonthlyAttendance.find({ clockOut: null, date })
-        for (const employee of unsignedEmployees) {
-            const latestAttendance = employee.attendances[0]; // Assuming the latest attendance record is the first one
-            if (!latestAttendance || latestAttendance.clockOut) {
-                continue; // Skip if the employee has already clocked out or has no attendance record
-            }
-
-            // Check if it's past midnight
-            if (now.hours() === 0 && now.minutes() === 0 && now.seconds() === 0) {
-                // Perform clockout operation
-                latestAttendance.clockOut = now.toDate();
-                await latestAttendance.save();
-            }
-        }
-
-        res.status(200).json({ message: 'Automatic clockout process completed' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
 
 exports.autoClockout = async (req, res) => {
     try {

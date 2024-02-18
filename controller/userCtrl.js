@@ -144,8 +144,8 @@ exports.updateUserRecords = async (req, res) => {
 exports.updateUserByHRAdmin = async (req, res) => {
     try {
         const { role } = req.user
-        if (role !== "HR" && role !== "DIRECTOR" && role !== "LINE MANAGER") {
-            throw new Error("Only HR, DIRECTOR, or LINE MANAGER are allowed to access.");
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
+            throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
         }
         const { userId } = req.params;
         const newData = req.body;
@@ -188,8 +188,8 @@ exports.updateUserPasswordByHRAdmin = async (req, res) => {
         }
 
         const { role } = req.user
-        if (role !== "HR" && role !== "DIRECTOR" && role !== "LINE MANAGER") {
-            throw new Error("Only HR, DIRECTOR, or LINE MANAGER are allowed to access.");
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
+            throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
         }
 
         const saltRounds = 10;

@@ -1,19 +1,18 @@
 const express = require('express');
 const EmpLeave = require('../model/empLeave');
-
-
+const User = require('../model/user');
 
 exports.applyForLeave = async (req, res) => {
     try {
         const { _id: employeeId } = req.user;
         const { month, startDate, endDate, dates, leaveType } = req.body;
-
-        if (!['Sick', 'Privilege', 'LWP','Second Half','First Half'].includes(leaveType)) {
-            return res.status(400).json({ error: 'Invalid leaveType. Valid options are Sick, Privilege, or LWP.' });
+        if (!['Medical', 'Privilege', 'LWP','Second Half','First Half'].includes(leaveType)) {
+            return res.status(400).json({ error: 'Invalid leaveType. Valid options are Medical, Privilege, or LWP.' });
         }
+        const userDocument=await User.findById(employeeId)
         let needApprovalFrom = [];
 
-        if (leaveType === 'Sick' || leaveType === 'Privilege' ||'Second Half' || 'First Half' ) {
+        if (leaveType === 'Medical' || leaveType === 'Privilege' ||'Second Half' || 'First Half' ) {
             needApprovalFrom = ['HR'];
         } else if (leaveType === 'LWP') {
             needApprovalFrom = ['"HR", "DIRECTOR", "MANAGER"'];
@@ -54,10 +53,37 @@ exports.applyForLeave = async (req, res) => {
         } else if (startDate && endDate) {
             const start = new Date(startDate);
             const end = new Date(endDate);
-
+            let countLeave=0
             while (start <= end) {
                 leaveDates.push(new Date(start));
                 start.setDate(start.getDate() + 1);
+                countLeave++
+            }
+
+            if(leaveType==="Privilege"){
+                const checkPrivilegeCountUsed=await EmpLeave.countDocuments({
+                    month,
+                    employeeId
+                })
+                if(userDocument.privilegeLeaveBalance<countLeave){
+                    throw new Error("You exceed your Privilage leave")
+                }
+                if(checkPrivilegeCountUsed>=2){
+                throw new Error("Maximum 2 Privilege  leaves are allowed per month")
+                }
+            }
+    
+            if(leaveType==="Medical"){
+                const checkMedicalCountUsed=await EmpLeave.countDocuments({
+                    month,
+                    employeeId
+                })
+                if(userDocument.medicalLeaveBalance<=countLeave){
+                    throw new Error("You exceed your Medical leave")
+                }
+                if(checkMedicalCountUsed>=2){
+                    throw new Error("Maximum 2 Medical leaves are allowed per month")
+                    }
             }
         }
 
@@ -70,7 +96,6 @@ exports.applyForLeave = async (req, res) => {
                 dates: leaveDates,
                 leaveType,
                 needApprovalFrom,
-
             });
             await leaveRequest.save();
 
@@ -227,7 +252,31 @@ exports.approveLeaveRequest = async (req, res) => {
 
         leaveRequest.status = 'Approved';
         leaveRequest.approver = {approverId,role};
+        // const userDocument=await User.findById(leaveRequest.employeeId)
+        // if(leaveRequest.leaveType==="Privilege"){
+        //     userDocument.privilegeLeaveBalance=userDocument.privilegeLeaveBalance-1
+        // }
+
+        // if(leaveRequest.leaveType==="Medical"){
+        //     userDocument.medicalLeaveBalance=userDocument.medicalLeaveBalance-1
+        // }
+
+        const update = {
+            $inc: {}
+        };
+        
+        if (leaveRequest.leaveType === "Privilege") {
+            update.$inc.privilegeLeaveBalance = -1;
+        }
+        
+        if (leaveRequest.leaveType === "Medical") {
+            update.$inc.medicalLeaveBalance = -1;
+        }
+        
+        await User.updateOne({ _id: leaveRequest.employeeId }, update);
+        
         await leaveRequest.save();
+        // await userDocument.save();
 
         res.status(200).json({
             message: 'Leave request approved successfully',

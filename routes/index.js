@@ -28,6 +28,9 @@ router.use('/holiday',holiday)
 const compOff = require('./compOff')
 router.use('/compoff',compOff)
 
+const common = require('./common')
+router.use('/common',common)
+
 const userAgreement = require('./userAgreement')
 router.use('/userAgreement',userAgreement)
 

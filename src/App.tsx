@@ -82,17 +82,22 @@ const App = () => {
     }
 
   };
-  // const handleClickAgreement = async () => {
-  //   try {
+  const handleClickAgreement = async () => {
+    const name = "Acceptance of Terms";
+    const agreementText = "By using the Service, You agree to be bound by this Agreement, including any additional terms and conditions and policies referenced herein. If You do not agree to these terms, You may not access or use the Service.";
+    const version = "v1.0.1"
+    const agreement = { name: name, agreementText: agreementText, version: version }
+    console.log(agreement, "agreement")
 
-  //     const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/userAgreement/update`);
-  //     console.log(response, "response...")
-  //   }
-  //   catch (err) {
-  //     console.log(err)
-  //   }
+    try {
 
-  // }
+      const response = await axios.patch('https://hrms-server-ygpa.onrender.com/api/v1/userAgreement/update', agreement);
+      console.log(response, "response...")
+    }
+    catch (err) {
+      console.log(err)
+    }
+  };
   // window.addEventListener('beforeunload', () => {
   //   localStorage.removeItem('userToken');
   // });

@@ -33,6 +33,12 @@ export const menuData = [
     {
         "id": 5,
         "icon": <MdOutlineManageHistory />,
+        "title": "Pay Slip",
+        "link": "/pay-slip",
+    },
+    {
+        "id": 5,
+        "icon": <MdOutlineManageHistory />,
         "title": "Lead Management",
         "link": "/lead-management",
     }

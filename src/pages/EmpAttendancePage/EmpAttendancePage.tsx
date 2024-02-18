@@ -20,6 +20,7 @@ import RequestModal from '../../components/modal/RequestModal/RequestModal'
 import NewHeading from '../../components/NewHeading/NewHeading'
 import Dashboard from '../../components/dashboard/Dashboard'
 import DashboardPage from './Dashboard/Dashboard'
+import EmpPaySlip from './EmpPaySlip/EmpPaySlip'
 
 export interface IEmpAttendancePage {
     open: any;
@@ -331,6 +332,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                     <Route path='/request' element={<ClaimsRequest />} />
                     <Route path='/company-policy' element={<CompanyPolicy />} />
                     <Route path='/take-picture' element={<TakePicture />} />
+                    <Route path='/pay-slip' element={<EmpPaySlip />} />
                     <Route path='/lead-management' element={<LeadManagement />} />
                 </Routes>
             </Grid>

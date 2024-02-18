@@ -7,16 +7,20 @@ import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Grid, Typography } from '@mui/material';
+import AgreedToAgreement from './components/AgreedToAgreement/AgreedToAgreement';
 
 const App = () => {
   const navigation = useNavigate()
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [agreeModal, setAgreeModal] = useState(false)
   const handleResponsiveMenu = () => setMenu(false);
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
   const [userData, setUserData] = useState<any>();
+  const [agreeAgreement, setAgreeAgreement] = useState(false)
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value })
@@ -54,9 +58,8 @@ const App = () => {
         const newToken = response.data.token;
         const newRole = response.data.role;
         const newEmail = response.data.email;
-        console.log(newToken, "newToken")
-        console.log(newRole, "newRole")
-        console.log(newEmail, "newEmail")
+        const agreedToAgreement = response.data.agreedToAgreement
+        // setAgreeAgreement(agreedToAgreement)
 
         const newData = userData.filter((item: any) => item.email === response.data.email)
         console.log(newData, "newData")
@@ -72,13 +75,28 @@ const App = () => {
         localStorage.setItem('email', newEmail);
         localStorage.setItem('userName', newName);
         localStorage.setItem('empId', newEmpId);
-
       }
       catch (error) {
         console.error("An error occurred:", error);
       }
     }
 
+  };
+  const handleClickAgreement = async () => {
+    const name = "Acceptance of Terms";
+    const agreementText = "By using the Service, You agree to be bound by this Agreement, including any additional terms and conditions and policies referenced herein. If You do not agree to these terms, You may not access or use the Service.";
+    const version = "v1.0.1"
+    const agreement = { name: name, agreementText: agreementText, version: version }
+    console.log(agreement, "agreement")
+
+    try {
+
+      const response = await axios.patch('https://hrms-server-ygpa.onrender.com/api/v1/userAgreement/update', agreement);
+      console.log(response, "response...")
+    }
+    catch (err) {
+      console.log(err)
+    }
   };
   // window.addEventListener('beforeunload', () => {
   //   localStorage.removeItem('userToken');
@@ -116,20 +134,40 @@ const App = () => {
                 handleResponsiveMenu={handleResponsiveMenu} />}
 
             {user === "EMPLOYEE" &&
-              <EmpAttendancePage
-                handleLogout={handleLogout}
-                open={open}
-                handleClickLogout={handleClickUSer}
-                menu={menu}
-                handleSidebarMemu={handleSidebarMemu}
-                handleResponsiveMenu={handleResponsiveMenu}
-              />}
+              <>
+                <EmpAttendancePage
+                  handleLogout={handleLogout}
+                  open={open}
+                  handleClickLogout={handleClickUSer}
+                  menu={menu}
+                  handleSidebarMemu={handleSidebarMemu}
+                  handleResponsiveMenu={handleResponsiveMenu}
+                />
+                {/* {agreeAgreement === true ? <EmpAttendancePage
+                  handleLogout={handleLogout}
+                  open={open}
+                  handleClickLogout={handleClickUSer}
+                  menu={menu}
+                  handleSidebarMemu={handleSidebarMemu}
+                  handleResponsiveMenu={handleResponsiveMenu}
+                /> :
+                  <AgreedToAgreement handleClick={handleClickAgreement} />
+                } */}
+              </>
+            }
           </>
           :
-          <Login inputData={inputData} handleChange={handleChange} handleLogin={handleLogin} />
+          <>
+            <Login
+              inputData={inputData}
+              handleChange={handleChange}
+              handleLogin={handleLogin}
+            />
+          </>
         }
       </EmployeeDataContextProvider>
       <ToastContainer />
+
     </Fragment>
   )
 }

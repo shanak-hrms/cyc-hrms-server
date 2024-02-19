@@ -104,8 +104,8 @@ const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceD
                         <Typography variant='h5' fontSize={16} fontWeight={500}>Sherry Lin </Typography>
                     </Box>
                     <Box>
-                        <CommonButton name={"Monthly"} onClick={getMonthlyHolidays} />
-                        <CommonButton name={"Yearly"} onClick={getYearlyHolidays} />
+                        <CommonButton name={"Monthly Holidays"} onClick={getMonthlyHolidays} />
+                        <CommonButton name={"Yearly Holidays"} onClick={getYearlyHolidays} />
                     </Box>
                     <Box>
                         <TableContainer>

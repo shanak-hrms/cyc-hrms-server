@@ -117,7 +117,7 @@ const App = () => {
       <EmployeeDataContextProvider>
         {IsLogin ?
           <>
-            {(user === "ADMIN" || user === "DIRECTOR" || user === "LINE MANAGER" || user === "HR")
+            {(user === "ADMIN" || user === "DIRECTOR" || user === "MANAGER" || user === "HR")
               &&
               <Overview
                 open={open}

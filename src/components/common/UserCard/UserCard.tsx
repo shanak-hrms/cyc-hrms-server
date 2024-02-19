@@ -30,10 +30,11 @@ export interface IUserCard {
     handlePayroll?: any;
     handleDelete?: any;
     handleProfile?: any;
-    handleAssignModal?:any
+    handleAssignModal?: any
     handleChangeRoleModal?: any;
 }
-const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete, handleProfile,handleAssignModal, handleChangeRoleModal }: IUserCard) => {
+const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete, handleProfile, handleAssignModal, handleChangeRoleModal }: IUserCard) => {
+
     return (
         <Grid className={styles.userCardContainer}>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
@@ -50,10 +51,15 @@ const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handl
                         <HiOutlinePlusCircle fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
                         <ListItemText sx={{ textAlign: "left", }} > Add Salary</ListItemText>
                     </ListItemButton>
-                    <ListItemButton onClick={handleAssignModal} >
-                        <FaUserPlus fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
-                        <ListItemText sx={{ textAlign: "left", }} > Assign Emp..</ListItemText>
-                    </ListItemButton>
+                    {label === "MANAGER"
+                        ?
+                        <ListItemButton onClick={handleAssignModal} >
+                            <FaUserPlus fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                            <ListItemText sx={{ textAlign: "left", }} > Assign Emp..</ListItemText>
+                        </ListItemButton> :
+                        ""
+                    }
+
                     <ListItemButton onClick={handleChangeRoleModal} >
                         <MdChangeCircle fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
                         <ListItemText sx={{ textAlign: "left", }} > Change Role</ListItemText>

@@ -25,6 +25,7 @@ const StaffPage = () => {
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false);
     const [staffId, setStaffId] = useState()
+    const [selectedEmp, setSelectedEmp] = useState()
     const handleClick = async () => { navigation('/add-staff') };
     const handleEdit = () => { navigation('/update-staff') };
 
@@ -74,6 +75,37 @@ const StaffPage = () => {
             if (response.status === 200) {
                 toast.success("Role updated successfully")
                 setRoleModal(false);
+                await fetchData();
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+    const handleChangeAssiEmp = (e: any) => {
+        const { name, value } = e.target;
+        setStaffRole({ ...staffRole, [name]: value });
+    };
+    const handleSelectEmp = (idx: any) => {
+        setSelectedEmp(idx)
+    }
+    const handleClickAssiEmp = async (idx: any) => {
+        const loginedUserString: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserString)
+        const { token } = loginedUser;
+        console.log(idx, "idx...")
+
+        try {
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/manager-to-employee/${selectedEmp}/${staffId}`, staffRole,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            if (response.status === 200) {
+                toast.success("Manager assigned to Employee successfully")
+                setAssignModal(false);
                 await fetchData();
             }
         }
@@ -197,7 +229,15 @@ const StaffPage = () => {
                 handleChangeRole={handleChangeRole}
                 handleClickRole={handleClickRole}
             />
-            <AssignEmpModal open={assignModal} handleClose={handleClose} />
+            <AssignEmpModal
+                open={assignModal}
+                staffRole={staffRole}
+                handleChangeAssiEmp={handleChangeAssiEmp}
+                userData={userData}
+                handleSelectEmp={handleSelectEmp}
+                handleClickAssiEmp={handleClickAssiEmp}
+                handleClose={handleClose}
+            />
             {/* <StaffProfileModal open={profilModal} profile={undefined} handleClose={handleClose} /> */}
             <ToastContainer />
         </Grid>

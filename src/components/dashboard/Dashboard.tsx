@@ -8,12 +8,12 @@ import axios from 'axios';
 
 export interface IDashboard {
     data: any;
+    dashAtten?: any;
     handleClockIn: any;
     handleClockOut: any;
-    IsCheckId?: any;
     attendanceData?: any;
 }
-const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceData }: IDashboard) => {
+const Dashboard = ({ data, dashAtten, handleClockIn, handleClockOut, attendanceData }: IDashboard) => {
     const [holiday, setHolidays] = useState<any>()
     const formateDate = (idx: any) => {
         const date = new Date(idx)
@@ -66,11 +66,7 @@ const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceD
             <Grid container className={styles.dashboardBody}>
                 <Grid item sm={6} >
                     <Box>
-                        {IsCheckId ? <><CommonButton name={"Clock In"} onClick={handleClockIn} />
-                            <CommonButton name={"Clock Out"} onClick={handleClockOut} /></>
-                            :
-                            <><CommonButton name={"Clocked In"} />
-                            </>}
+                        <CommonButton name={"Clock In"} onClick={handleClockIn} />
                     </Box>
                     <Box>
                         <TableContainer>
@@ -90,7 +86,15 @@ const Dashboard = ({ data, handleClockIn, handleClockOut, IsCheckId, attendanceD
                                                 <TableCell>{item.employeeId?.name}</TableCell>
                                                 <TableCell>{formateDate(item?.date)}</TableCell>
                                                 <TableCell>{formateTime(item?.clockIn)}</TableCell>
-                                                <TableCell>{formateTime(item?.clockOut)}</TableCell>
+                                                <TableCell>
+                                                    {item.clockOut === null
+                                                        ?
+                                                        <CommonButton name={"Clock Out"} onClick={() => handleClockOut(item._id)} />
+                                                        :
+                                                        <>
+                                                            {formateTime(item?.clockOut)}</>
+                                                    }
+                                                </TableCell>
                                             </TableRow>
                                         )
                                     })}

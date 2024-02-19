@@ -22,10 +22,12 @@ export interface IUserDataType {
     handleEdit: any;
     handleAddSalary: any;
     handlePayroll: any;
-    handleProfile:any
+    handleProfile: any
     handleDelete: any;
+    handleAssignModal?: any;
+    handleChangeRoleModal?: any;
 }
-const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete, handleProfile }: IUserDataType) => {
+const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete, handleProfile, handleAssignModal, handleChangeRoleModal }: IUserDataType) => {
 
     return (
         <Grid className={styles.userContainer}>
@@ -37,7 +39,7 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
             />
             {loading ? <CustomLoader /> :
                 <Grid container spacing={2} >
-                    {data && data.filter((item: any) => item.role === "HR" || item.role === "LINE MANAGER" || item.role === "DIRECTOR").map((item: IUser, idx: number) => {
+                    {data && data.filter((item: any) => item.role === "HR" || item.role === "MANAGER" || item.role === "DIRECTOR").map((item: IUser, idx: number) => {
                         return (
                             <Grid item sm={3}>
                                 <UserCard
@@ -53,7 +55,9 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
                                     handleAddSalary={() => handleAddSalary(item._id)}
                                     handlePayroll={() => handlePayroll(item._id)}
                                     handleDelete={() => handleDelete(item._id)}
-                                    handleProfile={()=>handleProfile(item._id)}
+                                    handleProfile={() => handleProfile(item._id)}
+                                    handleChangeRoleModal={() => handleChangeRoleModal(item._id)}
+                                    handleAssignModal={() => handleAssignModal(item._id)}
                                 />
                             </Grid>
                         )
@@ -75,7 +79,9 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
                                         handleAddSalary={() => handleAddSalary(item._id)}
                                         handlePayroll={() => handlePayroll(item._id)}
                                         handleDelete={() => handleDelete(item._id)}
-                                        handleProfile={()=>handleProfile(item._id)}
+                                        handleProfile={() => handleProfile(item._id)}
+                                        handleChangeRoleModal={() => handleChangeRoleModal(item._id)}
+                                        handleAssignModal={() => handleAssignModal(item._id)}
                                     />
                                 </Grid>
                             )

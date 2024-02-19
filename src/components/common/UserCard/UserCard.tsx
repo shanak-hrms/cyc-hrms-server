@@ -5,6 +5,15 @@ import { PiDotsThreeOutlineVerticalDuotone } from 'react-icons/pi';
 import CommonButton from '../CommonButton/CommonButton';
 import { RxAvatar } from "react-icons/rx";
 import { MdEdit, MdOutlineAdd, MdDelete } from "react-icons/md";
+import { RiEditBoxFill } from "react-icons/ri";
+import { RiFileEditFill } from "react-icons/ri";
+
+import { MdChangeCircle } from "react-icons/md";
+import { FaUserPlus } from "react-icons/fa6";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+
+
+
 
 
 export interface IUserCard {
@@ -20,9 +29,12 @@ export interface IUserCard {
     handleAddSalary?: any;
     handlePayroll?: any;
     handleDelete?: any;
-    handleProfile?:any;
+    handleProfile?: any;
+    handleAssignModal?: any
+    handleChangeRoleModal?: any;
 }
-const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete,handleProfile }: IUserCard) => {
+const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete, handleProfile, handleAssignModal, handleChangeRoleModal }: IUserCard) => {
+
     return (
         <Grid className={styles.userCardContainer}>
             <Box sx={{ display: "flex", justifyContent: "space-between", marginInlineEnd: "auto" }}>
@@ -32,12 +44,25 @@ const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handl
             <Box>
                 {actionOpen ? <>
                     <ListItemButton onClick={handleEdit} >
-                        <MdEdit fontSize={18} style={{ marginInlineEnd: 2 }} />
-                        <ListItemText sx={{ textAlign: "left", }} > Edit</ListItemText>
+                        <RiFileEditFill fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                        <ListItemText sx={{ textAlign: "left", }} > Edit Emp...</ListItemText>
                     </ListItemButton>
                     <ListItemButton onClick={handleAddSalary} >
-                        <MdOutlineAdd fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                        <HiOutlinePlusCircle fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
                         <ListItemText sx={{ textAlign: "left", }} > Add Salary</ListItemText>
+                    </ListItemButton>
+                    {label === "MANAGER"
+                        ?
+                        <ListItemButton onClick={handleAssignModal} >
+                            <FaUserPlus fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                            <ListItemText sx={{ textAlign: "left", }} > Assign Emp..</ListItemText>
+                        </ListItemButton> :
+                        ""
+                    }
+
+                    <ListItemButton onClick={handleChangeRoleModal} >
+                        <MdChangeCircle fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                        <ListItemText sx={{ textAlign: "left", }} > Change Role</ListItemText>
                     </ListItemButton>
                     <ListItemButton onClick={handleDelete} >
                         <MdDelete fontSize={18} style={{ marginInlineEnd: 2, color: "#FF0000" }} />

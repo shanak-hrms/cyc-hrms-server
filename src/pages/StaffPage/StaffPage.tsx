@@ -8,38 +8,112 @@ import 'react-toastify/dist/ReactToastify.css';
 import SalaryStructureModal from '../../components/modal/SalaryStructureModal/SalaryStructureModal'
 import { useNavigate } from 'react-router-dom'
 import StaffProfileModal from '../../components/modal/StaffProfileModal/StaffProfileModal'
+import ChangeRoleModal from '../../components/modal/ChangeRoleModal/ChangeRoleModal'
+import AssignEmpModal from '../../components/modal/AssignEmpModal/AssignEmpModal'
 
 
 const StaffPage = () => {
     const navigation = useNavigate();
-    const [actionOpen, setActionOpen] = useState(false)
+    const [actionOpen, setActionOpen] = useState(true)
     const [salStrModal, setSalStrModal] = useState(false)
     const [profilModal, setProfileModal] = useState(false)
-    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false) }
+    const [assignModal, setAssignModal] = useState(false);
+    const [roleModal, setRoleModal] = useState(false);
+    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
+    const [staffRole, setStaffRole] = useState({ role: "" })
     const [userData, setUserData] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [editId, setEditId] = useState()
-    const [profile, setProfile] = useState<any>()
+    const [loading, setLoading] = useState(false);
+    const [staffId, setStaffId] = useState()
+    const [selectedEmp, setSelectedEmp] = useState()
+    const handleClick = async () => { navigation('/add-staff') };
+    const handleEdit = () => { navigation('/update-staff') };
 
     const handleGlobalModal = () => {
-        if (actionOpen == true) {
-            console.log(actionOpen, "actionOpen")
-            setActionOpen(false)
+
+        const values = Object.values(actionOpen);
+
+        if (values.includes(true)) {
+            setActionOpen(false);
         }
     }
+
     const handleActionModal = async (idx: any) => {
         setActionOpen((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
         setSalStrVal({ ...salStrVal, employeeId: idx })
         localStorage.setItem("staffId", JSON.stringify(idx))
         const staffDetails = userData.filter((item: any) => item._id === idx);
         localStorage.setItem("staffDetails", JSON.stringify(staffDetails))
-        console.log(staffDetails, "staffDetails")
+        console.log(staffDetails, "staffDetails");
+        setStaffId(idx)
     }
 
     const handleAddSalaryModal = async (idx: any) => {
         setSalStrModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
     };
+    const handleAssignModal = (idx: any) => {
+        setAssignModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+    }
+    const handleChangeRoleModal = (idx: any) => {
+        setRoleModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+    };
+    const handleChangeRole = (e: any) => {
+        const { name, value } = e.target;
+        setStaffRole({ ...staffRole, [name]: value })
+    }
+    const handleClickRole = async () => {
+        const loginedUserString: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserString)
+        const { token } = loginedUser
+        try {
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/employee-role-manager/${staffId}`, staffRole,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            if (response.status === 200) {
+                toast.success("Role updated successfully")
+                setRoleModal(false);
+                await fetchData();
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+    const handleChangeAssiEmp = (e: any) => {
+        const { name, value } = e.target;
+        setStaffRole({ ...staffRole, [name]: value });
+    };
+    const handleSelectEmp = (idx: any) => {
+        setSelectedEmp(idx)
+    }
+    const handleClickAssiEmp = async (idx: any) => {
+        const loginedUserString: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserString)
+        const { token } = loginedUser;
+        console.log(idx, "idx...")
+
+        try {
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/manager-to-employee/${selectedEmp}/${staffId}`, staffRole,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            if (response.status === 200) {
+                toast.success("Manager assigned to Employee successfully")
+                setAssignModal(false);
+                await fetchData();
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
     const handleChangeSalStr = (e: any) => {
         const { name, value } = e.target;
         setSalStrVal({ ...salStrVal, [name]: value })
@@ -76,12 +150,8 @@ const StaffPage = () => {
         }
 
     }
-    const handleClick = async () => {
-        navigation('/add-staff')
-    };
-    const handleEdit = () => {
-        navigation('/update-staff')
-    }
+
+
     const handleProfile = (idx: any) => {
         // const profileData = userData.length > 0 && userData?.filter((item: any) => item._id === idx)
         // setProfile(profileData)
@@ -142,6 +212,8 @@ const StaffPage = () => {
                 handlePayroll={undefined}
                 handleProfile={handleProfile}
                 handleDelete={handleDelete}
+                handleAssignModal={handleAssignModal}
+                handleChangeRoleModal={handleChangeRoleModal}
             />
             <SalaryStructureModal
                 open={salStrModal}
@@ -149,6 +221,22 @@ const StaffPage = () => {
                 handleClose={handleClose}
                 handleChange={handleChangeSalStr}
                 handleCreate={handleCreateSalary}
+            />
+            <ChangeRoleModal
+                open={roleModal}
+                staffRole={staffRole}
+                handleClose={handleClose}
+                handleChangeRole={handleChangeRole}
+                handleClickRole={handleClickRole}
+            />
+            <AssignEmpModal
+                open={assignModal}
+                staffRole={staffRole}
+                handleChangeAssiEmp={handleChangeAssiEmp}
+                userData={userData}
+                handleSelectEmp={handleSelectEmp}
+                handleClickAssiEmp={handleClickAssiEmp}
+                handleClose={handleClose}
             />
             {/* <StaffProfileModal open={profilModal} profile={undefined} handleClose={handleClose} /> */}
             <ToastContainer />

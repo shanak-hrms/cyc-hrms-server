@@ -80,7 +80,7 @@ const EmployeeTable = ({
                     <TableCell sx={{ textAlign: "center" }}>{item.branch}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.department}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>{item.designation}</TableCell>
-                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.date)}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.dateOfJoining)}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>
                       <MdOutlineMenuBook fontSize={22} cursor={"pointer"} onClick={(() => handlePayrollModal(item._id))} />
                       <MdPreview fontSize={22} cursor={"pointer"} onClick={(() => handlePayrollDownload(item._id))} />

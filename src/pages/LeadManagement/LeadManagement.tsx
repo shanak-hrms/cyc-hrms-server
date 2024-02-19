@@ -168,6 +168,8 @@ const LeadManagement = () => {
             );
 
             if (response.status === 200) {
+                toast.success("Request submitted successfully")
+                setLeadStatusModal(false)
                 await getLeadData();
             }
         } catch (error) {

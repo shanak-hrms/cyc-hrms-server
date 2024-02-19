@@ -12,7 +12,7 @@ export interface IHeadingText {
     IsAction?: boolean;
     name2?: string;
     handleClick2?: any;
-    handleClick3?:any;
+    handleClick3?: any;
     IsName2?: boolean;
     IsName3?: boolean;
     name3?: any
@@ -20,6 +20,9 @@ export interface IHeadingText {
     setQuery?: any
 }
 const HeadingText = ({ heading, name, name2, name3, IsName3, handleClick3, IsName2, handleClick, IsAction, handleClick2, IsSearchBox, setQuery }: IHeadingText) => {
+    const loginedUserStr: any = localStorage.getItem("loginedUser");
+    const loginedUser = JSON.parse(loginedUserStr);
+    const { role } = loginedUser;
     return (
         <Grid className={styles.headingTextContainer}>
             <Typography variant='h4' fontWeight={500} fontSize={25}>{heading}</Typography>
@@ -30,7 +33,7 @@ const HeadingText = ({ heading, name, name2, name3, IsName3, handleClick3, IsNam
 
                     <CommonButton name={name} onClick={handleClick} />
                     {IsName2 ? <CommonButton name={name2} onClick={handleClick2} /> : ""}
-                    {IsName3 ? <CommonButton name={name3} onClick={handleClick3} /> : ""}
+                    {role === "MANAGER" ? <>{IsName3 ? <CommonButton name={name3} onClick={handleClick3} /> : ""}</> : ""}
                 </Grid> :
                 ""}
         </Grid>

@@ -1,0 +1,24 @@
+.changeRoleModalContainer {
+    width: 32rem;
+    height: fit-content;
+    margin: auto;
+
+    .changeRoleModal {
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        padding: 8%;
+
+        .changeRole {}
+
+        .action {
+            margin-block-start: 2rem;
+            display: flex;
+            justify-content: right;
+
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+
+            }
+        }
+    }
+}

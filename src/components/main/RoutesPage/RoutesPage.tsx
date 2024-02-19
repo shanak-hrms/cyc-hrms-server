@@ -23,6 +23,7 @@ import { RequestApproval } from '../../../pages/RequestApproval/RequestApproval'
 import ManageClaimRequest from '../../../pages/ManageClaimRequest/ManageClaimRequest'
 import AddStaff from '../../../pages/AddStaff/AddStaff'
 import UpdateStaff from '../../../pages/UpdateStaff/UpdateStaff'
+import UpdateStatusList from '../../../pages/UpdateStatusList/UpdateStatusList'
 
 export interface IRoutesPage {
     handleClockIn: any;
@@ -41,6 +42,7 @@ const RoutesPage = ({ handleClockIn, handleClockOut }: IRoutesPage) => {
                 <Route path='/manage-leave' element={<ManageLeave />} />
                 <Route path='/claims-request' element={<ManageClaimRequest />} />
                 <Route path='/lead-management' element={<LeadManagement />} />
+                <Route path='/update-lead-status-list' element={<UpdateStatusList />} />
                 <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />
                 <Route path='/invoice' element={<Invoice />} />

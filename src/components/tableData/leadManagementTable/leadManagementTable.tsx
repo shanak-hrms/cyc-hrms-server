@@ -5,6 +5,7 @@ import CommonButton from '../../common/CommonButton/CommonButton';
 import { MdOutlinePreview, MdEdit, MdDelete, MdCloudDownload } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 import StatusModal from '../../modal/StatusModal/StatusModal';
+import { CiEdit } from "react-icons/ci";
 
 export interface ILeadManagementTable {
     data: any;
@@ -12,14 +13,11 @@ export interface ILeadManagementTable {
     handleDelete: any;
     handleaddBusiness: any;
     handledownload: any;
+    handleStatusModal: any;
     query: any;
-    leadStatusModal: any
-    statusVal: any;
-    handleChangeStatus: any;
-    handleUpdateStatus: any;
 };
 
-const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness, handledownload, query, leadStatusModal, statusVal, handleChangeStatus, handleUpdateStatus }: ILeadManagementTable) => {
+const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness, handledownload, query, handleStatusModal }: ILeadManagementTable) => {
     const formattedDate = (idx: any) => {
         const dateObj = new Date(idx);
         const year = dateObj.getUTCFullYear();
@@ -45,20 +43,20 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
             <Table>
                 <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                     <TableRow>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Lead Name</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Lead Type</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Open Date</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Close Date</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Status</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Type</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Source</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Vendor Name</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Vendor Address</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Value</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Business Cost</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Profit Amount</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Description</TableCell>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize:13, fontWeight:600 }}>Action</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Name</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Type</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Open Date</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Close Date</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Status</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Type</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Source</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Name</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Address</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Value</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Cost</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Profit Amount</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Description</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -78,10 +76,11 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.closeDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>
+                                    {item?.leadStatus}<CiEdit fontSize={18} cursor={"pointer"} style={{ color: "#02ABB5" }} onClick={() => handleStatusModal(item._id)} />
 
-                                    {leadStatusModal && <StatusModal statusVal={statusVal}
+                                    {/* {leadStatusModal && <StatusModal statusVal={statusVal}
                                         handleChange={handleChangeStatus} handleClick={() => handleUpdateStatus(item._id)} />
-                                    }
+                                    } */}
                                 </TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.type}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.source}</TableCell>

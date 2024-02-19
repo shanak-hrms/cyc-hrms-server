@@ -12,21 +12,27 @@ import * as XLSX from 'xlsx';
 import SearchBox from '../../components/common/searchBox/SearchBox'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import StatusModal from '../../components/modal/StatusModal/StatusModal'
+import LeadStatusModal from '../../components/modal/LeadStatusModal/LeadStatusModal'
+import { useNavigate } from 'react-router-dom'
 
 
 const LeadManagement = () => {
+    const navigation = useNavigate()
     const [open, setOpen] = useState(false);
     const [editModal, setEditModal] = useState(false)
     const [readModal, setReadModal] = useState(false)
-    const [leadStatusModal, setLeadStatusModal] = useState({})
+    const [leadStatusModal, setLeadStatusModal] = useState(false)
     const handleModal = () => setOpen(!open);
-    const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false) };
+    const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false); setLeadStatusModal(false) };
     const [query, setQuery] = useState('')
     const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", business: { type: "", source: "", vendorName: "", vendorAddress: "", businessValueBooked: "", businessCost: "", profitAmount: "" } });
-    const [statusVal, setStatusVale] = useState({ leadStatus: "Open" })
+    const [statusVal, setStatusVale] = useState({ requestFor: "" })
     const [leadData, setLeadData] = useState<any>()
     const [selectedItem, setSelectedLead] = useState();
-    const [readLead, setReadLeadId] = useState<any>()
+    const [readLead, setReadLeadId] = useState<any>();
+    const [leadId, setLeadId] = useState()
+    const handleRequestStatus = async () => { navigation("/update-lead-status-list") }
+
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         const updatedInputData = { ...inputData };
@@ -137,26 +143,39 @@ const LeadManagement = () => {
             setEditModal(false)
         }
     };
-    const handleChangeStatus = async (e: any) => {
-
+    const handleStatusModal = (idx: any) => {
+        setLeadStatusModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+        setLeadId(idx)
+    }
+    const handleChangeStatus = (e: any) => {
+        const { name, value } = e.target;
+        setStatusVale({ ...statusVal, [name]: value })
+    };
+    const handleUpdateStatus = async () => {
         try {
-            const { name, value } = e.target;
-            await setStatusVale({ ...statusVal, [name]: value })
+            const loginedUserStr: any = localStorage.getItem("loginedUser");
+            const loginedUser = JSON.parse(loginedUserStr);
+            const { token } = loginedUser;
 
+            const response = await axios.patch(
+                `https://hrms-server-ygpa.onrender.com/api/v1/lead/request/to-update-lead-status/${leadId}`,
+                statusVal, // Assuming statusVal is defined elsewhere
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            if (response.status === 200) {
+                await getLeadData();
+            }
+        } catch (error) {
+            console.error("Error occurred while updating lead status:", error);
         }
-        catch (err) {
-            console.log(err)
-        }
-    }
+    };
 
-    const handleUpdateStatus = async (idx: any) => {
-        const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/lead/newstatus/${idx}`, statusVal)
 
-        if (response.status === 200) {
-            await getLeadData();
-        }
-
-    }
     const handleDelete = async (id: any) => {
         try {
             await axios.delete(`https://hrms-server-ygpa.onrender.com/api/v1/lead/delete/particular/${id}`);
@@ -213,9 +232,12 @@ const LeadManagement = () => {
                 IsAction={true}
                 name='Add Lead'
                 name2='Download'
+                name3={"Update Status List"}
+                IsName3={true}
                 IsName2={true}
                 handleClick={handleModal}
                 handleClick2={handleDownload}
+                handleClick3={handleRequestStatus}
                 setQuery={setQuery}
                 IsSearchBox={true}
             />
@@ -227,10 +249,7 @@ const LeadManagement = () => {
                 handleaddBusiness={handleReadModal}
                 query={query}
                 handledownload={handledownloadItem}
-                leadStatusModal={leadStatusModal}
-                statusVal={statusVal}
-                handleChangeStatus={handleChangeStatus}
-                handleUpdateStatus={handleUpdateStatus}
+                handleStatusModal={handleStatusModal}
             />
             <LeadManagementModal
                 open={open}
@@ -254,6 +273,13 @@ const LeadManagement = () => {
                 open={readModal}
                 leadData={readLead}
                 handleClose={handleClose}
+            />
+            <LeadStatusModal
+                open={leadStatusModal}
+                handleClose={handleClose}
+                statusVal={statusVal}
+                handleChangeLeadStatus={handleChangeStatus}
+                handleUpdateStatus={handleUpdateStatus}
             />
             <ToastContainer />
         </Grid>

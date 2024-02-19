@@ -16,11 +16,13 @@ const App = () => {
   const [menu, setMenu] = useState(false);
   const [agreeModal, setAgreeModal] = useState(false)
   const handleResponsiveMenu = () => setMenu(false);
+  const handleClickUSer = () => { setOpen(!open) };
+  const handleSidebarMemu = () => { setMenu(!menu) };
   const [IsLogin, setIsLogin] = useState<any>(localStorage.getItem('userToken') || '');
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
   const [userData, setUserData] = useState<any>();
-  const [agreeAgreement, setAgreeAgreement] = useState(false)
+  const [agreeAgreement, setAgreeAgreement] = useState(true)
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value })
@@ -31,8 +33,6 @@ const App = () => {
       const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
       const data = response.data.userData;
       setUserData(data);
-      console.log(data, "data")
-
     }
     catch (err) {
       console.log(err)
@@ -58,13 +58,13 @@ const App = () => {
         const newToken = response.data.token;
         const newRole = response.data.role;
         const newEmail = response.data.email;
-        const agreedToAgreement = response.data.agreedToAgreement
-        // setAgreeAgreement(agreedToAgreement)
 
         const newData = userData.filter((item: any) => item.email === response.data.email)
         console.log(newData, "newData")
         const newName = newData[0].name;
         const newEmpId = newData[0].emp_id;
+        const agreement = newData[0].agreedToAgreement;
+        setAgreeAgreement(agreement)
 
         setIsLogin(newToken);
         setUser(newRole);
@@ -83,30 +83,24 @@ const App = () => {
 
   };
   const handleClickAgreement = async () => {
-    const name = "Acceptance of Terms";
-    const agreementText = "By using the Service, You agree to be bound by this Agreement, including any additional terms and conditions and policies referenced herein. If You do not agree to these terms, You may not access or use the Service.";
-    const version = "v1.0.1"
-    const agreement = { name: name, agreementText: agreementText, version: version }
-    console.log(agreement, "agreement")
-
+    const loginedUserStr: any = localStorage.getItem("loginedUser");
+    const loginedUser = JSON.parse(loginedUserStr);
+    const { token } = loginedUser;
+    console.log(agreeAgreement, "agreeAgreement")
     try {
-
-      const response = await axios.patch('https://hrms-server-ygpa.onrender.com/api/v1/userAgreement/update', agreement);
+      const response = await axios.patch('https://hrms-server-ygpa.onrender.com/api/v1/user/accept/user-agreement', {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       console.log(response, "response...")
     }
     catch (err) {
       console.log(err)
     }
   };
-  // window.addEventListener('beforeunload', () => {
-  //   localStorage.removeItem('userToken');
-  // });
-  const handleClickUSer = () => {
-    setOpen(!open)
-  }
-  const handleSidebarMemu = () => {
-    setMenu(!menu)
-  }
+  console.log(agreeAgreement, "agreeAgreement")
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');
@@ -135,15 +129,15 @@ const App = () => {
 
             {user === "EMPLOYEE" &&
               <>
-                <EmpAttendancePage
+                {/* <EmpAttendancePage
                   handleLogout={handleLogout}
                   open={open}
                   handleClickLogout={handleClickUSer}
                   menu={menu}
                   handleSidebarMemu={handleSidebarMemu}
                   handleResponsiveMenu={handleResponsiveMenu}
-                />
-                {/* {agreeAgreement === true ? <EmpAttendancePage
+                /> */}
+                {agreeAgreement === true ? <EmpAttendancePage
                   handleLogout={handleLogout}
                   open={open}
                   handleClickLogout={handleClickUSer}
@@ -152,7 +146,7 @@ const App = () => {
                   handleResponsiveMenu={handleResponsiveMenu}
                 /> :
                   <AgreedToAgreement handleClick={handleClickAgreement} />
-                } */}
+                }
               </>
             }
           </>

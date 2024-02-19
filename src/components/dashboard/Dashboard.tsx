@@ -80,9 +80,9 @@ const Dashboard = ({ data, dashAtten, handleClockIn, handleClockOut, attendanceD
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {attendanceData && attendanceData.map((item: any) => {
+                                    {attendanceData && attendanceData.slice(-2).map((item: any) => {
                                         return (
-                                            <TableRow>
+                                            <TableRow key={item._id}>
                                                 <TableCell>{item.employeeId?.name}</TableCell>
                                                 <TableCell>{formateDate(item?.date)}</TableCell>
                                                 <TableCell>{formateTime(item?.clockIn)}</TableCell>
@@ -91,15 +91,14 @@ const Dashboard = ({ data, dashAtten, handleClockIn, handleClockOut, attendanceD
                                                         ?
                                                         <CommonButton name={"Clock Out"} onClick={() => handleClockOut(item._id)} />
                                                         :
-                                                        <>
-                                                            {formateTime(item?.clockOut)}</>
+                                                        <>{formateTime(item?.clockOut)}</>
                                                     }
                                                 </TableCell>
                                             </TableRow>
                                         )
                                     })}
-
                                 </TableBody>
+
                             </Table>
                         </TableContainer>
                     </Box>

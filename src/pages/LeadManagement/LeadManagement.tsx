@@ -109,12 +109,15 @@ const LeadManagement = () => {
         setEditModal((prevState: any) => ({
             ...prevState,
             [id]: !prevState[id]
+            
         }));
+        console.log(id, "id")
         setSelectedLead(id)
         const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
         if (response.status === 201) {
             const resData = response.data.leadData;
             const filteredData = resData.filter((employee: any) => employee._id === id);
+            console.log(filteredData, "filteredData..")
 
             setInputData({
                 leadName: filteredData[0].leadName,

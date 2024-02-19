@@ -19,6 +19,7 @@ export interface ILeaveModal {
 }
 const LeaveModal = ({ open, heading, handleClose, leaveVal, handleChange, handleClick, handleChangeRadio, radioVal }: ILeaveModal) => {
     const [data2, setData2] = useState(["LWP"])
+    const [data3, setData3] = useState(["First Half", 'Second Half'])
     const loginedUserStr: any = localStorage.getItem("loginedUser");
     const loginedUser = JSON.parse(loginedUserStr);
     const { empStatus } = loginedUser;
@@ -82,19 +83,45 @@ const LeaveModal = ({ open, heading, handleClose, leaveVal, handleChange, handle
                         </FormControl>
                     </Box>
                     <Box>
-                        {empStatus === "PROBATION" ? <SelectField
-                            title={'Leave Type'}
-                            data={data2}
-                            option={leaveVal.leaveType}
-                            name={'leaveType'}
-                            handleChange={handleChange}
-                        /> : <SelectField
-                            title={'Leave Type'}
-                            data={data.leaveType}
-                            option={leaveVal.leaveType}
-                            name={'leaveType'}
-                            handleChange={handleChange}
-                        />}
+                        {empStatus === "PROBATION" ?
+                            <>
+                                {radioVal === "halfDate" ?
+                                    <SelectField
+                                        title={'Leave Type'}
+                                        data={data3}
+                                        option={leaveVal.leaveType}
+                                        name={'leaveType'}
+                                        handleChange={handleChange}
+                                    /> :
+                                    <SelectField
+                                        title={'Leave Type'}
+                                        data={data2}
+                                        option={leaveVal.leaveType}
+                                        name={'leaveType'}
+                                        handleChange={handleChange}
+                                    />}
+                            </>
+                            :
+                            <>
+                                {radioVal === "halfDate"
+                                    ?
+                                    <SelectField
+                                        title={'Leave Type'}
+                                        data={data3}
+                                        option={leaveVal.leaveType}
+                                        name={'leaveType'}
+                                        handleChange={handleChange}
+                                    /> :
+                                    <SelectField
+                                        title={'Leave Type'}
+                                        data={data.leaveType}
+                                        option={leaveVal.leaveType}
+                                        name={'leaveType'}
+                                        handleChange={handleChange}
+                                    />
+                                }
+                            </>
+                        }
                         <SelectField
                             title={'Month'}
                             data={data.month}

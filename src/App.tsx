@@ -22,7 +22,7 @@ const App = () => {
   const [user, setUser] = useState<any>(localStorage.getItem('userRole') || '');
   const [inputData, setInputData] = useState({ email: "", password: "" });
   const [userData, setUserData] = useState<any>();
-  const [agreeAgreement, setAgreeAgreement] = useState(true)
+  const [agreeAgreement, setAgreeAgreement] = useState<any>(true)
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value })
@@ -54,14 +54,14 @@ const App = () => {
 
         const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/login', inputData);
         console.log(response, "response")
-        const loginedUser = response.data;
-        const newToken = response.data.token;
-        const newRole = response.data.role;
-        const newEmail = response.data.email;
+        const loginedUser = response?.data;
+        const newToken = response?.data?.token;
+        const newRole = response?.data?.role;
+        const newEmail = response?.data?.email;
 
         if (response.status === 200) {
           toast.success("Logined successfully")
-          const newData = userData.filter((item: any) => item.email === response.data.email)
+          const newData = userData.filter((item: any) => item.email === response?.data?.email)
           console.log(newData, "newData")
           const newName = newData[0].name;
           const newEmpId = newData[0].emp_id;
@@ -99,6 +99,9 @@ const App = () => {
           }
         });
       console.log(response, "response...")
+      if (response.status === 200) {
+        window.location.reload();
+      }
     }
     catch (err) {
       console.log(err)

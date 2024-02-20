@@ -55,11 +55,11 @@ const PaySlip = () => {
                         <img src={logo} alt='logo' />
                     </Box>
                     <Grid className={styles.addressSection}>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Address:</Typography>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Mail:hr@cycevents.in</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Address:32/1 SAHAPUR , NEW ALIPORE, KOLKATA 700053</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Mail:hr@cycgroup.in</Typography>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Phone No: 033-3580-6414</Typography>
                     </Grid>
-                    <Typography textAlign={"center"} variant='h4' fontSize={22} fontWeight={600}>Pay Slip for Month of {data?.month},2024</Typography>
+                    <Typography textAlign={"center"} variant='h4' fontSize={22} fontWeight={600}>Pay Slip</Typography>
                     <Box display={"flex"} justifyContent={"space-between"}>
                         <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>Employee Name :{data?.employeeId?.name}</Typography>
                         <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| Emp Code: {data?.employeeId?.empCode}</Typography>
@@ -70,7 +70,12 @@ const PaySlip = () => {
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Designation:{data?.employeeId?.name}</Typography>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Status: {data?.employeeId?.probationStatus == true ? "Probation" : "Permanent"}</Typography>
                     </Grid>
-                    <Typography variant='h4' fontSize={15} fontWeight={600}>Present Days:</Typography>
+                    <Grid className={styles.designationSection} display={"flex"} justifyContent={"space-between"}>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Month:</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Total Working Days             :</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Present Days:</Typography>
+                    </Grid>
+
                     <Box display={"flex"} justifyContent={"space-between"}>
                         <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>UAN :{data?.employeeId?.uanNumber}</Typography>
                         <Typography sx={{ width: "50%" }} variant='h4' fontSize={15} fontWeight={600}>| ESIC / Group Medical Ref No: {data?.employeeId?.esic}</Typography>
@@ -90,10 +95,13 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>H R A</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Special Allowances </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Transport Allowances</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
-                                    </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Gross Salary</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>Net Salary(Payable)</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>PF Employer</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>ESI Employer</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Medical</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Telephone</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Others</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Net Salary</Typography>
                                 </Grid>
                                 <Grid item sm={6}>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
@@ -115,21 +123,21 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Salary head</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>PF Employee</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>ESI Employee</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Salary Advance</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Professional tax</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
-                                    </Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Total Deduction</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}></Typography>
                                 </Grid>
                                 <Grid item sm={6}>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployee}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeduction}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.ptax}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>Incentives (If applicable)
-                                    </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalDeductions}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}></Typography>
                                 </Grid>
                             </Grid>
                         </Grid>

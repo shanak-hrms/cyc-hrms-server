@@ -25,9 +25,10 @@ export interface IUserDataType {
     handleProfile: any
     handleDelete: any;
     handleAssignModal?: any;
+    handleAsserstModal?: any;
     handleChangeRoleModal?: any;
 }
-const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete, handleProfile, handleAssignModal, handleChangeRoleModal }: IUserDataType) => {
+const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit, handleAddSalary, handlePayroll, handleDelete, handleProfile, handleAssignModal, handleAsserstModal, handleChangeRoleModal }: IUserDataType) => {
 
     return (
         <Grid className={styles.userContainer}>
@@ -56,6 +57,7 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
                                     handlePayroll={() => handlePayroll(item._id)}
                                     handleDelete={() => handleDelete(item._id)}
                                     handleProfile={() => handleProfile(item._id)}
+                                    handleAsserstModal={() => handleAsserstModal(item._id)}
                                     handleChangeRoleModal={() => handleChangeRoleModal(item._id)}
                                     handleAssignModal={() => handleAssignModal(item._id)}
                                 />
@@ -80,6 +82,7 @@ const User = ({ handleClick, data, handleAction, loading, actionOpen, handleEdit
                                         handlePayroll={() => handlePayroll(item._id)}
                                         handleDelete={() => handleDelete(item._id)}
                                         handleProfile={() => handleProfile(item._id)}
+                                        handleAsserstModal={() => handleAsserstModal(item._id)}
                                         handleChangeRoleModal={() => handleChangeRoleModal(item._id)}
                                         handleAssignModal={() => handleAssignModal(item._id)}
                                     />

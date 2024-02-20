@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import StaffProfileModal from '../../components/modal/StaffProfileModal/StaffProfileModal'
 import ChangeRoleModal from '../../components/modal/ChangeRoleModal/ChangeRoleModal'
 import AssignEmpModal from '../../components/modal/AssignEmpModal/AssignEmpModal'
+import AsserstModal from '../../components/modal/AsserstModal/AsserstModal'
 
 
 const StaffPage = () => {
@@ -19,9 +20,11 @@ const StaffPage = () => {
     const [profilModal, setProfileModal] = useState(false)
     const [assignModal, setAssignModal] = useState(false);
     const [roleModal, setRoleModal] = useState(false);
-    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false) }
+    const [asserstModal, setAsserstModal] = useState(true);
+    const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false); setAsserstModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [staffRole, setStaffRole] = useState({ role: "" })
+    const [asserstVal, setAsserstVal] = useState({ name: "", date: "" })
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false);
     const [staffId, setStaffId] = useState()
@@ -54,6 +57,37 @@ const StaffPage = () => {
     };
     const handleAssignModal = (idx: any) => {
         setAssignModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+    }
+    const handleAsserstModal = (idx: any) => {
+        setAsserstModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
+    }
+    const handleChangeAsserst = (e: any) => {
+        const { name, value } = e.target;
+        setAsserstVal({ ...asserstVal, [name]: value })
+    }
+    const handleClickAssets = async () => {
+        const loginedUserString: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserString)
+        const { token } = loginedUser;
+        const assets = [{ name: asserstVal.name, date: asserstVal.date }];
+
+        try {
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/assets/to-employee/${staffId}`, assets,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            if (response.status === 200) {
+                toast.success(response.data.message)
+                setAsserstModal(false)
+            }
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+
     }
     const handleChangeRoleModal = (idx: any) => {
         setRoleModal((preSate: any) => ({ ...preSate, [idx]: !preSate[idx] }))
@@ -220,6 +254,7 @@ const StaffPage = () => {
                 handleProfile={handleProfile}
                 handleDelete={handleDelete}
                 handleAssignModal={handleAssignModal}
+                handleAsserstModal={handleAsserstModal}
                 handleChangeRoleModal={handleChangeRoleModal}
             />
             <SalaryStructureModal
@@ -245,7 +280,18 @@ const StaffPage = () => {
                 handleClickAssiEmp={handleClickAssiEmp}
                 handleClose={handleClose}
             />
-            <StaffProfileModal open={profilModal} profile={rofile} handleClose={handleClose} />
+            <AsserstModal
+                open={asserstModal}
+                asserstVal={asserstVal}
+                handleChange={handleChangeAsserst}
+                handleClickAssets={handleClickAssets}
+                handleClose={handleClose}
+            />
+            <StaffProfileModal
+                open={profilModal}
+                profile={rofile}
+                handleClose={handleClose}
+            />
             <ToastContainer />
         </Grid>
     )

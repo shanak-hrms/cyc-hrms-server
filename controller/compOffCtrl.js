@@ -45,7 +45,7 @@ exports.approveCompOff = async (req, res) => {
         res.json(compOff);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error:error.message||'Server error' });
     }
 };
 
@@ -99,7 +99,7 @@ exports.getCompOffCount = async (req, res) => {
         res.json({ compOffCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error:error.message});
     }
 };
 
@@ -119,7 +119,7 @@ exports.getCompOffEmployeeList= async (req, res) => {
         res.json({ compOffCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -138,6 +138,6 @@ exports.getCompOffList = async (req, res) => {
         res.json({ compOffCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: error.message });
     }
 };

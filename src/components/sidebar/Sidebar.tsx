@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Box, MenuList, MenuItem, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './Sidebar.module.scss'
-import logo from '../../asserst/images/CYC_logo-01-removebg-preview.png'
+import logo from '../../asserst/images/LOGO CYC.jpg'
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TbPoint } from "react-icons/tb";
 

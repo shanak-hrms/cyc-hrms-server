@@ -276,7 +276,7 @@ const ManageClaimRequest = () => {
                 <TableContainer className={styles.tableContainer}>
                     <Grid className={styles.claimHeader}>
                         <HeadingText
-                            heading={'Attendance Request List'}
+                            heading={'Attendance Request'}
                             IsAction={false}
                         />
                         <Box>
@@ -320,7 +320,7 @@ const ManageClaimRequest = () => {
                 <TableContainer className={styles.tableContainer}>
                     <Grid className={styles.claimHeader}>
                         <HeadingText
-                            heading={'Leave Request List'}
+                            heading={'Leave Request'}
                             IsAction={false}
                         />
                         {/* <Box>
@@ -361,7 +361,7 @@ const ManageClaimRequest = () => {
                 <TableContainer className={styles.tableContainer}>
                     <Grid className={styles.claimHeader}>
                         <HeadingText
-                            heading={'Claim Request List'}
+                            heading={'Claim Request'}
                             IsAction={false}
                         />
                         {/* <Box>
@@ -404,7 +404,7 @@ const ManageClaimRequest = () => {
                 <TableContainer className={styles.tableContainer}>
                     <Grid className={styles.claimHeader}>
                         <HeadingText
-                            heading={'CompOff Request List'}
+                            heading={'Comp Off Request'}
                             IsAction={false}
                         />
                         {/* <Box>

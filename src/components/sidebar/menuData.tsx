@@ -32,8 +32,8 @@ export const menuData = [
     {
         "id": 6,
         "icon": <PiNotePencilFill />,
-        "title": "Claim Request",
-        "link": "/claims-request",
+        "title": "Request",
+        "link": "/request",
     },
     {
         "id": 7,

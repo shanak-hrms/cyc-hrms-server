@@ -6,6 +6,8 @@ import Sidebar from '../../sidebar/Sidebar'
 import { menuData } from '../../sidebar/menuData'
 import NewHeading from '../../NewHeading/NewHeading'
 import axios from 'axios'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface IOverview {
     open: any;
@@ -53,6 +55,7 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
             )
             if (response.status === 201) {
                 await fetchData();
+                toast.success(("Clock in successfully"))
                 // await setPhotoModal(false);
             }
 
@@ -113,6 +116,7 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
                     <RoutesPage handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
                 </Grid>
             </Grid>
+            <ToastContainer />
         </Grid>
     )
 }

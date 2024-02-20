@@ -31,19 +31,34 @@ const LeadManagement = () => {
     const [selectedItem, setSelectedLead] = useState();
     const [readLead, setReadLeadId] = useState<any>();
     const [leadId, setLeadId] = useState()
-    const handleRequestStatus = async () => { navigation("/update-lead-status-list") }
+    const handleRequestStatus = async () => { navigation("/status-request") }
 
+    // const handleChange = (e: any) => {
+    //     const { name, value } = e.target;
+    //     const updatedInputData = { ...inputData };
+    //     if (name.startsWith("business.")) {
+    //         const nestedField = name.split(".")[1];
+    //         updatedInputData.business[nestedField] = value;
+    //     } else {
+    //         updatedInputData[name] = value;
+    //     }
+    //     setInputData(updatedInputData)
+    // };
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         const updatedInputData = { ...inputData };
+
         if (name.startsWith("business.")) {
             const nestedField = name.split(".")[1];
+            // Ensure updatedInputData.business is initialized
+            updatedInputData.business = updatedInputData.business || {};
             updatedInputData.business[nestedField] = value;
         } else {
             updatedInputData[name] = value;
         }
-        setInputData(updatedInputData)
+        setInputData(updatedInputData);
     };
+
     const handleChangeDes = (des: any) => {
         setInputData((preState: any) => ({ ...preState, leadDesc: des }))
     };
@@ -109,12 +124,12 @@ const LeadManagement = () => {
         setEditModal((prevState: any) => ({
             ...prevState,
             [id]: !prevState[id]
-            
+
         }));
         console.log(id, "id")
         setSelectedLead(id)
         const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
-        if (response.status === 201) {
+        if (response.status === 200) {
             const resData = response.data.leadData;
             const filteredData = resData.filter((employee: any) => employee._id === id);
             console.log(filteredData, "filteredData..")
@@ -126,8 +141,8 @@ const LeadManagement = () => {
                 openDate: filteredData[0].openDate,
                 closeDate: filteredData[0].closeDate,
                 leadDes: filteredData[0].leadDes,
-                businessType: filteredData[0].businessType,
-                businessFrom: filteredData[0].businessFrom,
+                type: filteredData[0]?.type,
+                source: filteredData[0]?.source,
                 businessVal: filteredData[0].businessVal,
                 businessCost: filteredData[0].businessCost,
                 profitAmount: filteredData[0].profitAmount,
@@ -237,7 +252,7 @@ const LeadManagement = () => {
                 IsAction={true}
                 name='Add Lead'
                 name2='Download'
-                name3={"Update Status List"}
+                name3={"Status Request"}
                 IsName3={true}
                 IsName2={true}
                 handleClick={handleModal}

@@ -22,6 +22,7 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
     const [attenData, setAttenData] = useState()
     const [claimData, setClaimData] = useState()
     const [userRole, setUserRole] = useState()
+    const [attendanceData, setAttendanceData] = useState()
 
     const dataOne = [
         {
@@ -138,7 +139,11 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
         }
 
     }
-    const getAttendanceData = async () => {
+    const getPendingAttenData = async () => {
+        const loginedUserSting: any = localStorage.getItem("loginedUser");
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { email } = loginedUser;
+
         try {
             setLoading(true);
             const result = await axios.get("https://hrms-server-ygpa.onrender.com/api/v1/attendance/get");
@@ -146,6 +151,8 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
             const filterData = data.filter((item: any) => item.regularizationRequest?.status === "Pending");
             const dataLength = filterData.length;
             setAttenData(dataLength);
+            const filetrAttenByEmail = data.filter((item: any) => item.employeeId?.email === email)
+            setAttendanceData(filetrAttenByEmail)
         } catch (error) {
             console.error("Error fetching attendance data:", error);
         } finally {
@@ -178,7 +185,7 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
         setUserRole(role)
         getLeadData();
         getLeaveData();
-        getAttendanceData();
+        getPendingAttenData();
         getCliamData();
 
     }, [])
@@ -187,8 +194,8 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
             {loading ?
                 <CustomLoader />
                 :
-                <>{userRole === "HR" ?
-                    <Dashboard data={dataOne} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
+                <>{userRole === "HR" || "MANAGER" ?
+                    <Dashboard data={dataOne} attendanceData={attendanceData} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
                     :
                     <Dashboard data={data} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />}</>
             }

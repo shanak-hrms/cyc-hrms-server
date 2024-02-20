@@ -5,6 +5,11 @@ import styles from './Sidebar.module.scss'
 import logo from '../../asserst/images/LOGO CYC.jpg'
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TbPoint } from "react-icons/tb";
+import { AiOutlineHome } from 'react-icons/ai';
+import { AiOutlineTeam } from 'react-icons/ai';
+import { TbCalendarTime } from "react-icons/tb";
+import { MdOutlineManageHistory, MdOutlineEventNote } from "react-icons/md";
+import { PiNote, PiNotePencilFill } from "react-icons/pi";
 
 export interface ISidebar {
     menuData: any;
@@ -15,6 +20,52 @@ export interface ISidebar {
 const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => {
     const [show, setShow] = useState(false);
     const [role, setRole] = useState<string | null>('')
+    const [userRole, setUserRole] = useState("HR");
+
+    const menuData2 = [
+        {
+            "id": 1,
+            "icon": <AiOutlineHome />,
+            "title": "Dashboard",
+            "link": "/"
+        },
+        {
+            "id": 2,
+            "icon": <AiOutlineTeam />,
+            "title": "Staff",
+            "link": "/staff"
+        },
+        {
+            "id": 4,
+            "icon": <TbCalendarTime />,
+            "title": "Attandance",
+            "link": "/attandance",
+        },
+        {
+            "id": 5,
+            "icon": <PiNote />,
+            "title": "Manage Leave",
+            "link": "/manage-leave",
+        },
+        {
+            "id": 6,
+            "icon": <PiNotePencilFill />,
+            "title": "Request",
+            "link": "/request",
+        },
+        {
+            "id": 7,
+            "icon": <MdOutlineManageHistory />,
+            "title": "Lead Management",
+            "link": "/lead-management",
+        },
+        {
+            "id": 8,
+            "icon": <MdOutlineEventNote />,
+            "title": role === "HR" ? "Payroll Management" : "Pay Slip",
+            "link": role === "HR" ? "/pay-slip" : "/manager-pay-slip",
+        }
+    ]
 
     const navigation = useNavigate()
     const location = useLocation()
@@ -43,7 +94,7 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
                 <img src={logo} alt='logo' />
             </Box>
             <Grid>
-                {menuData.map((item: any) => {
+                {menuData2.map((item: any) => {
                     return (
                         <Grid key={item.id} className={styles.sidebarMenu}>
                             <MenuList onClick={handleResponsiveMenu}>

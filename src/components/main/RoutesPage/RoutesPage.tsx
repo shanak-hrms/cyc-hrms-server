@@ -24,6 +24,7 @@ import ManageClaimRequest from '../../../pages/ManageClaimRequest/ManageClaimReq
 import AddStaff from '../../../pages/AddStaff/AddStaff'
 import UpdateStaff from '../../../pages/UpdateStaff/UpdateStaff'
 import UpdateStatusList from '../../../pages/UpdateStatusList/UpdateStatusList'
+import EmpPaySlip from '../../../pages/EmpAttendancePage/EmpPaySlip/EmpPaySlip'
 
 export interface IRoutesPage {
     handleClockIn: any;
@@ -50,6 +51,7 @@ const RoutesPage = ({ handleClockIn, handleClockOut }: IRoutesPage) => {
                 <Route path='/leave-policy' element={<LeavePolicy />} />
                 <Route path='/company-policy' element={<CompanyPolicy />} />
                 <Route path='/pay-slip' element={<EmployeePage />} />
+                <Route path='/manager-pay-slip' element={<EmpPaySlip />} />
                 <Route path='/pay-slip-preview' element={<PaySlip />} />
                 <Route path='/request-approval-list' element={<RequestApproval />} />
 

@@ -26,6 +26,7 @@ const StaffPage = () => {
     const [loading, setLoading] = useState(false);
     const [staffId, setStaffId] = useState()
     const [selectedEmp, setSelectedEmp] = useState()
+    const [rofile, setProfile] = useState<any>()
     const handleClick = async () => { navigation('/add-staff') };
     const handleEdit = () => { navigation('/update-staff') };
 
@@ -153,12 +154,18 @@ const StaffPage = () => {
 
 
     const handleProfile = (idx: any) => {
-        // const profileData = userData.length > 0 && userData?.filter((item: any) => item._id === idx)
-        // setProfile(profileData)
-        // console.log(profileData, "profileData")
-        // console.log(idx, "idx..")
-        // setProfileModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
+        const profileData = userData.length > 0 && userData?.filter((item: any) => item._id === idx)
+
+        if (profileData && profileData.length > 0) {
+            setProfile(profileData)
+            setProfileModal((prevState: any) => ({ ...prevState, [idx]: !prevState[idx] }))
+        } else {
+            console.log("Profile data not found for ID:", idx);
+            // Handle the case where profileData is undefined or empty
+        }
     }
+
+    console.log(rofile, "rofile")
     const fetchData = async () => {
         try {
             setLoading(true);
@@ -238,7 +245,7 @@ const StaffPage = () => {
                 handleClickAssiEmp={handleClickAssiEmp}
                 handleClose={handleClose}
             />
-            {/* <StaffProfileModal open={profilModal} profile={undefined} handleClose={handleClose} /> */}
+            <StaffProfileModal open={profilModal} profile={rofile} handleClose={handleClose} />
             <ToastContainer />
         </Grid>
     )

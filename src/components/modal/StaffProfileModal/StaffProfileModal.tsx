@@ -9,6 +9,10 @@ export interface IStaffProfileModal {
     handleClose: () => void;
 }
 const StaffProfileModal = ({ open, profile, handleClose }: IStaffProfileModal) => {
+    const formateDate = (idx: any) => {
+        const date = new Date(idx);
+        return date.toLocaleDateString();
+    }
     return (
         <Modal
             open={open}
@@ -16,32 +20,42 @@ const StaffProfileModal = ({ open, profile, handleClose }: IStaffProfileModal) =
         >
             <Grid className={styles.staffProfile}>
                 <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant='h5' fontSize={22} fontWeight={500}>Profile Details</Typography>
+                    <Typography variant='h5' fontSize={22} fontWeight={500}>Employee Details</Typography>
                     <MdOutlineClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
                 <Grid container className={styles.staffDetails}>
-                    <Grid item sm={6}>
-                        {/* <Typography>Emp Code:<span>{profile && profile[0]?.name}</span></Typography> */}
-                        {/* <Typography>Name:<span>{profile[0]?.name}</span></Typography>
-                        <Typography>Oficial Email:<span>{profile[0]?.email}</span></Typography>
-                        <Typography>Department:<span>{profile[0]?.department}</span></Typography>
-                        <Typography>Staff Type:<span>{profile[0]?.type}</span></Typography>
-                        <Typography>Bank Name:<span>{profile[0]?.bankName}</span></Typography>
-                        <Typography>Branch:<span>{profile[0]?.branch}</span></Typography>
-                        <Typography>UAN:<span>{profile[0]?.una}</span></Typography>
-                        <Typography>Address:<span>{profile[0]?.address}</span></Typography> */}
+                    <Grid container className={styles.staffDetails}>
+                        <Grid item sm={6}>
+                            {profile && profile.length > 0 && (
+                                <>
+                                    <Typography>Emp Code:<span>{profile[0].empCode}</span></Typography>
+                                    <Typography>Name:<span>{profile[0].name}</span></Typography>
+                                    <Typography>Official Email:<span>{profile[0].officialEmail}</span></Typography>
+                                    <Typography>Department:<span>{profile[0].department}</span></Typography>
+                                    <Typography>Status:<span>{profile[0].empStatus}</span></Typography>
+                                    <Typography>Bank Name:<span>{profile[0].bankName}</span></Typography>
+                                    <Typography>Branch:<span>{profile[0].branch}</span></Typography>
+                                    <Typography>UAN:<span>{profile[0].uanNumber}</span></Typography>
+                                    <Typography>Address:<span>{profile[0].address}</span></Typography>
+                                </>
+                            )}
+                        </Grid>
+                        <Grid item sm={6}>
+                            {profile && profile.length > 0 && (
+                                <>
+                                    <Typography>Date of Joining:<span>{formateDate(profile[0]?.dateOfJoining)}</span></Typography>
+                                    <Typography>Mobile No:<span>{profile[0]?.mobile}</span></Typography>
+                                    <Typography>Personal Email:<span>{profile[0]?.email}</span></Typography>
+                                    <Typography>Designation:<span>{profile[0]?.designation}</span></Typography>
+                                    <Typography>Role:<span>{profile[0]?.role}</span></Typography>
+                                    <Typography>Bank Account Number:<span>{profile[0]?.bankAccount}</span></Typography>
+                                    <Typography>IFSC Code:<span>{profile[0]?.IFSC}</span></Typography>
+                                    <Typography>ESIC Ref No:<span>{profile[0]?.esic}</span></Typography>
+                                </>
+                            )}
+                        </Grid>
                     </Grid>
-                    {/* <Grid item sm={6}>
-                        <Typography>Date of Joining:<span>{profile[0]?.dateOfJoining}</span></Typography>
-                        <Typography>Mobile No:<span>{profile[0]?.name}</span></Typography>
-                        <Typography>Personal Email:<span>{profile[0]?.name}</span></Typography>
-                        <Typography>Designation:<span>{profile[0]?.designation}</span></Typography>
-                        <Typography>Role:<span>{profile[0]?.role}</span></Typography>
-                        <Typography>Bank Account Number:<span>{profile[0]?.name}</span></Typography>
-                        <Typography>IFSC Code:<span>{profile[0]?.name}</span></Typography>
-                        <Typography>ESIC Ref No:<span>{profile[0]?.name}</span></Typography>
-                    </Grid> */}
                 </Grid>
             </Grid>
         </Modal>

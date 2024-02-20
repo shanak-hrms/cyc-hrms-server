@@ -56,7 +56,7 @@ const UpdateStatusList = () => {
                 }
             });
             if (response.status === 200) {
-                toast.success("Status updated sunccessfully")
+                toast.success("Request approved successfully")
                 setOpen(false)
                 getLeadData();
             }
@@ -94,11 +94,12 @@ const UpdateStatusList = () => {
                 <Table >
                     <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                         <TableRow>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Emp Name</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Name</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Type</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Open Date</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Close Date</TableCell>
-                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Status</TableCell>
+                            <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Request Status</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Type</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Source</TableCell>
                             <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Name</TableCell>
@@ -114,12 +115,13 @@ const UpdateStatusList = () => {
                         {leadData && leadData.map((item: any) => {
                             return (
                                 <TableRow>
+                                    <TableCell sx={{ textAlign: "center" }}>{item?.needApprovalFor?.requestby?.name}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leadName}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.leadType}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.closeDate)}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>
-                                        {item?.leadStatus}
+                                        {item?.needApprovalFor?.requestFor}
                                     </TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.business?.type}</TableCell>
                                     <TableCell sx={{ textAlign: "center" }}>{item.business?.source}</TableCell>

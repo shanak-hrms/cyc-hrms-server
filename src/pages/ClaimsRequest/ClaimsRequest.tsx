@@ -148,6 +148,10 @@ const ClaimsRequest = () => {
         const loginedUserSting: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser
+        if (inputData.claimName === "" || inputData.claimAmount === "" || inputData.claimAmount === "") {
+            toast.error("Please fill all the field")
+            return;
+        }
 
         try {
             const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/claim/apply/request`, inputData,
@@ -158,13 +162,16 @@ const ClaimsRequest = () => {
                 })
             console.log(response, "response....");
             if (response.status === 200) {
-                toast.success("Claim request created successfully!")
+                toast.success("Claim request submitted successfully!")
                 setOpen(false)
             }
             await getClaimRequest();
         }
-        catch (err) {
-            console.log(err)
+        catch (err: any) {
+            console.log(err);
+            if (err.response.status === 400) {
+                toast.error("Something wrong!")
+            }
         }
     }
     const formatedMessage = (message: any) => {
@@ -193,22 +200,40 @@ const ClaimsRequest = () => {
         const { date } = requestVal;
         const desiredDate = new Date(date);
         const formattedDate = desiredDate.toISOString();
+        if (requestVal.date === "") {
+            toast.error("Please select a day")
+            return;
+        }
 
-        const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
-            date: formattedDate
-        },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+        try {
+            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
+                date: formattedDate
+            },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
 
-        if (response.status === 201) {
-            await getAttendaceData();
-            setReqModal(false);
+            if (response.status === 201) {
+                toast.success("Attendance request submitted successfully")
+                await getAttendaceData();
+                setReqModal(false);
+            }
+
+        }
+        catch (err: any) {
+            console.log(err, "err...")
+            if (err.response.status === 400) {
+                toast.error("Already request submitted for the same day")
+            }
         }
     };
     const handleClickLeave = async () => {
+        if (leaveVal.startDate === "" || leaveVal.endDate === "" || leaveVal.month === "" || leaveVal.leaveType === "" || leaveVal.leaveReason === "") {
+            toast.error("Please fill all the field")
+            return;
+        }
         try {
             const userTokenString: any = localStorage.getItem("loginedUser")
             const userToken = JSON.parse(userTokenString)
@@ -216,16 +241,7 @@ const ClaimsRequest = () => {
             const selectedDates: never[] = []
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/empLeave/apply/request',
-                {
-                    name: "name",
-                    email: "email",
-                    startDate: leaveVal.startDate,
-                    endDate: leaveVal.endDate,
-                    month: leaveVal.month,
-                    dates: selectedDates,
-                    leaveType: leaveVal.leaveType,
-                    leaveReason: leaveVal.leaveReason
-                },
+                leaveVal,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -258,10 +274,15 @@ const ClaimsRequest = () => {
                     },
                 }
             )
-            console.log(response, "response..")
+            if (response.status === 201) {
+                toast.success("Comp off request submitted successfully")
+                setCompModal(false);
+                getCompData();
+            }
         }
-        catch (err) {
+        catch (err: any) {
             console.log(err)
+            toast.error(err.response.data.error)
         }
 
     }

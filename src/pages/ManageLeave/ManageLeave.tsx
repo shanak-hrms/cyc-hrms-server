@@ -140,8 +140,9 @@ const ManageLeave = () => {
         toast.success("Leave approved successfully")
       }
 
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+      toast.error(err.response.data.error)
     }
 
   }

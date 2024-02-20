@@ -89,7 +89,7 @@ const UpdateStatusList = () => {
     }, [])
     return (
         <Grid className={styles.updateStatusListCOntainer}>
-            <HeadingText heading={'Update Status List'} />
+            <HeadingText heading={'Status Request'} />
             <TableContainer className={styles.tableContainer}>
                 <Table >
                     <TableHead sx={{ backgroundColor: "#02ABB5" }}>

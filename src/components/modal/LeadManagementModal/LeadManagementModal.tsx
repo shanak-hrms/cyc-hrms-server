@@ -40,14 +40,14 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                         label={'Lead Name'}
                         name={'leadName'}
                         placeholder={'Enter lead name'}
-                        value={inputData.leadName}
+                        value={inputData?.leadName}
                         handleChange={handleChange}
                         type={undefined}
                     />
                     <Box>
                         <SelectField
                             title={'Lead Type'}
-                            data={data.leadType}
+                            data={data?.leadType}
                             option={inputData.leadType}
                             name={'leadType'}
                             handleChange={handleChange}
@@ -55,7 +55,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
 
                         <SelectField
                             title={'Lead Status'}
-                            data={data.leadStatus}
+                            data={data?.leadStatus}
                             option={inputData.leadStatus}
                             name={'leadStatus'}
                             handleChange={handleChange}
@@ -94,26 +94,26 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                         <SelectField
                             title={'Business Type'}
                             data={data.businessleadType}
-                            option={inputData.business.type}
+                            option={inputData?.business?.type}
                             name={'business.type'}
                             handleChange={handleChange}
                         />
                         <SelectField
                             title={'Business Source'}
                             data={data.leadFrom}
-                            option={inputData.business.source}
+                            option={inputData?.business?.source}
                             name={'business.source'}
                             handleChange={handleChange}
                         />
                     </Box>
-                    {inputData.business.source === "Direct" ? "" :
+                    {inputData?.business?.source === "Direct" ? "" :
                         <>
                             <Box>
                                 <InputField
                                     label={'Vender Name'}
                                     name={'business.vendorName'}
                                     placeholder={'Enter vender name'}
-                                    value={inputData.business.vendorName}
+                                    value={inputData?.business?.vendorName}
                                     handleChange={handleChange}
                                     type={"text"}
                                 />
@@ -121,7 +121,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                                     label={'Vender Address'}
                                     name={'business.vendorAddress'}
                                     placeholder={'Enter vender address'}
-                                    value={inputData.business.vendorAddress}
+                                    value={inputData?.business?.vendorAddress}
                                     handleChange={handleChange}
                                     type={"text"}
                                 />
@@ -131,7 +131,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                                     label={'Business Value'}
                                     name={'business.businessValueBooked'}
                                     placeholder={'Enter business value'}
-                                    value={inputData.business.businessValueBooked}
+                                    value={inputData?.business?.businessValueBooked}
                                     handleChange={handleChange}
                                     type={"number"}
                                 />
@@ -139,7 +139,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                                     label={'Business Cost'}
                                     name={'business.businessCost'}
                                     placeholder={'Enter business cost'}
-                                    value={inputData.business.businessCost}
+                                    value={inputData?.business?.businessCost}
                                     handleChange={handleChange}
                                     type={"number"}
                                 />
@@ -148,7 +148,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                                 label={'Profit Amount'}
                                 name={'business.profitAmount'}
                                 placeholder={'Enter profit amount'}
-                                value={inputData.business.profitAmount}
+                                value={inputData?.business?.profitAmount}
                                 handleChange={handleChange}
                                 type={"number"}
                             />

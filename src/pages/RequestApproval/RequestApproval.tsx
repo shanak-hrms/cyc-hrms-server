@@ -88,13 +88,13 @@ export const RequestApproval = () => {
             </Grid>
             <TableContainer>
                 <Table>
-                    <TableHead sx={{ backgroundColor: "#000000" }}>
+                    <TableHead sx={{ backgroundColor: "#00ACAD" }}>
                         <TableRow>
-                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>EMAIL</TableCell>
-                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>DATE</TableCell>
-                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>STATUS</TableCell>
-                            <TableCell sx={{ color: "#00ABB2", textAlign: "center" }}>ACTION</TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>Name</TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>EMAIL</TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>DATE</TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>STATUS</TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>ACTION</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

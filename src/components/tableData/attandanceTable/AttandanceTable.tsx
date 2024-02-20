@@ -60,7 +60,7 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                                     <TableCell style={{ textAlign: "center" }}>{formatDate(item.date)}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>{formatTime(item.clockIn)}</TableCell>
                                     <TableCell style={{ textAlign: "center" }}>
-                                        {item.clockOut === undefined ? "00:00:00" : <>{formatTime(item.clockOut)}</>}
+                                        {item.clockOut === null ? "Pending" : <>{formatTime(item.clockOut)}</>}
                                     </TableCell>
                                 </TableRow>
                             );

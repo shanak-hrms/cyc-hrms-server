@@ -4,6 +4,7 @@ import { Grid, Box, Table, TableBody, TableCell, TableContainer, TableHead, Tabl
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
 import HeadingText from '../../../components/HeadingText/HeadingText';
 import ReqAttenModal from '../../../components/modal/ReqAttenModal/ReqAttenModal';
+import { devNull } from 'os';
 
 export interface IAttendance {
     open: boolean
@@ -71,7 +72,7 @@ const Attendance = ({ open, loading, attendanceData, handleCheckIn, handleClockO
                                             </TableCell>
 
                                             <TableCell sx={{ textAlign: "center" }}>
-                                                {item.clockOut === undefined ?
+                                                {item.clockOut === null ?
                                                     <CommonButton name={"Clock Out"} onClick={() => handleClockOut(item._id)} />
                                                     :
                                                     <>{formatTime(item.clockOut)}</>

@@ -40,9 +40,9 @@ const RoutesPage = ({ handleClockIn, handleClockOut }: IRoutesPage) => {
                 <Route path='/employee-profile' element={<EmployeeProfile />} />
                 <Route path='/employee' element={<EmployeePage />} />
                 <Route path='/manage-leave' element={<ManageLeave />} />
-                <Route path='/claims-request' element={<ManageClaimRequest />} />
+                <Route path='/request' element={<ManageClaimRequest />} />
                 <Route path='/lead-management' element={<LeadManagement />} />
-                <Route path='/update-lead-status-list' element={<UpdateStatusList />} />
+                <Route path='/status-request' element={<UpdateStatusList />} />
                 <Route path='/attandance' element={<Attandance />} />
                 <Route path='/ticket' element={<Ticket />} />
                 <Route path='/invoice' element={<Invoice />} />

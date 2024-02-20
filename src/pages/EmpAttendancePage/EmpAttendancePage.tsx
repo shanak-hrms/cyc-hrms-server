@@ -270,12 +270,16 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 }
             )
             if (response.status === 201) {
+                toast.success("Clock in successfully")
                 await fetchData();
                 await setPhotoModal(false);
             }
 
-        } catch (error) {
-            console.error('Error occurred:', error);
+        } catch (error: any) {
+            console.error('Error occurred:', error.response.status);
+            if (error.response.status === 400) {
+                toast.error("Clocked in allready today")
+            }
         }
 
     };
@@ -329,7 +333,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                             handleAttendance={handlePreviousCheckIn}
                             attendanceData={attendanceData}
                             loading={loading}
-                            handleCheckIn={undefined}
+                            handleCheckIn={handleClockIn}
                             handleClockOut={handleClockOut}
                             handleReqAppModal={handleRequestModal}
                             handleReqAttModal={handleReqAttModal}

@@ -59,25 +59,29 @@ const App = () => {
         const newRole = response.data.role;
         const newEmail = response.data.email;
 
-        const newData = userData.filter((item: any) => item.email === response.data.email)
-        console.log(newData, "newData")
-        const newName = newData[0].name;
-        const newEmpId = newData[0].emp_id;
-        const agreement = newData[0].agreedToAgreement;
-        setAgreeAgreement(agreement)
+        if (response.status === 200) {
+          toast.success("Logined successfully")
+          const newData = userData.filter((item: any) => item.email === response.data.email)
+          console.log(newData, "newData")
+          const newName = newData[0].name;
+          const newEmpId = newData[0].emp_id;
+          const agreement = newData[0].agreedToAgreement;
+          setAgreeAgreement(agreement)
 
-        setIsLogin(newToken);
-        setUser(newRole);
-        localStorage.setItem('loginedUser', JSON.stringify(loginedUser));
-        localStorage.setItem('userToken', newToken);
-        localStorage.setItem('userToken', newToken);
-        localStorage.setItem('userRole', newRole);
-        localStorage.setItem('email', newEmail);
-        localStorage.setItem('userName', newName);
-        localStorage.setItem('empId', newEmpId);
+          setIsLogin(newToken);
+          setUser(newRole);
+          localStorage.setItem('loginedUser', JSON.stringify(loginedUser));
+          localStorage.setItem('userToken', newToken);
+          localStorage.setItem('userToken', newToken);
+          localStorage.setItem('userRole', newRole);
+          localStorage.setItem('email', newEmail);
+          localStorage.setItem('userName', newName);
+          localStorage.setItem('empId', newEmpId);
+        }
       }
-      catch (error) {
-        console.error("An error occurred:", error);
+      catch (error: any) {
+        console.error("An error occurred:", error.response.data.msg);
+        toast.error(error.response.data.msg)
       }
     }
 

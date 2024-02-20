@@ -134,6 +134,9 @@ const Leave = () => {
             }
         } catch (error) {
             console.error('Error:', error);
+            // if(error.response.status===400){
+            //     toast.error()
+            // }
         }
     };
 

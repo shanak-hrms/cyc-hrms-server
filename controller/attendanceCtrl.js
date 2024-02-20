@@ -54,7 +54,20 @@ exports.markAttendance = async (req, res) => {
             }
         }
         // Check if attendance for the given day already exists
-        const existingAttendance = await MonthlyAttendance.findOne({ employeeId, month, date, });
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the day
+
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999); // Set to the end of the day
+
+        const existingAttendance = await MonthlyAttendance.findOne({
+            employeeId,
+            month,
+            date: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        });
 
         if (existingAttendance?.clockIn) {
             return res.status(400).json({
@@ -356,12 +369,12 @@ exports.autoClockout = async (req, res) => {
         const unClockOutTodayAttendanceList = await MonthlyAttendance.find({
             clockOut: null,
         });
-        console.log("unClockOutTodayAttendanceList", unClockOutTodayAttendanceList,now.startOf('day').toDate(),nowUtc.startOf('day').toDate())
+        console.log("unClockOutTodayAttendanceList", unClockOutTodayAttendanceList, now.startOf('day').toDate(), nowUtc.startOf('day').toDate())
         for (const attendance of unClockOutTodayAttendanceList) {
             if (!attendance.clockOut) {
                 attendance.clockOut = nowUtc.startOf('day').toDate();
                 attendance.attendanceStatus = "Auto-Midnight"
-                await attendance.save();  
+                await attendance.save();
             }
         }
 
@@ -378,12 +391,12 @@ exports.autoClockoutMidNight = async () => {
         const unClockOutTodayAttendanceList = await MonthlyAttendance.find({
             clockOut: null,
         });
-        console.log("unClockOutTodayAttendanceList", unClockOutTodayAttendanceList,now.startOf('day').toDate(),nowUtc.startOf('day').toDate())
+        console.log("unClockOutTodayAttendanceList", unClockOutTodayAttendanceList, now.startOf('day').toDate(), nowUtc.startOf('day').toDate())
         for (const attendance of unClockOutTodayAttendanceList) {
             if (!attendance.clockOut) {
                 attendance.clockOut = nowUtc.startOf('day').toDate();
                 attendance.attendanceStatus = "Auto-Midnight"
-                await attendance.save();  
+                await attendance.save();
             }
         }
 

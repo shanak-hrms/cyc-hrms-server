@@ -26,7 +26,7 @@ cron.schedule('0 0 * * *', () => {
     autoClockoutMidNight()
   });
 
-  cron.schedule('59 23 28-31 * *', () => {
+cron.schedule('59 23 28-31 * *', () => {
     calculateAndCreditLeaveEveryMonth();
 });
 

@@ -22,50 +22,50 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
     const [role, setRole] = useState<string | null>('')
     const [userRole, setUserRole] = useState("HR");
 
-    const menuData2 = [
-        {
-            "id": 1,
-            "icon": <AiOutlineHome />,
-            "title": "Dashboard",
-            "link": "/"
-        },
-        {
-            "id": 2,
-            "icon": <AiOutlineTeam />,
-            "title": "Staff",
-            "link": "/staff"
-        },
-        {
-            "id": 4,
-            "icon": <TbCalendarTime />,
-            "title": "Attandance",
-            "link": "/attandance",
-        },
-        {
-            "id": 5,
-            "icon": <PiNote />,
-            "title": "Manage Leave",
-            "link": "/manage-leave",
-        },
-        {
-            "id": 6,
-            "icon": <PiNotePencilFill />,
-            "title": "Request",
-            "link": "/request",
-        },
-        {
-            "id": 7,
-            "icon": <MdOutlineManageHistory />,
-            "title": "Lead Management",
-            "link": "/lead-management",
-        },
-        {
-            "id": 8,
-            "icon": <MdOutlineEventNote />,
-            "title": role === "HR" ? "Payroll Management" : "Pay Slip",
-            "link": role === "HR" ? "/pay-slip" : "/manager-pay-slip",
-        }
-    ]
+    // const menuData2 = [
+    //     {
+    //         "id": 1,
+    //         "icon": <AiOutlineHome />,
+    //         "title": "Dashboard",
+    //         "link": "/"
+    //     },
+    //     {
+    //         "id": 2,
+    //         "icon": <AiOutlineTeam />,
+    //         "title": "Staff",
+    //         "link": "/staff"
+    //     },
+    //     {
+    //         "id": 4,
+    //         "icon": <TbCalendarTime />,
+    //         "title": "Attandance",
+    //         "link": "/attandance",
+    //     },
+    //     {
+    //         "id": 5,
+    //         "icon": <PiNote />,
+    //         "title": "Manage Leave",
+    //         "link": "/manage-leave",
+    //     },
+    //     {
+    //         "id": 6,
+    //         "icon": <PiNotePencilFill />,
+    //         "title": "Request",
+    //         "link": "/request",
+    //     },
+    //     {
+    //         "id": 7,
+    //         "icon": <MdOutlineManageHistory />,
+    //         "title": "Lead Management",
+    //         "link": "/lead-management",
+    //     },
+    //     {
+    //         "id": 8,
+    //         "icon": <MdOutlineEventNote />,
+    //         "title": role === "HR" ? "Payroll Management" : "Pay Slip",
+    //         "link": role === "HR" ? "/pay-slip" : "/manager-pay-slip",
+    //     }
+    // ]
 
     const navigation = useNavigate()
     const location = useLocation()
@@ -94,7 +94,7 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
                 <img src={logo} alt='logo' />
             </Box>
             <Grid>
-                {menuData2.map((item: any) => {
+                {menuData.map((item: any) => {
                     return (
                         <Grid key={item.id} className={styles.sidebarMenu}>
                             <MenuList onClick={handleResponsiveMenu}>

@@ -161,26 +161,49 @@ const ManageClaimRequest = () => {
             console.log(err);
         }
     };
-    const handleApproveClaim = async () => {
-        const loginedUserString: any = localStorage.getItem("loginedUser");
-        const loginedUser = JSON.parse(loginedUserString);
-        const { token } = loginedUser;
+    // const handleApproveClaim = async () => {
+    //     const loginedUserString: any = localStorage.getItem("loginedUser");
+    //     const loginedUser = JSON.parse(loginedUserString);
+    //     const { token } = loginedUser;
 
+    //     try {
+    //         const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/claim/approve/request/${claimId}`, {}, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         if (response.status === 200) {
+    //             toast.success("Claim approved successfully")
+    //             setClaimModal(false)
+    //             await getClaimData();
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+    const handleApproveClaim = async () => {
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/claim/approve/request/${claimId}`, {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const loginedUserString: any = localStorage.getItem("loginedUser");
+            const loginedUser = JSON.parse(loginedUserString);
+            const { token } = loginedUser;
+
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/claim/approve/request/65d465951be5b285a643971f`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            console.log(response, "response..")
             if (response.status === 200) {
-                toast.success("Claim approved successfully")
-                setClaimModal(false)
+                toast.success("Claim approved successfully");
+                setClaimModal(false);
                 await getClaimData();
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
+            toast.error(err.response.data.message)
         }
-    }
+    };
     const handleRejectClaim = async () => {
         const loginedUserString: any = localStorage.getItem("loginedUser");
         const loginedUser = JSON.parse(loginedUserString);
@@ -217,8 +240,9 @@ const ManageClaimRequest = () => {
                 setLeaveModal(false)
                 await getLeaveData();
             }
-        } catch (err) {
+        } catch (err: any) {
             console.log(err);
+            toast.error(err.response.data.error)
         }
     }
     const handleRejectLeave = async () => {
@@ -258,8 +282,9 @@ const ManageClaimRequest = () => {
                 setAttenModal(false)
                 await getAttenData();
             }
-        } catch (err) {
+        } catch (err: any) {
             console.log(err);
+            toast.error(err.response.data.message)
         }
     }
 

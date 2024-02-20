@@ -113,11 +113,18 @@ const LeadManagement = () => {
             console.log(response, "response..")
             await getLeadData();
             if (response.status === 201) {
-                toast.success("lead Created successfully!")
+                toast.success("lead submitted successfully!")
                 setOpen(false)
             }
-        } catch (err) {
-            console.log(err)
+        } catch (err: any) {
+            console.log(err);
+            toast.error("err.response.status")
+            // if (err.response.status === 500) {
+            //     toast.error("Please select a lead status")
+            // }
+            // if (err.response.status === 403) {
+            //     toast.error("already submitted request to update status")
+            // }
         }
     };
     const handleEditModal = async (id: any) => {

@@ -6,6 +6,9 @@ import SearchBox from '../../components/common/searchBox/SearchBox'
 import axios from 'axios'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import ApproveReqModal from '../../components/modal/ApproveReqModal/ApproveReqModal'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AnyAction } from '@reduxjs/toolkit'
 
 export const RequestApproval = () => {
     const [open, setOpen] = useState(false)
@@ -68,11 +71,15 @@ export const RequestApproval = () => {
                 }
             );
             if (response.status === 200) {
+                toast.success("Attendance request approved")
                 await getData();
                 setOpen(false)
             }
-        } catch (err) {
-            console.log(err);
+        } catch (err: any) {
+            console.log(err.response.status);
+            if (err.response.status === 403) {
+                toast.error("Only Directors can approve requests for more than 5 days")
+            }
         }
     };
 
@@ -127,7 +134,9 @@ export const RequestApproval = () => {
             <ApproveReqModal
                 open={open}
                 handleClose={handleClose}
-                handleApprove={handleApprove} />
+                handleApprove={handleApprove}
+            />
+            <ToastContainer />
         </Grid>
     )
 }

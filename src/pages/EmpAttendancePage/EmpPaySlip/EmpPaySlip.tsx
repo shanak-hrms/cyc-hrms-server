@@ -8,15 +8,17 @@ import CreatePayrollModal from '../../../components/modal/CreatePayrollModal/Cre
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom'
 
 
 const EmpPaySlip = () => {
+    const navigation = useNavigate()
     const [open, setOpen] = useState(false);
     const [downloadModal, setDownloadModal] = useState(false)
     const handleClose = () => { setOpen(false); setDownloadModal(false) }
     const [payrollVal, setPayrollVal] = useState({ employeeId: "", month: "", year: "" });
     const [userId, setUserId] = useState("");
-    const [payrollData, setPayrollData] = useState()
+    const [payrollData, setPayrollData] = useState<any>()
 
     const handleRequest = () => {
         setOpen(!open)
@@ -26,26 +28,6 @@ const EmpPaySlip = () => {
         setDownloadModal(!open)
         setPayrollVal({ ...payrollVal, employeeId: userId })
     }
-    const getPayrollData = async () => {
-        const loginedUserSting: any = localStorage.getItem("loginedUser")
-        const loginedUser = JSON.parse(loginedUserSting);
-        const { token } = loginedUser;
-        try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/get/pending/payroll-download-request`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-            const data = response.data.pendingRequests;
-            setPayrollData(data);
-            console.log(response, "payroll data..")
-        }
-        catch (err) {
-            console.log(err)
-        }
-    }
-    console.log(payrollData, "payrollData")
     const handleChangePayroll = (e: any) => {
         const { name, value } = e.target;
         setPayrollVal({ ...payrollVal, [name]: value });
@@ -84,9 +66,13 @@ const EmpPaySlip = () => {
                         Authorization: `Bearer ${token}`
                     }
                 })
+            console.log(response.data.payroll, "response..")
             if (response.status === 200) {
+                const data = response.data.payroll;
+                await setPayrollData(data)
                 toast.success(response.data.message)
                 setDownloadModal(false)
+                navigation('/pay-slip-preview')
             }
         }
 
@@ -103,7 +89,7 @@ const EmpPaySlip = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { userId } = loginedUser;
         setUserId(userId);
-        getPayrollData();
+
 
     }, [])
     return (
@@ -127,7 +113,6 @@ const EmpPaySlip = () => {
                             <TableCell sx={{ textAlign: "center" }}>Month</TableCell>
                             <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
                             <TableCell sx={{ textAlign: "center" }}>
-                                {/* <CommonButton name={"Download"} onClick={handleDownload} /> */}
                                 <FaCloudDownloadAlt fontSize={25} cursor={"pointer"} onClick={handleDownload} />
                             </TableCell>
                         </TableRow>
@@ -146,7 +131,7 @@ const EmpPaySlip = () => {
             <CreatePayrollModal
                 open={downloadModal}
                 heading={'Download payroll'}
-                name='Submit'
+                name='Next'
                 payrollVal={payrollVal}
                 handleCreate={handleDownloadPayroll}
                 handleClose={handleClose}

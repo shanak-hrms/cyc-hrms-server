@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from './PaySlip.module.scss'
 import { Box, Divider, Grid, Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Typography, ListItemButton, ListItemText, ListItem } from '@mui/material'
-import logo from '../../asserst/images/LOGO_CYC2.png'
+import logo from '../../asserst/images/LOGO CYC.jpg'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import { useNavigate } from 'react-router-dom'
 import html2canvas from 'html2canvas';
@@ -51,9 +51,12 @@ const PaySlip = () => {
             <Grid id="userData" className={styles.payslip}>
                 <Grid className={styles.payslipField}>
                     <Box>
-                        <Typography variant='h2' fontSize={25} fontWeight={600}>C Y C</Typography>
                         <img src={logo} alt='logo' />
                     </Box>
+                    {/* <Box>
+                        <Typography textAlign={"center"} variant='h2' fontSize={55} fontWeight={600}>C Y C</Typography>
+                        <Typography textAlign={"center"} fontSize={25} fontWeight={600}> Anytime Anywhere</Typography>
+                    </Box> */}
                     <Grid className={styles.addressSection}>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Address:32/1 SAHAPUR , NEW ALIPORE, KOLKATA 700053</Typography>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Mail:hr@cycgroup.in</Typography>
@@ -113,6 +116,10 @@ const PaySlip = () => {
                                     </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalGrossPay}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.netPay}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -129,7 +136,9 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
-                                    
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Total Deduction</Typography>
                                 </Grid>
                                 <Grid item sm={6}>
@@ -138,6 +147,13 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeduction}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.ptax}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalDeductions}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                 </Grid>
                             </Grid>
                         </Grid>

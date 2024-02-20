@@ -11,6 +11,8 @@ import { RiFileEditFill } from "react-icons/ri";
 import { MdChangeCircle } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa6";
 import { HiOutlinePlusCircle } from "react-icons/hi";
+import { MdLaptopChromebook } from "react-icons/md";
+
 
 
 
@@ -31,9 +33,10 @@ export interface IUserCard {
     handleDelete?: any;
     handleProfile?: any;
     handleAssignModal?: any
+    handleAsserstModal?: any;
     handleChangeRoleModal?: any;
 }
-const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete, handleProfile, handleAssignModal, handleChangeRoleModal }: IUserCard) => {
+const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handleEdit, handleAddSalary, handleDelete, handleProfile, handleAssignModal, handleAsserstModal, handleChangeRoleModal }: IUserCard) => {
 
     return (
         <Grid className={styles.userCardContainer}>
@@ -59,6 +62,10 @@ const UserCard = ({ label, name, email, IsButton, handleClick, actionOpen, handl
                         </ListItemButton> :
                         ""
                     }
+                    <ListItemButton onClick={handleAsserstModal} >
+                        <MdLaptopChromebook fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />
+                        <ListItemText sx={{ textAlign: "left", }} > Assign assets</ListItemText>
+                    </ListItemButton>
 
                     <ListItemButton onClick={handleChangeRoleModal} >
                         <MdChangeCircle fontSize={18} style={{ marginInlineEnd: 2, color: "#0000FF" }} />

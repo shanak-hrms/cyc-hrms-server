@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
         if (!nextEmpId) {
             throw new Error("Something went wrong while getting next Emp ID");
         }
-        const empId = 'EMP' + String(nextEmpId).padStart(4, '0');
+        const empId = 'CYCEMP' + String(nextEmpId).padStart(4, '0');
         let isUserExist = await User.findOne({ email });
         if (isUserExist) {
             throw new Error("User already registered. Please sign In");

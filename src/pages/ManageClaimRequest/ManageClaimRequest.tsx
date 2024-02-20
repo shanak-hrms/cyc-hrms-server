@@ -14,16 +14,19 @@ const ManageClaimRequest = () => {
     const [claimModal, setClaimModal] = useState(false);
     const [leaveModal, setLeaveModal] = useState(false);
     const [attenModal, setAttenModal] = useState(false);
+    const [payrollModal, setPayrollModal] = useState(false);
     const handleClose = () => { setActionModal(false); setClaimModal(false); setLeaveModal(false); setAttenModal(false) };
     const [attenRequestData, setAttenRequestData] = useState<any>();
     const [claimRequestData, setClaimRequestData] = useState<any>();
     const [pendingData, setPendingData] = useState<any>();
     const [compOffData, setCompOffData] = useState<any>();
+    const [payrollData, setPayrollData] = useState<any>();
     const [claimMessage, setClaimMessage] = useState();
     const [actionId, setActionId] = useState()
     const [claimId, setClaimId] = useState();
     const [leaveId, setLeaveId] = useState();
     const [attenId, setAttenId] = useState()
+    const [payrollId, setPayrollId] = useState()
 
 
 
@@ -42,6 +45,10 @@ const ManageClaimRequest = () => {
     const handleActionAtten = (idx: any) => {
         setAttenModal((presState: any) => ({ ...presState, [idx]: !presState[idx] }))
         setAttenId(idx)
+    };
+    const handleActionPayroll = (idx: any) => {
+        setPayrollModal((presState: any) => ({ ...presState, [idx]: !presState[idx] }))
+        setPayrollId(idx)
     };
 
     const formateTime = (idx: any) => {
@@ -122,6 +129,25 @@ const ManageClaimRequest = () => {
             const data = response.data.compOffCount;
             setCompOffData(data);
             console.log(response, "getCompData..")
+        }
+        catch (err) {
+            console.log(err)
+        }
+    };
+    const getPayrollData = async () => {
+        const loginedUserSting: any = localStorage.getItem("loginedUser")
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { token } = loginedUser;
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/get/pending/payroll-download-request`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            const data = response.data.pendingRequests;
+            setPayrollData(data);
+            console.log(response, "payroll data..")
         }
         catch (err) {
             console.log(err)
@@ -286,6 +312,27 @@ const ManageClaimRequest = () => {
             console.log(err);
             toast.error(err.response.data.message)
         }
+    };
+    const handleApprovePayroll = async () => {
+        const loginedUserString: any = localStorage.getItem("loginedUser");
+        const loginedUser = JSON.parse(loginedUserString);
+        const { token } = loginedUser;
+
+        try {
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/approve/to-download-payroll-by-user/${payrollId}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.status === 200) {
+                toast.success("Payroll download request approved successfully.")
+                setAttenModal(false)
+                await getPayrollData();
+            }
+        } catch (err: any) {
+            console.log(err);
+            toast.error(err.response.data.message)
+        }
     }
 
     useEffect(() => {
@@ -293,6 +340,7 @@ const ManageClaimRequest = () => {
         getLeaveData();
         getClaimData();
         getCompData();
+        getPayrollData();
 
     }, [])
     return (
@@ -466,7 +514,47 @@ const ManageClaimRequest = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <ToastContainer />
+                <TableContainer className={styles.tableContainer}>
+                    <Grid className={styles.claimHeader}>
+                        <HeadingText
+                            heading={'Payroll Request'}
+                            IsAction={false}
+                        />
+                        {/* <Box>
+                            <CommonButton name={"Attendance Request"} onClick={handleClickModal} />
+                            <CommonButton name={"Leave Request"} onClick={handleClickModal} />
+                            <CommonButton name={"Claim Request"} onClick={handleClickModal} />
+                        </Box> */}
+                    </Grid>
+                    <Table>
+                        <TableHead sx={{ backgroundColor: "#02ABB5" }}>
+                            <TableRow>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>NAME</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>EMAIL</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>DATE</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>STATUS</TableCell>
+                                <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>ACTION</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {payrollData && payrollData.length > 0 && payrollData.map((item: any) => {
+                                return (
+                                    <TableRow>
+                                        <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.name}</TableCell>
+                                        <TableCell sx={{ textAlign: "center" }}>{item.employeeId?.email}</TableCell>
+                                        <TableCell sx={{ textAlign: "center" }}>{item.month}</TableCell>
+                                        <TableCell sx={{ textAlign: "center" }}>{item.approvalRequest}</TableCell>
+                                        <TableCell sx={{ textAlign: "center" }}>
+                                            <CommonButton name="Action" onClick={(() => handleActionPayroll(item._id))} />
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })}
+
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
             </Grid>
             <ConformActionModal
                 open={attenModal}
@@ -492,6 +580,13 @@ const ManageClaimRequest = () => {
                 handleReject={handleClose}
                 handleApprove={handleApprove}
             />
+            <ConformActionModal
+                open={payrollModal}
+                handleClose={handleClose}
+                handleReject={handleClose}
+                handleApprove={handleApprovePayroll}
+            />
+            <ToastContainer />
         </Fragment>
     )
 }

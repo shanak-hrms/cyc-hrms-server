@@ -199,7 +199,7 @@ const ManageClaimRequest = () => {
                 setClaimModal(false);
                 await getClaimData();
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
             toast.error(err.response.data.message)
         }

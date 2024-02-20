@@ -4,7 +4,7 @@ const Lead = require('../model/lead');
 
 exports.getLeadBusinessList=async (req, res) => {
     try {
-        const result = await Lead.find();
+        const result = await Lead.find().populate("needApprovalFor.requestby",{name:1,email:1});
         res.status(200).json({
             leadData: result,
         });

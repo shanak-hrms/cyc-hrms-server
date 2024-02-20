@@ -133,7 +133,7 @@ exports.getCompOffList = async (req, res) => {
 
         const compOffCount = await CompOffDay.find({
             dateOfRequest: { $gte: startDate, $lte: endDate },
-        });
+        }).populate("employeeId",{name:1,email:1});   
 
         res.json({ compOffCount });
     } catch (error) {

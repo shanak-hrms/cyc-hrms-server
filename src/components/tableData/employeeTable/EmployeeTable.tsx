@@ -55,7 +55,7 @@ const EmployeeTable = ({
           <CommonButton name="Download" onClick={handleDownload} />
         </Box>
       </TableHead>
-      <TableContainer>
+      <TableContainer className={styles.tableContainer}>
         <Table>
           <TableHead style={{ backgroundColor: "#00ACB2" }}>
             <TableRow>

@@ -61,3 +61,22 @@
         }
     }
 }
+
+@media screen and (max-width:480px) {
+    .commonTableContainer {
+        margin-block-start: 6rem;
+
+        .tableHead {
+            display: flex;
+            flex-direction: column;
+            margin-block-end: 0.5rem;
+        }
+
+        .tableContainer {
+            table {
+                width: 300%;
+            }
+        }
+    }
+
+}

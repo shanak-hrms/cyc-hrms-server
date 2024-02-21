@@ -53,3 +53,39 @@
     }
 
 }
+
+@media screen and (max-width:480px) {
+    .attandanceTableContainer {
+        .tableHead {
+            display: flex;
+            flex-direction: column;
+
+            >div {
+                width: 90%;
+                margin-inline: auto;
+
+                >div:nth-child(1) {
+                    display: none;
+                }
+
+                >div:nth-child(2) {
+                    margin-block: 1rem;
+                    width: 100%;
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .tableContainer {
+
+            table {
+                width: 250%;
+            }
+        }
+
+    }
+
+}

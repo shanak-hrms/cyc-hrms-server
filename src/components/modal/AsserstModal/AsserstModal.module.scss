@@ -11,7 +11,8 @@
         .asserst {
             display: flex;
             justify-content: space-between;
-            >div{
+
+            >div {
                 width: 49%;
             }
         }
@@ -22,8 +23,15 @@
             margin-block-start: 1rem;
 
             >div:nth-child(1) {
-                margin-block-end: 0.5rem;
+                margin-inline-end: 0.5rem;
             }
         }
     }
+}
+
+@media screen and (max-width:480px) {
+    .asserstModalContainer {
+        width: 100%;
+    }
+
 }

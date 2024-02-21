@@ -3,10 +3,18 @@
     margin-block-start: 3rem;
     margin-block-end: 2rem;
     width: 96%;
-    margin-inline: auto ;
+    margin-inline: auto;
     border-radius: 0.5rem;
     padding-block-start: 2.5%;
-    >div:nth-child(1){
+
+    >div:nth-child(1) {
         display: none;
     }
+}
+
+@media screen and (max-width:480px) {
+    .attandanceContainer {
+        margin-block-start: 6rem;
+    }
+
 }

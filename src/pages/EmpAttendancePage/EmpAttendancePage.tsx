@@ -21,6 +21,7 @@ import NewHeading from '../../components/NewHeading/NewHeading'
 import Dashboard from '../../components/dashboard/Dashboard'
 import DashboardPage from './Dashboard/Dashboard'
 import EmpPaySlip from './EmpPaySlip/EmpPaySlip'
+import PaySlip from '../PaySlip/PaySlip'
 
 export interface IEmpAttendancePage {
     open: any;
@@ -346,6 +347,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                     <Route path='/company-policy' element={<CompanyPolicy />} />
                     <Route path='/take-picture' element={<TakePicture />} />
                     <Route path='/pay-slip' element={<EmpPaySlip />} />
+                    <Route path='/pay-slip-preview' element={<PaySlip />} />
                     <Route path='/lead-management' element={<LeadManagement />} />
                 </Routes>
             </Grid>

@@ -95,8 +95,8 @@ const EmpPaySlip = () => {
     }, [])
     return (
         <Grid className={styles.empPaySlipContainer}>
-            <HeadingText heading={'Pay Slip List'} IsAction={true} name='Pay Slip Request' handleClick={handleRequest} />
-            <TableContainer className={styles.tableContainer}>
+            <HeadingText heading={'Pay Slip'} IsAction={false} name='Pay Slip Request' handleClick={handleRequest} />
+            {/* <TableContainer className={styles.tableContainer}>
                 <Table>
                     <TableHead sx={{ backgroundColor: "#01ACAC" }}>
                         <TableRow>
@@ -119,7 +119,15 @@ const EmpPaySlip = () => {
                         </TableRow>
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer> */}
+            <Grid className={styles.empPaySlip}>
+                <Grid>
+                    <CommonButton name="Pay Slip Request" onClick={handleRequest} />
+                </Grid>
+                <Grid>
+                    <CommonButton name="Pay Slip Download" onClick={handleDownload} />
+                </Grid>
+            </Grid>
             <CreatePayrollModal
                 open={open}
                 heading={'Request for payroll'}

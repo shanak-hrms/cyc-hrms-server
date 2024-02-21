@@ -1,15 +1,25 @@
 .empPaySlipContainer {
     border: 1px solid #d9def1;
     width: 96%;
+    height: fit-content;
     margin: auto;
-    margin-block-start: 4rem;
+    margin-block-start: 6rem;
     border-radius: 0.5rem;
 
     h5 {
         padding: 2%;
     }
 
-    .tableContainer {}
+    .empPaySlip {
+        display: flex;
+        width: fit-content;
+        margin: auto !important;
+        padding-block-start: 6%;
+        padding-block-end: 10%;
+        >div:nth-child(1){
+            margin-inline-end: 1rem;
+        }
+    }
 }
 
 @media screen and (max-width:480px) {

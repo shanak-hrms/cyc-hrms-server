@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styles from './Login.module.scss'
 import { Box, Grid, Typography } from '@mui/material'
-import logo from '../../asserst/images/CYC_logo-01-removebg-preview.png'
-// import logo from '../../asserst/images/LOGO CYC.jpg'
+// import logo from '../../asserst/images/CYC_logo-01-removebg-preview.png'
+import logo from '../../asserst/images/CYC logo-01.png'
 
 import LoginForm from '../../components/LoginForm/LoginForm'
 

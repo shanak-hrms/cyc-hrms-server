@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from './PaySlip.module.scss'
 import { Box, Divider, Grid, Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Typography, ListItemButton, ListItemText, ListItem } from '@mui/material'
-import logo from '../../asserst/images/LOGO CYC.jpg'
+import logo from '../../asserst/images/CYC logo-01.png'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
 import { useNavigate } from 'react-router-dom'
 import html2canvas from 'html2canvas';
@@ -112,7 +112,7 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.hra}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.specialAllowance?.value}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.travelAllowanceDeduction}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data.totalGrossPay}
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.totalGrossPay}
                                     </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployer}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeductionEmployer}</Typography>

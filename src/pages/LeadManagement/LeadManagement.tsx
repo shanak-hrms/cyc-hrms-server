@@ -215,13 +215,13 @@ const LeadManagement = () => {
     const handleDownload = () => {
         const userData: any[] = [];
         leadData?.forEach((lead: any) => {
-            const { leadName, leadType, openDate, closeDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc } = lead;
+            const { leadName, leadType, openDate, closeDate, leadStatus, leadDesc, business } = lead;
 
             const formateOpenDate = new Date(openDate).toLocaleString()
             const formateCloseDate = new Date(closeDate).toLocaleString();
             const strippedDesc = leadDesc.replace(/<[^>]*>?/gm, '');
 
-            userData.push({ leadName, leadType, openDate: formateOpenDate, closeDate: formateCloseDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc: strippedDesc });
+            userData.push({ leadName, leadType, openDate: formateOpenDate, closeDate: formateCloseDate, leadStatus, type: business?.type, source: business?.source, businessCost: business?.businessCost, businessVal: business?.businessValueBooked, profitAmount: business?.profitAmount, leadDesc: strippedDesc });
         });
 
         const ws = XLSX.utils.json_to_sheet(userData);
@@ -233,13 +233,13 @@ const LeadManagement = () => {
         const userData: any[] = [];
         const data = leadData.filter((item: any) => item._id === id)
         data?.forEach((lead: any) => {
-            const { leadName, leadType, openDate, closeDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc } = lead;
+            const { leadName, leadType, openDate, closeDate, leadStatus, leadDesc, business } = lead;
 
             const formateOpenDate = new Date(openDate).toLocaleString()
             const formateCloseDate = new Date(closeDate).toLocaleString();
             const strippedDesc = leadDesc.replace(/<[^>]*>?/gm, '');
 
-            userData.push({ leadName, leadType, openDate: formateOpenDate, closeDate: formateCloseDate, leadStatus, businessType, businessFrom, businessCost, businessVal, profitAmount, leadDesc: strippedDesc });
+            userData.push({ leadName, leadType, openDate: formateOpenDate, closeDate: formateCloseDate, leadStatus, type: business?.type, source: business?.source, businessCost: business?.businessCost, businessVal: business?.businessValueBooked, profitAmount: business?.profitAmount, leadDesc: strippedDesc });
         });
 
         const ws = XLSX.utils.json_to_sheet(userData);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./EmployeeTable.module.scss";
 import {
+  Box,
   Grid,
   Table,
   TableBody,
@@ -26,6 +27,7 @@ export interface IEmployeeTable {
   tableData: any;
   handlePayrollModal: any;
   handlePayrollDownload: any;
+  handleDownload:any;
   setQuery: any;
   query: any;
 }
@@ -37,6 +39,7 @@ const EmployeeTable = ({
   tableTitle,
   tableData,
   handlePayrollModal,
+  handleDownload,
   handlePayrollDownload,
 }: IEmployeeTable) => {
   const formattedDate = (idx: any) => {
@@ -47,9 +50,10 @@ const EmployeeTable = ({
     <Grid className={styles.commonTableContainer}>
       <TableHead className={styles.tableHead}>
         <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
-        <TableCell sx={{ fontSize: 20 }}>
+        <Box sx={{ fontSize: 20, display: "flex" }}>
           <SearchBox setQuery={setQuery} />
-        </TableCell>
+          <CommonButton name="Download" onClick={handleDownload} />
+        </Box>
       </TableHead>
       <TableContainer>
         <Table>

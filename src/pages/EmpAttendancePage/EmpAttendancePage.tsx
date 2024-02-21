@@ -50,6 +50,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const [appAttId, setAppAttId] = useState()
     const [dashAtten, SetDashAtten] = useState()
     const videoRef = useRef<any>();
+    const [locations, setLocations] = useState<any>()
     // const [checkClockIn, setCheckClockIn] = useState(false)
 
 
@@ -253,13 +254,100 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
         const { name, value } = e.target;
         setReqAttenVal({ ...reqAttenVal, [name]: value })
     }
-    const handleClockIn = async () => {
-
+    const getOfficeLocation = async () => {
         try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/office/get/location/list`);
+            console.log(response.data.location, "response..")
+            setLocations(response.data.location)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    // const handleClockIn = async () => {
+    //     if (!userLocation) {
+    //         alert('Unable to get your current location.');
+    //         return;
+    //     }
+
+    //     const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
+    //     const distance = calculateDistance(
+    //         userLocation.latitude,
+    //         userLocation.longitude,
+    //         officeLocation.latitude,
+    //         officeLocation.longitude
+    //     );
+    //     console.log(distance, "distance")
+    //     if (distance > 5) {
+    //         alert('You are not within 5km of the office location.');
+    //         return;
+    //     }
+
+    //     try {
+    //         const desiredDate = new Date();
+    //         const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
+    //         console.log(formattedDate);
+
+
+    //         // const response = await axios.post(
+    //         //     'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
+    //         //     { date: formattedDate },
+    //         //     {
+    //         //         headers: {
+    //         //             Authorization: `Bearer ${userToken}`
+    //         //         }
+    //         //     }
+    //         // )
+    //         // if (response.status === 201) {
+    //         //     toast.success("Clock in successfully")
+    //         //     await fetchData();
+    //         //     await setPhotoModal(false);
+    //         // }
+
+    //     } catch (error: any) {
+    //         console.error('Error occurred:', error.response.status);
+    //         if (error.response.status === 400) {
+    //             toast.error("Clocked in allready today")
+    //         }
+    //     }
+
+    // };
+
+    const handleClockIn = async () => {
+        if (!userLocation) {
+            alert('Unable to get your current location.');
+            return;
+        }
+        try {
+            let withinRange = false;
+
+            for (const officeLocation of locations) {
+                const distance = calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    officeLocation.latitude,
+                    officeLocation.longitude
+                );
+
+                console.log(distance, "distance to", officeLocation.name);
+
+                if (distance <= 0.05) {
+                    withinRange = true;
+                    break;
+                }
+            }
+
+            if (!withinRange) {
+                alert('You are not within 5 meter of any office location.');
+                return;
+            }
+
+            // Proceed with clock in if within range
+
             const desiredDate = new Date();
             const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
             console.log(formattedDate);
-
 
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
@@ -269,25 +357,49 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                         Authorization: `Bearer ${userToken}`
                     }
                 }
-            )
+            );
+
             if (response.status === 201) {
-                toast.success("Clock in successfully")
+                toast.success("Clock in successfully");
                 await fetchData();
                 await setPhotoModal(false);
             }
 
-        } catch (error: any) {
-            console.error('Error occurred:', error.response.status);
-            if (error.response.status === 400) {
-                toast.error("Clocked in allready today")
-            }
+        } catch (error) {
+            console.error('Error occurred:', error);
+            // Handle error
         }
-
     };
 
     const handlePreviousCheckIn = async () => {
+        if (!userLocation) {
+            alert('Unable to get your current location.');
+            return;
+        }
         const { time } = reqAttenVal;
         try {
+            let withinRange = false;
+
+            for (const officeLocation of locations) {
+                const distance = calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    officeLocation.latitude,
+                    officeLocation.longitude
+                );
+
+                console.log(distance, "distance to", officeLocation.name);
+
+                if (distance <= 0.05) {
+                    withinRange = true;
+                    break;
+                }
+            }
+
+            if (!withinRange) {
+                alert('You are not within 5 meter of any office location.');
+                return;
+            }
             const response = await axios.patch(
                 `https://hrms-server-ygpa.onrender.com/api/v1/attendance/Approved/attendance/checkIn/${appAttId}`,
                 { time: time },
@@ -307,6 +419,9 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             console.error('Error occurred:', error);
         }
     };
+    useEffect(() => {
+        getOfficeLocation();
+    }, [])
 
 
     return (

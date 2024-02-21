@@ -51,7 +51,6 @@ const App = () => {
       setUser("ADMIN");
     } else {
       try {
-
         const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/login', inputData);
         console.log(response, "response")
         const loginedUser = response?.data;
@@ -97,6 +96,7 @@ const App = () => {
           headers: {
             Authorization: `Bearer ${token}`
           }
+
         });
       console.log(response, "response...")
       if (response.status === 200) {

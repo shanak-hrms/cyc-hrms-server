@@ -6,6 +6,19 @@
     .tableHead {
         display: flex;
         justify-content: space-between;
+
+        >div {
+            >div:nth-child(1) {
+                margin-inline-end: 0.5rem;
+
+                >div {
+                    >div {
+                        height: 2.5rem;
+                    }
+                }
+
+            }
+        }
     }
 
     table {

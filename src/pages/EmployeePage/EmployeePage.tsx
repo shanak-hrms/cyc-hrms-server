@@ -14,6 +14,7 @@ import CommonButton from "../../components/common/CommonButton/CommonButton";
 import SearchBox from "../../components/common/searchBox/SearchBox";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import * as XLSX from 'xlsx';
 
 
 const EmployeePage = () => {
@@ -35,7 +36,7 @@ const EmployeePage = () => {
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [loading, setLoading] = useState(false)
   const [downloadId, setDownloadId] = useState()
-  const [payrollData, setPayRollData] = useState<any>()
+  const [srStructure, setSrStrucure] = useState<any>()
 
   const fetchData = async () => {
     try {
@@ -107,6 +108,26 @@ const EmployeePage = () => {
 
   }
 
+  const getAllSalaryStructure = async () => {
+    const loginedUserString: any = localStorage.getItem("loginedUser")
+    const loginedUser = JSON.parse(loginedUserString)
+    const { token } = loginedUser
+    try {
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/salary/download/all-users-salary`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      const data = response.data.salaryStructures;
+      setSrStrucure(data)
+      console.log(response.data.salaryStructures, "responsesla")
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
   const handleDownload = async () => {
     try {
       const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/download/monthly-payroll/${downloadId}?month=${payrollVal.month}`
@@ -122,9 +143,29 @@ const EmployeePage = () => {
       console.log(err)
     }
   }
+  const handleDownloadPayrollData = () => {
+    const userData: any[] = [];
+
+    srStructure?.forEach((strcture: any) => {
+      const { employeeId, basicSalary, createdAt, daPercentage, esiPercentage, hraPercentage, pfPercentage, ptaxDeduction, specialAllowance, travelAllowance, } = strcture;
+
+      const formateDate = new Date(createdAt).toLocaleString()
+
+      userData.push({ name: employeeId?.name, email: employeeId?.email, mobile: employeeId?.mobile, role: employeeId?.role, department: employeeId?.department, bankName: employeeId?.bankName, bankAccount: employeeId?.bankAccount, branch: employeeId?.branch, IFSC: employeeId?.IFSC, esic: employeeId?.esic, uanNumber: employeeId?.uanNumber, basicSalary, createdAt: formateDate, daPercentage, esiPercentage, hraPercentage, pfPercentage, ptaxDeduction, specialAllowance, travelAllowance, });
+    });
+
+    const ws = XLSX.utils.json_to_sheet(userData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'table_data.xlsx');
+
+
+  }
+
 
   useEffect(() => {
     fetchData();
+    getAllSalaryStructure();
   }, []);
 
 
@@ -141,6 +182,7 @@ const EmployeePage = () => {
           tableData={employeeData}
           handlePayrollModal={handlePayrollModal}
           handlePayrollDownload={handlePayrollDownloadModal}
+          handleDownload={handleDownloadPayrollData}
           setQuery={setQuery}
           query={query}
         />

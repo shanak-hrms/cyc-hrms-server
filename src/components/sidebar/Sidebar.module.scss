@@ -44,6 +44,7 @@
                 background-color: #00ACB2;
                 color: #000000;
                 padding-block: 0.65rem;
+                font-weight: 600;
 
                 svg {
                     border-radius: 0.25rem;
@@ -62,10 +63,12 @@
             li {
                 border-radius: 0.25rem;
                 padding-block: 0.65rem;
+                font-weight: 600;
 
                 &:hover {
                     background-color: #00ACB2;
                     color: #000000;
+                    font-weight: 600;
                 }
 
                 svg {

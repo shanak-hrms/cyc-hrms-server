@@ -41,21 +41,9 @@ const DashboardPage = ({ handleClockIn, handleClockOut, attendanceData }: IDashb
 
   const getData = async () => {
     try {
-      // const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/leave/get`)
-      // console.log(response.data.leadData, "response")
-      // const data = response.data.leadData;
-      // const openLeadData = data.filter((item: any) => item.leadStatus === "Open")
-      // const openLeadNo = openLeadData.length;
-      // setOpenLead(openLeadNo)
-      // const closeLeadData = data.filter((item: any) => item.leadStatus === "Close")
-      // const closeLeadNo = closeLeadData.length;
-      // setCloseLead(closeLeadNo)
-      // const hotLeadData = data.filter((item: any) => item.leadStatus === "Hot")
-      // const hotLeadNo = hotLeadData.length;
-      // sethotLead(hotLeadNo)
-      // const coldLeadData = data.filter((item: any) => item.leadStatus === "Cold")
-      // const coldLeadNo = coldLeadData.length;
-      // setColdLead(coldLeadNo)
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`);
+      console.log(response,"response")
+
     } catch (err) {
       console.log(err)
     }

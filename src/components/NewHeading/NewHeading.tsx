@@ -6,12 +6,12 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { FiAlignJustify } from "react-icons/fi";
 import Sidebar from '../sidebar/Sidebar';
-import {menuData} from '../../components/sidebar/menuData'
+import { menuData } from '../../components/sidebar/menuData'
 
 export interface INewHeading {
     open: any;
     menu?: any;
-    menuData:any;
+    menuData: any;
     handleSidebarMemu?: any
     handleClickLogout?: any;
     handleLogout: any;

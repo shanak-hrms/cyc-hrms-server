@@ -70,6 +70,7 @@ const EmpPaySlip = () => {
             if (response.status === 200) {
                 const data = response.data.payroll;
                 await setPayrollData(data)
+                localStorage.setItem("payrollData", JSON.stringify(data))
                 toast.success(response.data.message)
                 setDownloadModal(false)
                 navigation('/pay-slip-preview')

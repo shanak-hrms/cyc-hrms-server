@@ -69,10 +69,11 @@ const StaffPage = () => {
         const loginedUserString: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser;
-        const assets = [{ name: asserstVal.name, date: asserstVal.date }];
-
+        const payloadData = [{ name: asserstVal.name, date: asserstVal.date }];
+        const paylod={assets:payloadData}
+        console.log("payload",paylod)
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/assets/to-employee/${staffId}`, assets,
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/assets/to-employee/${staffId}`, paylod,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

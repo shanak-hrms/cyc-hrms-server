@@ -23,7 +23,6 @@
     }
 
     .filterData {
-        border: 1px solid yellow;
         position: absolute;
         top: 7%;
         right: 15%;
@@ -59,7 +58,8 @@
                 width: 10rem;
                 height: 6rem;
                 border-radius: 1rem;
-                margin: auto !important;
+                margin: auto;
+                margin-block: 1rem;
 
                 h2 {
                     margin-block: auto;

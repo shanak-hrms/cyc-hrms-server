@@ -39,17 +39,25 @@ const DashboardPage = ({ handleClockIn, handleClockOut, attendanceData }: IDashb
     },
   ]
 
-  const getData = async () => {
+  const getUserData = async () => {
+    const loginedUserString: any = localStorage.getItem("loginedUser");
+    const loginedUser = JSON.parse(loginedUserString);
+    const { email } = loginedUser;
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`);
-      console.log(response,"response")
-
-    } catch (err) {
+      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
+      console.log(response.data.userData, "response..")
+      const data = response.data.userData;
+      const filterData = data.filter((item: any) => item.email === email);
+      setMedicalLeave(filterData[0]?.medicalLeaveBalance);
+      setPrivilegeLeave(filterData[0]?.privilegeLeaveBalance);
+      setLwpLeave(filterData[0]?.totalLeaveAccrued)
+    }
+    catch (err) {
       console.log(err)
     }
   }
   useEffect(() => {
-    getData();
+    getUserData();
   }, [])
 
   return (

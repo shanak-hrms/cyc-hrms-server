@@ -31,10 +31,10 @@ const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, lo
                 <TableCell sx={{ fontSize: 20 }}>{heading}</TableCell>
                 <Box sx={{ fontSize: 20 }}>
                     <SearchBox setQuery={setQuery} />
-                    <CommonButton name={"Request Approval List"} onClick={() => navigation('/request-approval-list')} />
+                    <CommonButton name={"Request Approval"} onClick={() => navigation('/request-approval-list')} />
                 </Box>
             </TableHead>
-            <TableContainer>
+            <TableContainer className={styles.tableContainer}>
                 <Table>
                     <TableHead style={{ backgroundColor: "#00ACB2" }}>
                         <TableRow >

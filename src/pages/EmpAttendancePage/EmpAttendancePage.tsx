@@ -48,10 +48,9 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const [userLocation, setUserLocation] = useState<any>(null);
     const [stream, setStream] = useState<any>(null);
     const [appAttId, setAppAttId] = useState()
-    const [dashAtten, SetDashAtten] = useState()
     const videoRef = useRef<any>();
     const [locations, setLocations] = useState<any>()
-    // const [checkClockIn, setCheckClockIn] = useState(false)
+    const [emp, setEmp] = useState<any>()
 
 
     const fetchData = async () => {
@@ -63,31 +62,13 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
             const data = result.data.attendanceData;
             const filterData = data?.filter((item: any) => item.employeeId?.email === email);
-            const todayAtten = filterData.lastIndexOf()
             setAttendanceData(filterData);
-            const lastObject = filterData[filterData.length - 1];
-            SetDashAtten(lastObject)
-            console.log(lastObject, "lastObject..")
-
-            const currentDate = new Date();
-            const year = currentDate.getFullYear();
-            const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-            const day = currentDate.getDate().toString().padStart(2, '0');
-
-            const currentData = `${year}-${month}-${day}`;
-
-            const CheckAtten = data.filter((item: any) => item.date.substring(0, 10) === currentData);
-            // if (CheckAtten.length === 0) {
-            //     setCheckClockIn(true)
-            // }
-
         } catch (error) {
             console.error("Error during GET request:", error);
         } finally {
             setLoading(false)
         }
     };
-    // console.log(checkClockIn, "checkClockIn")
     const handleClockOut = async (idx: any) => {
         if (attendanceData && attendanceData.length > 0) {
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);

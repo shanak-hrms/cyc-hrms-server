@@ -26,3 +26,34 @@
         margin-block-end: 2rem;
     }
 }
+
+@media screen and (max-width:480px) {
+    .commonTableContainer {
+
+        .tableHead {
+            display: flex;
+            flex-direction: column;
+
+            h5 {
+                text-align: center;
+            }
+
+            >div {
+                width: 90%;
+                margin-inline: auto;
+                margin-block-start: 1rem;
+
+                >div {
+                    width: 100%;
+                }
+            }
+        }
+
+        .tableContainer {
+            table {
+                width: 300%;
+            }
+        }
+    }
+
+}

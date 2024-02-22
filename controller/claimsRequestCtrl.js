@@ -15,7 +15,7 @@ exports.requestClaim = async (req, res) => {
         await newClaim.save();
         res.json(newClaim);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message ||"Internal server Error" });
     }
 };
 
@@ -40,7 +40,7 @@ exports.approveClaim = async (req, res) => {
 
         res.json({ message: 'Claim approved successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message ||"Internal server error" });
     }
 };
 
@@ -65,7 +65,7 @@ exports.rejectClaim = async (req, res) => {
 
         res.json({ message: 'Claim rejected successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message ||"Internal server error"});
     }
 };
 
@@ -75,7 +75,7 @@ exports.getAllClaimsOfUser = async (req, res) => {
       const claims = await TravelClaim.find({ employeeId: userId });
       res.status(200).json({claimData:claims});
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message ||"Internal server error" });
     }
   };
 
@@ -88,6 +88,6 @@ exports.getAllPendingClaims = async (req, res) => {
       const claims = await TravelClaim.find({ status: "Pending" });
       res.status(200).json({claimData:claims});
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message ||"server error" });
     }
   };

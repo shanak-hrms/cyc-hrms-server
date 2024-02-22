@@ -257,6 +257,6 @@ exports.acceptAgreement = async (req, res) => {
         res.status(200).json({ message: "User agreement accepted successfully" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error:error.message || 'Internal Server Error' });
     }
 };

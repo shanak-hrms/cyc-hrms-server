@@ -99,7 +99,7 @@ exports.getCompOffCount = async (req, res) => {
         res.json({ compOffCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error:error.message});
+        res.status(500).json({ error:error.message ||"Internal Server Error"});
     }
 };
 
@@ -119,7 +119,7 @@ exports.getCompOffEmployeeList= async (req, res) => {
         res.json({ compOffCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message ||"Internal Server Error" });
     }
 };
 
@@ -138,6 +138,6 @@ exports.getCompOffList = async (req, res) => {
         res.json({ compOffCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message ||"Internal Server Error"});
     }
 };

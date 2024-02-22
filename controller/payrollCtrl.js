@@ -3,13 +3,12 @@ const Salary = require("../model/salarySchema")
 
 const Payroll = require('../model/payrollSchema');
 const SalaryStructure = require('../model/salarySchema');
-
+const EmployeeLeave = require('../model/empLeave');
 const MonthlyAttendance = require('../model/attendance');
 
 const getPresentAttendanceList = async (month,year) => {
     try {
-        const attendanceList = await MonthlyAttendance.find({ month,year, clockIn: { $ne: null }, clockOut: { $ne: null } });
-
+        const attendanceList = await MonthlyAttendance.find({ month, year, clockIn: { $ne: null }, clockOut: { $ne: null }, attendanceStatus: { $nin: ["Auto-Midnight", "Absent", "Half-Day"] } });
         const attendanceListLength = attendanceList.length;
 
         return { attendanceList, attendanceListLength };
@@ -25,7 +24,7 @@ const getIncompleteAttendanceList = async (month,year) => {
             month,
             year,
             clockIn: { $ne: null },
-            clockOut: null
+            attendanceStatus: { $in: ["Auto-Midnight", "Half-Day"]}
         });
 
         const incompleteAttendanceListLength = incompletAttendanceList.length;
@@ -36,6 +35,26 @@ const getIncompleteAttendanceList = async (month,year) => {
         throw error;
     }
 }
+
+
+const countPaidLeave=async(employeeId)=> {
+    const paidLeave = await EmployeeLeave.find({
+        employeeId,
+        leaveType: { $in: ["Privilege", "Medical"] },
+        status: "Approved"
+    });
+
+    let totalPaidLeaveDays = 0;
+    paidLeave.forEach(leave => {
+        const startDate = leave.startDate;
+        const endDate = leave.endDate;
+        const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+        totalPaidLeaveDays += days;
+    });
+
+    return totalPaidLeaveDays;
+}
+
 
 function isLeapYear(year) {
     // Leap year is divisible by 4, not divisible by 100 unless also divisible by 400
@@ -124,18 +143,15 @@ const createPayrollAndCalculateSalary = async (req, res) => {
             throw new Error("Salary structure is not created for this user.");
         }
         const { basicSalary, hraPercentage, daPercentage, travelAllowance, ptaxDeduction, pfPercentage, esiPercentage,specialAllowance } = isSalaryStructureExist;
-        // const result = await MonthlyAttendance.find({ employeeId, month }).populate("employeeId", { name: 1, email: 1 });
 
         const { attendanceList, attendanceListLength } = await getPresentAttendanceList(month,year)
         const { incompletAttendanceList, incompleteAttendanceListLength } = await getIncompleteAttendanceList(month,year)
 
-        // return res.status(201).json({ complte: [attendanceList, attendanceListLength], incomplete: [incompletAttendanceList, incompleteAttendanceListLength] });
+        const paidLeave=await countPaidLeave(employeeId)
 
-        // let attendanceListLength=25
-        // let incompleteAttendanceListLength=6
         const numberOfDaysINMonth = getNumberOfDaysInMonth(month, year)
         const calculatebasicSalaryPerDay = (basicSalary / numberOfDaysINMonth)
-        const calculatebasicSalaryOfMonth = (calculatebasicSalaryPerDay * attendanceListLength) + (calculatebasicSalaryPerDay * (incompleteAttendanceListLength / 2))
+        const calculatebasicSalaryOfMonth = (calculatebasicSalaryPerDay * attendanceListLength) + (calculatebasicSalaryPerDay * (incompleteAttendanceListLength / 2))+(calculatebasicSalaryPerDay*paidLeave)
 
         const salaryObj = {
             basicSalary: calculatebasicSalaryOfMonth,
@@ -148,6 +164,7 @@ const createPayrollAndCalculateSalary = async (req, res) => {
             specialAllowance
         }
 
+       
         const result = calculateSalary(salaryObj)
         const {
             basic,
@@ -183,7 +200,7 @@ const createPayrollAndCalculateSalary = async (req, res) => {
         return res.status(200).json({ payroll });
     } catch (error) {
         console.error('Error in creating payroll:', error);
-        return res.status(500).json({ error});
+        return res.status(500).json({ error:error.message ||"Error in creating payroll"});
     }
 };
 
@@ -197,7 +214,7 @@ const getPayrollById = async (req, res) => {
         return res.status(200).json({ payroll });
     } catch (error) {
         console.error('Error in getting payroll by ID:', error);
-        return res.status(500).json({ error: 'An error occurred while fetching payroll' });
+        return res.status(500).json({ error:error.message || 'An error occurred while fetching payroll' });
     }
 };
 
@@ -213,7 +230,7 @@ const downloadPayrollMonthly = async (req, res) => {
         return res.status(200).json({ payroll });
     } catch (error) {
         console.error('Error in getting payroll by ID:', error);
-        return res.status(500).json({ error: 'An error occurred while fetching payroll' });
+        return res.status(500).json({ error: error.message || 'An error occurred while fetching payroll' });
     }
 };
 
@@ -221,7 +238,7 @@ const downloadPayrollMonthlyByUser = async (req, res) => {
     try {
         const {_id:employeeId } = req.user;
         const { month,year } = req.query
-        const payroll = await Payroll.findOne({ employeeId, month ,year});
+        const payroll = await Payroll.findOne({ employeeId, month ,year}).populate("employeeId", {empCode:1, name: 1, email: 1,department:1,designation:1,status:1,esic:1,bankAccount:1,bankName:1,uanNumber:1 });
         if (!payroll) {
             return res.status(404).json({ message: 'Payroll not found or Not created By HR for this Month' });
         }

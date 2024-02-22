@@ -95,7 +95,6 @@ exports.getUserWithManagerDetails = async (req, res) => {
     }
 }
 
-
 exports.assignAssetsToEmployee = async (req, res) => {
     try {
         const { employeeId } = req.params;

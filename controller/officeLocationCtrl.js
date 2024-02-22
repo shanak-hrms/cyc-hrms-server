@@ -18,7 +18,7 @@ exports.addLocation = async (req, res) => {
     }
   };
 
-exports.getLocation=async (req, res) => {
+exports.getLocationById=async (req, res) => {
   try {
     const {locationId} = req.params;
     const location = await Office.findById(locationId);
@@ -39,25 +39,25 @@ exports.getLocation=async (req, res) => {
 }
 
 
-exports.getLocation=async (req, res) => {
-  try {
-    const {locationId} = req.params;
-    const location = await Office.findById(locationId);
-    if (!location) {
-      return res.status(404).json({
-        message: 'Location not found',
-      });
-    }
-    res.status(200).json({
-      message: 'Location retrieved successfully',
-      location: location,
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: err.message || 'Internal Server Error',
-    });
-  }
-}
+// exports.getLocation=async (req, res) => {
+//   try {
+//     const {locationId} = req.params;
+//     const location = await Office.findById(locationId);
+//     if (!location) {
+//       return res.status(404).json({
+//         message: 'Location not found',
+//       });
+//     }
+//     res.status(200).json({
+//       message: 'Location retrieved successfully',
+//       location: location,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       error: err.message || 'Internal Server Error',
+//     });
+//   }
+// }
 
 exports.getLocation=async (req, res) => {
   try {

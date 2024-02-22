@@ -25,6 +25,7 @@ const StaffPage = () => {
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
     const [staffRole, setStaffRole] = useState({ role: "" })
     const [asserstVal, setAsserstVal] = useState({ name: "", date: "" })
+    const [assetsData, setAssetsData] = useState<any>([]);
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false);
     const [staffId, setStaffId] = useState()
@@ -64,16 +65,29 @@ const StaffPage = () => {
     const handleChangeAsserst = (e: any) => {
         const { name, value } = e.target;
         setAsserstVal({ ...asserstVal, [name]: value })
+    };
+    const handleAdd = () => {
+        setAssetsData((prevAssets: any) => [...prevAssets, asserstVal]);
+    };
+    console.log(assetsData, "assets..")
+    const handleDeleteAssets = (idx: number) => {
+        const filteredAssets = assetsData.filter((item: any, index: number) => index !== idx);
+        setAssetsData(filteredAssets)
+        console.log(filteredAssets, "filtered assets...");
     }
     const handleClickAssets = async () => {
         const loginedUserString: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser;
-        const payloadData = [{ name: asserstVal.name, date: asserstVal.date }];
-        const paylod={assets:payloadData}
-        console.log("payload",paylod)
+        // const payloadData = [{ name: asserstVal.name, date: asserstVal.date }];
+        // const paylod = { assets: payloadData }
+        const payloadData = assetsData.map((data: any) => ({ name: data.name, date: data.date }));
+        const payload = { assets: payloadData };
+        console.log(payloadData, "payloadData...")
+        console.log(assetsData, "assets..")
+        console.log("payload", payload)
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/assets/to-employee/${staffId}`, paylod,
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/assets/to-employee/${staffId}`, payload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -284,6 +298,9 @@ const StaffPage = () => {
             <AsserstModal
                 open={asserstModal}
                 asserstVal={asserstVal}
+                handleAdd={handleAdd}
+                assets={assetsData}
+                handleDeleteAssets={handleDeleteAssets}
                 handleChange={handleChangeAsserst}
                 handleClickAssets={handleClickAssets}
                 handleClose={handleClose}

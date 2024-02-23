@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.patch('/manager-to-employee/:employeeId/:managerId',auth,assignManagerToEmployee);
 router.patch('/employee-to-manager/:employeeId/:managerId',auth,assignEmployeeToManager);
-router.patch('/employee-role-manager/:employeeId',auth,assignEmployeeAsLineManager);
+router.patch('/change-employee-role-department/:employeeId',auth,assignEmployeeAsLineManager);
 router.patch('/assets/to-employee/:employeeId',auth,assignAssetsToEmployee);
 
 module.exports = router;

@@ -12,6 +12,8 @@ const leadSchema = new mongoose.Schema({
     source: { type: String, required: false, enum: ["Direct", "Vendor"] },
     vendorName: { type: String, required: false },
     vendorAddress: { type: String, required: false },
+    vendorMobile: { type: String, required: false },
+    vendorEmail: { type: String, required: false },
     businessValueBooked: { type: Number, required: false },
     businessCost: { type: Number, required: false },
     profitAmount: { type: Number, required: false }

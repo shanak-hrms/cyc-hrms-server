@@ -222,7 +222,7 @@ const downloadPayrollMonthly = async (req, res) => {
     try {
         const { employeeId } = req.params;
         const { month } = req.query
-        const payroll = await Payroll.findOne({ employeeId, month }).populate("employeeId", {empCode:1, name: 1, email: 1,department:1,designation:1,status:1,esic:1,bankAccount:1,bankName:1,uanNumber:1 });
+        const payroll = await Payroll.findOne({ employeeId, month }).populate("employeeId", {empCode:1, name: 1, email: 1,department:1,designation:1,empStatus:1,esic:1,bankAccount:1,bankName:1,uanNumber:1 });
         if (!payroll) {
             return res.status(404).json({ message: 'Payroll not found' });
         }
@@ -238,7 +238,7 @@ const downloadPayrollMonthlyByUser = async (req, res) => {
     try {
         const {_id:employeeId } = req.user;
         const { month,year } = req.query
-        const payroll = await Payroll.findOne({ employeeId, month ,year}).populate("employeeId", {empCode:1, name: 1, email: 1,department:1,designation:1,status:1,esic:1,bankAccount:1,bankName:1,uanNumber:1 });
+        const payroll = await Payroll.findOne({ employeeId, month ,year}).populate("employeeId", {empCode:1, name: 1, email: 1,department:1,designation:1,empStatus:1,esic:1,bankAccount:1,bankName:1,uanNumber:1 });
         if (!payroll) {
             return res.status(404).json({ message: 'Payroll not found or Not created By HR for this Month' });
         }

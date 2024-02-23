@@ -17,7 +17,9 @@ const userSchema = new mongoose.Schema({
     employeesAssign: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     assetsAssign: [{
         name:{type:String},
-        date:{type:String}
+        date:{type:String},
+        assetsModel:{type:string},
+        assetsId:{type:string}
     }],
     address: { type: String },
     uanNumber: { type: String },

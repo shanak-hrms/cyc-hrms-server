@@ -11,13 +11,15 @@ export interface ILeadManagementTable {
     data: any;
     handleEdit: any;
     handleDelete: any;
+    handleTagIn: any;
+    handleTagOut: any;
     handleaddBusiness: any;
     handledownload: any;
     handleStatusModal: any;
     query: any;
 };
 
-const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness, handledownload, query, handleStatusModal }: ILeadManagementTable) => {
+const LeadManagementTable = ({ data, handleEdit, handleDelete, handleTagIn, handleTagOut, handleaddBusiness, handledownload, query, handleStatusModal }: ILeadManagementTable) => {
     const formattedDate = (idx: any) => {
         const dateObj = new Date(idx);
         const year = dateObj.getUTCFullYear();
@@ -43,8 +45,9 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
             <Table>
                 <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                     <TableRow>
-                        {/* <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Emp Name</TableCell> */}
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Name</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Tag In</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Tag Out</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Type</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Open Date</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Close Date</TableCell>
@@ -75,6 +78,22 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
                         return (
                             <TableRow>
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadName}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>
+                                    {item?.leadTagIn != 'xyz'
+                                        ?
+                                        <CommonButton name={"Tag In"} onClick={() => handleTagIn(item._id)} />
+                                        :
+                                        "Done"
+                                    }
+                                </TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>
+                                    {item?.leadTagOut != ''
+                                        ?
+                                        <CommonButton name={"Tag Out"} onClick={() => handleTagOut(item._id)} />
+                                        :
+                                        "Done"
+                                    }
+                                </TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadType}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.closeDate)}</TableCell>

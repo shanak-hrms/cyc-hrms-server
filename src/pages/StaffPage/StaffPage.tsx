@@ -23,7 +23,7 @@ const StaffPage = () => {
     const [asserstModal, setAsserstModal] = useState(false);
     const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false); setAsserstModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
-    const [staffRole, setStaffRole] = useState({ role: "", department: '' })
+    const [staffRole, setStaffRole] = useState({ rolenewRole: "", newDepartment: '' })
     const [asserstVal, setAsserstVal] = useState({ name: "", date: "", assetsModel: "", assetsId: '' })
     const [assetsData, setAssetsData] = useState<any>([]);
     const [userData, setUserData] = useState([])
@@ -123,7 +123,7 @@ const StaffPage = () => {
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/employee-role-manager/${staffId}`, staffRole,
+            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/change-employee-role-department/${staffId}`, staffRole,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

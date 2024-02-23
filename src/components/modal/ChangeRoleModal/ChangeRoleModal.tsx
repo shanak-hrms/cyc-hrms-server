@@ -31,15 +31,15 @@ const ChangeRoleModal = ({ open, staffRole, handleClose, handleClickRole, handle
                     <SelectField
                         title={'Select Role'}
                         data={data}
-                        option={staffRole?.role}
-                        name={'role'}
+                        option={staffRole?.newRole}
+                        name={'newRole'}
                         handleChange={handleChangeRole}
                     />
                     <InputField
                         label={'Department'}
-                        name={'department'}
+                        name={'newDepartment'}
                         placeholder={'Enter department'}
-                        value={staffRole.department}
+                        value={staffRole.newDepartment}
                         handleChange={handleChangeRole}
                         type={"text"}
                     />

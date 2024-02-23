@@ -138,22 +138,21 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
-
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Total Deduction</Typography>
                                 </Grid>
                                 <Grid item sm={6}>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployee}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeduction}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.ptax}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalDeductions}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{"0"}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.ptax}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.totalDeductions}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -24,7 +24,7 @@ const StaffProfileModal = ({ open, profile, handleClose }: IStaffProfileModal) =
                     <MdOutlineClose fontSize={22} cursor={"pointer"} onClick={handleClose} />
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
-                <Grid container className={styles.staffDetails}>
+                <Grid container className={styles.staffDetailsContainer}>
                     <Grid container className={styles.staffDetails}>
                         <Grid item sm={6}>
                             {profile && profile.length > 0 && (
@@ -58,37 +58,68 @@ const StaffProfileModal = ({ open, profile, handleClose }: IStaffProfileModal) =
                             )}
                         </Grid>
                     </Grid>
-                    <Grid container className={styles.staffDetails2}>
-                        <Grid item sm={6}>
-                            {profile && profile.length > 0 && (
-                                <>
-                                    {profile && profile.length > 0 && (
-                                        <Typography>Assets Name:
-                                            <span>
-                                                {profile[0].assetsAssign.map((item: any) => (
-                                                    <Typography key={item._id}>{item.name}</Typography>
-                                                ))}
-                                            </span>
-                                        </Typography>
-                                    )}
-                                </>
-                            )}
-                        </Grid>
-                        <Grid item sm={6}>
-                            {profile && profile.length > 0 && (
-                                <>
-                                    {profile && profile.length > 0 && (
-                                        <Typography>Date:
-                                            <span>
-                                                {profile[0].assetsAssign.map((item: any) => (
-                                                    <Typography key={item._id}>{item.date}</Typography>
-                                                ))}
-                                            </span>
-                                        </Typography>
-                                    )}
-                                </>
-                            )}
-                        </Grid>
+
+                </Grid>
+                <Grid container className={styles.staffDetails2}>
+                    <Grid item sm={3}>
+                        {profile && profile.length > 0 && (
+                            <>
+                                {profile && profile.length > 0 && (
+                                    <Typography>Assets Name:
+                                        <span>
+                                            {profile[0].assetsAssign.map((item: any) => (
+                                                <Typography key={item._id}>{item.name}</Typography>
+                                            ))}
+                                        </span>
+                                    </Typography>
+                                )}
+                            </>
+                        )}
+                    </Grid>
+                    <Grid item sm={3}>
+                        {profile && profile.length > 0 && (
+                            <>
+                                {profile && profile.length > 0 && (
+                                    <Typography>Assets Modal:
+                                        <span>
+                                            {profile[0].assetsAssign.map((item: any) => (
+                                                <Typography key={item._id}>{item.assetsModel}</Typography>
+                                            ))}
+                                        </span>
+                                    </Typography>
+                                )}
+                            </>
+                        )}
+                    </Grid>
+                    <Grid item sm={3}>
+                        {profile && profile.length > 0 && (
+                            <>
+                                {profile && profile.length > 0 && (
+                                    <Typography>Assets Id:
+                                        <span>
+                                            {profile[0].assetsAssign.map((item: any) => (
+                                                <Typography key={item._id}>{item.assetsId}</Typography>
+                                            ))}
+                                        </span>
+                                    </Typography>
+                                )}
+                            </>
+                        )}
+                    </Grid>
+                    <Grid item sm={3}>
+                        {profile && profile.length > 0 && (
+                            <>
+                                {profile && profile.length > 0 && (
+                                    <Typography>Assign Date:
+                                        <span>
+                                            {profile[0].assetsAssign.map((item: any) => (
+                                                <Typography key={item._id}>{item.date}</Typography>
+                                            ))}
+                                        </span>
+                                    </Typography>
+                                )}
+                            </>
+                        )}
                     </Grid>
                 </Grid>
             </Grid>

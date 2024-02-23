@@ -197,7 +197,7 @@ const EmployeePage = () => {
         />
         <CreatePayrollModal
           open={downloadModal}
-          name="Next"
+          name="Preview"
           heading={"Download Pay Slip"}
           payrollVal={payrollVal}
           handleCreate={handleDownload}

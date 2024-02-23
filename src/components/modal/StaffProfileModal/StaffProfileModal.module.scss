@@ -11,28 +11,37 @@
         overflow-y: scroll;
     }
 
-    .staffDetails {
+    .staffDetailsContainer {
+
+        .staffDetails {
+            p {
+                padding-block: 0.5rem;
+                border-bottom: 1px dashed #d9def1;
+                font-weight: 600;
+            }
+
+            span {
+                font-weight: 500;
+                padding-inline-start: 1rem;
+            }
+        }
+
+    }
+
+    .staffDetails2 {
         p {
             padding-block: 0.5rem;
             border-bottom: 1px dashed #d9def1;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         span {
             font-weight: 500;
             padding-inline-start: 1rem;
         }
-    }
 
-    .staffDetails2 {
- 
 
-        p:nth-child(1) {
-            border-top: 1px dashed #d9def1;
-          
-        }
-
-        
 
     }
+
 }

@@ -71,7 +71,7 @@ const PaySlip = () => {
 
                     <Grid className={styles.designationSection} display={"flex"} justifyContent={"space-between"}>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Designation:{data?.employeeId?.name}</Typography>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Status: {data?.employeeId?.probationStatus == true ? "Probation" : "Permanent"}</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Status: {data?.employeeId?.empStatus}</Typography>
                     </Grid>
                     <Grid className={styles.designationSection} display={"flex"} justifyContent={"space-between"}>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Month:{data?.month}</Typography>

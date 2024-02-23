@@ -19,6 +19,7 @@ export interface IAsserstModal {
 
 }
 const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets, handleChange, handleClickAssets, handleClose }: IAsserstModal) => {
+    console.log(asserstVal, "asserstVal...")
     return (
         <Modal
             open={open}
@@ -34,7 +35,7 @@ const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets,
                     <Grid className={styles.asserst}>
                         <Box>
                             <InputField
-                                label={'Asset Name'}
+                                label={'Assets Name'}
                                 name={'name'}
                                 placeholder={''}
                                 value={asserstVal.name}
@@ -43,10 +44,10 @@ const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets,
                             />
 
                             <InputField
-                                label={'Asset Modal'}
-                                name={'name'}
-                                placeholder={''}
-                                value={asserstVal.name}
+                                label={'Assets Modal'}
+                                name={'assetsModel'}
+                                placeholder={'Enter assets modal'}
+                                value={asserstVal.assetsModel}
                                 handleChange={handleChange}
                                 type={"text"}
                             />
@@ -62,9 +63,9 @@ const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets,
                             />
                             <InputField
                                 label={'Assets Id'}
-                                name={'name'}
-                                placeholder={''}
-                                value={asserstVal.name}
+                                name={'assetsId'}
+                                placeholder={'Enter assets id'}
+                                value={asserstVal.assetsId}
                                 handleChange={handleChange}
                                 type={"text"}
                             />
@@ -75,8 +76,8 @@ const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets,
                         return (
                             <Grid className={styles.history} display={"flex"} justifyContent={"space-between"}>
                                 <Typography>Name: {item.name}</Typography>
-                                <Typography>Modal: {item.name}</Typography>
-                                <Typography>Id: {item.name}</Typography>
+                                <Typography>Modal: {item.assetsModel}</Typography>
+                                <Typography>Id: {item.assetsId}</Typography>
                                 <Typography>Date: {item.date}</Typography>
                                 <IoMdClose fontSize={22} style={{ color: "#E91E63" }} onClick={() => handleDeleteAssets(idx)} />
                             </Grid>

@@ -23,6 +23,7 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
         "businessleadType": ["Event", "Room"],
         "leadFrom": ["Direct", "Vendor"]
     }
+    console.log(inputData, 'inputData...')
 
     return (
         <Modal

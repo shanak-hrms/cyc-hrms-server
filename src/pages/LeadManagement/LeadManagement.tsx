@@ -32,6 +32,8 @@ const LeadManagement = () => {
     const [readLead, setReadLeadId] = useState<any>();
     const [leadId, setLeadId] = useState()
     const handleRequestStatus = async () => { navigation("/status-request") }
+    const [currentLocation, setCurrentLocation] = useState<any>(null);
+
 
     // const handleChange = (e: any) => {
     //     const { name, value } = e.target;
@@ -201,8 +203,6 @@ const LeadManagement = () => {
             console.error("Error occurred while updating lead status:", error);
         }
     };
-
-
     const handleDelete = async (id: any) => {
         try {
             await axios.delete(`https://hrms-server-ygpa.onrender.com/api/v1/lead/delete/particular/${id}`);
@@ -248,9 +248,74 @@ const LeadManagement = () => {
         XLSX.writeFile(wb, 'table_data.xlsx');
 
     }
+    const getCurrentLOcation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setCurrentLocation({ latitude, longitude });
+                },
+                (error) => {
+                    console.error('Error getting geolocation:', error);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    }
+    const handleTagIn = async (idx: any) => {
+        const loginedUserStr: any = localStorage.getItem("loginedUser");
+        const loginedUser = JSON.parse(loginedUserStr);
+        const { token } = loginedUser;
+        const leadLocation = { tagInLocation: currentLocation }
+        try {
+            const response = await axios.patch(
+                `https://hrms-server-ygpa.onrender.com/api/v1/lead/tagIn/${idx}`, // Corrected URL
+                { leadLocation }, // empty data object if no data is to be sent
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            if (response.status === 200) {
+                toast.success(response.data.message)
+            }
+            console.log(response, "response;;;");
+        } catch (err: any) {
+            console.log(err.response.data.message);
+        }
+    };
+    const handleTagOut = async (idx: any) => {
+        const loginedUserStr: any = localStorage.getItem("loginedUser");
+        const loginedUser = JSON.parse(loginedUserStr);
+        const { token } = loginedUser;
+        const leadLocation = { tagInLocation: currentLocation }
+        try {
+            const response = await axios.patch(
+                `https://hrms-server-ygpa.onrender.com/api/v1/lead/tagOut/${idx}`, // Corrected URL
+                { leadLocation }, // empty data object if no data is to be sent
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            if (response.status === 200) {
+                toast.success(response.data.message)
+            }
+            console.log(response, "response;;;");
+        } catch (err: any) {
+            console.log(err.response.data.message);
+        }
+    };
+
+    const newLocation = { location: currentLocation }
+    console.log(newLocation, "currentLocation..")
 
     useEffect(() => {
         getLeadData();
+        getCurrentLOcation();
     }, [])
     return (
         <Grid className={styles.leadManagement}>
@@ -273,6 +338,8 @@ const LeadManagement = () => {
                 data={leadData}
                 handleEdit={handleEditModal}
                 handleDelete={handleDelete}
+                handleTagIn={handleTagIn}
+                handleTagOut={handleTagOut}
                 handleaddBusiness={handleReadModal}
                 query={query}
                 handledownload={handledownloadItem}

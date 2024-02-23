@@ -16,20 +16,36 @@ const leadSchema = new mongoose.Schema({
     vendorEmail: { type: String, required: false },
     businessValueBooked: { type: Number, required: false },
     businessCost: { type: Number, required: false },
-    profitAmount: { type: Number, required: false }
+    profitAmount: { type: Number, required: false },
   },
   leadRequestStatus: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'No Request'], default: 'No Request' },
-  needApprovalFrom: [{ type: String, enum: ['MANAGER', 'HR', 'DIRECTOR',null] }],
+  needApprovalFrom: [{ type: String, enum: ['MANAGER', 'HR', 'DIRECTOR', null] }],
   needApprovalFor: {
-    currentStatus: { type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost",null],default:null },
-    requestFor: { type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost",null],default:null  },
-    requestby:{ type: mongoose.Schema.Types.ObjectId,ref: 'User'}
+    currentStatus: { type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost", null], default: null },
+    requestFor: { type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost", null], default: null },
+    requestby: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
   },
+  taggingHistory:[ {
+    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    tagInLocation: {
+      latitude: { type: Number, default:null},
+      longitude: { type: Number, default:null},
+    },
+    tagIn: { type: Date, default: null },
+    tagOutLocation: {
+      latitude: { type: Number,default:null },
+      longitude: { type: Number,default:null },
+    },
+    tagOut: { type: Date, default: null }
+  }],
   allowedTransitions: {
     currentStatus: { type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost"] },
     allowedStatus: [{ type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost"] }]
-  },
-  // iTag:{Typ},
-});
+  }
+},
+  {
+    versionKey: false,
+    timestamps: true
+  });
 
 module.exports = mongoose.model("Lead", leadSchema);

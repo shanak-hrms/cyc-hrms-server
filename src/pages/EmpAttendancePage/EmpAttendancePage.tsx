@@ -313,14 +313,14 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
 
                 console.log(distance, "distance to", officeLocation.name);
 
-                if (distance <= 0.05) {
+                if (distance <= 11) {
                     withinRange = true;
                     break;
                 }
             }
 
             if (!withinRange) {
-                alert('You are not within 5 meter of any office location.');
+                alert('You are not within 50 meter of any office location.');
                 return;
             }
 
@@ -346,8 +346,9 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 await setPhotoModal(false);
             }
 
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error occurred:', error);
+            toast.error(error.response.data.message)
             // Handle error
         }
     };

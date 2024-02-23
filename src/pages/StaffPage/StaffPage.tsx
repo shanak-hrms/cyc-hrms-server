@@ -23,7 +23,7 @@ const StaffPage = () => {
     const [asserstModal, setAsserstModal] = useState(false);
     const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false); setAsserstModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
-    const [staffRole, setStaffRole] = useState({ role: "" })
+    const [staffRole, setStaffRole] = useState({ role: "", department: '' })
     const [asserstVal, setAsserstVal] = useState({ name: "", date: "" })
     const [assetsData, setAssetsData] = useState<any>([]);
     const [userData, setUserData] = useState([])

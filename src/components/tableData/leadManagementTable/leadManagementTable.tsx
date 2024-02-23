@@ -43,7 +43,7 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
             <Table>
                 <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                     <TableRow>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Emp Name</TableCell>
+                        {/* <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Emp Name</TableCell> */}
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Name</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Type</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Open Date</TableCell>
@@ -72,7 +72,7 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
                     }).map((item: any) => {
                         return (
                             <TableRow>
-                                <TableCell sx={{ textAlign: "center" }}>{item?.needApprovalFor?.requestby?.name}</TableCell>
+                                {/* <TableCell sx={{ textAlign: "center" }}>{item?.needApprovalFor?.requestby?.name}</TableCell> */}
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadName}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadType}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>

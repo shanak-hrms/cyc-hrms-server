@@ -140,7 +140,7 @@ const EmpPaySlip = () => {
             <CreatePayrollModal
                 open={downloadModal}
                 heading={'Download payroll'}
-                name='Next'
+                name='Preview'
                 payrollVal={payrollVal}
                 handleCreate={handleDownloadPayroll}
                 handleClose={handleClose}

@@ -28,7 +28,8 @@ const leadSchema = new mongoose.Schema({
   allowedTransitions: {
     currentStatus: { type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost"] },
     allowedStatus: [{ type: String, enum: ["Closed", "Open", "Cold", "Hot", "Warm", "Lost"] }]
-  }
+  },
+  // iTag:{Typ},
 });
 
 module.exports = mongoose.model("Lead", leadSchema);

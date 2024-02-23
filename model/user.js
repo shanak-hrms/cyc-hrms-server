@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema({
     assetsAssign: [{
         name:{type:String},
         date:{type:String},
-        assetsModel:{type:string},
-        assetsId:{type:string}
+        assetsModel:{type:String},
+        assetsId:{type:String}
     }],
     address: { type: String },
     uanNumber: { type: String },

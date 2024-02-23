@@ -147,11 +147,11 @@ const EmployeePage = () => {
     const userData: any[] = [];
 
     srStructure?.forEach((strcture: any) => {
-      const { employeeId, basicSalary, createdAt, daPercentage, esiPercentage, hraPercentage, pfPercentage, ptaxDeduction, specialAllowance, travelAllowance, } = strcture;
+      const { employeeId, basicSalary: netPay, createdAt, daPercentage, esiPercentage, hraPercentage, pfPercentage, ptaxDeduction, specialAllowance, travelAllowance, } = strcture;
 
       const formateDate = new Date(createdAt).toLocaleString()
 
-      userData.push({ name: employeeId?.name, email: employeeId?.email, mobile: employeeId?.mobile, role: employeeId?.role, department: employeeId?.department, bankName: employeeId?.bankName, bankAccount: employeeId?.bankAccount, branch: employeeId?.branch, IFSC: employeeId?.IFSC, esic: employeeId?.esic, uanNumber: employeeId?.uanNumber, basicSalary, createdAt: formateDate, daPercentage, esiPercentage, hraPercentage, pfPercentage, ptaxDeduction, specialAllowance, travelAllowance, });
+      userData.push({ name: employeeId?.name, email: employeeId?.email, mobile: employeeId?.mobile, role: employeeId?.role, department: employeeId?.department, bankName: employeeId?.bankName, bankAccount: employeeId?.bankAccount, branch: employeeId?.branch, IFSC: employeeId?.IFSC, esic: employeeId?.esic, uanNumber: employeeId?.uanNumber, netPay, createdAt: formateDate, daPercentage, esiPercentage, hraPercentage, pfPercentage, ptaxDeduction, specialAllowance, travelAllowance, });
     });
 
     const ws = XLSX.utils.json_to_sheet(userData);
@@ -197,7 +197,7 @@ const EmployeePage = () => {
         />
         <CreatePayrollModal
           open={downloadModal}
-          name="Next"
+          name="Preview"
           heading={"Download Pay Slip"}
           payrollVal={payrollVal}
           handleCreate={handleDownload}

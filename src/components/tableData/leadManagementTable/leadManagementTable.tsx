@@ -43,7 +43,7 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
             <Table>
                 <TableHead sx={{ backgroundColor: "#02ABB5" }}>
                     <TableRow>
-                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Emp Name</TableCell>
+                        {/* <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Emp Name</TableCell> */}
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Name</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Lead Type</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Open Date</TableCell>
@@ -52,6 +52,8 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Type</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Source</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Name</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Mobile</TableCell>
+                        <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Email</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Vendor Address</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Value</TableCell>
                         <TableCell sx={{ color: "#000000", textAlign: "center", fontSize: 13, fontWeight: 600 }}>Business Cost</TableCell>
@@ -72,21 +74,18 @@ const LeadManagementTable = ({ data, handleEdit, handleDelete, handleaddBusiness
                     }).map((item: any) => {
                         return (
                             <TableRow>
-                                <TableCell sx={{ textAlign: "center" }}>{item?.needApprovalFor?.requestby?.name}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadName}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.leadType}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.openDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{formattedDate(item.closeDate)}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>
                                     {item?.leadStatus}<CiEdit fontSize={18} cursor={"pointer"} style={{ color: "#02ABB5" }} onClick={() => handleStatusModal(item._id)} />
-
-                                    {/* {leadStatusModal && <StatusModal statusVal={statusVal}
-                                        handleChange={handleChangeStatus} handleClick={() => handleUpdateStatus(item._id)} />
-                                    } */}
                                 </TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.type}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.source}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.vendorName}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.business?.vendorMobile}</TableCell>
+                                <TableCell sx={{ textAlign: "center" }}>{item.business?.vendorEmail}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.vendorAddress}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.businessValueBooked}</TableCell>
                                 <TableCell sx={{ textAlign: "center" }}>{item.business?.businessCost}</TableCell>

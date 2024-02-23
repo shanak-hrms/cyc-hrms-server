@@ -40,8 +40,8 @@ const SalaryStructureModal = ({ open, salStrVal, handleClose, handleCreate, hand
                         <InputField
                             label={'HRA Percentage'}
                             name={'hraPercentage'}
-                            placeholder={''}
-                            value={salStrVal.hraPercentage}
+                            placeholder={'40%'}
+                            value={"40%"}
                             handleChange={handleChange}
                             type={"number"}
                         />

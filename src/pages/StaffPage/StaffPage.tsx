@@ -23,8 +23,8 @@ const StaffPage = () => {
     const [asserstModal, setAsserstModal] = useState(false);
     const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false); setAsserstModal(false) }
     const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
-    const [staffRole, setStaffRole] = useState({ role: "" })
-    const [asserstVal, setAsserstVal] = useState({ name: "", date: "" })
+    const [staffRole, setStaffRole] = useState({ role: "", department: '' })
+    const [asserstVal, setAsserstVal] = useState({ name: "", date: "", assetsModel: "", assetsId: '' })
     const [assetsData, setAssetsData] = useState<any>([]);
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(false);
@@ -79,10 +79,16 @@ const StaffPage = () => {
         const loginedUserString: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser;
-        // const payloadData = [{ name: asserstVal.name, date: asserstVal.date }];
-        // const paylod = { assets: payloadData }
-        const payloadData = assetsData.map((data: any) => ({ name: data.name, date: data.date }));
+
+        const payloadData = assetsData.map((data: any) => ({
+            name: data.name,
+            date: data.date,
+            assetsModel: data.assetsModel,
+            assetsId: data.assetsId
+        }));
+
         const payload = { assets: payloadData };
+
         console.log(payloadData, "payloadData...")
         console.log(assetsData, "assets..")
         console.log("payload", payload)
@@ -96,6 +102,7 @@ const StaffPage = () => {
             if (response.status === 200) {
                 toast.success(response.data.message)
                 setAsserstModal(false)
+                window.location.reload();
             }
 
         }

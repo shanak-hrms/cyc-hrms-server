@@ -25,7 +25,7 @@ const LeadManagement = () => {
     const handleModal = () => setOpen(!open);
     const handleClose = () => { setOpen(false); setEditModal(false); setReadModal(false); setLeadStatusModal(false) };
     const [query, setQuery] = useState('')
-    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", business: { type: "", source: "", vendorName: "", vendorAddress: "", businessValueBooked: "", businessCost: "", profitAmount: "" } });
+    const [inputData, setInputData] = useState<any>({ leadName: "", leadType: "", leadStatus: "", openDate: "", closeDate: "", leadDesc: "", business: { type: "", source: "", vendorName: "", vendorMobile: "", vendorEmail: "", vendorAddress: "", businessValueBooked: "", businessCost: "", profitAmount: "" } });
     const [statusVal, setStatusVale] = useState({ requestFor: "" })
     const [leadData, setLeadData] = useState<any>()
     const [selectedItem, setSelectedLead] = useState();

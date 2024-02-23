@@ -19,6 +19,7 @@ export interface IAsserstModal {
 
 }
 const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets, handleChange, handleClickAssets, handleClose }: IAsserstModal) => {
+    console.log(asserstVal, "asserstVal...")
     return (
         <Modal
             open={open}
@@ -32,28 +33,51 @@ const AsserstModal = ({ open, asserstVal, assets, handleAdd, handleDeleteAssets,
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
                 <Grid className={styles.asserstContainer}>
                     <Grid className={styles.asserst}>
-                        <InputField
-                            label={'Name'}
-                            name={'name'}
-                            placeholder={''}
-                            value={asserstVal.name}
-                            handleChange={handleChange}
-                            type={"text"}
-                        />
-                        <InputField
-                            label={'Date'}
-                            name={'date'}
-                            placeholder={''}
-                            value={asserstVal.date}
-                            handleChange={handleChange}
-                            type={"date"}
-                        />
+                        <Box>
+                            <InputField
+                                label={'Assets Name'}
+                                name={'name'}
+                                placeholder={''}
+                                value={asserstVal.name}
+                                handleChange={handleChange}
+                                type={"text"}
+                            />
+
+                            <InputField
+                                label={'Assets Modal'}
+                                name={'assetsModel'}
+                                placeholder={'Enter assets modal'}
+                                value={asserstVal.assetsModel}
+                                handleChange={handleChange}
+                                type={"text"}
+                            />
+                        </Box>
+                        <Box>
+                            <InputField
+                                label={'Assign Date'}
+                                name={'date'}
+                                placeholder={''}
+                                value={asserstVal.date}
+                                handleChange={handleChange}
+                                type={"date"}
+                            />
+                            <InputField
+                                label={'Assets Id'}
+                                name={'assetsId'}
+                                placeholder={'Enter assets id'}
+                                value={asserstVal.assetsId}
+                                handleChange={handleChange}
+                                type={"text"}
+                            />
+                        </Box>
                     </Grid>
                     <Button onClick={handleAdd}>Add</Button>
                     {assets && assets.map((item: any, idx: number) => {
                         return (
                             <Grid className={styles.history} display={"flex"} justifyContent={"space-between"}>
                                 <Typography>Name: {item.name}</Typography>
+                                <Typography>Modal: {item.assetsModel}</Typography>
+                                <Typography>Id: {item.assetsId}</Typography>
                                 <Typography>Date: {item.date}</Typography>
                                 <IoMdClose fontSize={22} style={{ color: "#E91E63" }} onClick={() => handleDeleteAssets(idx)} />
                             </Grid>

@@ -346,9 +346,8 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 await setPhotoModal(false);
             }
 
-        } catch (error: any) {
+        } catch (error) {
             console.error('Error occurred:', error);
-            toast.error(error.response.data.message)
             // Handle error
         }
     };

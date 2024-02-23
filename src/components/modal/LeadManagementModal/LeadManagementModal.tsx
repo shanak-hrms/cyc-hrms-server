@@ -19,10 +19,11 @@ export interface ILeadManagementModal {
 const LeadManagementModal = ({ open, heading, inputData, handleChange, handleChangeText, handleClose, handleClick }: ILeadManagementModal) => {
     const data = {
         "leadType": ["Corporate", "TMC"],
-        "leadStatus": ["Closed", "Open", "Cold", "Hot"],
+        "leadStatus": ["Closed", "Open", "Cold", "Hot", "Warm", "Lost"],
         "businessleadType": ["Event", "Room"],
         "leadFrom": ["Direct", "Vendor"]
     }
+    console.log(inputData, 'inputData...')
 
     return (
         <Modal
@@ -114,6 +115,24 @@ const LeadManagementModal = ({ open, heading, inputData, handleChange, handleCha
                                     name={'business.vendorName'}
                                     placeholder={'Enter vender name'}
                                     value={inputData?.business?.vendorName}
+                                    handleChange={handleChange}
+                                    type={"text"}
+                                />
+                                <InputField
+                                    label={'Vender Mobile'}
+                                    name={'business.vendorMobile'}
+                                    placeholder={'Enter vender mobile'}
+                                    value={inputData?.business?.vendorMobile}
+                                    handleChange={handleChange}
+                                    type={"text"}
+                                />
+                            </Box>
+                            <Box>
+                                <InputField
+                                    label={'Vender Email'}
+                                    name={'business.vendorEmail'}
+                                    placeholder={'Enter vender email'}
+                                    value={inputData?.business?.vendorEmail}
                                     handleChange={handleChange}
                                     type={"text"}
                                 />

@@ -235,7 +235,7 @@ exports.getUserWithManagerDetails = async (req, res) => {
 exports.getUserProfile = async (req, res) => {
     try {
         const { _id:userId } = req.user;
-        const user = await User.findById(userId).populate('managerId');
+        const user = await User.findById(userId).populate('managerId',{name:1});
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }

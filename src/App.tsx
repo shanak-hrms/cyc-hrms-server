@@ -3,18 +3,15 @@ import Overview from './components/main/Overview/Overview'
 import Login from './pages/Login/Login';
 import axios from 'axios'
 import EmpAttendancePage from './pages/EmpAttendancePage/EmpAttendancePage';
-import { EmployeeDataContextProvider } from './ContextAPI/EmployeeContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Grid, Typography } from '@mui/material';
 import AgreedToAgreement from './components/AgreedToAgreement/AgreedToAgreement';
 
 const App = () => {
   const navigation = useNavigate()
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [agreeModal, setAgreeModal] = useState(false)
   const handleResponsiveMenu = () => setMenu(false);
   const handleClickUSer = () => { setOpen(!open) };
   const handleSidebarMemu = () => { setMenu(!menu) };
@@ -121,52 +118,42 @@ const App = () => {
 
   return (
     <Fragment>
-      <EmployeeDataContextProvider>
-        {IsLogin ?
-          <>
-            {(user === "ADMIN" || user === "DIRECTOR" || user === "MANAGER" || user === "HR")
-              &&
-              <Overview
-                open={open}
+      {IsLogin ?
+        <>
+          {(user === "ADMIN" || user === "DIRECTOR" || user === "MANAGER" || user === "HR")
+            &&
+            <Overview
+              open={open}
+              handleLogout={handleLogout}
+              handleClick={handleClickUSer}
+              menu={menu}
+              handleSidebarMemu={handleSidebarMemu}
+              handleResponsiveMenu={handleResponsiveMenu} />}
+
+          {user === "EMPLOYEE" &&
+            <>
+              {agreeAgreement === true ? <EmpAttendancePage
                 handleLogout={handleLogout}
-                handleClick={handleClickUSer}
+                open={open}
+                handleClickLogout={handleClickUSer}
                 menu={menu}
                 handleSidebarMemu={handleSidebarMemu}
-                handleResponsiveMenu={handleResponsiveMenu} />}
-
-            {user === "EMPLOYEE" &&
-              <>
-                {/* <EmpAttendancePage
-                  handleLogout={handleLogout}
-                  open={open}
-                  handleClickLogout={handleClickUSer}
-                  menu={menu}
-                  handleSidebarMemu={handleSidebarMemu}
-                  handleResponsiveMenu={handleResponsiveMenu}
-                /> */}
-                {agreeAgreement === true ? <EmpAttendancePage
-                  handleLogout={handleLogout}
-                  open={open}
-                  handleClickLogout={handleClickUSer}
-                  menu={menu}
-                  handleSidebarMemu={handleSidebarMemu}
-                  handleResponsiveMenu={handleResponsiveMenu}
-                /> :
-                  <AgreedToAgreement handleClick={handleClickAgreement} />
-                }
-              </>
-            }
-          </>
-          :
-          <>
-            <Login
-              inputData={inputData}
-              handleChange={handleChange}
-              handleLogin={handleLogin}
-            />
-          </>
-        }
-      </EmployeeDataContextProvider>
+                handleResponsiveMenu={handleResponsiveMenu}
+              /> :
+                <AgreedToAgreement handleClick={handleClickAgreement} />
+              }
+            </>
+          }
+        </>
+        :
+        <>
+          <Login
+            inputData={inputData}
+            handleChange={handleChange}
+            handleLogin={handleLogin}
+          />
+        </>
+      }
       <ToastContainer />
 
     </Fragment>

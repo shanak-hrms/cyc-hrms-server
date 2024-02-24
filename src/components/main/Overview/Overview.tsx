@@ -23,7 +23,6 @@ export interface IOverview {
     handleResponsiveMenu?: any
 }
 const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, handleResponsiveMenu }: IOverview) => {
-    const [attendanceData, setAttendanceData] = useState<any>();
     const [userRole, seUserRole] = useState()
     console.log(userRole, "userRole//")
     const menuData2 = [
@@ -70,20 +69,6 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
             "link": userRole === "HR" ? "/pay-slip" : "/manager-pay-slip",
         }
     ]
-    const fetchData = async () => {
-        const loginedUserStr: any = localStorage.getItem("loginedUser")
-        const loginedUser = JSON.parse(loginedUserStr)
-        const { email } = loginedUser
-
-        try {
-            const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
-            const data = result.data.attendanceData;
-            const filterData = data?.filter((item: any) => item.employeeId?.email === email)
-            setAttendanceData(filterData);
-        } catch (error) {
-            console.error("Error during GET request:", error);
-        }
-    };
     const getUserData = async () => {
         try {
             const loginedUserStr: any = localStorage.getItem("loginedUser")
@@ -98,7 +83,6 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
     }
     useEffect(() => {
         getUserData();
-        fetchData();
 
     }, []);
     return (

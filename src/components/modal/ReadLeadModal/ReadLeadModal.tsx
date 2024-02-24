@@ -45,16 +45,20 @@ const ReadLeadModal = ({ open, leadData, handleClose }: IReadLeadModal) => {
                         <Typography>Lead Name: <span>{leadData && leadData.length > 0 ? leadData[0].leadName : 'No lead type available'}</span></Typography>
                         <Typography>Lead Status: <span>{leadData && leadData.length > 0 ? leadData[0].leadStatus : 'No lead type available'}</span></Typography>
                         <Typography>Open Date: <span>{formateDate(leadData && leadData.length > 0 ? leadData[0].openDate : 'No lead type available')}</span></Typography>
-                        <Typography>Business Type: <span>{leadData && leadData.length > 0 ? leadData[0].businessType : 'No lead type available'}</span></Typography>
-                        <Typography>Business Value: <span>{leadData && leadData.length > 0 ? leadData[0].businessVal : 'No lead type available'}</span></Typography>
+                        <Typography>Vendor Name: <span>{leadData && leadData.length > 0 ? leadData[0].business?.vendorName : 'No lead type available'}</span></Typography>
+                        <Typography>Vendor Email: <span>{leadData && leadData.length > 0 ? leadData[0].business?.vendorEmail : 'No lead type available'}</span></Typography>
+                        <Typography>Business Type: <span>{leadData && leadData.length > 0 ? leadData[0].business?.type : 'No lead type available'}</span></Typography>
+                        <Typography>Business Value: <span>{leadData && leadData.length > 0 ? leadData[0].business?.businessValueBooked : 'No lead type available'}</span></Typography>
 
                     </Grid>
                     <Grid item sm={6}>
                         <Typography>Lead Type: <span>{leadData && leadData.length > 0 ? leadData[0].leadType : 'No lead type available'}</span></Typography>
-                        <Typography>Business From : <span>{leadData && leadData.length > 0 ? leadData[0].businessFrom : 'No lead type available'}</span></Typography>
+                        <Typography>Business From : <span>{leadData && leadData.length > 0 ? leadData[0].business?.source : 'No lead type available'}</span></Typography>
                         <Typography>Close Date : <span>{formateDate(leadData && leadData.length > 0 ? leadData[0].closeDate : 'No lead type available')}</span></Typography>
-                        <Typography>Business Cost: <span>{leadData && leadData.length > 0 ? leadData[0].businessCost : 'No lead type available'}</span></Typography>
-                        <Typography>Profit Amount: <span>{leadData && leadData.length > 0 ? leadData[0].profitAmount : 'No lead type available'}</span></Typography>
+                        <Typography>Vendor Mobile: <span>{leadData && leadData.length > 0 ? leadData[0].business?.vendorMobile : 'No lead type available'}</span></Typography>
+                        <Typography>Vendor Address: <span>{leadData && leadData.length > 0 ? leadData[0].business?.vendorName : 'No lead type available'}</span></Typography>
+                        <Typography>Business Cost: <span>{leadData && leadData.length > 0 ? leadData[0].business?.businessCost : 'No lead type available'}</span></Typography>
+                        <Typography>Profit Amount: <span>{leadData && leadData.length > 0 ? leadData[0].business?.profitAmount : 'No lead type available'}</span></Typography>
                     </Grid>
                     <Typography>Lead Description: <span dangerouslySetInnerHTML={{ __html: (leadData && leadData.length > 0 ? leadData[0].leadDesc : 'No lead type available') }}></span></Typography>
                 </Grid>

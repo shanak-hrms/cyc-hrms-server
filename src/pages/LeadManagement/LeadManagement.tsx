@@ -68,7 +68,7 @@ const LeadManagement = () => {
 
         try {
             await setReadModal((preState: any) => ({ ...preState, [id]: !preState[id] }))
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/lead`)
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
             const leadData = response.data.leadData;
             const filteredLead = leadData.filter((item: any) => item._id === id)
             setReadLeadId(filteredLead)

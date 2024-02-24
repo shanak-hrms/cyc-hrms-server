@@ -148,7 +148,7 @@ const Dashboard = ({ data }: IDashboard) => {
 
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
-                { date: formattedDate },
+                { date: formattedDate, markedWithin5Km: true },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

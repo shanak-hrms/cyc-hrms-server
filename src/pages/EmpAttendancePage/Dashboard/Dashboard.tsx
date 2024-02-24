@@ -5,12 +5,7 @@ import axios from 'axios';
 import Dashboard from '../../../components/dashboard/Dashboard';
 import { PiNoteBold, } from "react-icons/pi";
 
-export interface IDashboardPage {
-  handleClockIn: any;
-  handleClockOut: any;
-  attendanceData?: any
-}
-const DashboardPage = ({ handleClockIn, handleClockOut, attendanceData }: IDashboardPage) => {
+const DashboardPage = () => {
   const [medicalLeave, setMedicalLeave] = useState()
   const [privilageLeave, setPrivilegeLeave] = useState()
   const [lwpLeave, setLwpLeave] = useState()
@@ -62,7 +57,7 @@ const DashboardPage = ({ handleClockIn, handleClockOut, attendanceData }: IDashb
 
   return (
     <Grid className={styles.dashboardContainer}>
-      <Dashboard data={data} handleClockIn={handleClockIn} attendanceData={attendanceData} handleClockOut={handleClockOut} />
+      <Dashboard data={data} />
     </Grid>
   )
 }

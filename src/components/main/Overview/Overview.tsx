@@ -84,62 +84,6 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
             console.error("Error during GET request:", error);
         }
     };
-
-    const handleClockIn = async () => {
-        const loginedUserStr: any = localStorage.getItem("loginedUser")
-        const loginedUser = JSON.parse(loginedUserStr)
-        const { token } = loginedUser;
-        try {
-            const desiredDate = new Date();
-            const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
-            console.log(formattedDate);
-
-            const response = await axios.post(
-                'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
-                { date: formattedDate },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
-            if (response.status === 201) {
-                await fetchData();
-                toast.success(("Clock in successfully"))
-                // await setPhotoModal(false);
-            }
-
-        } catch (error) {
-            console.error('Error occurred:', error);
-        }
-
-    };
-    const handleClockOut = async (idx: any) => {
-        const loginedUserStr: any = localStorage.getItem("loginedUser")
-        const loginedUser = JSON.parse(loginedUserStr)
-        const { token } = loginedUser;
-        if (attendanceData && attendanceData.length > 0) {
-            const matchId: any = attendanceData.filter((item: any) => item._id === idx);
-            const checkOut = matchId[0].date;
-            try {
-                const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
-                    { date: checkOut },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                )
-                if (response.status === 200) {
-                    await fetchData();
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        } else {
-            console.log("attendanceData is undefined or empty");
-        }
-    };
     const getUserData = async () => {
         try {
             const loginedUserStr: any = localStorage.getItem("loginedUser")
@@ -175,7 +119,7 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
                         menuData={menuData}
                         handleSidebarMemu={handleSidebarMemu}
                         handleResponsiveMenu={handleResponsiveMenu} />
-                    <RoutesPage handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
+                    <RoutesPage />
                 </Grid>
             </Grid>
             <ToastContainer />

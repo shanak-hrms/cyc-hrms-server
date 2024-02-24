@@ -26,15 +26,11 @@ import UpdateStaff from '../../../pages/UpdateStaff/UpdateStaff'
 import UpdateStatusList from '../../../pages/UpdateStatusList/UpdateStatusList'
 import EmpPaySlip from '../../../pages/EmpAttendancePage/EmpPaySlip/EmpPaySlip'
 
-export interface IRoutesPage {
-    handleClockIn: any;
-    handleClockOut: any;
-}
-const RoutesPage = ({ handleClockIn, handleClockOut }: IRoutesPage) => {
+const RoutesPage = () => {
     return (
         <Fragment>
             <Routes>
-                <Route path='/' element={<DashboardPage handleClockIn={handleClockIn} handleClockOut={handleClockOut} />} />
+                <Route path='/' element={<DashboardPage />} />
                 <Route path='/staff' element={<StaffPage />} />
                 <Route path='/add-staff' element={<AddStaff />} />
                 <Route path='/update-staff' element={<UpdateStaff />} />

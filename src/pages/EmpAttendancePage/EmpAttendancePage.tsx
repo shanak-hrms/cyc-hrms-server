@@ -156,7 +156,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             Math.sin(dLon / 2) *
             Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c *1000;
+        const distance = R * c * 1000;
         console.log(distance, "emodistance")
         return distance;
     };
@@ -275,7 +275,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
 
             const response = await axios.post(
                 'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
-                { date: formattedDate },
+                { date: formattedDate, markedWithin5Km: true },
                 {
                     headers: {
                         Authorization: `Bearer ${userToken}`
@@ -326,7 +326,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             }
             const response = await axios.patch(
                 `https://hrms-server-ygpa.onrender.com/api/v1/attendance/Approved/attendance/checkIn/${appAttId}`,
-                { time: time },
+                { time: time, markedWithin5Km: true },
                 {
                     headers: {
                         Authorization: `Bearer ${userToken}`

@@ -156,7 +156,8 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             Math.sin(dLon / 2) *
             Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c;
+        const distance = R * c *1000;
+        console.log(distance, "emodistance")
         return distance;
     };
     const startCamera = async () => {
@@ -255,7 +256,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
 
                 console.log(distance, "distance to", officeLocation.name);
 
-                if (distance <= 11) {
+                if (distance <= 100) {
                     withinRange = true;
                     break;
                 }

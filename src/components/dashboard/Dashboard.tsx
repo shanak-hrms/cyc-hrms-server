@@ -96,7 +96,8 @@ const Dashboard = ({ data }: IDashboard) => {
             Math.sin(dLon / 2) *
             Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c;
+        const distance = R * c * 1000;
+        console.log(distance, "distancemm")
         return distance;
     };
     const getOfficeLocation = async () => {
@@ -130,7 +131,7 @@ const Dashboard = ({ data }: IDashboard) => {
 
                 console.log(distance, "distance to", officeLocation.name);
 
-                if (distance <= 5) {
+                if (distance <= 100) {
                     withinRange = true;
                     break;
                 }
@@ -215,16 +216,7 @@ const Dashboard = ({ data }: IDashboard) => {
         }
     };
     console.log(locationG, "locationG")
-    const handleClockInOut = async () => {
-        try {
-            // Simulate getting latitude and longitude from some source (e.g., browser geolocation)
-            const latitude = 123.456; // Replace with actual latitude
-            const longitude = 789.012; // Replace with actual longitude
-            await getCurrentLocation(latitude, longitude);
-        } catch (error) {
-            console.error('Error clocking in/out:', error);
-        }
-    };
+
     useEffect(() => {
         getOfficeLocation();
         getUserLocation();
@@ -249,7 +241,7 @@ const Dashboard = ({ data }: IDashboard) => {
             <Grid container className={styles.dashboardBody}>
                 <Grid item sm={6} >
                     <Box>
-                        <CommonButton name={"Clock In"} onClick={handleClockInOut} />
+                        <CommonButton name={"Clock In"} onClick={handleClockIn} />
                     </Box>
                     <Box>
                         <TableContainer>

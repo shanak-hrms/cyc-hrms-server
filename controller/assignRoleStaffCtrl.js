@@ -100,7 +100,6 @@ exports.assignManagerToEmployee = async (req, res) => {
     }
 };
 
-
 exports.getUserWithManagerDetails = async (req, res) => {
     try {
         const { userId } = req.params;

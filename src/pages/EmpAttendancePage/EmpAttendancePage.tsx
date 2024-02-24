@@ -16,9 +16,7 @@ import CompanyPolicy from '../CompanyPolicy/CompanyPolicy'
 import TakePicture from './TakePicture/TakePicture'
 import TakePhotoModal from '../../components/modal/TakePhotoModal/TakePhotoModal'
 import LeadManagement from '../LeadManagement/LeadManagement'
-import RequestModal from '../../components/modal/RequestModal/RequestModal'
 import NewHeading from '../../components/NewHeading/NewHeading'
-import Dashboard from '../../components/dashboard/Dashboard'
 import DashboardPage from './Dashboard/Dashboard'
 import EmpPaySlip from './EmpPaySlip/EmpPaySlip'
 import PaySlip from '../PaySlip/PaySlip'
@@ -40,17 +38,12 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const handleRequestModal = () => setRequestModal(!requestModal);
     const handleClose = () => { setPhotoModal(false); setRequestModal(false); setReqAtten(false) }
     const [attendanceData, setAttendanceData] = useState<any>([])
-    const [email, setEmail] = useState<any>()
-    const [name, setName] = useState<any>()
-    const [emp_id, setEmpId] = useState<any>()
     const [userToken, setUserToken] = useState()
     const [loading, setLoading] = useState(false);
     const [userLocation, setUserLocation] = useState<any>(null);
-    const [stream, setStream] = useState<any>(null);
     const [appAttId, setAppAttId] = useState()
     const videoRef = useRef<any>();
     const [locations, setLocations] = useState<any>()
-    const [emp, setEmp] = useState<any>()
 
 
     const fetchData = async () => {
@@ -117,14 +110,11 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     };
 
     useEffect(() => {
-        const userEmail = localStorage.getItem('email')
-        setEmail(userEmail)
+
         const loginedUserString = localStorage.getItem('loginedUser')
         if (loginedUserString) {
             const loginedUser = JSON.parse(loginedUserString);
-            const { name, emp_id, token } = loginedUser;
-            setName(name)
-            setEmpId(emp_id)
+            const { token } = loginedUser;
             setUserToken(token)
         } else {
             console.log('No logined user found');
@@ -172,7 +162,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     const startCamera = async () => {
         try {
             const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
-            setStream(mediaStream);
+            // setStream(mediaStream);
             if (videoRef.current) {
                 videoRef.current.srcObject = mediaStream;
             }
@@ -403,13 +393,6 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 takePicture={takePicture}
                 handleClose={handleClose}
             />
-            {/* <RequestModal
-                open={requestModal}
-                requestVal={requestVal}
-                handleClose={handleClose}
-                handleRequest={handleRequestAtt}
-                handleChange={handleChangeRequest}
-            /> */}
         </Grid>
     )
 }

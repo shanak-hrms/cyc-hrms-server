@@ -15,6 +15,7 @@ const Dashboard = ({ data }: IDashboard) => {
     const [holiday, setHolidays] = useState<any>();
     const [userLocation, setUserLocation] = useState<any>(null);
     const [locations, setLocations] = useState<any>();
+    const [locationG, setLocationG] = useState()
 
     const getAttendanceData = async () => {
         const loginedUserStr: any = localStorage.getItem("loginedUser")
@@ -193,6 +194,37 @@ const Dashboard = ({ data }: IDashboard) => {
             console.log("attendanceData is undefined or empty");
         }
     };
+
+    const getCurrentLocation = async (latitude: any, longitude: any) => {
+        console.log('Latitude:', latitude);
+        console.log('Longitude:', longitude);
+        try {
+            const apiKey = 'AIzaSyCplMTApVioqEb09tVxAEmvtUUEJYVX6EQ';
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=28.6409857,77.3690384&key=${apiKey}`;
+            const response = await axios.get(url);
+            console.log(response, "response")
+            if (response.data && response.data.results && response.data.results.length > 0) {
+                const address = response.data.results[0].formatted_address;
+                setLocationG(address);
+            } else {
+                // setLocationG("Location not found");
+            }
+        } catch (error) {
+            console.error('Error fetching location:', error);
+            //   setLocationG("Error fetching location");
+        }
+    };
+    console.log(locationG, "locationG")
+    const handleClockInOut = async () => {
+        try {
+            // Simulate getting latitude and longitude from some source (e.g., browser geolocation)
+            const latitude = 123.456; // Replace with actual latitude
+            const longitude = 789.012; // Replace with actual longitude
+            await getCurrentLocation(latitude, longitude);
+        } catch (error) {
+            console.error('Error clocking in/out:', error);
+        }
+    };
     useEffect(() => {
         getOfficeLocation();
         getUserLocation();
@@ -217,7 +249,7 @@ const Dashboard = ({ data }: IDashboard) => {
             <Grid container className={styles.dashboardBody}>
                 <Grid item sm={6} >
                     <Box>
-                        <CommonButton name={"Clock In"} onClick={handleClockIn} />
+                        <CommonButton name={"Clock In"} onClick={handleClockInOut} />
                     </Box>
                     <Box>
                         <TableContainer>

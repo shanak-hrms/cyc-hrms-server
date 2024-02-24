@@ -19,7 +19,6 @@ const DashboardPage = () => {
     const [attenData, setAttenData] = useState()
     const [claimData, setClaimData] = useState()
     const [userRole, setUserRole] = useState()
-    const [attendanceData, setAttendanceData] = useState()
 
     const dataOne = [
         {
@@ -148,8 +147,6 @@ const DashboardPage = () => {
             const filterData = data.filter((item: any) => item.regularizationRequest?.status === "Pending");
             const dataLength = filterData.length;
             setAttenData(dataLength);
-            const filetrAttenByEmail = data.filter((item: any) => item.employeeId?.email === email)
-            setAttendanceData(filetrAttenByEmail)
         } catch (error) {
             console.error("Error fetching attendance data:", error);
         } finally {

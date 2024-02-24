@@ -6,11 +6,8 @@ import axios from 'axios'
 import { Grid } from '@mui/material'
 import { PiNoteBold, } from "react-icons/pi";
 
-export interface IDashboardPage {
-    handleClockIn: any;
-    handleClockOut: any;
-}
-const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
+
+const DashboardPage = () => {
     const [loading, setLoading] = useState(false)
     const [openLead, setOpenLead] = useState()
     const [closeLead, setCloseLead] = useState()
@@ -195,9 +192,9 @@ const DashboardPage = ({ handleClockIn, handleClockOut }: IDashboardPage) => {
                 <CustomLoader />
                 :
                 <>{userRole === "HR" || "MANAGER" ?
-                    <Dashboard data={dataOne} attendanceData={attendanceData} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />
+                    <Dashboard data={dataOne} />
                     :
-                    <Dashboard data={data} handleClockIn={handleClockIn} handleClockOut={handleClockOut} />}</>
+                    <Dashboard data={data} />}</>
             }
         </Grid>
     )

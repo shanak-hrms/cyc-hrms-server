@@ -222,6 +222,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     //         setRequestModal(false);
     //     }
     // };
+
     const handleReqAttModal = async (idx: any) => {
         try {
             await setReqAtten((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
@@ -245,55 +246,6 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             console.log(err)
         }
     }
-
-    // const handleClockIn = async () => {
-    //     if (!userLocation) {
-    //         alert('Unable to get your current location.');
-    //         return;
-    //     }
-
-    //     const officeLocation = { latitude: 28.613310, longitude: 77.380090 };
-    //     const distance = calculateDistance(
-    //         userLocation.latitude,
-    //         userLocation.longitude,
-    //         officeLocation.latitude,
-    //         officeLocation.longitude
-    //     );
-    //     console.log(distance, "distance")
-    //     if (distance > 5) {
-    //         alert('You are not within 5km of the office location.');
-    //         return;
-    //     }
-
-    //     try {
-    //         const desiredDate = new Date();
-    //         const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
-    //         console.log(formattedDate);
-
-
-    //         // const response = await axios.post(
-    //         //     'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
-    //         //     { date: formattedDate },
-    //         //     {
-    //         //         headers: {
-    //         //             Authorization: `Bearer ${userToken}`
-    //         //         }
-    //         //     }
-    //         // )
-    //         // if (response.status === 201) {
-    //         //     toast.success("Clock in successfully")
-    //         //     await fetchData();
-    //         //     await setPhotoModal(false);
-    //         // }
-
-    //     } catch (error: any) {
-    //         console.error('Error occurred:', error.response.status);
-    //         if (error.response.status === 400) {
-    //             toast.error("Clocked in allready today")
-    //         }
-    //     }
-
-    // };
 
     const handleClockIn = async () => {
         if (!userLocation) {
@@ -416,10 +368,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             <Grid className={styles.empAttendanceScreen}>
                 <NewHeading open={open} menu={menu} menuData={menuData} handleClickLogout={handleClickLogout} handleSidebarMemu={handleSidebarMemu} handleLogout={handleLogout} handleResponsiveMenu={handleResponsiveMenu} />
                 <Routes>
-                    <Route path='/' element={<DashboardPage
-                        attendanceData={attendanceData}
-                        handleClockIn={handleClockIn}
-                        handleClockOut={handleClockOut} />}
+                    <Route path='/' element={<DashboardPage />}
                     />
                     <Route path='/attendance' element={
                         <Attendance

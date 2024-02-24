@@ -86,7 +86,7 @@ const DashboardPage = () => {
             "number": lostLead,
             "color": "#AFE1AF"
         }
-    ]
+    ];
     const getLeadData = async () => {
         try {
             const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)

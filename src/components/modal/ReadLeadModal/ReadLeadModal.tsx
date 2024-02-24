@@ -28,6 +28,10 @@ const ReadLeadModal = ({ open, leadData, handleClose }: IReadLeadModal) => {
         const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 
         return formattedDateString;
+    };
+    const formateTime = (idx: any) => {
+        const date = new Date(idx);
+        return date.toLocaleTimeString()
     }
     return (
         <Modal
@@ -60,11 +64,24 @@ const ReadLeadModal = ({ open, leadData, handleClose }: IReadLeadModal) => {
                         <Typography>Business Cost: <span>{leadData && leadData.length > 0 ? leadData[0].business?.businessCost : 'No lead type available'}</span></Typography>
                         <Typography>Profit Amount: <span>{leadData && leadData.length > 0 ? leadData[0].business?.profitAmount : 'No lead type available'}</span></Typography>
                     </Grid>
-                    <Typography>Lead Description: <span dangerouslySetInnerHTML={{ __html: (leadData && leadData.length > 0 ? leadData[0].leadDesc : 'No lead type available') }}></span></Typography>
+
                 </Grid>
+                <Typography sx={{ fontWeight: 600, fontStyle: "italic" }}>Tag In History</Typography>
+                <Grid container className={styles.readLead}>
+                    <Grid>
+                        <Typography>Name: <span>{leadData && leadData.length > 0 ? leadData[0].taggingHistory[0]?.employeeId?.name : 'No lead type available'}</span></Typography>
+                        <Typography>Tag in Time: <span>{leadData && leadData.length > 0 ? formateTime(leadData[0].taggingHistory?.tagIn) : 'No lead type available'}</span></Typography>
+
+                    </Grid>
+                    <Grid>
+                        <Typography>Date: <span>{leadData && leadData.length > 0 ? formateDate(leadData[0].taggingHistory?.tagIn) : 'No lead type available'}</span></Typography>
+                        <Typography>Tag out Time: <span>{leadData && leadData.length > 0 ? leadData[0].taggingHistory?.tagOut === null ?"Pending": formateTime(leadData[0].taggingHistory?.tagOut) : 'No lead type available'}</span></Typography>
+                    </Grid>
+                </Grid>
+                <Typography>Lead Description: <span dangerouslySetInnerHTML={{ __html: (leadData && leadData.length > 0 ? leadData[0].leadDesc : 'No lead type available') }}></span></Typography>
             </Grid>
         </Modal>
     )
 }
-
+// formateTime(leadData[0]?.taggingHistory[0]?.tagOut)
 export default ReadLeadModal

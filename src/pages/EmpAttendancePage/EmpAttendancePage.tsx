@@ -63,9 +63,39 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
         }
     };
     const handleClockOut = async (idx: any) => {
+        if (!userLocation) {
+            alert('Unable to get your current location.');
+            return;
+        }
+
         if (attendanceData && attendanceData.length > 0) {
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);
             const checkOut = matchId[0].date;
+
+            let withinRange = false;
+
+            for (const officeLocation of locations) {
+                const distance = calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    officeLocation.latitude,
+                    officeLocation.longitude
+                );
+
+                console.log(distance, "distance to", officeLocation.name);
+
+                if (distance <= 100) {
+                    withinRange = true;
+                    break;
+                }
+            }
+
+            if (!withinRange) {
+                alert('You are not within 50 meter of any office location.');
+                return;
+            }
+
+
             try {
                 const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
                     { date: checkOut },

@@ -268,10 +268,11 @@ const LeadManagement = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { token } = loginedUser;
         const leadLocation = { tagInLocation: currentLocation }
+        console.log(currentLocation,"currentLocation")
         try {
             const response = await axios.patch(
                 `https://hrms-server-ygpa.onrender.com/api/v1/lead/tagIn/${idx}`, // Corrected URL
-                { leadLocation }, // empty data object if no data is to be sent
+                { tagInLocation:currentLocation }, // empty data object if no data is to be sent
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

@@ -16,7 +16,42 @@ const Dashboard = ({ data }: IDashboard) => {
     const [userLocation, setUserLocation] = useState<any>(null);
     const [locations, setLocations] = useState<any>();
     const [locationG, setLocationG] = useState()
+    const [userRole, setUserRole] = useState();
+    const [userData, setUserData] = useState<any>()
 
+    const getUser = async () => {
+        try {
+            const loginedUserSting: any = localStorage.getItem("loginedUser");
+            const loginedUser = JSON.parse(loginedUserSting);
+            const { role, token } = loginedUser;
+            setUserRole(role);
+        }
+        catch (err) {
+            console.log(err)
+        }
+    };
+    const getUserData = async () => {
+        const loginedUserSting: any = localStorage.getItem("loginedUser");
+        const loginedUser = JSON.parse(loginedUserSting);
+        const { token } = loginedUser;
+        try {
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get/profile`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            console.log(response, "response//")
+            if (response.status === 200) {
+                setUserData(response.data.user)
+            }
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+    console.log(userRole, "userRole")
     const getAttendanceData = async () => {
         const loginedUserStr: any = localStorage.getItem("loginedUser")
         const loginedUser = JSON.parse(loginedUserStr)
@@ -26,7 +61,6 @@ const Dashboard = ({ data }: IDashboard) => {
             const data = result.data.attendanceData;
             const filterData = data?.filter((item: any) => item.employeeId?.email === email);
             setAttendance(filterData);
-            console.log(filterData, "filterData")
             console.log(data, "data")
         }
         catch (err) {
@@ -34,7 +68,6 @@ const Dashboard = ({ data }: IDashboard) => {
         }
 
     }
-    console.log(attendance, "attendance")
 
     const formateDate = (idx: any) => {
         const date = new Date(idx)
@@ -61,13 +94,14 @@ const Dashboard = ({ data }: IDashboard) => {
         const date = new Date();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https:/hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-year?year=${getYear}`);
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-year?year=${getYear}`);
             setHolidays(response.data)
         }
         catch (err) {
             console.log(err)
         }
     };
+
     const getUserLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -170,9 +204,38 @@ const Dashboard = ({ data }: IDashboard) => {
         const loginedUserSting: any = localStorage.getItem("loginedUser");
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser;
+
+        if (!userLocation) {
+            alert('Unable to get your current location.');
+            return;
+        }
+
         if (attendance && attendance.length > 0) {
             const matchId: any = attendance.filter((item: any) => item._id === idx);
             const checkOut = matchId[0].date;
+
+            let withinRange = false;
+
+            for (const officeLocation of locations) {
+                const distance = calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    officeLocation.latitude,
+                    officeLocation.longitude
+                );
+
+                console.log(distance, "distance to", officeLocation.name);
+
+                if (distance <= 100) {
+                    withinRange = true;
+                    break;
+                }
+            }
+
+            if (!withinRange) {
+                alert('You are not within 50 meter of any office location.');
+                return;
+            }
             try {
                 const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
                     { date: checkOut },
@@ -196,28 +259,9 @@ const Dashboard = ({ data }: IDashboard) => {
         }
     };
 
-    const getCurrentLocation = async (latitude: any, longitude: any) => {
-        console.log('Latitude:', latitude);
-        console.log('Longitude:', longitude);
-        try {
-            const apiKey = 'AIzaSyCplMTApVioqEb09tVxAEmvtUUEJYVX6EQ';
-            const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=28.6409857,77.3690384&key=${apiKey}`;
-            const response = await axios.get(url);
-            console.log(response, "response")
-            if (response.data && response.data.results && response.data.results.length > 0) {
-                const address = response.data.results[0].formatted_address;
-                setLocationG(address);
-            } else {
-                // setLocationG("Location not found");
-            }
-        } catch (error) {
-            console.error('Error fetching location:', error);
-            //   setLocationG("Error fetching location");
-        }
-    };
-    console.log(locationG, "locationG")
-
     useEffect(() => {
+        getUser();
+        getUserData();
         getOfficeLocation();
         getUserLocation();
         getAttendanceData();
@@ -278,8 +322,16 @@ const Dashboard = ({ data }: IDashboard) => {
                         </TableContainer>
                     </Box>
                     <Box>
-                        <Typography variant='h5' fontSize={16} fontWeight={500}>Manager Name: </Typography>
-                        <Typography variant='h5' fontSize={16} fontWeight={500}>Sherry Lin </Typography>
+                        {
+                            userRole === "EMPLOYEE"
+                                ?
+                                <>
+                                    <Typography variant='h5' fontSize={16} fontWeight={500}>Manager Name: </Typography>
+                                    <Typography variant='h5' fontSize={16} fontWeight={500}>{userData?.managerId?.name}</Typography>
+                                </>
+                                :
+                                ""
+                        }
                     </Box>
                     <Box>
                         <CommonButton name={"Monthly Holidays"} onClick={getMonthlyHolidays} />

@@ -94,13 +94,14 @@ const Dashboard = ({ data }: IDashboard) => {
         const date = new Date();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https:/hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-year?year=${getYear}`);
+            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-year?year=${getYear}`);
             setHolidays(response.data)
         }
         catch (err) {
             console.log(err)
         }
     };
+
     const getUserLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(

@@ -14,3 +14,17 @@
         }
     }
 }
+
+@media screen and (max-width:480px) {
+    .readLeadModalContainer {
+        width: 50%;
+        height: 30rem;
+        overflow-y: scroll;
+
+        .readLead {
+            display: flex;
+            flex-direction: column !important;
+        }
+    }
+
+}

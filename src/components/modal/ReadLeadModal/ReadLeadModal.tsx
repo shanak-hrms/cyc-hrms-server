@@ -20,19 +20,27 @@ const ReadLeadModal = ({ open, leadData, handleClose }: IReadLeadModal) => {
         }
     }
     const formateDate = (idx: any) => {
-        const dateObj = new Date(idx);
-        const year = dateObj.getUTCFullYear();
-        const month = dateObj.getUTCMonth() + 1;
-        const day = dateObj.getUTCDate();
+        const date = new Date(idx);
+        return date.toLocaleDateString()
 
-        const formattedDateString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-
-        return formattedDateString;
     };
-    const formateTime = (idx: any) => {
+    const formatTime = (idx: any) => {
         const date = new Date(idx);
         return date.toLocaleTimeString()
-    }
+    };
+    const lastTagInName = leadData && leadData.length > 0 ?
+        leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.employeeId?.name :
+        null;
+    const lastTagInDate = leadData && leadData.length > 0 ?
+        leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.tagIn :
+        null;
+    const lastTagInTime = leadData && leadData.length > 0 ?
+        leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.tagIn :
+        null;
+    const lastTagInOut = leadData && leadData.length > 0 ?
+        leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.tagOut :
+        null;
+        console.log(lastTagInOut,"lastTagInOut")
     return (
         <Modal
             open={open}
@@ -64,23 +72,41 @@ const ReadLeadModal = ({ open, leadData, handleClose }: IReadLeadModal) => {
                         <Typography>Business Cost: <span>{leadData && leadData.length > 0 ? leadData[0].business?.businessCost : 'Loading...'}</span></Typography>
                         <Typography>Profit Amount: <span>{leadData && leadData.length > 0 ? leadData[0].business?.profitAmount : 'Loading...'}</span></Typography>
                     </Grid>
-
                 </Grid>
-                <Typography sx={{ fontWeight: 600, }}>Tag Details</Typography>
+                <Typography sx={{ fontWeight: 600, backgroundColor: "#F8FAF9", paddingBlock: 1, textAlign: "center", border: "1px solid #d9def1;", borderRadius: 0.5 }}>Tag Details</Typography>
                 <Grid container className={styles.readLead}>
                     <Grid item sm={6}>
-                        <Typography>Name: <span>{leadData && leadData.length > 0 ? leadData[0].taggingHistory[0]?.employeeId?.name : 'Loading...'}</span></Typography>
-                        <Typography>Tag in Time: <span>{leadData && leadData.length > 0 ? formateTime(leadData[0].taggingHistory[0]?.tagIn) : 'Loading...'}</span></Typography>
+                        {/* <Typography>Name: <span>{leadData && leadData.length > 0 ? leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.employeeId?.name : 'Loading...'}</span></Typography> */}
+                        <Typography>
+                            Tag in Name: <span>
+                                {lastTagInName ? lastTagInName : 'null'}
+                            </span>
+                        </Typography>
+                        {/* <Typography>Tag in Time: <span>{leadData && leadData.length > 0 ? formatTime(leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.tagIn) : 'Loading...'}</span></Typography> */}
+                        <Typography>
+                            Tag in Time: <span>
+                                {lastTagInTime ? formatTime(lastTagInTime) : 'null'}
+                            </span>
+                        </Typography>
                     </Grid>
                     <Grid item sm={6}>
-                        <Typography>Date: <span>{leadData && leadData.length > 0 ? formateDate(leadData[0].taggingHistory[0]?.tagIn) : 'Loading...'}</span></Typography>
-                        <Typography>Tag Out Time: <span>{leadData && leadData.length > 0 ? formateTime(leadData[0].taggingHistory[0]?.tagIn) : 'Loading...'}</span></Typography>
+                        {/* <Typography>Date: <span>{leadData && leadData.length > 0 ? formateDate(leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.tagIn) : 'null'}</span></Typography> */}
+                        <Typography>
+                            Tag in Time: <span>
+                                {lastTagInDate ? formateDate(lastTagInDate) : 'null'}
+                            </span>
+                        </Typography>
+                        {/* <Typography>Tag Out Time: <span>{leadData && leadData.length > 0 ? formatTime(leadData[0].taggingHistory[leadData[0].taggingHistory.length - 1]?.tagIn) : 'Loading...'}</span></Typography> */}
+                        <Typography>
+                            Tag Out Time: <span>
+                                {lastTagInOut ? formatTime(lastTagInOut) : 'null'}
+                            </span>
+                        </Typography>
                     </Grid>
                 </Grid>
-                <Typography sx={{ fontWeight: 600 }}>Lead Description: <span style={{ fontWeight: 500 }} dangerouslySetInnerHTML={{ __html: (leadData && leadData.length > 0 ? leadData[0].leadDesc : 'Loading...') }}></span></Typography>
+                <Typography sx={{ fontWeight: 600 }}>Lead Description: <span style={{ fontWeight: 500 }} dangerouslySetInnerHTML={{ __html: (leadData && leadData.length > 0 ? leadData[0].leadDesc : 'null') }}></span></Typography>
             </Grid>
         </Modal>
     )
 }
-// formateTime(leadData[0]?.taggingHistory[0]?.tagOut)
 export default ReadLeadModal

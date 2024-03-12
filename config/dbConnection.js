@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-// const dbURI=process.env.MONGO_URI
-const dbURI="mongodb://127.0.0.1:27017/HRMS_DATA"
+const dbURI=process.env.MONGO_URI
+// const dbURI="mongodb://127.0.0.1:27017/HRMS_DATA"
 const dbOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,

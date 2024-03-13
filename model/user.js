@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     branch: { type: String, required: true },
     department: { type: String, required: true },
     designation: { type: String, required: true },
-    role: { type: String, enum: ["EMPLOYEE", "HR", "DIRECTOR", "MANAGER"], default: "EMPLOYEE", },
+    role: { type: String, enum: ["EMPLOYEE", "HR", "DIRECTOR", "MANAGER","ADMIN"], default: "EMPLOYEE", },
     employeesAssign: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     assetsAssign: [{
         name:{type:String},

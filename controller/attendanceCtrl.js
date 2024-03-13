@@ -184,8 +184,8 @@ exports.requestApproval = async (req, res) => {
 exports.getAllPendingRegularizationRequests = async (req, res) => {
     try {
         const { role } = req.user
-        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
-            throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER" && role !=="ADMIN") {
+            throw new Error("Only HR, ADMIN, DIRECTOR, or MANAGER are allowed to access.");
         }
         const pendingRegularizationRequests = await MonthlyAttendance.find({
             'regularizationRequest.status': 'Pending',
@@ -260,9 +260,9 @@ exports.approveRequest = async (req, res) => {
             }
             request.regularizationRequest.approver = approverId;
         } else if (days >= 3 && days <= 5) {
-            if (role !== 'HR' && role !== 'Director') {
+            if (role !== 'HR' && role !== 'Director' && role !=="ADMIN") {
                 return res.status(403).json({
-                    message: 'Permission denied. Only HR or Directors can approve requests for 3-5 days.',
+                    message: 'Permission denied. Only HR ADMIN, or Directors can approve requests for 3-5 days.',
                 });
             }
             request.regularizationRequest.approver = approverId;

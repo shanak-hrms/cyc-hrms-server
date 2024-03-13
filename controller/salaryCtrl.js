@@ -4,8 +4,8 @@ const User =require("../model/user")
 exports.addSalaryStructure = async (req, res) => {
     try {
         const {role}=req.user
-        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
-            throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER" && role !=="ADMIN") {
+            throw new Error("Only HR,ADMIN, DIRECTOR, or MANAGER are allowed to access.");
         }
         const {
             employeeId,
@@ -56,8 +56,8 @@ exports.addSalaryStructure = async (req, res) => {
 exports.getAllSalaryStructures = async (req, res) => {
   try {
     const {role}=req.user
-    if (role !== "HR") {
-        throw new Error("Only HR is allowed to access.");
+    if (role !== "HR" && role !=="ADMIN") {
+        throw new Error("Only HR or ADMIN is allowed to access.");
     }
     const salaryStructures = await SalaryStructure.find().populate("employeeId",{name:1,email:1,branch:1,department:1,role:1,bankAccount:1,mobile:1,IFSC:1,uanNumber:1,bankName:1,esic:1});
     res.status(200).json({ salaryStructures });

@@ -31,8 +31,8 @@ exports.approveCompOff = async (req, res) => {
     try {
         const { compOffId } = req.params;
         const { role } = req.user
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to approve compOff.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to approve compOff.");
         }
         
         const compOff = await CompOffDay.findById(compOffId);

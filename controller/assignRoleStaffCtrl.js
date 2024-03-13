@@ -17,8 +17,8 @@ exports.assignEmployeeAsLineManager = async (req, res) => {
         const { role,} = req.user
         const {newRole,newDepartment}=req.body
         console.log(newRole,newDepartment)
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to assign Employee as a Manager.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to assign Employee as a Manager.");
         }
         const employee = await User.findById(employeeId);
         if (!employee) {
@@ -45,8 +45,8 @@ exports.assignEmployeeToManager = async (req, res) => {
     try {
         const { employeeId, managerId } = req.params;
         const { role } = req.user
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to assign Employee.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to assign Employee.");
         }
         const employee = await User.findById(employeeId);
         if (!employee) {
@@ -75,8 +75,8 @@ exports.assignManagerToEmployee = async (req, res) => {
     try {
         const { employeeId, managerId } = req.params;
         const { role } = req.user
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to assign Manager.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to assign Manager.");
         }
         const employee = await User.findById(employeeId);
         if (!employee) {
@@ -119,8 +119,8 @@ exports.assignAssetsToEmployee = async (req, res) => {
     try {
         const { employeeId } = req.params;
         const { role } = req.user
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to assign assets.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to assign assets.");
         }
         const { assets } = req.body;
         const employee = await User.findById(employeeId);

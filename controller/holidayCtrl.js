@@ -4,8 +4,8 @@ exports.createHoliday = async (req, res) => {
   try {
       const { holidayArray } = req.body;
       const { role } = req.user
-      if (role !== "HR") {
-          throw new Error("Only HR is allowed to add holiday list.");
+      if (role !== "HR" && role !=="ADMIN") {
+          throw new Error("Only HR or ADMIN is allowed to add holiday list.");
       }
       
       await Promise.all(holidayArray.map(async (holiday) => {

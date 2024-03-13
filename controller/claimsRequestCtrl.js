@@ -82,8 +82,8 @@ exports.getAllClaimsOfUser = async (req, res) => {
 exports.getAllPendingClaims = async (req, res) => {
     try {
       const {role } = req.user; 
-      if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
-        throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
+      if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER" && role !=="ADMIN") {
+        throw new Error("Only HR,ADMIN, DIRECTOR, or MANAGER are allowed to access.");
     } 
       const claims = await TravelClaim.find({ status: "Pending" });
       res.status(200).json({claimData:claims});

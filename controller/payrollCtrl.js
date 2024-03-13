@@ -130,8 +130,8 @@ const createPayrollAndCalculateSalary = async (req, res) => {
     try {
         const { employeeId, month, year } = req.body;
         const { role } = req.user
-        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER") {
-            throw new Error("Only HR, DIRECTOR, or MANAGER are allowed to access.");
+        if (role !== "HR" && role !== "DIRECTOR" && role !== "MANAGER" && role !=="ADMIN") {
+            throw new Error("Only HR,ADMIN, DIRECTOR, or MANAGER are allowed to access.");
         }
 
         const existingPayroll = await Payroll.findOne({ employeeId, month });
@@ -281,8 +281,8 @@ const approvePayrollDownloadRequest = async (req, res) => {
     try {
         const {payrollId}=req.params
         const { role } = req.user
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to approve.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to approve.");
         }
         const payroll = await Payroll.findById(payrollId);
 
@@ -308,8 +308,8 @@ const approvePayrollDownloadRequest = async (req, res) => {
 const getPendingPayrollDownloadRequests = async (req, res) => {
     try {
         const { role } = req.user
-        if (role !== "HR") {
-            throw new Error("Only HR is allowed to approve.");
+        if (role !== "HR" && role !=="ADMIN") {
+            throw new Error("Only HR or ADMIN is allowed to approve.");
         }
         const pendingRequests = await Payroll.find({ approvalRequest: 'Pending'});
 

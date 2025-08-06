@@ -23,7 +23,7 @@ const StaffPage = () => {
     const [roleModal, setRoleModal] = useState(false);
     const [asserstModal, setAsserstModal] = useState(false);
     const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false); setAsserstModal(false) }
-    const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
+    const [salStrVal, setSalStrVal] = useState({ employeeId: "", grossSalaryWithoutTA: "", hra: "", travelAllowance: "" });
     const [staffRole, setStaffRole] = useState({ rolenewRole: "", newDepartment: '' })
     const [asserstVal, setAsserstVal] = useState({ name: "", date: "", assetsModel: "", assetsId: '' })
     const [assetsData, setAssetsData] = useState<any>([]);
@@ -181,14 +181,8 @@ const StaffPage = () => {
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser
 
-        if (salStrVal.basicSalary === "") {
-            toast.error("Please fill basic salary");
-            return;
-        } else if (salStrVal.hraPercentage === "") {
-            toast.error("Please fill HRA percentage")
-            return;
-        } else if (salStrVal.travelAllowance === "") {
-            toast.error("Please fill travel allowance")
+        if (salStrVal.grossSalaryWithoutTA === "") {
+            toast.error("Please fill gross salary without ta");
             return;
         }
         try {

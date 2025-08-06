@@ -28,7 +28,7 @@ const EmployeePage = () => {
     email: "",
     emp_id: "",
     branch: "",
-    department: "",
+    department: "", 
     designation: "",
     dateOfJoin: ""
   });
@@ -85,11 +85,10 @@ const EmployeePage = () => {
         setPayrollModal(false)
       }
     }
-    catch (err) {
-      console.log(err)
+    catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.error || "")
     }
-
-
   }
 
   const handlePayrollDownloadModal = (idx: any) => {

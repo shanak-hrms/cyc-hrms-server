@@ -76,8 +76,8 @@ const App = () => {
         }
       }
       catch (error: any) {
-        console.error("An error occurred:", error.response.data.msg);
-        toast.error(error.response.data.msg)
+        console.error("An error occurred:", error?.response?.data?.msg);
+        toast.error(error?.response?.data?.msg)
       }
     }
 

@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SelectField from '../../components/SelectField/SelectField'
 import { useNavigate } from 'react-router-dom'
+import { baseURL } from '../../utils/baseURL'
 
 const AddStaff = () => {
     const data = {
@@ -23,7 +24,7 @@ const AddStaff = () => {
     }
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/user/get');
+            const response = await axios.get(`${baseURL}/user/get`);
             const users = response.data.userData;
             // setUserData(users);
         } catch (error) {
@@ -38,7 +39,7 @@ const AddStaff = () => {
         }
 
         try {
-            const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/signUp', inputValue);
+            const response = await axios.post(`${baseURL}/user/signUp`, inputValue);
 
             if (response.status === 201) {
                 toast.success("Staff added successfuly!")

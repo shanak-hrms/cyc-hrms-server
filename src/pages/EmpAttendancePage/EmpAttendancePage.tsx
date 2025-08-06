@@ -20,6 +20,7 @@ import NewHeading from '../../components/NewHeading/NewHeading'
 import DashboardPage from './Dashboard/Dashboard'
 import EmpPaySlip from './EmpPaySlip/EmpPaySlip'
 import PaySlip from '../PaySlip/PaySlip'
+import { baseURL } from '../../utils/baseURL'
 
 export interface IEmpAttendancePage {
     open: any;
@@ -52,7 +53,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
         const { email } = loginedUser
         setLoading(true)
         try {
-            const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
+            const result = await axios.get(`${baseURL}/attendance/get`);
             const data = result.data.attendanceData;
             const filterData = data?.filter((item: any) => item.employeeId?.email === email);
             setAttendanceData(filterData);
@@ -97,7 +98,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
 
 
             try {
-                const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
+                const response = await axios.patch(`${baseURL}/attendance/checkOut/${idx}`,
                     { date: checkOut },
                     {
                         headers: {
@@ -120,7 +121,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             const matchId: any = attendanceData.filter((item: any) => item._id === idx);
             const checkOut = matchId[0].date;
             try {
-                const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
+                const response = await axios.patch(`${baseURL}/attendance/checkOut/${idx}`,
                     { date: checkOut },
                     {
                         headers: {
@@ -259,7 +260,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
     }
     const getOfficeLocation = async () => {
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/office/get/location/list`);
+            const response = await axios.get(`${baseURL}/office/get/location/list`);
             console.log(response.data.location, "response..")
             setLocations(response.data.location)
         }
@@ -303,8 +304,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
             const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
             console.log(formattedDate);
 
-            const response = await axios.post(
-                'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
+            const response = await axios.post(`${baseURL}/attendance/checkIn`,
                 { date: formattedDate, markedWithin5Km: true },
                 {
                     headers: {
@@ -354,8 +354,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                 alert('You are not within 5 meter of any office location.');
                 return;
             }
-            const response = await axios.patch(
-                `https://hrms-server-ygpa.onrender.com/api/v1/attendance/Approved/attendance/checkIn/${appAttId}`,
+            const response = await axios.patch(`${baseURL}/attendance/Approved/attendance/checkIn/${appAttId}`,
                 { time: time, markedWithin5Km: true },
                 {
                     headers: {

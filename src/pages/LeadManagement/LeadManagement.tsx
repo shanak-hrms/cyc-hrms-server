@@ -14,6 +14,7 @@ import CommonButton from '../../components/common/CommonButton/CommonButton'
 import StatusModal from '../../components/modal/StatusModal/StatusModal'
 import LeadStatusModal from '../../components/modal/LeadStatusModal/LeadStatusModal'
 import { useNavigate } from 'react-router-dom'
+import { baseURL } from '../../utils/baseURL'
 
 
 const LeadManagement = () => {
@@ -68,7 +69,7 @@ const LeadManagement = () => {
 
         try {
             await setReadModal((preState: any) => ({ ...preState, [id]: !preState[id] }))
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+            const response = await axios.get(`${baseURL}/lead/all/leads`)
             const leadData = response.data.leadData;
             const filteredLead = leadData.filter((item: any) => item._id === id)
             setReadLeadId(filteredLead)
@@ -81,7 +82,7 @@ const LeadManagement = () => {
     const getLeadData = async () => {
 
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+            const response = await axios.get(`${baseURL}/lead/all/leads`)
             const leadData = response.data.leadData;
             setLeadData(leadData)
         }
@@ -111,7 +112,7 @@ const LeadManagement = () => {
         }
 
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/lead/create/new`, inputData);
+            const response = await axios.post(`${baseURL}/lead/create/new`, inputData);
             console.log(response, "response..")
             await getLeadData();
             if (response.status === 201) {
@@ -137,7 +138,7 @@ const LeadManagement = () => {
         }));
         console.log(id, "id")
         setSelectedLead(id)
-        const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+        const response = await axios.get(`${baseURL}/lead/all/leads`)
         if (response.status === 200) {
             const resData = response.data.leadData;
             const filteredData = resData.filter((employee: any) => employee._id === id);
@@ -162,7 +163,7 @@ const LeadManagement = () => {
     };
     const handleEdit = async () => {
         try {
-            await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/lead/newstatus/${selectedItem}`, inputData)
+            await axios.patch(`${baseURL}/lead/newstatus/${selectedItem}`, inputData)
             await getLeadData();
         } catch (err) {
             console.log(err)
@@ -185,7 +186,7 @@ const LeadManagement = () => {
             const { token } = loginedUser;
 
             const response = await axios.patch(
-                `https://hrms-server-ygpa.onrender.com/api/v1/lead/request/to-update-lead-status/${leadId}`,
+                `${baseURL}/lead/request/to-update-lead-status/${leadId}`,
                 statusVal, // Assuming statusVal is defined elsewhere
                 {
                     headers: {
@@ -205,7 +206,7 @@ const LeadManagement = () => {
     };
     const handleDelete = async (id: any) => {
         try {
-            await axios.delete(`https://hrms-server-ygpa.onrender.com/api/v1/lead/delete/particular/${id}`);
+            await axios.delete(`${baseURL}/lead/delete/particular/${id}`);
             await getLeadData();
         } catch (err) {
             console.log(err)
@@ -271,7 +272,7 @@ const LeadManagement = () => {
         console.log(currentLocation, "currentLocation")
         try {
             const response = await axios.patch(
-                `https://hrms-server-ygpa.onrender.com/api/v1/lead/tagIn/${idx}`, // Corrected URL
+                `${baseURL}/v1/lead/tagIn/${idx}`, // Corrected URL
                 { tagInLocation: currentLocation }, // empty data object if no data is to be sent
                 {
                     headers: {
@@ -294,7 +295,7 @@ const LeadManagement = () => {
         const leadLocation = { tagInLocation: currentLocation }
         try {
             const response = await axios.patch(
-                `https://hrms-server-ygpa.onrender.com/api/v1/lead/tagOut/${idx}`, // Corrected URL
+                `${baseURL}/lead/tagOut/${idx}`, // Corrected URL
                 { tagOutLocation: currentLocation }, // empty data object if no data is to be sent
                 {
                     headers: {

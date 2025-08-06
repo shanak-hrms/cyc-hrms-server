@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HeadingText from '../../components/HeadingText/HeadingText'
 import ConformActionModal from '../../components/modal/ConformActionModal/ConformActionModal'
+import { baseURL } from '../../utils/baseURL'
 
 const ManageClaimRequest = () => {
     const [actionModal, setActionModal] = useState(false);
@@ -60,7 +61,7 @@ const ManageClaimRequest = () => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/pendinding/request/list`,
+            const response = await axios.get(`${baseURL}/attendance/pendinding/request/list`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -79,7 +80,7 @@ const ManageClaimRequest = () => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/list`,
+            const response = await axios.get(`${baseURL}/empLeave/pending/request/list`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -98,7 +99,7 @@ const ManageClaimRequest = () => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1//claim/all/pending/list`,
+            const response = await axios.get(`${baseURL}/claim/all/pending/list`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -120,7 +121,7 @@ const ManageClaimRequest = () => {
         const getMonth = date.getMonth();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/get/list?month=2&year=${getYear}`,
+            const response = await axios.get(`${baseURL}/compoff/get/list?month=2&year=${getYear}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -139,7 +140,7 @@ const ManageClaimRequest = () => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser;
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/get/pending/payroll-download-request`,
+            const response = await axios.get(`${baseURL}/payroll/get/pending/payroll-download-request`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -173,7 +174,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/approve/request/${actionId}`, {}, {
+            const response = await axios.patch(`${baseURL}/compoff/approve/request/${actionId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -213,7 +214,7 @@ const ManageClaimRequest = () => {
             const loginedUser = JSON.parse(loginedUserString);
             const { token } = loginedUser;
 
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/claim/approve/request/65d465951be5b285a643971f`,
+            const response = await axios.patch(`${baseURL}/claim/approve/request/65d465951be5b285a643971f`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -236,7 +237,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1//claim/reject/request/${claimId}`, {}, {
+            const response = await axios.patch(`${baseURL}/claim/reject/request/${claimId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -256,7 +257,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approve/request/${leaveId}`, {}, {
+            const response = await axios.patch(`${baseURL}/empLeave/approve/request/${leaveId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -277,7 +278,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/reject/request/${leaveId}`, {}, {
+            const response = await axios.patch(`${baseURL}/empLeave/reject/request/${leaveId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -298,7 +299,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/approve/attendance-request/${attenId}`, {}, {
+            const response = await axios.patch(`${baseURL}/attendance/approve/attendance-request/${attenId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -319,7 +320,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/approve/to-download-payroll-by-user/${payrollId}`, {}, {
+            const response = await axios.patch(`${baseURL}/payroll/approve/to-download-payroll-by-user/${payrollId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

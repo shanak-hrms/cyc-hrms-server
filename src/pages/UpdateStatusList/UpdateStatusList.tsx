@@ -7,6 +7,7 @@ import axios from 'axios'
 import ConformActionModal from '../../components/modal/ConformActionModal/ConformActionModal'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { baseURL } from '../../utils/baseURL'
 
 const UpdateStatusList = () => {
     const [open, setOpen] = useState(false);
@@ -16,7 +17,7 @@ const UpdateStatusList = () => {
 
     const getLeadData = async () => {
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`);
+            const response = await axios.get(`${baseURL}/lead/all/leads`);
             const leadData = response.data.leadData;
 
             // Check if leadData is not null or undefined
@@ -50,7 +51,7 @@ const UpdateStatusList = () => {
         const loginedUser = JSON.parse(loginedUserString);
         const { token } = loginedUser;
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/lead/approve/to-requested-status/${leadId}`, null, {
+            const response = await axios.patch(`${baseURL}/lead/approve/to-requested-status/${leadId}`, null, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

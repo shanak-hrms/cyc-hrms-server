@@ -9,6 +9,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom'
+import { baseURL } from '../../../utils/baseURL'
 
 
 const EmpPaySlip = () => {
@@ -37,7 +38,7 @@ const EmpPaySlip = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { token } = loginedUser;
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/request/to-download-payroll?month=February&year=2024`, payrollVal,
+            const response = await axios.patch(`${baseURL}/payroll/request/to-download-payroll?month=February&year=2024`, payrollVal,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -60,7 +61,7 @@ const EmpPaySlip = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { token } = loginedUser;
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1//payroll/download/monthly-payroll-by-user?month=${payrollVal.month}&year=${payrollVal.year}`,
+            const response = await axios.get(`${baseURL}/payroll/download/monthly-payroll-by-user?month=${payrollVal.month}&year=${payrollVal.year}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

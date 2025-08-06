@@ -4,6 +4,7 @@ import { Grid } from '@mui/material'
 import axios from 'axios';
 import Dashboard from '../../../components/dashboard/Dashboard';
 import { PiNoteBold, } from "react-icons/pi";
+import { baseURL } from '../../../utils/baseURL';
 
 const DashboardPage = () => {
   const [medicalLeave, setMedicalLeave] = useState()
@@ -39,7 +40,7 @@ const DashboardPage = () => {
     const loginedUser = JSON.parse(loginedUserString);
     const { email } = loginedUser;
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
+      const response = await axios.get(`${baseURL}/user/get`)
       console.log(response.data.userData, "response..")
       const data = response.data.userData;
       const filterData = data.filter((item: any) => item.email === email);

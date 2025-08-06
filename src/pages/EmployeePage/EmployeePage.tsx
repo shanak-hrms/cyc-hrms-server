@@ -15,6 +15,7 @@ import SearchBox from "../../components/common/searchBox/SearchBox";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
+import { baseURL } from "../../utils/baseURL";
 
 
 const EmployeePage = () => {
@@ -41,7 +42,7 @@ const EmployeePage = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
+      const response = await axios.get(`${baseURL}/user/get`)
       const data = response.data.userData
       setEmployeeData(data);
 
@@ -73,7 +74,7 @@ const EmployeePage = () => {
     }
 
     try {
-      const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/create`, payrollVal,
+      const response = await axios.post(`${baseURL}/payroll/create`, payrollVal,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -113,7 +114,7 @@ const EmployeePage = () => {
     const loginedUser = JSON.parse(loginedUserString)
     const { token } = loginedUser
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/salary/download/all-users-salary`,
+      const response = await axios.get(`${baseURL}/salary/download/all-users-salary`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -130,7 +131,7 @@ const EmployeePage = () => {
   }
   const handleDownload = async () => {
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/download/monthly-payroll/${downloadId}?month=${payrollVal.month}`
+      const response = await axios.get(`${baseURL}/payroll/download/monthly-payroll/${downloadId}?month=${payrollVal.month}`
       )
       if (response.status === 200) {
         toast.success("success")

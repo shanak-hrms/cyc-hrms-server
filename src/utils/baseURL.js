@@ -1,0 +1,1 @@
+export const baseURL="https://hrms-server-ygpa.onrender.com/api/v1"

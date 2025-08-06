@@ -9,6 +9,7 @@ import axios from "axios";
 import ConformActionModal from "../../components/modal/ConformActionModal/ConformActionModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../../utils/baseURL";
 
 export interface ManageType {
   emp_id: string;
@@ -39,7 +40,7 @@ const ManageLeave = () => {
     const userToken = JSON.parse(userTokenString)
     const { token } = userToken
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/list`,
+      const response = await axios.get(`${baseURL}/empLeave/pending/request/list`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -58,7 +59,7 @@ const ManageLeave = () => {
     const userToken = JSON.parse(userTokenString)
     const { token } = userToken
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approved/request/list`,
+      const response = await axios.get(`${baseURL}/empLeave/approved/request/list`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -77,7 +78,7 @@ const ManageLeave = () => {
     const userToken = JSON.parse(userTokenString)
     const { token } = userToken
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/rejected/request/list`,
+      const response = await axios.get(`${baseURL}/empLeave/rejected/request/list`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -107,7 +108,7 @@ const ManageLeave = () => {
     const { token } = userToken;
     console.log(token, "handleReject...");
     try {
-      const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/reject/request/${selectedId}`, {}, {
+      const response = await axios.patch(`${baseURL}/empLeave/reject/request/${selectedId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -129,7 +130,7 @@ const ManageLeave = () => {
     const { token } = userToken;
     console.log(token, "token...");
     try {
-      const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1//empLeave/approve/request/${selectedId}`, {}, {
+      const response = await axios.patch(`${baseURL}/empLeave/approve/request/${selectedId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }

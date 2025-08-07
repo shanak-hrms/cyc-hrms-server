@@ -16,13 +16,13 @@ const ManageClaimRequest = () => {
     const [leaveModal, setLeaveModal] = useState(false);
     const [attenModal, setAttenModal] = useState(false);
     const [payrollModal, setPayrollModal] = useState(false);
-    const handleClose = () => { setActionModal(false); setClaimModal(false); setLeaveModal(false); setAttenModal(false) };
+    const handleClose = () => { setActionModal(false); setClaimModal(false); setLeaveModal(false); setAttenModal(false);setPayrollModal(false) };
     const [attenRequestData, setAttenRequestData] = useState<any>();
     const [claimRequestData, setClaimRequestData] = useState<any>();
     const [pendingData, setPendingData] = useState<any>();
     const [compOffData, setCompOffData] = useState<any>();
     const [payrollData, setPayrollData] = useState<any>();
-    const [claimMessage, setClaimMessage] = useState();
+    const [claimMessage, setClaimMessage] = useState(); 
     const [actionId, setActionId] = useState()
     const [claimId, setClaimId] = useState();
     const [leaveId, setLeaveId] = useState();
@@ -119,7 +119,7 @@ const ManageClaimRequest = () => {
         const { token } = loginedUser;
         const date = new Date();
         const getMonth = date.getMonth();
-        const getYear = date.getFullYear();
+        const getYear = date.getFullYear(); 
         try {
             const response = await axios.get(`${baseURL}/compoff/get/list?month=2&year=${getYear}`,
                 {

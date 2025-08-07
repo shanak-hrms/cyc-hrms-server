@@ -113,7 +113,7 @@ const UpdateStatusList = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {leadData && leadData.map((item: any) => {
+                        {leadData && leadData.map((item: any) => { 
                             return (
                                 <TableRow>
                                     <TableCell sx={{ textAlign: "center" }}>{item?.needApprovalFor?.requestby?.name}</TableCell>

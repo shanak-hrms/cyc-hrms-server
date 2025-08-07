@@ -22,6 +22,7 @@ const EmployeePage = () => {
   const navigation = useNavigate()
   const [payrollModal, setPayrollModal] = useState(false);
   const [downloadModal, setDownloadModal] = useState(false)
+  const [selectedEmpId,setSelectedEmpId]=useState("")
   const handleClose = () => { setPayrollModal(false); setDownloadModal(false) };
   const [inputData, setInputData] = useState<any>({
     name: "",
@@ -32,19 +33,7 @@ const EmployeePage = () => {
     designation: "",
     dateOfJoin: ""
   });
-  const [payrollVal, setPayrollVal] = useState({
-    employeeId: "",
-    month: "",
-    year: "",
-    tds: "",
-    pfContributionEmployer: "",
-    pfContributionEmployee: "",
-    esiDeduction: "",
-    bonusOrOT: "",
-    adminCharges: "",
-    edliCharges: "",
-    gratuity: ""
-  });
+ 
 
   const [query, setQuery] = useState("");
   const [employeeData, setEmployeeData] = useState<any>([]);
@@ -66,59 +55,19 @@ const EmployeePage = () => {
     }
   };
 
-  const handlePayrollModal = async (idx: any) => {
+  const handlePayrollModal = async (idx: any) => {    
     setPayrollModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }));
-    setPayrollVal({ ...payrollVal, employeeId: idx });
-  };
-  const handleChangePayroll = (e: any) => {
-    const { name, value } = e.target;
-    const floatFields = [
-      'tds', 'pfContributionEmployer', 'pfContributionEmployee',
-      'esiDeduction', 'bonusOrOT', 'adminCharges', 'edliCharges', 'gratuity'
-    ];
-
-    const formattedValue = floatFields.includes(name)
-      ? value === '' ? '' : parseFloat(value).toFixed(2)
-      : value;
-
-    setPayrollVal({ ...payrollVal, [name]: formattedValue });
+    setSelectedEmpId(idx)
   };
 
-  const handleCreatePayroll = async () => {
-    const loginedUserString: any = localStorage.getItem("loginedUser")
-    const loginedUser = JSON.parse(loginedUserString)
-    const { token } = loginedUser
-    if (payrollVal.month === "") {
-      toast.error("Please fill month");
-      return;
-    } else if (payrollVal.year === "") {
-      toast.error("Please fill year")
-      return;
-    }
-
-    try {
-      const response = await axios.post(`${baseURL}/payroll/create`, payrollVal,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-      if (response.status === 200) {
-        toast.success("Payroll created successfuly")
-        setPayrollModal(false)
-      }
-    }
-    catch (error: any) {
-      console.log(error);
-      toast.error(error?.response?.data?.error || "")
-    }
-  }
-
+ 
   const handlePayrollDownloadModal = (idx: any) => {
     setDownloadModal((preState: any) => ({ ...preState, [idx]: !preState[idx] }))
-    console.log(idx, "idx")
     setDownloadId(idx)
+    setSelectedEmpId(idx)
+
   }
+
   const handleDownloadPaySlip = () => {
     const input: any = document.getElementById('userData');
     html2canvas(input)
@@ -151,21 +100,7 @@ const EmployeePage = () => {
     }
 
   }
-  const handleDownload = async () => {
-    try {
-      const response = await axios.get(`${baseURL}/payroll/download/monthly-payroll/${downloadId}?month=${payrollVal.month}`
-      )
-      if (response.status === 200) {
-        toast.success("success")
-        const payrollData = response.data.payroll;
-        localStorage.setItem("payrollData", JSON.stringify(payrollData))
-        navigation('/pay-slip-preview')
-      }
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
+
   const handleDownloadPayrollData = () => {
     const userData: any[] = [];
 
@@ -213,19 +148,17 @@ const EmployeePage = () => {
           open={payrollModal}
           heading={"Create Payroll"}
           name="Submit"
-          payrollVal={payrollVal}
-          handleCreate={handleCreatePayroll}
           handleClose={handleClose}
-          handleChange={handleChangePayroll}
+          setPayrollModal={setPayrollModal}
+          selectedEmpId={selectedEmpId}
         />
         <CreatePayrollModal
           open={downloadModal}
           name="Preview"
           heading={"Download Pay Slip"}
-          payrollVal={payrollVal}
-          handleCreate={handleDownload}
           handleClose={handleClose}
-          handleChange={handleChangePayroll}
+          setPayrollModal={setPayrollModal}
+          selectedEmpId={selectedEmpId}
         />
         <ToastContainer />
       </Grid>

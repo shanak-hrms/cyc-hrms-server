@@ -4,7 +4,7 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import HeadingText from '../../../components/HeadingText/HeadingText'
 import CommonButton from '../../../components/common/CommonButton/CommonButton'
 import { FaCloudDownloadAlt } from "react-icons/fa";
-import CreatePayrollModal from '../../../components/modal/CreatePayrollModal/CreatePayrollModal'
+import PayRoll from '../../../components/modal/CreatePayrollModal/PayRoll'
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,7 +38,7 @@ const EmpPaySlip = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { token } = loginedUser;
         try {
-            const response = await axios.patch(`${baseURL}/payroll/request/to-download-payroll?month=February&year=2024`, payrollVal,
+            const response = await axios.patch(`${baseURL}/payroll/request/to-download-payroll?month=${payrollVal?.month}&year=${payrollVal?.year}`, payrollVal,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -129,7 +129,7 @@ const EmpPaySlip = () => {
                     <CommonButton name="Pay Slip Download" onClick={handleDownload} />
                 </Grid>
             </Grid>
-            <CreatePayrollModal
+            <PayRoll
                 open={open}
                 heading={'Request for payroll'}
                 name='Submit'
@@ -138,7 +138,7 @@ const EmpPaySlip = () => {
                 handleClose={handleClose}
                 handleChange={handleChangePayroll}
             />
-            <CreatePayrollModal
+            <PayRoll
                 open={downloadModal}
                 heading={'Download payroll'}
                 name='Preview'

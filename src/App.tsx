@@ -49,7 +49,6 @@ const App = () => {
     } else {
       try {
         const response = await axios.post(`${baseURL}/user/login`, inputData);
-        console.log(response, "response")
         const loginedUser = response?.data;
         const newToken = response?.data?.token;
         const newRole = response?.data?.role;
@@ -77,7 +76,7 @@ const App = () => {
       }
       catch (error: any) {
         console.error("An error occurred:", error?.response?.data?.msg);
-        toast.error(error?.response?.data?.msg)
+        toast.error(error?.response?.data?.msg || "Failed to login")
       }
     }
 
@@ -104,7 +103,6 @@ const App = () => {
       console.log(err)
     }
   };
-  console.log(agreeAgreement, "agreeAgreement")
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');

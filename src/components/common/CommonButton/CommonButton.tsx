@@ -5,7 +5,10 @@ import { Button, Grid } from '@mui/material'
 export interface ICommonButton {
     name: any;
     onClick?: any;
+    disabled?: boolean;
+
 }
+
 const CommonButton = ({ name, onClick }: ICommonButton) => {
     return (
         <Grid className={styles.commonButtonContainer}>

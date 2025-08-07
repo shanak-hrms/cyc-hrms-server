@@ -28,11 +28,24 @@ const EmployeePage = () => {
     email: "",
     emp_id: "",
     branch: "",
-    department: "", 
+    department: "",
     designation: "",
     dateOfJoin: ""
   });
-  const [payrollVal, setPayrollVal] = useState({ employeeId: "", month: "", year: "" })
+  const [payrollVal, setPayrollVal] = useState({
+    employeeId: "",
+    month: "",
+    year: "",
+    tds: "",
+    pfContributionEmployer: "",
+    pfContributionEmployee: "",
+    esiDeduction: "",
+    bonusOrOT: "",
+    adminCharges: "",
+    edliCharges: "",
+    gratuity: ""
+  });
+
   const [query, setQuery] = useState("");
   const [employeeData, setEmployeeData] = useState<any>([]);
   const [loading, setLoading] = useState(false)
@@ -59,8 +72,18 @@ const EmployeePage = () => {
   };
   const handleChangePayroll = (e: any) => {
     const { name, value } = e.target;
-    setPayrollVal({ ...payrollVal, [name]: value });
-  }
+    const floatFields = [
+      'tds', 'pfContributionEmployer', 'pfContributionEmployee',
+      'esiDeduction', 'bonusOrOT', 'adminCharges', 'edliCharges', 'gratuity'
+    ];
+
+    const formattedValue = floatFields.includes(name)
+      ? value === '' ? '' : parseFloat(value).toFixed(2)
+      : value;
+
+    setPayrollVal({ ...payrollVal, [name]: formattedValue });
+  };
+
   const handleCreatePayroll = async () => {
     const loginedUserString: any = localStorage.getItem("loginedUser")
     const loginedUser = JSON.parse(loginedUserString)

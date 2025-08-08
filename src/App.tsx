@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AgreedToAgreement from './components/AgreedToAgreement/AgreedToAgreement';
+import { baseURL } from './utils/baseURL';
 
 const App = () => {
   const navigation = useNavigate()
@@ -27,7 +28,7 @@ const App = () => {
 
   const getData = async () => {
     try {
-      const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get`)
+      const response = await axios.get(`${baseURL}/user/get`)
       const data = response.data.userData;
       setUserData(data);
     }
@@ -40,7 +41,6 @@ const App = () => {
     const adminEmail = "admin@gmail.com";
     const adminPass = "admin@123";
     if (adminEmail === inputData.email && adminPass === inputData.password) {
-      console.log("Found Admin");
       await localStorage.setItem("userToken", ("admin@token"));
       await localStorage.setItem("userRole", ("ADMIN"));
       await localStorage.setItem("userName", ("Admin"));
@@ -48,8 +48,7 @@ const App = () => {
       setUser("ADMIN");
     } else {
       try {
-        const response = await axios.post('https://hrms-server-ygpa.onrender.com/api/v1/user/login', inputData);
-        console.log(response, "response")
+        const response = await axios.post(`${baseURL}/user/login`, inputData);
         const loginedUser = response?.data;
         const newToken = response?.data?.token;
         const newRole = response?.data?.role;
@@ -76,8 +75,8 @@ const App = () => {
         }
       }
       catch (error: any) {
-        console.error("An error occurred:", error.response.data.msg);
-        toast.error(error.response.data.msg)
+        console.error("An error occurred:", error?.response?.data?.msg);
+        toast.error(error?.response?.data?.msg || "Failed to login")
       }
     }
 
@@ -88,7 +87,7 @@ const App = () => {
     const { token } = loginedUser;
     console.log(agreeAgreement, "agreeAgreement")
     try {
-      const response = await axios.patch('https://hrms-server-ygpa.onrender.com/api/v1/user/accept/user-agreement', {},
+      const response = await axios.patch(`${baseURL}/user/accept/user-agreement`, {},
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -104,7 +103,6 @@ const App = () => {
       console.log(err)
     }
   };
-  console.log(agreeAgreement, "agreeAgreement")
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');

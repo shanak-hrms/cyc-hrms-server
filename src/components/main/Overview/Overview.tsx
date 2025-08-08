@@ -24,7 +24,7 @@ export interface IOverview {
 }
 const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, handleResponsiveMenu }: IOverview) => {
     const [userRole, seUserRole] = useState()
-    console.log(userRole, "userRole//")
+    // console.log(userRole, "userRole//")
     const menuData2 = [
         {
             "id": 1,
@@ -67,7 +67,7 @@ const Overview = ({ open, menu, handleSidebarMemu, handleLogout, handleClick, ha
             "icon": <MdOutlineEventNote />,
             "title": userRole === "HR" ? "Payroll Management" : "Pay Slip",
             "link": userRole === "HR" ? "/pay-slip" : "/manager-pay-slip",
-        }
+        } 
     ]
     const getUserData = async () => {
         try {

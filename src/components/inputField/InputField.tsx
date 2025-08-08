@@ -3,15 +3,18 @@ import styles from './InputField.module.scss'
 import { Grid, Box, TextField, Typography } from '@mui/material'
 
 export interface IInputField {
-    IsRequire?: any
+    IsRequire?: any;
     label: string;
     name: string;
-    placeholder: string;
-    value: string;
+    value: any;
     handleChange: any;
-    type: any;
+    placeholder?: string;
+    type?: string;
+    options?: { label: string; value: string }[];
+    select?: boolean;
+    disabled?: boolean;
 }
-const InputField = ({ IsRequire, label, name, type, placeholder, value, handleChange }: IInputField) => {
+const InputField = ({ IsRequire, label, name, type, placeholder, value, handleChange ,disabled=false}: IInputField) => {
     return (
         <Grid className={styles.inputFieldContainer}>
             <Typography>{label}</Typography>
@@ -19,7 +22,7 @@ const InputField = ({ IsRequire, label, name, type, placeholder, value, handleCh
                 <Typography><span style={{ color: "red" }}>*</span>Require this field</Typography>
             </Grid> : ""}
 
-            <TextField type={type} name={name} value={value} placeholder={placeholder} onChange={handleChange} />
+            <TextField type={type} name={name} value={value} placeholder={placeholder} onChange={handleChange}   disabled={disabled}/>
         </Grid>
     )
 }

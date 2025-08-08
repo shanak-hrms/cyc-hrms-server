@@ -11,6 +11,7 @@ import StaffProfileModal from '../../components/modal/StaffProfileModal/StaffPro
 import ChangeRoleModal from '../../components/modal/ChangeRoleModal/ChangeRoleModal'
 import AssignEmpModal from '../../components/modal/AssignEmpModal/AssignEmpModal'
 import AsserstModal from '../../components/modal/AsserstModal/AsserstModal'
+import { baseURL } from '../../utils/baseURL'
 
 
 const StaffPage = () => {
@@ -22,7 +23,7 @@ const StaffPage = () => {
     const [roleModal, setRoleModal] = useState(false);
     const [asserstModal, setAsserstModal] = useState(false);
     const handleClose = () => { setActionOpen(false); setSalStrModal(false); setProfileModal(false); setRoleModal(false); setAssignModal(false); setAsserstModal(false) }
-    const [salStrVal, setSalStrVal] = useState({ employeeId: "", basicSalary: "", hraPercentage: "", travelAllowance: "" });
+    const [salStrVal, setSalStrVal] = useState({ employeeId: "", grossSalaryWithoutTA: "", hra: "", travelAllowance: "" });
     const [staffRole, setStaffRole] = useState({ rolenewRole: "", newDepartment: '' })
     const [asserstVal, setAsserstVal] = useState({ name: "", date: "", assetsModel: "", assetsId: '' })
     const [assetsData, setAssetsData] = useState<any>([]);
@@ -93,7 +94,7 @@ const StaffPage = () => {
         console.log(assetsData, "assets..")
         console.log("payload", payload)
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/assets/to-employee/${staffId}`, payload,
+            const response = await axios.patch(`${baseURL}/assign/assets/to-employee/${staffId}`, payload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -123,7 +124,7 @@ const StaffPage = () => {
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/change-employee-role-department/${staffId}`, staffRole,
+            const response = await axios.patch(`${baseURL}/assign/change-employee-role-department/${staffId}`, staffRole,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -154,7 +155,7 @@ const StaffPage = () => {
         console.log(idx, "idx...")
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/assign/manager-to-employee/${selectedEmp}/${staffId}`, staffRole,
+            const response = await axios.patch(`${baseURL}/assign/manager-to-employee/${selectedEmp}/${staffId}`, staffRole,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -180,18 +181,12 @@ const StaffPage = () => {
         const loginedUser = JSON.parse(loginedUserString)
         const { token } = loginedUser
 
-        if (salStrVal.basicSalary === "") {
-            toast.error("Please fill basic salary");
-            return;
-        } else if (salStrVal.hraPercentage === "") {
-            toast.error("Please fill HRA percentage")
-            return;
-        } else if (salStrVal.travelAllowance === "") {
-            toast.error("Please fill travel allowance")
+        if (salStrVal.grossSalaryWithoutTA === "") {
+            toast.error("Please fill gross salary without ta");
             return;
         }
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/salary/create/structure`, salStrVal,
+            const response = await axios.post(`${baseURL}/salary/create/structure`, salStrVal,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -202,12 +197,12 @@ const StaffPage = () => {
                 toast.success("Salary created successfully")
             }
         }
-        catch (err) {
-            console.log(err)
+        catch (error:any) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || "Something wen wrong. Please try again later")
         }
 
     }
-
 
     const handleProfile = (idx: any) => {
         const profileData = userData.length > 0 && userData?.filter((item: any) => item._id === idx)
@@ -221,11 +216,10 @@ const StaffPage = () => {
         }
     }
 
-    console.log(rofile, "rofile")
     const fetchData = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/user/get');
+            const response = await axios.get(`${baseURL}/user/get`);
             const users = response.data.userData;
             setUserData(users);
             console.log(users, "users...")
@@ -242,7 +236,7 @@ const StaffPage = () => {
     const handleDelete = async (idx: number) => {
         try {
             setLoading(true)
-            const response = await axios.delete(`https://hrms-server-ygpa.onrender.com/api/v1/user/delete/${idx}`);
+            const response = await axios.delete(`${baseURL}/user/delete/${idx}`);
 
             if (response.status === 200) {
 

@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Leave.module.scss'
 import CommonButton from '../../../components/common/CommonButton/CommonButton';
+import { baseURL } from '../../../utils/baseURL';
 
 const Leave = () => {
     const [open, setOpen] = useState(false)
@@ -47,7 +48,7 @@ const Leave = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/approved/request/list/foruser', {
+            const response = await axios.get(`${baseURL}/empLeave/approved/request/list/foruser`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -66,7 +67,7 @@ const Leave = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/foruser', {
+            const response = await axios.get(`${baseURL}/empLeave/pending/request/foruser`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -85,7 +86,7 @@ const Leave = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/rejected/request/list/foruser', {
+            const response = await axios.get(`${baseURL}/empLeave/rejected/request/list/foruser`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -108,7 +109,7 @@ const Leave = () => {
             const { token } = userToken
 
             const response = await axios.post(
-                'https://hrms-server-ygpa.onrender.com/api/v1/empLeave/apply/request',
+                `${baseURL}/empLeave/apply/request`,
                 {
                     name: "name",
                     email: "email",
@@ -143,7 +144,7 @@ const Leave = () => {
     const handleDelete = async (idx: string) => {
         setLoading(true)
         try {
-            await axios.delete(`https://hrms-server-ygpa.onrender.com/empLeave/${idx}`);
+            await axios.delete(`${baseURL}/empLeave/${idx}`);
             setPendingData((prevLeaveData: any) => {
                 return prevLeaveData.filter((leave: { _id: string }) => leave._id !== idx);
             });
@@ -161,7 +162,7 @@ const Leave = () => {
                 ...preState, [idx]: !preState[idx]
             }))
             setLeaveId(idx)
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/empLeave`)
+            const response = await axios.get(`${baseURL}/empLeave`)
 
             if (response.status === 200) {
                 const data = response.data.leaveData;
@@ -184,7 +185,7 @@ const Leave = () => {
     const handleEditLeave = async () => {
         setLoading(true)
         try {
-            const response = await axios.put(`https://hrms-server-ygpa.onrender.com/empLeave/${leaveId}`, leaveVal)
+            const response = await axios.put(`${baseURL}/empLeave/${leaveId}`, leaveVal)
 
             setPendingData((prevLeaveData: any[]) => {
                 const updatedLeaveData = prevLeaveData.map(leave => {

@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SelectField from '../../components/SelectField/SelectField'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { baseURL } from '../../utils/baseURL'
 
 
 const UpdateStaff = () => {
@@ -37,7 +38,7 @@ const UpdateStaff = () => {
         }
 
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/user/update/profile`, inputValue,
+            const response = await axios.patch(`${baseURL}/user/update/profile`, inputValue,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

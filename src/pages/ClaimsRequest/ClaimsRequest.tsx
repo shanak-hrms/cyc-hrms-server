@@ -10,6 +10,7 @@ import CommonButton from '../../components/common/CommonButton/CommonButton'
 import RequestModal from '../../components/modal/RequestModal/RequestModal'
 import LeaveModal from '../../components/modal/LeaveModal/LeaveModal'
 import CompOffModal from '../../components/modal/CompOffModal/CompOffModal'
+import { baseURL } from '../../utils/baseURL'
 
 const ClaimsRequest = () => {
     const [open, setOpen] = useState(false);
@@ -63,7 +64,7 @@ const ClaimsRequest = () => {
         const loginedUser = JSON.parse(loginedUserStr)
         const { email } = loginedUser
         try {
-            const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
+            const result = await axios.get(`${baseURL}/attendance/get`);
             const data = result.data.attendanceData;
             const filterData = data?.filter((item: any) => item.employeeId?.email === email)
             setAttenRequestData(filterData);
@@ -76,7 +77,7 @@ const ClaimsRequest = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/foruser', {
+            const response = await axios.get(`${baseURL}/empLeave/pending/request/foruser`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -93,7 +94,7 @@ const ClaimsRequest = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/empLeave/rejected/request/list/foruser', {
+            const response = await axios.get(`${baseURL}/empLeave/rejected/request/list/foruser`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -110,7 +111,7 @@ const ClaimsRequest = () => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/claim/all/request/list/ofuser`,
+            const response = await axios.get(`${baseURL}/claim/all/request/list/ofuser`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -131,7 +132,7 @@ const ClaimsRequest = () => {
         const date = new Date();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/get/list?month=2&year=${getYear}`,
+            const response = await axios.get(`${baseURL}/compoff/get/list?month=2&year=${getYear}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -154,7 +155,7 @@ const ClaimsRequest = () => {
         }
 
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/claim/apply/request`, inputData,
+            const response = await axios.post(`${baseURL}/claim/apply/request`, inputData,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -206,7 +207,7 @@ const ClaimsRequest = () => {
         }
 
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/request/approval`, {
+            const response = await axios.post(`${baseURL}/attendance/request/approval`, {
                 date: formattedDate
             },
                 {
@@ -239,8 +240,7 @@ const ClaimsRequest = () => {
             const userToken = JSON.parse(userTokenString)
             const { token } = userToken
             const selectedDates: never[] = []
-            const response = await axios.post(
-                'https://hrms-server-ygpa.onrender.com/api/v1/empLeave/apply/request',
+            const response = await axios.post(`${baseURL}/empLeave/apply/request`,
                 leaveVal,
                 {
                     headers: {
@@ -267,7 +267,7 @@ const ClaimsRequest = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.post(`https://hrms-server-ygpa.onrender.com/api/v1/compoff/apply/for-a-day`, compVal,
+            const response = await axios.post(`${baseURL}/compoff/apply/for-a-day`, compVal,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

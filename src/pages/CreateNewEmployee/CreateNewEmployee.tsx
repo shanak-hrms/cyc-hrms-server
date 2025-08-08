@@ -9,6 +9,7 @@ import CommonButton from "../../components/common/CommonButton/CommonButton";
 import CommonHeading from "../../components/common/CommonHeading/CommonHeading";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../../utils/baseURL";
 
 const CreateNewEmployee = () => {
   const navigation = useNavigate();
@@ -46,7 +47,7 @@ const CreateNewEmployee = () => {
       console.log('please fill all the require field')
     } else {
       axios
-        .post("https://hrms-server-ygpa.onrender.com/employee/create", inputData)
+        .post(`${baseURL}/employee/create`, inputData)
         .then((result) => {
           setInputData(result);
           navigation('/employee')

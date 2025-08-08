@@ -16,6 +16,9 @@ import AddStaff from '../../../pages/AddStaff/AddStaff'
 import UpdateStaff from '../../../pages/UpdateStaff/UpdateStaff'
 import UpdateStatusList from '../../../pages/UpdateStatusList/UpdateStatusList'
 import EmpPaySlip from '../../../pages/EmpAttendancePage/EmpPaySlip/EmpPaySlip'
+import LogoUploader from '../../common/Logo/LogoUploader'
+import PolicyUploader from '../../common/CompanyPolicy/PolicyUploadert'
+import LeavePolicyUploader from '../../common/LeavePolicy/LeavePolicyUploader'
 
 const RoutesPage = () => {
     return (
@@ -36,8 +39,12 @@ const RoutesPage = () => {
                 <Route path='/company-policy' element={<CompanyPolicy />} />
                 <Route path='/pay-slip' element={<EmployeePage />} />
                 <Route path='/manager-pay-slip' element={<EmpPaySlip />} />
-                <Route path='/pay-slip-preview' element={<PaySlip />} />
+                <Route path='/pay-slip-preview/:payrollId' element={<PaySlip />} />
                 <Route path='/request-approval-list' element={<RequestApproval />} />
+                <Route path='/application-logo' element={<LogoUploader />} />
+                <Route path='/application-company-policy' element={<PolicyUploader />} />
+                <Route path='/application-leave-policy' element={<LeavePolicyUploader />} />
+
             </Routes>
         </Fragment>
     )

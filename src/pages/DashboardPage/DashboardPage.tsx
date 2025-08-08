@@ -5,6 +5,7 @@ import CustomLoader from '../../components/CustomLoader/CustomLoader'
 import axios from 'axios'
 import { Grid } from '@mui/material'
 import { PiNoteBold, } from "react-icons/pi";
+import { baseURL } from '../../utils/baseURL'
 
 
 const DashboardPage = () => {
@@ -89,7 +90,7 @@ const DashboardPage = () => {
     ];
     const getLeadData = async () => {
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/lead/all/leads`)
+            const response = await axios.get(`${baseURL}/lead/all/leads`)
             const data = response.data.leadData;
             const openLeadData = data.filter((item: any) => item.leadStatus === "Open")
             const openLeadNo = openLeadData.length;
@@ -120,7 +121,7 @@ const DashboardPage = () => {
         const userToken = JSON.parse(userTokenString)
         const { token } = userToken
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/empLeave/pending/request/list`,
+            const response = await axios.get(`${baseURL}/empLeave/pending/request/list`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -142,7 +143,7 @@ const DashboardPage = () => {
 
         try {
             setLoading(true);
-            const result = await axios.get("https://hrms-server-ygpa.onrender.com/api/v1/attendance/get");
+            const result = await axios.get(`${baseURL}/attendance/get`);
             const data = result.data.attendanceData;
             const filterData = data.filter((item: any) => item.regularizationRequest?.status === "Pending");
             const dataLength = filterData.length;
@@ -158,7 +159,7 @@ const DashboardPage = () => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/claim/all/pending/list`,
+            const response = await axios.get(`${baseURL}/claim/all/pending/list`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

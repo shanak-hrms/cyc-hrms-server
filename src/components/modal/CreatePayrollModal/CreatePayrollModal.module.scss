@@ -1,5 +1,8 @@
 .createPayrollModal {
-    width: 32rem;
+    // width: 32rem;
+    max-width: 650px;
+    max-height: 95vh;
+    overflow: auto;
     height: fit-content;
     margin: auto;
 

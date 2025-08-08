@@ -4,11 +4,12 @@ import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 import HeadingText from '../../../components/HeadingText/HeadingText'
 import CommonButton from '../../../components/common/CommonButton/CommonButton'
 import { FaCloudDownloadAlt } from "react-icons/fa";
-import CreatePayrollModal from '../../../components/modal/CreatePayrollModal/CreatePayrollModal'
+import PayRoll from '../../../components/modal/CreatePayrollModal/PayRoll'
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom'
+import { baseURL } from '../../../utils/baseURL'
 
 
 const EmpPaySlip = () => {
@@ -37,7 +38,7 @@ const EmpPaySlip = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { token } = loginedUser;
         try {
-            const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/payroll/request/to-download-payroll?month=February&year=2024`, payrollVal,
+            const response = await axios.patch(`${baseURL}/payroll/request/to-download-payroll?month=${payrollVal?.month}&year=${payrollVal?.year}`, payrollVal,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -60,26 +61,25 @@ const EmpPaySlip = () => {
         const loginedUser = JSON.parse(loginedUserStr);
         const { token } = loginedUser;
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1//payroll/download/monthly-payroll-by-user?month=${payrollVal.month}&year=${payrollVal.year}`,
+            const response = await axios.get(`${baseURL}/payroll/download/monthly-payroll-by-user?month=${payrollVal.month}&year=${payrollVal.year}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 })
-            console.log(response.data.payroll, "response..")
             if (response.status === 200) {
                 const data = response.data.payroll;
                 await setPayrollData(data)
                 localStorage.setItem("payrollData", JSON.stringify(data))
                 toast.success(response.data.message)
                 setDownloadModal(false)
-                navigation('/pay-slip-preview')
+                navigation(`/pay-slip-preview/${data?._id}`)
             }
         }
 
         catch (err: any) {
             console.log(err)
-            toast.error(err.response.data.message)
+            toast.error(err?.response?.data?.message)
         }
 
     }
@@ -92,34 +92,11 @@ const EmpPaySlip = () => {
         setUserId(userId);
 
 
-    }, [])
+    }, []);
+
     return (
         <Grid className={styles.empPaySlipContainer}>
             <HeadingText heading={'Pay Slip'} IsAction={false} name='Pay Slip Request' handleClick={handleRequest} />
-            {/* <TableContainer className={styles.tableContainer}>
-                <Table>
-                    <TableHead sx={{ backgroundColor: "#01ACAC" }}>
-                        <TableRow>
-                            <TableCell sx={{ textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Email</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Month</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell sx={{ textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Email</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Month</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>
-                                <FaCloudDownloadAlt fontSize={25} cursor={"pointer"} onClick={handleDownload} />
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer> */}
             <Grid className={styles.empPaySlip}>
                 <Grid>
                     <CommonButton name="Pay Slip Request" onClick={handleRequest} />
@@ -128,7 +105,7 @@ const EmpPaySlip = () => {
                     <CommonButton name="Pay Slip Download" onClick={handleDownload} />
                 </Grid>
             </Grid>
-            <CreatePayrollModal
+            <PayRoll
                 open={open}
                 heading={'Request for payroll'}
                 name='Submit'
@@ -137,7 +114,7 @@ const EmpPaySlip = () => {
                 handleClose={handleClose}
                 handleChange={handleChangePayroll}
             />
-            <CreatePayrollModal
+            <PayRoll
                 open={downloadModal}
                 heading={'Download payroll'}
                 name='Preview'

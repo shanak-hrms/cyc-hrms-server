@@ -7,6 +7,7 @@ import CommonButton from '../common/CommonButton/CommonButton';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { baseURL } from '../../utils/baseURL';
 export interface IDashboard {
     data: any;
 }
@@ -35,7 +36,7 @@ const Dashboard = ({ data }: IDashboard) => {
         const loginedUser = JSON.parse(loginedUserSting);
         const { token } = loginedUser;
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/user/get/profile`,
+            const response = await axios.get(`${baseURL}/user/get/profile`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -57,7 +58,7 @@ const Dashboard = ({ data }: IDashboard) => {
         const loginedUser = JSON.parse(loginedUserStr)
         const { email } = loginedUser
         try {
-            const result = await axios.get('https://hrms-server-ygpa.onrender.com/api/v1/attendance/get');
+            const result = await axios.get(`${baseURL}/attendance/get`);
             const data = result.data.attendanceData;
             const filterData = data?.filter((item: any) => item.employeeId?.email === email);
             setAttendance(filterData);
@@ -82,7 +83,7 @@ const Dashboard = ({ data }: IDashboard) => {
         const getMonth = date.getMonth();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-month?year=${getYear}&month=${getMonth}`);
+            const response = await axios.get(`${baseURL}/holiday/get/all-holidays-of-the-month?year=${getYear}&month=${getMonth}`);
             console.log(response, "response")
             setHolidays(response.data)
         }
@@ -94,7 +95,7 @@ const Dashboard = ({ data }: IDashboard) => {
         const date = new Date();
         const getYear = date.getFullYear();
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/holiday/get/all-holidays-of-the-year?year=${getYear}`);
+            const response = await axios.get(`${baseURL}/holiday/get/all-holidays-of-the-year?year=${getYear}`);
             setHolidays(response.data)
         }
         catch (err) {
@@ -136,7 +137,7 @@ const Dashboard = ({ data }: IDashboard) => {
     };
     const getOfficeLocation = async () => {
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/office/get/location/list`);
+            const response = await axios.get(`${baseURL}/office/get/location/list`);
             console.log(response.data.location, "response..")
             setLocations(response.data.location)
         }
@@ -180,8 +181,7 @@ const Dashboard = ({ data }: IDashboard) => {
             const formattedDate = desiredDate.toISOString().slice(0, -5) + 'Z';
             console.log(formattedDate);
 
-            const response = await axios.post(
-                'https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkIn',
+            const response = await axios.post(`${baseURL}/attendance/checkIn`,
                 { date: formattedDate, markedWithin5Km: true },
                 {
                     headers: {
@@ -237,7 +237,7 @@ const Dashboard = ({ data }: IDashboard) => {
                 return;
             }
             try {
-                const response = await axios.patch(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/checkOut/${idx}`,
+                const response = await axios.patch(`${baseURL}/attendance/checkOut/${idx}`,
                     { date: checkOut },
                     {
                         headers: {

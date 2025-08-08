@@ -9,6 +9,7 @@ import ApproveReqModal from '../../components/modal/ApproveReqModal/ApproveReqMo
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AnyAction } from '@reduxjs/toolkit'
+import { baseURL } from '../../utils/baseURL'
 
 export const RequestApproval = () => {
     const [open, setOpen] = useState(false)
@@ -24,7 +25,7 @@ export const RequestApproval = () => {
         const { token } = userData;
 
         try {
-            const response = await axios.get(`https://hrms-server-ygpa.onrender.com/api/v1/attendance/pendinding/request/list`,
+            const response = await axios.get(`${baseURL}/attendance/pendinding/request/list`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -62,7 +63,7 @@ export const RequestApproval = () => {
     const handleApprove = async () => {
         try {
             const response = await axios.patch(
-                `https://hrms-server-ygpa.onrender.com/api/v1/attendance/approve/attendance-request/${reqId}`,
+                `${baseURL}/attendance/approve/attendance-request/${reqId}`,
                 {},
                 {
                     headers: {

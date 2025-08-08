@@ -5,6 +5,7 @@ import CommonHeading from '../../components/common/CommonHeading/CommonHeading';
 import data from './data.json'
 import AttandanceTable from '../../components/tableData/attandanceTable/AttandanceTable';
 import axios from 'axios';
+import { baseURL } from '../../utils/baseURL';
 
 export interface IinputDataType {
     emp_id: string;
@@ -30,7 +31,7 @@ const Attandance = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const result = await axios.get("https://hrms-server-ygpa.onrender.com/api/v1/attendance/get");
+                const result = await axios.get(`${baseURL}/attendance/get`);
                 const data = result.data.attendanceData;
                 const newData = data[0].regularizationRequest.status
                 setattandenceTable(data);

@@ -5,11 +5,9 @@ import styles from './Sidebar.module.scss'
 import logo from '../../asserst/images/CYC logo-01.png'
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TbPoint } from "react-icons/tb";
-import { AiOutlineHome } from 'react-icons/ai';
-import { AiOutlineTeam } from 'react-icons/ai';
-import { TbCalendarTime } from "react-icons/tb";
-import { MdOutlineManageHistory, MdOutlineEventNote } from "react-icons/md";
-import { PiNote, PiNotePencilFill } from "react-icons/pi";
+
+import axios from 'axios'
+import { baseURL } from '../../utils/baseURL'
 
 export interface ISidebar {
     menuData: any;
@@ -19,65 +17,19 @@ export interface ISidebar {
 
 const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => {
     const [show, setShow] = useState(false);
+    const [hrmsLogo, setHRMSLogo] = useState<{ logoUrl?: string; altText?: string } | undefined>(undefined);
     const [role, setRole] = useState<string | null>('')
     const [userRole, setUserRole] = useState("HR");
-
-    // const menuData2 = [
-    //     {
-    //         "id": 1,
-    //         "icon": <AiOutlineHome />,
-    //         "title": "Dashboard",
-    //         "link": "/"
-    //     },
-    //     {
-    //         "id": 2,
-    //         "icon": <AiOutlineTeam />,
-    //         "title": "Staff",
-    //         "link": "/staff"
-    //     },
-    //     {
-    //         "id": 4,
-    //         "icon": <TbCalendarTime />,
-    //         "title": "Attandance",
-    //         "link": "/attandance",
-    //     },
-    //     {
-    //         "id": 5,
-    //         "icon": <PiNote />,
-    //         "title": "Manage Leave",
-    //         "link": "/manage-leave",
-    //     },
-    //     {
-    //         "id": 6,
-    //         "icon": <PiNotePencilFill />,
-    //         "title": "Request",
-    //         "link": "/request",
-    //     },
-    //     {
-    //         "id": 7,
-    //         "icon": <MdOutlineManageHistory />,
-    //         "title": "Lead Management",
-    //         "link": "/lead-management",
-    //     },
-    //     {
-    //         "id": 8,
-    //         "icon": <MdOutlineEventNote />,
-    //         "title": role === "HR" ? "Payroll Management" : "Pay Slip",
-    //         "link": role === "HR" ? "/pay-slip" : "/manager-pay-slip",
-    //     }
-    // ]
-
     const navigation = useNavigate()
     const location = useLocation()
     const path = location.pathname
     const handleMenu = async () => {
-        console.log("menu")
         try {
             if (path === '/pay-slip-form' || path === '/salary-calculation') {
                 setShow(true);
             } else {
                 setShow(!show);
-            }
+            } 
         } catch (err) {
             console.log(err);
         }
@@ -87,12 +39,29 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
         const userRole = localStorage.getItem("userRole")
         setRole(userRole)
 
-    }, [])
+    }, []);
+
+    const loadLogo = async () => {
+        try {
+            const response = await axios.get(`${baseURL}/user/get-logo`);
+            if (response.status === 200) {
+                const data = response?.data?.data || { logoUrl: "", "altText": "HRMS" };
+                setHRMSLogo(data)
+            }
+        } catch (error) {
+            console.log("error", error)
+        }
+    }
+    useEffect(() => {
+        loadLogo()
+    }, []);
+
     return (
         <Grid className={styles.sidebarContainer}>
             <Box>
-                <img src={logo} alt='logo' />
+                <img src={hrmsLogo?.logoUrl || logo} alt={hrmsLogo?.altText || 'logo'} />
             </Box>
+
             <Grid>
                 {menuData.map((item: any) => {
                     return (
@@ -114,6 +83,34 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
                         </Grid>
                     )
                 })}
+
+                <Grid className={styles.sidebarMenu}>
+                    <MenuList onClick={handleResponsiveMenu}>
+                        <MenuList onClick={() => navigation("/application-logo")} className={path == "" ? styles.activeMenu : styles.inActiveMenu}>
+                            <MenuList className={path =="" ? styles.activeMenu : styles.inActiveMenu}>
+                                <MenuItem className={styles.subMenu}> <TbPoint />LOGO</MenuItem>
+                            </MenuList>
+                        </MenuList>
+                    </MenuList>
+                </Grid>
+                 <Grid className={styles.sidebarMenu}>
+                    <MenuList onClick={handleResponsiveMenu}>
+                        <MenuList onClick={() => navigation("/application-company-policy")} className={path == "" ? styles.activeMenu : styles.inActiveMenu}>
+                            <MenuList className={path =="" ? styles.activeMenu : styles.inActiveMenu}>
+                                <MenuItem className={styles.subMenu}> <TbPoint />Company Policy</MenuItem>
+                            </MenuList>
+                        </MenuList>
+                    </MenuList>
+                </Grid>
+                 <Grid className={styles.sidebarMenu}>
+                    <MenuList onClick={handleResponsiveMenu}>
+                        <MenuList onClick={() => navigation("/application-leave-policy")} className={path == "" ? styles.activeMenu : styles.inActiveMenu}>
+                            <MenuList className={path =="" ? styles.activeMenu : styles.inActiveMenu}>
+                                <MenuItem className={styles.subMenu}> <TbPoint />Leave Policy</MenuItem>
+                            </MenuList>
+                        </MenuList>
+                    </MenuList>
+                </Grid>
             </Grid>
             <Grid className={styles.logout}>
                 <Box display={"flex"} sx={{ paddingInline: 2, paddingBlockEnd: 1 }} >
@@ -121,9 +118,6 @@ const Sidebar = ({ menuData, handleLogout, handleResponsiveMenu }: ISidebar) => 
                     <Typography fontSize={14} sx={{ cursor: "pointer", "&:hover": { color: "#68C5AE" } }} paddingInlineStart={1}
                         onClick={(() => navigation('/leave-policy'))}>*Leave policy</Typography>
                 </Box>
-                {/* <MenuList onClick={handleLogout}>
-                    <MenuItem>Version: 3.0.3</MenuItem>
-                </MenuList> */}
             </Grid>
         </Grid>
     )

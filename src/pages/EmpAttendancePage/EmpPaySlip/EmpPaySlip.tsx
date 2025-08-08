@@ -67,20 +67,19 @@ const EmpPaySlip = () => {
                         Authorization: `Bearer ${token}`
                     }
                 })
-            console.log(response.data.payroll, "response..")
             if (response.status === 200) {
                 const data = response.data.payroll;
                 await setPayrollData(data)
                 localStorage.setItem("payrollData", JSON.stringify(data))
                 toast.success(response.data.message)
                 setDownloadModal(false)
-                navigation('/pay-slip-preview')
+                navigation(`/pay-slip-preview/${data?._id}`)
             }
         }
 
         catch (err: any) {
             console.log(err)
-            toast.error(err.response.data.message)
+            toast.error(err?.response?.data?.message)
         }
 
     }
@@ -93,34 +92,11 @@ const EmpPaySlip = () => {
         setUserId(userId);
 
 
-    }, [])
+    }, []);
+
     return (
         <Grid className={styles.empPaySlipContainer}>
             <HeadingText heading={'Pay Slip'} IsAction={false} name='Pay Slip Request' handleClick={handleRequest} />
-            {/* <TableContainer className={styles.tableContainer}>
-                <Table>
-                    <TableHead sx={{ backgroundColor: "#01ACAC" }}>
-                        <TableRow>
-                            <TableCell sx={{ textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Email</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Month</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell sx={{ textAlign: "center" }}>Name</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Email</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Month</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>Status</TableCell>
-                            <TableCell sx={{ textAlign: "center" }}>
-                                <FaCloudDownloadAlt fontSize={25} cursor={"pointer"} onClick={handleDownload} />
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer> */}
             <Grid className={styles.empPaySlip}>
                 <Grid>
                     <CommonButton name="Pay Slip Request" onClick={handleRequest} />

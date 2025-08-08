@@ -151,6 +151,7 @@ const EmployeePage = () => {
           handleClose={handleClose}
           setPayrollModal={setPayrollModal}
           selectedEmpId={selectedEmpId}
+          isDisabled={false}
         />
         <CreatePayrollModal
           open={downloadModal}
@@ -159,6 +160,8 @@ const EmployeePage = () => {
           handleClose={handleClose}
           setPayrollModal={setPayrollModal}
           selectedEmpId={selectedEmpId}
+          isDisabled={true}
+
         />
         <ToastContainer />
       </Grid>

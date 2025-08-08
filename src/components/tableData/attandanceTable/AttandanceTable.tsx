@@ -16,15 +16,20 @@ export interface IAttandanceTable {
 }
 const AttandanceTable = ({ heading, query, setQuery, tableHeading, tableData, loading }: IAttandanceTable) => {
     const navigation = useNavigate()
-    function formatDate(dateString: any) {
+    function formatDate(dateString: any): string {
         const date = new Date(dateString);
-        return date.toLocaleDateString();
+
+        const day = String(date.getDate()).padStart(2, '0');    
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear(); 
+
+        return `${day}/${month}/${year}`;
     }
+
     function formatTime(dateString: any) {
         const date = new Date(dateString);
         return date.toLocaleTimeString();
     }
-    console.log(tableData, "tableData...")
     return (
         <Grid className={styles.attandanceTableContainer}>
             <TableHead className={styles.tableHead}>

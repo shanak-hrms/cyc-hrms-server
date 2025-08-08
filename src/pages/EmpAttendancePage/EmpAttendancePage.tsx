@@ -362,7 +362,6 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                     }
                 }
             );
-            console.log(response, "response...");
             if (response.status === 200) {
                 await fetchData();
                 await setReqAtten(false);
@@ -412,7 +411,7 @@ const EmpAttendancePage = ({ open, menu, handleSidebarMemu, handleClickLogout, h
                     <Route path='/company-policy' element={<CompanyPolicy />} />
                     <Route path='/take-picture' element={<TakePicture />} />
                     <Route path='/pay-slip' element={<EmpPaySlip />} />
-                    <Route path='/pay-slip-preview' element={<PaySlip />} />
+                    <Route path='/pay-slip-preview/:payrollId' element={<PaySlip />} />
                     <Route path='/lead-management' element={<LeadManagement />} />
                 </Routes>
             </Grid>

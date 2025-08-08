@@ -4,6 +4,7 @@ import { Box, Divider, Grid, Modal, Typography } from '@mui/material'
 import { MdOutlineClose } from "react-icons/md";
 import InputField from '../../inputField/InputField';
 import CommonButton from '../../common/CommonButton/CommonButton';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 export interface ICreatePayrollModal {
     open: boolean;
@@ -14,6 +15,12 @@ export interface ICreatePayrollModal {
     handleClose: () => void;
     handleChange: any;
 }
+
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
 const PayrollModal = ({ open, name, heading, payrollVal, handleCreate, handleClose, handleChange }: ICreatePayrollModal) => {
     return (
         <Modal
@@ -27,14 +34,25 @@ const PayrollModal = ({ open, name, heading, payrollVal, handleCreate, handleClo
                 </Box>
                 <Divider sx={{ marginBlockStart: 1, marginBlockEnd: 2 }} />
                 <Grid className={styles.createField}>
-                    <InputField
-                        label={'Month'}
-                        name={'month'}
-                        placeholder={'Please enter month'}
-                        value={payrollVal.month}
-                        handleChange={handleChange}
-                        type={"text"}
-                    />
+                    <FormControl fullWidth>
+                        <Typography>Month</Typography>
+
+                        <Select
+                            labelId="month-label"
+                            id="month-select"
+                            name="month"
+                            value={payrollVal.month}
+                            label="Month"
+                            onChange={handleChange}
+                        >
+                            {months.map((month, index) => (
+                                <MenuItem key={index} value={month}>
+                                    {month}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
                     <InputField
                         label={'Year'}
                         name={'year'}

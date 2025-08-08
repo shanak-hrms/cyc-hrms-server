@@ -197,12 +197,12 @@ const StaffPage = () => {
                 toast.success("Salary created successfully")
             }
         }
-        catch (err) {
-            console.log(err)
+        catch (error:any) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || "Something wen wrong. Please try again later")
         }
 
     }
-
 
     const handleProfile = (idx: any) => {
         const profileData = userData.length > 0 && userData?.filter((item: any) => item._id === idx)
@@ -216,7 +216,6 @@ const StaffPage = () => {
         }
     }
 
-    console.log(rofile, "rofile")
     const fetchData = async () => {
         try {
             setLoading(true);

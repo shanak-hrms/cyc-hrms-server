@@ -328,6 +328,7 @@ const ManageClaimRequest = () => {
             if (response.status === 200) {
                 toast.success("Payroll download request approved successfully.")
                 setAttenModal(false)
+                console.log("inside approval")
                 await getPayrollData();
             }
         } catch (err: any) {

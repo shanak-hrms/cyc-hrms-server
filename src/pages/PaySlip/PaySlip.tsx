@@ -3,33 +3,41 @@ import styles from './PaySlip.module.scss'
 import { Box, Divider, Grid, Table, TableCell, TableContainer, TableHead, TableBody, TableRow, Typography, ListItemButton, ListItemText, ListItem } from '@mui/material'
 import logo from '../../asserst/images/CYC logo-01.png'
 import CommonButton from '../../components/common/CommonButton/CommonButton'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import SearchBox from '../../components/common/searchBox/SearchBox'
-import { errorMonitor } from 'events'
 import axios from 'axios'
+import { baseURL } from '../../utils/baseURL';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaySlip = () => {
+    const { payrollId } = useParams()
     const navigation = useNavigate()
     const [query, setQuery] = useState("")
     const [data, setData] = useState<any>()
-
-    const getEmployeeData = async () => {
+  const loginedUserString: any = localStorage.getItem("loginedUser")
+    const loginedUser = JSON.parse(loginedUserString)
+    const { token } = loginedUser;
+    const getPaySlip = async () => {
         try {
-            const payrollDataStr: any = localStorage.getItem("payrollData")
-            const payrollData = JSON.parse(payrollDataStr)
-            console.log(payrollData.month, "payrollDataStrgrigbr")
-            setData(payrollData)
-        }
-        catch (err) {
-            console.log(err)
-        }
+            const response = await axios.get(`${baseURL}/payroll/download/monthly-payroll-by-pay-slip-id/${payrollId}`,{
+                headers:{
+                     "Authorization":`Bearer ${token}`
+                }
+            });
 
+            if (response.status === 200) {
+                const data = response?.data?.payroll
+                setData(data)
+            }
+
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || "Something went wrong please try again later")
+        }
     }
     useEffect(() => {
-        getEmployeeData();
-
+        getPaySlip()
     }, [])
     const handleDownload = () => {
         const input: any = document.getElementById('userData');
@@ -42,11 +50,13 @@ const PaySlip = () => {
             });
 
     }
+
     return (
         <Grid className={styles.payslipContainer}>
+            <ToastContainer />
+
             <Grid className={styles.payslipHeading}>
                 <Typography variant='h5' fontSize={25} fontWeight={600}>Pay Slip</Typography>
-                {/* <SearchBox setQuery={setQuery} /> */}
             </Grid>
             <Grid id="userData" className={styles.payslip}>
                 <Grid className={styles.payslipField}>
@@ -55,7 +65,6 @@ const PaySlip = () => {
                     </Box>
                     <Box >
                         <Typography textAlign={"center"} fontSize={20} fontWeight={600}>COLOUR YOUR CANVAS </Typography>
-                        {/* <Typography textAlign={"center"} fontSize={25} fontWeight={600}> Anytime Anywhere</Typography> */}
                     </Box>
                     <Grid className={styles.addressSection}>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Address:32/1 SAHAPUR , NEW ALIPORE, KOLKATA 700053</Typography>
@@ -75,8 +84,8 @@ const PaySlip = () => {
                     </Grid>
                     <Grid className={styles.designationSection} display={"flex"} justifyContent={"space-between"}>
                         <Typography variant='h4' fontSize={15} fontWeight={600}>Month:{data?.month}</Typography>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Total Working Days:</Typography>
-                        <Typography variant='h4' fontSize={15} fontWeight={600}>Present Days:</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Total Working Days:{data?.totalDaysInMonth}</Typography>
+                        <Typography variant='h4' fontSize={15} fontWeight={600}>Present Days:{data?.paidDays}</Typography>
                     </Grid>
 
                     <Box display={"flex"} justifyContent={"space-between"}>
@@ -98,7 +107,7 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>H R A</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Special Allowances </Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Transport Allowances</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>Gross Salary</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>Gross Salary With TA</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>PF Employer</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>ESI Employer</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>Medical</Typography>
@@ -110,16 +119,16 @@ const PaySlip = () => {
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.basic?.toFixed(2)}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.hra?.toFixed(2)}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.specialAllowance?.value?.toFixed(2)}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.travelAllowanceDeduction?.toFixed(2)}</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.totalGrossPay?.toFixed(2)}
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.specialAllowance?.toFixed(2)}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.travelAllowance?.toFixed(2)}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.grossSalaryWithTA?.toFixed(2)}
                                     </Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployer?.toFixed(2)}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfContributionEmployer?.toFixed(2)}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeductionEmployer?.toFixed(2)}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.netPay?.toFixed(2)}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={600}>{data?.netSalary?.toFixed(2)}</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -142,7 +151,7 @@ const PaySlip = () => {
                                 </Grid>
                                 <Grid item sm={6}>
                                     <Typography variant='h5' fontSize={15} fontWeight={600}>Amount</Typography>
-                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfDeductionEmployee?.toFixed(2)}</Typography>
+                                    <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.pfContributionEmployee?.toFixed(2)}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.esiDeduction?.toFixed(2)}</Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}></Typography>
                                     <Typography variant='h5' fontSize={15} fontWeight={500}>{data?.ptax}</Typography>
